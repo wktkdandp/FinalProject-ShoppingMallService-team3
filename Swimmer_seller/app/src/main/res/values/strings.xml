@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Swimmer_seller</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">이메일</string>
+    <string name="prompt_password">비밀번호</string>
+    <string name="prompt_password_confirm">비밀번호 확인</string>
+    <string name="action_login">로그인</string>
+    <string name="action_signup">회원가입</string>
+    <string name="welcome">"환영합니다!"</string>
+    <string name="invalid_email">유효한 이메일 주소를 입력해주세요.</string>
+    <string name="invalid_password">"비밀번호는 최소 5자 이상이어야 합니다.</string>
+    <string name="invalid_confirm">"비밀번호가 일치하지 않습니다. 다시 입력해주세요."</string>
+    <string name="login_succeed">"로그인에 성공했습니다."</string>
+    <string name="login_failed">"로그인에 실패했습니다."</string>
+    <string name="signup_succeed">"회원가입에 성공했습니다."</string>
+    <string name="signup_failed">"회원가입에 실패했습니다."</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="prompt_signup">회원가입</string>
+    <string name="prompt_find_email">이메일 찾기</string>
+    <string name="prompt_find_password">비밀번호 찾기</string>
+    <string name="action_next">다음</string>
 </resources>
