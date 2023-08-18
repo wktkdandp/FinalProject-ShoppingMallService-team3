@@ -92,6 +92,7 @@ class SignUpInfoFragment : Fragment() {
             buttonSignUp.setOnClickListener {
 
                 val seller = Seller(
+                    email,
                     textInputEditTextCompanyRegNum.text.toString(),
                     textInputEditTextOwnerName.text.toString(),
                     textInputEditTextCompanyName.text.toString(),
