@@ -1,14 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.product.ProductAddFragment">
+    android:orientation="vertical"
+    tools:context=".ui.product.ProductAddFragment" >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarProductAdd"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="상품 등록" />
 
-</FrameLayout>
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="상품 이미지 (최대 5개)" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonAddMainImage"
+                    style="@style/Widget.Material3.Button.IconButton.Outlined"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:text="0/5"
+                    app:cornerRadius="5dp"
+                    app:icon="@drawable/add_photo_alternate_24px"
+                    app:iconGravity="textTop"
+                    app:iconPadding="5dp" />
+
+                <ImageView
+                    android:id="@+id/imageViewMain"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="false"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_launcher" />
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="상품명"
+                android:transitionGroup="true"
+                app:endIconMode="clear_text"
+                app:errorEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutCategoryMain"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="대분류"
+                android:transitionGroup="true"
+                app:errorEnabled="false">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/editTextCategoryMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    app:simpleItems="@array/categoryMain" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutCategoryMid"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:enabled="false"
+                android:hint="중분류"
+                android:transitionGroup="true"
+                app:errorEnabled="false">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/editTextCategoryMid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    app:simpleItems="@array/categoryMid1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutCategorySub"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:enabled="false"
+                android:hint="소분류"
+                android:transitionGroup="true"
+                app:errorEnabled="false">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/editTextCategorySub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    app:simpleItems="@array/categorySub1_1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutTag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="#해시태그"
+                android:transitionGroup="true"
+                app:endIconMode="clear_text"
+                app:errorEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_hash_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="가격"
+                android:transitionGroup="true"
+                app:endIconMode="clear_text"
+                app:errorEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="상품 설명"
+                android:transitionGroup="true"
+                app:endIconMode="clear_text"
+                app:errorEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text|textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="상품 설명 이미지 (1개)" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonAddDescImage"
+                    style="@style/Widget.Material3.Button.IconButton.Outlined"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:text="0/1"
+                    app:cornerRadius="5dp"
+                    app:icon="@drawable/add_photo_alternate_24px"
+                    app:iconGravity="textTop"
+                    app:iconPadding="5dp" />
+
+                <ImageView
+                    android:id="@+id/imageViewDesc"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_launcher" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/buttonCancel"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:text="취소" />
+
+                <Button
+                    android:id="@+id/buttonOK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="등록" />
+            </LinearLayout>
+
+            <!--
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabUp"
+                style="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/arrow_upward_24px" />
+                -->
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

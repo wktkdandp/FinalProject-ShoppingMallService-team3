@@ -1,4 +1,7 @@
 package com.petpal.swimmer_seller.ui.product
 
-class ProductViewModel {
+import androidx.lifecycle.ViewModel
+
+class ProductViewModel:ViewModel() {
+
 }

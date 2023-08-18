@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.home.HomeFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="SWIMMER" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/Widget.Material3.CheckedTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="상품 등록"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/textViewProductCount"
+            style="@style/Widget.Material3.CheckedTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="등록된 상품이 0건 있습니다."
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/Widget.Material3.CheckedTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="판매 상품을 등록해주세요."
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <view
+            android:id="@+id/buttonRegProduct"
+            class="com.google.android.material.button.MaterialButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="상품등록 하기" />
+    </LinearLayout>
+</LinearLayout>

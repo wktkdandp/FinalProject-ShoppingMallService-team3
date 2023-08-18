@@ -2,4 +2,135 @@
     <string name="app_name">Swimmer_seller</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- 대분류 -->
+    <string-array name="categoryMain">
+        <item>여성</item>
+        <item>남성</item>
+        <item>아동</item>
+        <item>용품</item>
+    </string-array>
+
+    <!-- 중분류 -->
+    <string-array name="categoryMid1">
+        <item>수영복</item>
+        <item>비키니</item>
+        <item>래쉬가드</item>
+        <item>비치웨어</item>
+    </string-array>
+
+    <string-array name="categoryMid2">
+        <item>수영복</item>
+        <item>래쉬가드</item>
+        <item>비치웨어</item>
+    </string-array>
+
+    <string-array name="categoryMid3">
+        <item>수영복</item>
+        <item>래쉬가드</item>
+    </string-array>
+
+    <string-array name="categoryMid4">
+        <item>수경</item>
+        <item>수모</item>
+        <item>오리발</item>
+        <item>가방</item>
+        <item>물놀이용품</item>
+    </string-array>
+
+    <!-- 여성 소분류 -->
+    <string-array name="categorySub1_1">
+        <item>원피스</item>
+        <item>반전신</item>
+        <item>탄탄이</item>
+        <item>아쿠아</item>
+    </string-array>
+
+    <string-array name="categorySub1_2">
+        <item>모노키니</item>
+        <item>비키니</item>
+        <item>치마비키니</item>
+    </string-array>
+
+    <string-array name="categorySub1_3">
+        <item>슈트</item>
+        <item>상의</item>
+        <item>팬츠</item>
+        <item>레깅스</item>
+    </string-array>
+
+    <string-array name="categorySub1_4">
+        <item>원피스</item>
+        <item>상의</item>
+        <item>하의</item>
+    </string-array>
+
+    <!-- 남성 소분류 -->
+    <string-array name="categorySub2_1">
+        <item>5부</item>
+        <item>사각</item>
+        <item>탄탄이</item>
+    </string-array>
+
+    <string-array name="categorySub2_2">
+        <item>상의</item>
+        <item>팬츠</item>
+        <item>레깅스</item>
+    </string-array>
+
+    <string-array name="categorySub2_3">
+        <item>슈트</item>
+        <item>레깅스</item>
+        <item>상의</item>
+        <item>팬츠</item>
+    </string-array>
+
+    <!-- 아동 소분류 -->
+    <string-array name="categorySub3_1">
+        <item>걸즈</item>
+        <item>보이</item>
+    </string-array>
+
+    <string-array name="categorySub3_2">
+        <item>슈트</item>
+        <item>상의</item>
+        <item>팬츠</item>
+        <item>유아용</item>
+    </string-array>
+
+    <!-- 용품 소분류 -->
+    <string-array name="categorySub4_1">
+        <item>레이싱</item>
+        <item>트레이닝</item>
+        <item>오픈워터</item>
+    </string-array>
+
+    <string-array name="categorySub4_2">
+        <item>실리콘</item>
+        <item>코팅</item>
+        <item>스판/메쉬</item>
+    </string-array>
+
+    <string-array name="categorySub4_3">
+        <item>숏핀오리발</item>
+        <item>롱핀오리발</item>
+        <item>스노클링핀</item>
+        <item>오픈워터핀</item>
+    </string-array>
+
+    <string-array name="categorySub4_4">
+        <item>메쉬백</item>
+        <item>숄더백</item>
+        <item>드라이백</item>
+        <item>웨이스트백</item>
+        <item>백팩</item>
+    </string-array>
+
+    <string-array name="categorySub4_5">
+        <item>아쿠아슈즈</item>
+        <item>스노클링</item>
+        <item>부력조끼</item>
+        <item>부력판</item>
+        <item>튜브/암밴드</item>
+    </string-array>
 </resources>
