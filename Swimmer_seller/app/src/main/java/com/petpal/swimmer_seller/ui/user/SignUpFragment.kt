@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.textfield.TextInputEditText
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.databinding.FragmentSignUpBinding
 
@@ -76,16 +78,6 @@ class SignUpFragment : Fragment() {
                 }
             }
 
-            userResult.observe(viewLifecycleOwner) { result ->
-                result ?: return@observe
-                result.error?.let {
-                    //로그인, 회원가입 모두 이 메서드를 쓰고있네... 고쳐야할 것 같은데
-                    showSignUpFailed(it)
-                }
-                result.success?.let {
-                    updateUiWithUser(it)
-                }
-            }
         }
 
         val afterTextChangedListener = object : TextWatcher {
@@ -111,21 +103,14 @@ class SignUpFragment : Fragment() {
         confirmEditText.addTextChangedListener(afterTextChangedListener)
         confirmEditText.setOnEditorActionListener { textView, actionId, keyEvent ->
             if(actionId==EditorInfo.IME_ACTION_DONE) {
-                //회원가입 하기
-                userViewModel.signUp(
-                    emailEditText.text.toString(),
-                    passwordEditText.text.toString()
-                )
+                goToSignUpInfoFragment(emailEditText, passwordEditText)
             }
             false
         }
 
         buttonSignup.setOnClickListener {
-            //회원가입 하기
-            userViewModel.signUp(
-                emailEditText.text.toString(),
-                passwordEditText.text.toString()
-            )
+            goToSignUpInfoFragment(emailEditText, passwordEditText)
+
         }
 
         signUpToolbar.setNavigationOnClickListener {
@@ -134,16 +119,16 @@ class SignUpFragment : Fragment() {
 
     }
 
-    private fun updateUiWithUser(@StringRes succeedString: Int) {
-        val appContext = context?.applicationContext ?: return
-        Toast.makeText(appContext, succeedString , Toast.LENGTH_LONG).show()
+    private fun goToSignUpInfoFragment(
+        emailEditText: TextInputEditText,
+        passwordEditText: TextInputEditText
+    ) {
         //정보 입력 화면으로 이동
-        findNavController().navigate(R.id.action_signUpFragment_to_signUpInfoFragment)
-
+        val bundle = bundleOf()
+        bundle.putString("email", emailEditText.text.toString())
+        bundle.putString("password", passwordEditText.text.toString())
+        findNavController().navigate(R.id.action_signUpFragment_to_signUpInfoFragment, bundle)
     }
 
-    private fun showSignUpFailed(@StringRes errorString: Int) {
-        val appContext = context?.applicationContext ?: return
-        Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
-    }
+
 }

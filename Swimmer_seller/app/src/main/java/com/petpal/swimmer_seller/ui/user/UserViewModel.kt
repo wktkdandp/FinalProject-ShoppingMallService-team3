@@ -1,11 +1,13 @@
 package com.petpal.swimmer_seller.ui.user
 
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.UserRepository
+import com.petpal.swimmer_seller.data.model.Seller
 
 class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
@@ -15,7 +17,7 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
     private val _signUpForm = MutableLiveData<SignUpFormState>()
     val signUpFormState: LiveData<SignUpFormState> = _signUpForm
 
-    //TODO : firebase로 변경할 수 없나?
+    //TODO : firebase로 변경할 수 없나? 로그인에서만 사용하는디
     private val _userResult = MutableLiveData<UserResult>()
     val userResult: LiveData<UserResult> = _userResult
 
@@ -41,15 +43,17 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
-    fun logOut(){
+    fun logOut() {
         userRepository.logout()
     }
 
-    fun signUp(email: String, password: String) {
+    fun signUpAndSave(email: String, password: String, seller: Seller) {
         userRepository.signUp(email, password) {
             if (it.isSuccessful && it.result.user != null) {
                 _userResult.value = UserResult(success = R.string.signup_succeed)
+                addSeller(seller)
             } else {
+                Log.d("signup", it.exception.toString())
                 _userResult.value = UserResult(error = R.string.signup_failed)
             }
         }
@@ -77,11 +81,21 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {
-        return password.length > 4
+        return password.length > 5
     }
 
     private fun isConfirmValid(password: String, confirm: String): Boolean {
         return password == confirm
+    }
+
+    fun addSeller(seller: Seller) {
+        userRepository.addSeller(seller) {
+            if (it.isSuccessful) {
+                _userResult.value = UserResult(success = R.string.signup_info_succeed)
+            } else {
+                _userResult.value = UserResult(error = R.string.signup_info_failed)
+            }
+        }
     }
 }
 

@@ -38,5 +38,15 @@
         <action
             android:id="@+id/action_signUpInfoFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue="test@test.com"/>
+
+        <argument
+            android:name="password"
+            app:argType="string"
+            android:defaultValue="11111"/>
     </fragment>
 </navigation>

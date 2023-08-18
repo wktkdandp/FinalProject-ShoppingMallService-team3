@@ -3,7 +3,9 @@ package com.petpal.swimmer_seller.data
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.petpal.swimmer_seller.data.model.Seller
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -12,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 
 class UserRepository {
     val auth = Firebase.auth
+    val sellerDatabase = Firebase.database.getReference("sellers")
 
     fun logout() {
         auth.signOut()
@@ -29,5 +32,9 @@ class UserRepository {
                 .addOnCompleteListener(callback)
             //user를 살리려면 여기서도 집어넣어줘야함
         }
+    }
+
+    fun addSeller(seller: Seller, callback: (Task<Void>) -> Unit) {
+        sellerDatabase.push().setValue(seller).addOnCompleteListener(callback)
     }
 }
