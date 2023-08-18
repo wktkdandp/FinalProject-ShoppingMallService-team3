@@ -4,6 +4,10 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+    <!-- 툴바의 테마로 사용할 테마 -->
+    <style name="Toolbar_Swimmer_Customer" parent="ThemeOverlay.Material3.Toolbar.Surface">
+        <item name="colorPrimary">@color/material_dynamic_tertiary99</item>
+    </style>
 
     <style name="Theme.Swimmer_customer" parent="Base.Theme.Swimmer_customer" />
 </resources>

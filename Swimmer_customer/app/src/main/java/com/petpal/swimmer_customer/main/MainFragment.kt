@@ -12,16 +12,15 @@ import com.petpal.swimmer_customer.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
     lateinit var fragmentMainBinding: FragmentMainBinding
+    lateinit var mainActivity:MainActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         fragmentMainBinding = FragmentMainBinding.inflate(layoutInflater)
-
-        val navHostFragment =
-            childFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        mainActivity=activity as MainActivity
+        val navHostFragment = childFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
-
         fragmentMainBinding.bottomNavigation.setupWithNavController(navController)
 
         return fragmentMainBinding.root
