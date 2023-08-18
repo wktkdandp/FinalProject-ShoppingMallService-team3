@@ -6,6 +6,7 @@
     <string name="prompt_password_confirm">비밀번호 확인</string>
     <string name="action_login">로그인</string>
     <string name="action_signup">회원가입</string>
+    <string name="action_signup_info">사업자 정보 입력</string>
     <string name="welcome">"환영합니다!"</string>
     <string name="invalid_email">유효한 이메일 주소를 입력해주세요.</string>
     <string name="invalid_password">"비밀번호는 최소 5자 이상이어야 합니다.</string>
@@ -20,4 +21,8 @@
     <string name="prompt_find_email">이메일 찾기</string>
     <string name="prompt_find_password">비밀번호 찾기</string>
     <string name="action_next">다음</string>
+    <string name="prompt_company_reg_num">사업자 등록 번호</string>
+    <string name="prompt_company_owner_name">대표자명</string>
+    <string name="prompt_company_name">브랜드명</string>
+    <string name="prompt_company_description">브랜드 설명</string>
 </resources>

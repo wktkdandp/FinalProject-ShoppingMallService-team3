@@ -79,6 +79,7 @@ class SignUpFragment : Fragment() {
             userResult.observe(viewLifecycleOwner) { result ->
                 result ?: return@observe
                 result.error?.let {
+                    //로그인, 회원가입 모두 이 메서드를 쓰고있네... 고쳐야할 것 같은데
                     showSignUpFailed(it)
                 }
                 result.success?.let {
@@ -136,8 +137,8 @@ class SignUpFragment : Fragment() {
     private fun updateUiWithUser(@StringRes succeedString: Int) {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, succeedString , Toast.LENGTH_LONG).show()
-        //메인화면으로 이동
-        findNavController().navigate(R.id.action_signUpFragment_to_mainFragment)
+        //정보 입력 화면으로 이동
+        findNavController().navigate(R.id.action_signUpFragment_to_signUpInfoFragment)
 
     }
 

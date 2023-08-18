@@ -23,9 +23,9 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         // can be launched in a separate asynchronous job
         userRepository.login(email, password) {
             if (it.isSuccessful && it.result.user != null) {
-                _userResult.value = UserResult(success = R.string.signup_succeed)
+                _userResult.value = UserResult(success = R.string.login_succeed)
             } else {
-                _userResult.value = UserResult(error = R.string.signup_failed)
+                _userResult.value = UserResult(error = R.string.login_failed)
             }
         }
 
@@ -39,6 +39,10 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         } else {
             _loginForm.value = LoginFormState(isDataValid = true)
         }
+    }
+
+    fun logOut(){
+        userRepository.logout()
     }
 
     fun signUp(email: String, password: String) {

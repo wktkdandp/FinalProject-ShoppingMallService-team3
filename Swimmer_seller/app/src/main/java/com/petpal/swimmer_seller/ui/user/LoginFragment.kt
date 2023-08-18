@@ -3,6 +3,7 @@ package com.petpal.swimmer_seller.ui.user
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,9 +31,15 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("user", "loginFragment onCreate")
         _fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
         return fragmentLoginBinding.root
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("user", "loginFragment onDestroy")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -134,8 +141,9 @@ class LoginFragment : Fragment() {
     private fun updateUiWithUser(@StringRes succeedString: Int) {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, succeedString , Toast.LENGTH_LONG).show()
-        //메인화면으로 이동
-        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+        //로그인 프래그먼트는 제거하고 메인화면으로 이동
+        findNavController().popBackStack(R.id.loginFragment, true)
+        findNavController().navigate(R.id.mainFragment)
 
     }
 
