@@ -1,13 +1,10 @@
-package com.petpal.swimmer_customer
+package com.petpal.swimmer_customer.`1login`
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.model.User
 import com.petpal.swimmer_customer.repository.CustomerUserRepository
-import com.petpal.swimmer_customer.repository.PasswordResetResult
-import com.petpal.swimmer_customer.repository.UserRepository
 
 class LoginViewModel(private val customerUserRepository: CustomerUserRepository) : ViewModel() {
 
@@ -18,23 +15,23 @@ class LoginViewModel(private val customerUserRepository: CustomerUserRepository)
     }
 
 
-    fun signIn(email: String, password: String,): LiveData<Boolean> {
-
+    fun signIn(email: String, password: String): LiveData<Boolean?>? {
+        Log.d("viewModel",email)
+        Log.d("viewModel",password)
         return customerUserRepository.signInUser(email,password)
     }
+
     fun getUserByIdx(userIdx: String): LiveData<User?>? {
         return customerUserRepository.getUserByIdx(userIdx)
     }
     fun checkEmailDuplicate(email:String):LiveData<Boolean>{
         return customerUserRepository.checkEmailDuplicate(email)
     }
-//    fun findPassword(email: String): LiveData<Boolean> {
-//        return customerUserRepository.findPassword(email)
-//    }
+
     fun findEmailByInfo(nickName: String?,phoneNumber: String?): LiveData<User?>? {
         return customerUserRepository.findEmailbyInfo(nickName,phoneNumber)
     }
-    fun resetPassword(email:String,phoneNumber:String): LiveData<PasswordResetResult>? {
+    fun resetPassword(email:String,phoneNumber:String): LiveData<Boolean?>?{
         Log.d("viewmodel",email)
         Log.d("viewmodel",phoneNumber)
         return customerUserRepository.resetPassword(email,phoneNumber)

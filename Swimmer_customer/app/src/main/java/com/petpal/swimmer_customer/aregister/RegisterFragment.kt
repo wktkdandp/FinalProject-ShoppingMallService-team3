@@ -1,16 +1,12 @@
 package com.petpal.swimmer_customer
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.SurfaceControl
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -20,16 +16,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.MutableData
-import com.google.firebase.database.Transaction
 import com.petpal.swimmer_customer.databinding.FragmentRegisterBinding
+import com.petpal.swimmer_customer.`1login`.LoginViewModel
+import com.petpal.swimmer_customer.`1login`.LoginViewModelFactory
 import com.petpal.swimmer_customer.main.MainActivity
 import com.petpal.swimmer_customer.repository.CustomerUserRepository
-import kotlin.concurrent.thread
 
 class RegisterFragment : Fragment() {
     lateinit var fragmentRegisterBinding: FragmentRegisterBinding
@@ -79,18 +72,10 @@ class RegisterFragment : Fragment() {
             val email = fragmentRegisterBinding.textInputEditTextAddUserEmail.text.toString()
             val password = fragmentRegisterBinding.textInputEditTextAddUserPassword.text.toString()
             val confirmPassword = fragmentRegisterBinding.textInputEditTextAddUserPasswordRepeat.text.toString()
-
             val uid=auth.currentUser?.uid
-            Log.d("kokokoko",uid.toString())
             val Nickname =fragmentRegisterBinding.textInputEditTextAddUserNickname.text.toString()
             val PhoneNumber = fragmentRegisterBinding.textInputEditTextAddUserPhoneNumber.text.toString()
-            val swimExp: String = when(fragmentRegisterBinding.swimExpGroup.checkedChipId) {
-                R.id.swimExp1 -> "1년 이하"
-                R.id.swimExp2 -> "3년 이하"
-                R.id.swimExp3 -> "5년 이하"
-                R.id.swimExp4 -> "5년 이상"
-                else -> "선택안함"
-            }
+            val swimExp=UserSwimExp()
             //유효성 검사
             if (!checkEmail(email) || !checkPassword(password, confirmPassword)|| !isCheckboxChecked()) {
                 return@setOnClickListener
@@ -110,7 +95,16 @@ class RegisterFragment : Fragment() {
 
             return fragmentRegisterBinding.root
     }
-
+    //수영 경력
+    private fun UserSwimExp():String {
+        return when (fragmentRegisterBinding.swimExpGroup.checkedChipId) {
+            R.id.swimExp1 -> "1년 이하"
+            R.id.swimExp2 -> "3년 이하"
+            R.id.swimExp3 -> "5년 이하"
+            R.id.swimExp4 -> "5년 이상"
+            else -> "선택안함"
+        }
+    }
     private fun checkEmail(email: String): Boolean {
         if (!email.contains("@")) {
             fragmentRegisterBinding.textInputLayoutAddUserEmail.error = "이메일 양식이 올바르지 않습니다."
@@ -123,9 +117,7 @@ class RegisterFragment : Fragment() {
         }
         return true
     }
-    private fun checkEmailDuplicate(email: String) {
 
-    }
     private fun checkPassword(password: String, confirmPassword: String): Boolean {
         // 비밀번호의 길이 검사
         if (password.length < 6) {
@@ -151,6 +143,7 @@ class RegisterFragment : Fragment() {
         }
         return true
     }
+    //정보 동의 체크박스
     private fun isCheckboxChecked(): Boolean {
         if (!fragmentRegisterBinding.infoAgree.isChecked) {
             fragmentRegisterBinding.textViewInfoAgree.text = "정보 동의를 체크해주세요."
@@ -168,19 +161,6 @@ class RegisterFragment : Fragment() {
             imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
     }
-    fun incrementUserIdx() {
-        val counterRef = mDatabase.child("userIdxCounter")
-        counterRef.runTransaction(object : Transaction.Handler {
-            override fun doTransaction(currentData: MutableData): Transaction.Result {
-                val currentValue = currentData.getValue(Long::class.java) ?: 0L
-                currentData.value = currentValue + 1
-                return Transaction.success(currentData)
-            }
 
-            override fun onComplete(databaseError: DatabaseError?, committed: Boolean, currentData: DataSnapshot?) {
-                // Transaction 완료 후의 작업 (예: 로그 출력)
-            }
-        })
-    }
 
 }
