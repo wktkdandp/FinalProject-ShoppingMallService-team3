@@ -36,7 +36,7 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textViewMainImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/prompt_main_image" />
@@ -80,7 +80,7 @@
                 app:errorEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_input_edit_text_name"
+                    android:id="@+id/textInputEditTextProductName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -97,7 +97,7 @@
                 app:errorEnabled="false">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/text_input_edit_text_category_main"
+                    android:id="@+id/dropdownCategoryMain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -116,7 +116,7 @@
                 app:errorEnabled="false">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/text_input_edit_text_category_mid"
+                    android:id="@+id/dropdownCategoryMid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -135,7 +135,7 @@
                 app:errorEnabled="false">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/text_input_edit_text_category_sub"
+                    android:id="@+id/dropdownCategorySub"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -170,7 +170,7 @@
                 app:errorEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_input_edit_text_price"
+                    android:id="@+id/textInputEditTextPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
@@ -187,14 +187,14 @@
                 app:errorEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_input_edit_text_description"
+                    android:id="@+id/textInputEditTextDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text|textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textViewDescriptionImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -219,7 +219,7 @@
                     app:iconPadding="5dp" />
 
                 <ImageView
-                    android:id="@+id/image_view_description"
+                    android:id="@+id/imageViewDescription"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:adjustViewBounds="true"
