@@ -10,28 +10,9 @@ import com.petpal.swimmer_seller.data.model.Product
 
 class ProductRepository {
     companion object {
-        // TODO UID 방식으로 바꿀거니까 productIdx 전부 없애기
-        /*
-        // 상품 인덱스 값 가져오기
-        fun getProductIdx(callback: (Task<DataSnapshot>) -> Unit) {
-            val database = FirebaseDatabase.getInstance()
-            val productIdxRef = database.getReference("productIdx")
-            productIdxRef.get().addOnCompleteListener(callback)
-        }
-
-        // 상품 인덱스(일괄 관리용 순서 번호 인덱스) 값 저장
-        fun setProductIdx(productIdx: Long, callback: (Task<Void>) -> Unit){
-            val database = FirebaseDatabase.getInstance()
-            val productIdxRef = database.getReference("productIdx")
-            productIdxRef.get().addOnCompleteListener {
-                it.result.ref.setValue(productIdx).addOnCompleteListener(callback)
-            }
-        }
-        */
-
         // 상품 정보 저장
         fun addProduct(product: Product, callback: (Task<Void>) -> Unit) {
-            // Product 객체 삽입 후 랜덤 세팅된 key값을 Product객체 내 저장
+            // Product 객체 삽입 후 랜덤 세팅된 key값을 Product객체 내 productUid로 저장
             val productsDataRef = FirebaseDatabase.getInstance().getReference("products")
             val pushedRef = productsDataRef.push()
             product.productUid = pushedRef.key!!

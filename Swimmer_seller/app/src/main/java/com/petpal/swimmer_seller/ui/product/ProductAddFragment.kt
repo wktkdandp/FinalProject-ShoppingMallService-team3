@@ -227,8 +227,9 @@ class ProductAddFragment : Fragment() {
 
                 // 상품 정보 DB 저장
                 ProductRepository.addProduct(product){
+                    // 업로드 중 표시
+                    progressBar.visibility = View.VISIBLE
                     // 이미지 업로드
-                    // TODO 이미지 업로드 오래 걸리는데 그 사이에 progressbar 두는 게 좋을듯. 사용자가 괜히 다른 조작 못하게
                     ProductRepository.uploadImage(mainImageUri!!, mainImageFileName){
                         ProductRepository.uploadImage(descImageUri!!, descImageFileName){
                             Snackbar.make(fragmentProductAddBinding.root, "상품이 등록되었습니다.", Snackbar.LENGTH_SHORT).show()
@@ -284,6 +285,7 @@ class ProductAddFragment : Fragment() {
                     }
 
                     if (isMainImage) {
+                        // TODO 차후 메인 이미지 여러 개 저장시 List<Uri>로 저장하는 방식으로 변경하기
                         mainImageUri = uploadUri
                         fragmentProductAddBinding.buttonAddMainImage.text = "1/5"
                     } else {
