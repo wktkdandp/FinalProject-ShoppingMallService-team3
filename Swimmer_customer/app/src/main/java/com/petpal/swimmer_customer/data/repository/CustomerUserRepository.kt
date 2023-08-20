@@ -1,5 +1,6 @@
-package com.petpal.swimmer_customer.repository
+package com.petpal.swimmer_customer.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
@@ -9,11 +10,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.MutableData
-import com.google.firebase.database.Transaction
 import com.google.firebase.database.ValueEventListener
-import com.petpal.swimmer_customer.model.User
-import java.util.Objects
+import com.petpal.swimmer_customer.data.model.User
 
 class CustomerUserRepository : UserRepository {
     private val mAuth: FirebaseAuth
@@ -23,19 +21,6 @@ class CustomerUserRepository : UserRepository {
         mAuth = FirebaseAuth.getInstance()
         mDatabase = FirebaseDatabase.getInstance().getReference("users")
     }
-
-    //    public LiveData<Boolean> addUser(User user) {
-    //        MutableLiveData<Boolean> result = new MutableLiveData<>();
-    //        FirebaseUser firebaseUser = mAuth.getCurrentUser();
-    //        if (firebaseUser != null) {
-    //            mDatabase.child(firebaseUser.getUid()).setValue(user).addOnCompleteListener(task -> {
-    //                result.setValue(task.isSuccessful());
-    //            });
-    //        } else {
-    //            result.setValue(false);
-    //        }
-    //        return result;
-    //    }
     override fun addUser(user: User?): LiveData<Boolean?>? {
         val resultLiveData = MutableLiveData<Boolean?>()
         mAuth.createUserWithEmailAndPassword(user?.email!!, user.password!!)
@@ -68,9 +53,9 @@ class CustomerUserRepository : UserRepository {
         return resultLiveData
     }
 
-    fun signInUser(email: String?, password: String?): LiveData<Boolean> {
+    override fun signInUser(email: String, password: String): LiveData<Boolean?> {
         val resultLiveData = MutableLiveData<Boolean>()
-        mAuth.signInWithEmailAndPassword(email!!, password!!)
+        mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task: Task<AuthResult?> ->
                 if (task.isSuccessful) {
                     resultLiveData.setValue(true)
@@ -81,44 +66,32 @@ class CustomerUserRepository : UserRepository {
         return resultLiveData
     }
 
-    //    public LiveData<Boolean> findPassword(String email) {
-    //        MutableLiveData<Boolean> resultLiveData = new MutableLiveData<>();
-    //
-    //        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-    //                .addOnCompleteListener(task -> {
-    //                    if (task.isSuccessful()) {
-    //                        resultLiveData.setValue(true);
-    //                    } else {
-    //                        resultLiveData.setValue(false);
-    //                    }
-    //                });
-    //
-    //        return resultLiveData;
-    //    }
-    override fun getUserByIdx(userIdx: String?): LiveData<User?>? {
-        val result = MutableLiveData<User?>()
-        mDatabase.child(userIdx!!).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    val user = dataSnapshot.getValue(
-                        User::class.java
-                    )
-                    result.setValue(user)
-                } else {
-                    result.setValue(null)
-                }
-            }
+//    override fun getUserByIdx(userIdx: String?): LiveData<User?> {
+//        val result = MutableLiveData<User?>()
+//        mDatabase.child(userIdx!!).addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    val user = dataSnapshot.getValue(
+//                        User::class.java
+//                    )
+//                    result.setValue(user)
+//                } else {
+//                    result.setValue(null)
+//                }
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                result.value = null
+//            }
+//        })
+//        return result
+//    }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                result.value = null
-            }
-        })
-        return result
-    }
+    override fun checkEmailDuplicated(email: String?): LiveData<Boolean> {
 
-    fun checkEmailDuplicate(targetEmail: String?): LiveData<Boolean> {
         val emailExists = MutableLiveData<Boolean>()
-        mDatabase.child("users").orderByChild("email").equalTo(targetEmail)
+        Log.d("targetEmail",email!!)
+        mDatabase.orderByChild("email").equalTo(email)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -134,7 +107,6 @@ class CustomerUserRepository : UserRepository {
             })
         return emailExists
     }
-
     //    @Override
     //    public LiveData<Boolean> modifyUser(String userIdx, String email, String password) {
     //        MutableLiveData<Boolean> result = new MutableLiveData<>();
@@ -199,58 +171,40 @@ class CustomerUserRepository : UserRepository {
         return result
     }
 
-    override fun resetPassword(email: String?, phoneNumber: String?): LiveData<PasswordResetResult>? {
-        val resultLiveData = MutableLiveData<PasswordResetResult>()
 
+    override fun resetPassword(email: String?, phoneNumber: String?): LiveData<Boolean?>? {
+        val resultLiveData = MutableLiveData<Boolean?>()
+
+        // DB에서 이메일로 users 하위의 모든 노드에서 email 속성을 검사
         mDatabase.orderByChild("email").equalTo(email)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         for (userSnapshot in dataSnapshot.children) {
-                            val user = userSnapshot.getValue(User::class.java)
+                            val user = userSnapshot.getValue(
+                                User::class.java
+                            )
                             if (user != null && user.phoneNumber == phoneNumber) {
+                                // 이메일과 핸드폰 번호가 일치하는 사용자를 찾음
                                 FirebaseAuth.getInstance().sendPasswordResetEmail(email!!)
                                     .addOnCompleteListener { task: Task<Void?> ->
                                         if (task.isSuccessful) {
-                                            resultLiveData.value = PasswordResetResult(true, "Password reset email sent successfully.")
+                                            resultLiveData.setValue(true)
                                         } else {
-                                            val errorMessage = task.exception?.message ?: "Unknown error."
-                                            resultLiveData.value = PasswordResetResult(false, errorMessage)
+                                            resultLiveData.setValue(false)
                                         }
                                     }
                                 return
                             }
                         }
                     }
-                    resultLiveData.value = PasswordResetResult(false, "No matching user found.")
+                    resultLiveData.value = false // 일치하는 사용자를 찾지 못함
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    resultLiveData.value = PasswordResetResult(false, databaseError.message)
+                    resultLiveData.value = false
                 }
             })
-
         return resultLiveData
     }
-//    //사용자 idx 증가
-//    fun incrementUserIdx(onCompletion: (Long?) -> Unit) {
-//        val counterRef = mDatabase.child("userIdxCounter")
-//        counterRef.runTransaction(object : Transaction.Handler {
-//            override fun doTransaction(currentData: MutableData): Transaction.Result {
-//                val currentValue = currentData.getValue(Long::class.java) ?: 0L
-//                currentData.value = currentValue + 1
-//                return Transaction.success(currentData)
-//            }
-//
-//            override fun onComplete(databaseError: DatabaseError?, committed: Boolean, currentData: DataSnapshot?) {
-//                onCompletion(currentData?.getValue(Long::class.java))
-//            }
-//        })
-//    }
-//
-//    fun saveUserData(newUserIdx: Long, userData: Map<String, Any>) {
-//        val userRef = mDatabase.child("users").child(newUserIdx.toString())
-//        userRef.setValue(userData)
-//    }
 }
-data class PasswordResetResult(val isSuccess: Boolean, val message: String?)

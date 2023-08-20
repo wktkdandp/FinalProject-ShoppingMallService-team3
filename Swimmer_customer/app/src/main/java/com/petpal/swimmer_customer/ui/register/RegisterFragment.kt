@@ -1,5 +1,6 @@
-package com.petpal.swimmer_customer
+package com.petpal.swimmer_customer.ui.register
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -12,38 +13,42 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentRegisterBinding
-import com.petpal.swimmer_customer.`1login`.LoginViewModel
-import com.petpal.swimmer_customer.`1login`.LoginViewModelFactory
-import com.petpal.swimmer_customer.main.MainActivity
-import com.petpal.swimmer_customer.repository.CustomerUserRepository
+import com.petpal.swimmer_customer.ui.main.MainActivity
+import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 
 class RegisterFragment : Fragment() {
     lateinit var fragmentRegisterBinding: FragmentRegisterBinding
-    lateinit var viewModel: LoginViewModel
+    lateinit var viewModel: RegisterViewModel
     lateinit var auth: FirebaseAuth
     lateinit var mainActivity: MainActivity
+    //이메일 중복검사  성공여부 변수
+    private var isEmailValid = false
     private val mDatabase: DatabaseReference = FirebaseDatabase.getInstance().reference
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         mainActivity=activity as MainActivity
         fragmentRegisterBinding= FragmentRegisterBinding.inflate(layoutInflater)
         auth= FirebaseAuth.getInstance()
 
-        val factory = LoginViewModelFactory(CustomerUserRepository())
-        viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
+        val factory = RegisterViewModelFactory(CustomerUserRepository())
+        viewModel = ViewModelProvider(this, factory).get(RegisterViewModel::class.java)
 
         val navController = findNavController()
         NavigationUI.setupWithNavController(fragmentRegisterBinding.toolbarAddUser, navController)
 
+        //툴바
         fragmentRegisterBinding.toolbarAddUser.run{
             title = "회원가입"
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
@@ -52,23 +57,35 @@ class RegisterFragment : Fragment() {
             }
         }
 
+        //중복검사 버튼
         fragmentRegisterBinding.buttonAddUserEmailDuplicateCheck.setOnClickListener {
-            val email=fragmentRegisterBinding.textInputEditTextAddUserEmail.text.toString()
-            viewModel.checkEmailDuplicate(email).observe(viewLifecycleOwner, Observer { isDuplicate ->
+            val email = fragmentRegisterBinding.textInputEditTextAddUserEmail.text.toString()
+            viewModel.checkEmailDuplicated(email).observe(viewLifecycleOwner, Observer { isDuplicate ->
+                Log.d("koko12345", isDuplicate.toString())
                 if (isDuplicate) {
-                    Log.d("koko","이메일 중복이야")
-                    fragmentRegisterBinding.textInputLayoutAddUserEmail.error = "해당 이메일이 이미 존재합니다."
-
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        fragmentRegisterBinding.textInputLayoutAddUserEmail.error = null
-                        fragmentRegisterBinding.textInputEditTextAddUserEmail.text?.clear()
-                        showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserEmail)
-                    }, 2000)
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("알림")
+                        .setMessage("이미 존재하는 이메일입니다.")
+                        .setPositiveButton("확인") { dialog, _ ->
+                            fragmentRegisterBinding.textInputEditTextAddUserEmail.text?.clear()
+                            showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserEmail)
+                        }
+                        .show() // 이 부분 추가
+                } else {
+                    isEmailValid=true
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("알림")
+                        .setMessage("이메일을 사용할 수 있습니다.")
+                        .setPositiveButton("확인") { dialog, _ ->
+                            showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserPassword)
+                        }
+                        .show()
                 }
             })
         }
 
-        fragmentRegisterBinding.buttonAddUserInfoSubmit.setOnClickListener {
+        //회원가입 버튼
+        fragmentRegisterBinding.buttonRegister.setOnClickListener {
             val email = fragmentRegisterBinding.textInputEditTextAddUserEmail.text.toString()
             val password = fragmentRegisterBinding.textInputEditTextAddUserPassword.text.toString()
             val confirmPassword = fragmentRegisterBinding.textInputEditTextAddUserPasswordRepeat.text.toString()
@@ -80,8 +97,14 @@ class RegisterFragment : Fragment() {
             if (!checkEmail(email) || !checkPassword(password, confirmPassword)|| !isCheckboxChecked()) {
                 return@setOnClickListener
             }
+            if(!isEmailValid)
+            {
+                fragmentRegisterBinding.textInputLayoutAddUserEmail.error = "아이디 중복검사를 진행해주세요."
+                fragmentRegisterBinding.buttonAddUserEmailDuplicateCheck.requestFocus()
+                return@setOnClickListener
+            }
             //Log.d("koko", "Email: $email, Password: $password, Nickname: $Nickname, PhoneNumber: $PhoneNumber")
-            viewModel.register(uid,email,password,Nickname,PhoneNumber, swimExp)?.observe(viewLifecycleOwner, Observer { success ->
+            viewModel.addUser(uid,email,password,Nickname,PhoneNumber, swimExp)?.observe(viewLifecycleOwner, Observer { success ->
                 if (success!!) {
                     // 회원가입 성공
                     findNavController().popBackStack()
@@ -155,7 +178,7 @@ class RegisterFragment : Fragment() {
         return true
     }
     //키보드 올리기
-     public fun showKeyboard(view: View) {
+      fun showKeyboard(view: View) {
         if (view.requestFocus()) {
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
@@ -163,4 +186,13 @@ class RegisterFragment : Fragment() {
     }
 
 
+}
+class RegisterViewModelFactory(private val repository: CustomerUserRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return RegisterViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

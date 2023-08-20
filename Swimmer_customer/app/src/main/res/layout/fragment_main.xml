@@ -5,7 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".main.MainFragment" >
+    tools:context=".ui.main.MainFragment" >
+
+    <Button
+        android:id="@+id/buttonLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="로그아웃" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
@@ -23,4 +29,5 @@
         app:menu="@menu/bottom_navigation_menu" >
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+
 </LinearLayout>

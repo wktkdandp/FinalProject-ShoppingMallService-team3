@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterFragment">
+    tools:context=".ui.register.RegisterFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -202,7 +202,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/buttonAddUserInfoSubmit"
+                android:id="@+id/buttonRegister"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

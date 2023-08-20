@@ -1,14 +1,7 @@
-package com.petpal.swimmer_customer.main
+package com.petpal.swimmer_customer.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import com.petpal.swimmer_customer.FindInfoFragment
-import com.petpal.swimmer_customer.LoginFragment
-import com.petpal.swimmer_customer.R
-import com.petpal.swimmer_customer.RegisterFragment
 import com.petpal.swimmer_customer.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

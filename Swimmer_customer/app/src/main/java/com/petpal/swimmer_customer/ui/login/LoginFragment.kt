@@ -1,4 +1,4 @@
-package com.petpal.swimmer_customer.`1login`
+package com.petpal.swimmer_customer.ui.login
 
 import android.content.Context
 import android.os.Bundle
@@ -18,8 +18,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentLoginBinding
-import com.petpal.swimmer_customer.main.MainActivity
-import com.petpal.swimmer_customer.repository.CustomerUserRepository
+import com.petpal.swimmer_customer.ui.main.MainActivity
+import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
+import com.petpal.swimmer_customer.util.AutoLoginUtil
 
 class LoginFragment : Fragment() {
     lateinit var fragmentLoginBinding: FragmentLoginBinding
@@ -33,6 +34,17 @@ class LoginFragment : Fragment() {
     ): View? {
         mainActivity=activity as MainActivity
         fragmentLoginBinding = FragmentLoginBinding.inflate(layoutInflater)
+
+        val isAutoLogin = AutoLoginUtil.getAutoLogin(requireContext())
+        val currentUser = FirebaseAuth.getInstance().currentUser
+
+        if (isAutoLogin && currentUser != null) {
+            // 이미 로그인된 사용자가 있으면 바로 메인으로
+            val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
+            findNavController().navigate(action)
+            return fragmentLoginBinding.root
+        }
+
         val factory = LoginViewModelFactory(CustomerUserRepository())
         viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
@@ -46,6 +58,7 @@ class LoginFragment : Fragment() {
             }
             viewModel.signIn(email, password)?.observe(viewLifecycleOwner, Observer { success ->
                 handleLoginResult(success == true)
+
             })
         }
         fragmentLoginBinding.ButtonRegister.setOnClickListener {
@@ -118,6 +131,9 @@ class LoginFragment : Fragment() {
             Toast.makeText(context, "로그인 성공", Toast.LENGTH_LONG).show()
             val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
             findNavController().navigate(action)
+
+            val isAutoLoginChecked = fragmentLoginBinding.checkboxAutoLogin.isChecked
+            AutoLoginUtil.setAutoLogin(requireContext(), isAutoLoginChecked)
         } else {
             // 로그인 실패
             Toast.makeText(context, "로그인 실패 이메일 또는 비밀번호를 확인해주세요.", Toast.LENGTH_LONG).show()

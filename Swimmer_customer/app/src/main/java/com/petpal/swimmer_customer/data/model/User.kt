@@ -1,4 +1,4 @@
-package com.petpal.swimmer_customer.model
+package com.petpal.swimmer_customer.data.model
 
 
 data class Address(
