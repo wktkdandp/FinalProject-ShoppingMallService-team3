@@ -1,5 +1,6 @@
 package com.petpal.swimmer_seller.ui.user
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -100,7 +102,13 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun sendPasswordResetEmail(email: String) {
-        //TODO: 키보드 내리기
+        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        if(requireActivity().currentFocus!=null) {
+            imm.hideSoftInputFromWindow(requireActivity().currentFocus!!.windowToken,0)
+            requireActivity().currentFocus!!.clearFocus()
+
+        }
         userViewModel.sendPasswordResetEmail(email)
     }
 
