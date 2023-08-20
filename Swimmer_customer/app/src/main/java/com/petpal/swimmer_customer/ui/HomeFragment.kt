@@ -1,4 +1,4 @@
-package com.petpal.swimmer_customer
+package com.petpal.swimmer_customer.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentHomeBinding
-import com.petpal.swimmer_customer.model.Ranking
-import com.petpal.swimmer_customer.model.exList
-import com.petpal.swimmer_customer.model.HomeFragmentItemList
-import com.petpal.swimmer_customer.model.ProductDetailModel
+import com.petpal.swimmer_customer.data.model.Ranking
+import com.petpal.swimmer_customer.data.model.exList
+import com.petpal.swimmer_customer.data.model.HomeFragmentItemList
+import com.petpal.swimmer_customer.data.model.ProductDetailModel
 import com.petpal.swimmer_customer.ui.product.ProductDetailAdapter
 
 

@@ -1,4 +1,4 @@
-package com.petpal.swimmer_customer.ui.product
+package com.petpal.swimmer_customer.data.model
 
 data class Product(
     val productIdx:Long,
