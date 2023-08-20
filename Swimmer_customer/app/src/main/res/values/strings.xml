@@ -8,4 +8,7 @@
     <string name="menu_item_mypage">마이페이지</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="item_search">검색</string>
+    <string name="item_shopping_cart">장바구니</string>
+    <string name="paymentButton">구매하기</string>
 </resources>
