@@ -71,7 +71,7 @@ class ProductAddFragment : Fragment() {
             }
 
             // 대 → 중 → 소 선택에 따라 드롭박스 단계별 활성화, 세팅
-            textInputEditTextCategoryMain.addTextChangedListener {
+            dropdownCategoryMain.addTextChangedListener {
                 // 유효성 검사
                 validateEditText(it.toString(), textInputLayoutCategoryMain, "대분류를 선택해 주세요")
                 textInputLayoutCategoryMid.isEnabled = true
@@ -79,17 +79,17 @@ class ProductAddFragment : Fragment() {
                 // 선택한 대분류에 따라 중분류 다르게 표시, 대분류 먼저 선택해야 중분류 선택 활성화. 다시 공백 선택할 경우
                 // 소분류는 아직 비활성화
                 when (it.toString()) {
-                    getString(R.string.female) -> textInputEditTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid1))
-                    getString(R.string.male) -> textInputEditTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid2))
-                    getString(R.string.child) -> textInputEditTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid3))
-                    getString(R.string.supplies) -> textInputEditTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid4))
+                    getString(R.string.female) -> dropdownCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid1))
+                    getString(R.string.male) -> dropdownCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid2))
+                    getString(R.string.child) -> dropdownCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid3))
+                    getString(R.string.supplies) -> dropdownCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid4))
                     else -> textInputLayoutCategoryMid.isEnabled = false
                 }
             }
-            textInputEditTextCategoryMid.addTextChangedListener {
+            dropdownCategoryMid.addTextChangedListener {
                 validateEditText(it.toString(), textInputLayoutCategoryMid, "중분류를 선택해 주세요")
                 // 선택한 중분류에 따라 소분류 다르게 표시
-                val categoryMain = textInputEditTextCategoryMain.text.toString()
+                val categoryMain = dropdownCategoryMain.text.toString()
                 val categoryMid = it.toString()
 
                 textInputLayoutCategorySub.isEnabled = true
@@ -97,42 +97,42 @@ class ProductAddFragment : Fragment() {
                 when (categoryMain) {
                     getString(R.string.female) -> {
                         when (categoryMid) {
-                            getString(R.string.swimsuit) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_1))
-                            getString(R.string.bikini) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_2))
-                            getString(R.string.rashguard) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_3))
-                            getString(R.string.beachwear) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_4))
+                            getString(R.string.swimsuit) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_1))
+                            getString(R.string.bikini) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_2))
+                            getString(R.string.rashguard) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_3))
+                            getString(R.string.beachwear) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_4))
                         }
                     }
                     getString(R.string.male) -> {
                         when (categoryMid) {
-                            getString(R.string.swimsuit) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_1))
-                            getString(R.string.rashguard) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_2))
-                            getString(R.string.beachwear) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_3))
+                            getString(R.string.swimsuit) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_1))
+                            getString(R.string.rashguard) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_2))
+                            getString(R.string.beachwear) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_3))
                         }
                     }
                     getString(R.string.child) -> {
                         when (categoryMid) {
-                            getString(R.string.swimsuit) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub3_1))
-                            getString(R.string.rashguard) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub3_2))
+                            getString(R.string.swimsuit) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub3_1))
+                            getString(R.string.rashguard) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub3_2))
                         }
                     }
                     getString(R.string.supplies) -> {
                         when(categoryMid){
-                            getString(R.string.goggles) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_1))
-                            getString(R.string.cap) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_2))
-                            getString(R.string.flippers) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_3))
-                            getString(R.string.bag) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_4))
-                            getString(R.string.water_toy) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_5))
+                            getString(R.string.goggles) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_1))
+                            getString(R.string.cap) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_2))
+                            getString(R.string.flippers) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_3))
+                            getString(R.string.bag) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_4))
+                            getString(R.string.water_toy) -> dropdownCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_5))
                         }
                     }
                 }
             }
-            textInputEditTextCategorySub.addTextChangedListener {
+            dropdownCategorySub.addTextChangedListener {
                 validateEditText(it.toString(), textInputLayoutCategorySub, "소분류를 선택해 주세요")
             }
 
             // 입력시 실시간 유효성 검사
-            textInputEditTextName.addTextChangedListener {
+            textInputEditTextProductName.addTextChangedListener {
                 validateEditText(it.toString(), textInputLayoutName, "상품명을 입력해 주세요")
             }
             textInputEditTextPrice.addTextChangedListener {
@@ -168,16 +168,16 @@ class ProductAddFragment : Fragment() {
                     Snackbar.make(fragmentProductAddBinding.root, "상품 이미지를 1개 이상 등록해 주세요", Snackbar.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                if (!validateEditText(textInputEditTextName.text.toString(), textInputLayoutName, "상품명을 입력해 주세요")){
+                if (!validateEditText(textInputEditTextProductName.text.toString(), textInputLayoutName, "상품명을 입력해 주세요")){
                     return@setOnClickListener
                 }
-                if (!validateEditText(textInputEditTextCategoryMain.text.toString(), textInputLayoutCategoryMain, "대분류를 선택해 주세요")){
+                if (!validateEditText(dropdownCategoryMain.text.toString(), textInputLayoutCategoryMain, "대분류를 선택해 주세요")){
                     return@setOnClickListener
                 }
-                if (!validateEditText(textInputEditTextCategoryMid.text.toString(), textInputLayoutCategoryMid, "중분류를 선택해 주세요")){
+                if (!validateEditText(dropdownCategoryMid.text.toString(), textInputLayoutCategoryMid, "중분류를 선택해 주세요")){
                     return@setOnClickListener
                 }
-                if (!validateEditText(textInputEditTextCategorySub.text.toString(), textInputLayoutCategorySub, "소분류를 선택해 주세요")){
+                if (!validateEditText(dropdownCategorySub.text.toString(), textInputLayoutCategorySub, "소분류를 선택해 주세요")){
                     return@setOnClickListener
                 }
                 if(!validateEditText(textInputEditTextPrice.text.toString(), textInputLayoutPrice, "가격을 입력해 주세요")){
@@ -196,9 +196,9 @@ class ProductAddFragment : Fragment() {
                 progressBar.visibility = View.VISIBLE
 
                 val category = Category(
-                    textInputEditTextCategoryMain.text.toString(),
-                    textInputEditTextCategoryMid.text.toString(),
-                    textInputEditTextCategorySub.text.toString()
+                    dropdownCategoryMain.text.toString(),
+                    dropdownCategoryMid.text.toString(),
+                    dropdownCategorySub.text.toString()
                 )
                 val code = System.currentTimeMillis().toString()
                 val mainImageFileName = "image/${code}_main_image.jpg"
@@ -207,7 +207,7 @@ class ProductAddFragment : Fragment() {
                 val product = Product(
                     "",
                     code,
-                    textInputEditTextName.text.toString(),
+                    textInputEditTextProductName.text.toString(),
                     textInputEditTextPrice.text.toString().toLong(),
                     mainImageFileName,
                     textInputEditTextDescription.text.toString(),
