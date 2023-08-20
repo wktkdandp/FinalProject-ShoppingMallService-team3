@@ -10,6 +10,8 @@ import com.petpal.swimmer_seller.data.model.Product
 
 class ProductRepository {
     companion object {
+        // TODO UID 방식으로 바꿀거니까 productIdx 전부 없애기
+        /*
         // 상품 인덱스 값 가져오기
         fun getProductIdx(callback: (Task<DataSnapshot>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
@@ -25,20 +27,23 @@ class ProductRepository {
                 it.result.ref.setValue(productIdx).addOnCompleteListener(callback)
             }
         }
+        */
 
         // 상품 정보 저장
         fun addProduct(product: Product, callback: (Task<Void>) -> Unit) {
-            val database = FirebaseDatabase.getInstance()
-            val productDataRef = database.getReference("product")
-            productDataRef.push().setValue(product).addOnCompleteListener(callback)
+            // Product 객체 삽입 후 랜덤 세팅된 key값을 Product객체 내 저장
+            val productsDataRef = FirebaseDatabase.getInstance().getReference("products")
+            val pushedRef = productsDataRef.push()
+            product.productUid = pushedRef.key!!
+            pushedRef.setValue(product).addOnCompleteListener(callback)
         }
 
         // 상품 정보 수정
         fun modifyProduct(product: Product, isNewImage: Boolean, callback: (Task<Void>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
-            val productDataRef = database.getReference("product")
+            val productsDataRef = database.getReference("products")
 
-            productDataRef.orderByChild("productIdx").equalTo(product.productIdx.toDouble()).get().addOnCompleteListener {
+            productsDataRef.orderByChild("productUid").equalTo(product.productUid).get().addOnCompleteListener {
                 for (dataSnapshot in it.result.children) {
                     // 수정 가능한 항목만 값 수정
                     // code, sellerIdx, orderCount, regDate 등은 고정 값 / reviewList는 판매자가 조작할 수 없는 값
@@ -58,11 +63,11 @@ class ProductRepository {
         }
 
         // 상품 정보 삭제
-        fun deleteProduct(productIdx: Long, callback: (Task<Void>) -> Unit){
+        fun deleteProduct(productUid: String, callback: (Task<Void>) -> Unit){
             val database = FirebaseDatabase.getInstance()
-            val productDataRef = database.getReference("product")
+            val productsDataRef = database.getReference("products")
 
-            productDataRef.orderByChild("productIdx").equalTo(productIdx.toDouble()).get().addOnCompleteListener {
+            productsDataRef.orderByChild("productUid").equalTo(productUid).get().addOnCompleteListener {
                 for (dataSnapshot in it.result.children) {
                     dataSnapshot.ref.removeValue().addOnCompleteListener(callback)
                 }
@@ -70,12 +75,12 @@ class ProductRepository {
         }
 
         // 특정 판매자가 등록한 상품 목록 가져오기
-        fun getProductListBySellerIdx(sellerIdx: Long, callback: (Task<DataSnapshot>) -> Unit){
+        fun getProductListBySellerIdx(sellerUid: String, callback: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()
-            val productDataRef = database.getReference("product")
+            val productsDataRef = database.getReference("products")
 
-            productDataRef.orderByChild("sellerIdx").equalTo(sellerIdx.toDouble())
-                .ref.orderByChild("productIdx").get().addOnCompleteListener(callback)
+            productsDataRef.orderByChild("sellerUid").equalTo(sellerUid)
+                .ref.orderByChild("regDate").get().addOnCompleteListener(callback)
         }
 
         // 특정 파일명으로 이미지 업로드

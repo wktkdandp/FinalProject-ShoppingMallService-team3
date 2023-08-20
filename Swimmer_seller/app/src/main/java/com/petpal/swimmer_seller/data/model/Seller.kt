@@ -2,7 +2,7 @@ package com.petpal.swimmer_seller.data.model
 
 // 판매자 클래스
 data class Seller(
-    var sellerIdx: Long,
+    var email: String,
     var businessRegNumber: String,
     var representName: String,
     var brandName: String,

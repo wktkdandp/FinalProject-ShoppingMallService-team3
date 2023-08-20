@@ -8,8 +8,8 @@ class HomeViewModel : ViewModel() {
     var productCount = MutableLiveData<Long>()
 
     // 로그인 판매자가 등록한 상품 건 수 가져오기
-    fun getProductCount(sellerIdx: Long){
-        ProductRepository.getProductListBySellerIdx(sellerIdx){
+    fun getProductCount(sellerUid: String){
+        ProductRepository.getProductListBySellerIdx(sellerUid){
             productCount.value = it.result.childrenCount
         }
     }

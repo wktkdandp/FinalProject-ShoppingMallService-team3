@@ -2,8 +2,8 @@ package com.petpal.swimmer_seller.data.model
 
 // 리뷰
 data class Review(
-    var reviewId: Long,
-    var sellerId: Long,
+    var reviewUid: String,
+    var sellerUid: String,
     var height: Long,
     var weight: Long,
     var rating: Double,

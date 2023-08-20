@@ -32,15 +32,19 @@ class HomeFragment : Fragment() {
         }
         
         fragmentHomeBinding.run {
+            toolbarHome.run {
+                // 툴바 타이틀 폰트 설정
+                setTitleTextAppearance(mainActivity, R.style.HsbombaramTextAppearance)
+            }
+
             buttonRegProduct.setOnClickListener {
                 // 상품 등록화면으로 이동
                 it.findNavController().navigate(R.id.action_item_home_to_item_product_add)
-
             }
         }
 
         // 로그인한 판매자가 등록한 상품 개수 가져오기
-         homeViewModel.getProductCount(mainActivity.loginSeller.sellerIdx)
+         homeViewModel.getProductCount(mainActivity.loginSellerUid)
 
         return fragmentHomeBinding.root
     }

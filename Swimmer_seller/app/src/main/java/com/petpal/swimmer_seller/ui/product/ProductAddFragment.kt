@@ -17,7 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.petpal.swimmer_seller.MainActivity
@@ -64,7 +63,7 @@ class ProductAddFragment : Fragment() {
                 it.findNavController().navigate(R.id.item_home)
             }
 
-            // 입력시 유효성 검사
+            // 입력시 실시간 유효성 검사
             editTextName.addTextChangedListener {
                 validateEditText(it.toString(), textInputLayoutName, "상품명을 입력해 주세요")
             }
@@ -75,6 +74,7 @@ class ProductAddFragment : Fragment() {
                 validateEditText(it.toString(), textInputLayoutDescription, "상품 설명을 입력해 주세요")
             }
 
+            // 대, 중, 소 분류 자동 세팅
             editTextCategoryMain.addTextChangedListener {
                 // 유효성 검사
                 validateEditText(it.toString(), textInputLayoutCategoryMain, "대분류를 선택해 주세요")
@@ -135,7 +135,7 @@ class ProductAddFragment : Fragment() {
                 validateEditText(it.toString(), textInputLayoutCategorySub, "소분류를 선택해 주세요")
             }
 
-
+            // ImageView 세팅
             imageViewMain.setImageBitmap(null)
             imageViewDesc.setImageBitmap(null)
 
@@ -202,50 +202,36 @@ class ProductAddFragment : Fragment() {
                 val categoryMid = editTextCategoryMid.text.toString()
                 val categorySub = editTextCategorySub.text.toString()
 
-                // 현재 순번 ProductIdx 가져오기
-                ProductRepository.getProductIdx {
-                    var productIdx = it.result.value as Long
-                    productIdx++
+                // TODO products 테이블 uid 로 변경하기
+                // 상품 식별 코드 (중복 방지를 위해 현시각으로 입력)
+                val code = System.currentTimeMillis().toString()
 
-                    // 상품 식별 코드 (아직 규칙 없음)
-                    val code = "EEE1234"
+                // 대표 이미지
+                val mainImageFileName = "image/${code}_main_image.jpg"
+                // 설명 이미지
+                val descImageFileName = "image/${code}_description_image.jpg"
 
-                    // 대표 이미지
-                    val mainImageFileName = "image/${code}_main_image.jpg"
-                    // 설명 이미지
-                    val descImageFileName = "image/${code}_description_image.jpg"
+                val sizeList = mutableListOf<Long>()
+                val colorList = mutableListOf<Long>()
+                val category = Category(categoryMain, categoryMid, categorySub)
+                val reviewList = mutableListOf<Review>()
+                val orderCount = 0L
+                val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                val regDate = sdf.format(Date(System.currentTimeMillis()))
 
-                    val sizeList = mutableListOf<Long>()
-                    val colorList = mutableListOf<Long>()
-                    val category = Category(categoryMain, categoryMid, categorySub)
-                    val reviewList = mutableListOf<Review>()
-                    val orderCount = 0L
-                    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    val regDate = sdf.format(Date(System.currentTimeMillis()))
+                val product = Product(
+                    "", code, name, price.toLong(), mainImageFileName,
+                    description, descImageFileName, mainActivity.loginSellerUid,
+                    sizeList, colorList, hashTag, category, reviewList, orderCount, regDate
+                )
 
-                    val product = Product(
-                        productIdx, code, name, price.toLong(), mainImageFileName,
-                        description, descImageFileName, mainActivity.loginSeller.sellerIdx,
-                        sizeList, colorList, hashTag, category, reviewList, orderCount, regDate
-                    )
-
-                    // 상품 정보 DB 저장
-                    ProductRepository.addProduct(product){
-                        ProductRepository.setProductIdx(productIdx) {
-                            // 상품 등록 후 상품 상세 화면으로 넘어갈거면 번들로 idx 넘기기
-                            val bundle = Bundle()
-                            bundle.putLong("ProductIdx", productIdx)
-
-                            // 이미지 업로드
-                            ProductRepository.uploadImage(mainImageUri!!, mainImageFileName){
-                                Snackbar.make(fragmentProductAddBinding.root, "메인 이미지가 저장되었습니다", Snackbar.LENGTH_SHORT).show()
-                            }
-                            ProductRepository.uploadImage(descImageUri!!, descImageFileName){
-                                Snackbar.make(fragmentProductAddBinding.root, "상품 설명 이미지가 저장되었습니다", Snackbar.LENGTH_SHORT).show()
-                            }
-
+                // 상품 정보 DB 저장
+                ProductRepository.addProduct(product){
+                    // 이미지 업로드
+                    // TODO 이미지 업로드 오래 걸리는데 그 사이에 progressbar 두는 게 좋을듯. 사용자가 괜히 다른 조작 못하게
+                    ProductRepository.uploadImage(mainImageUri!!, mainImageFileName){
+                        ProductRepository.uploadImage(descImageUri!!, descImageFileName){
                             Snackbar.make(fragmentProductAddBinding.root, "상품이 등록되었습니다.", Snackbar.LENGTH_SHORT).show()
-                            
                             // 원래는 상품 목록으로 이동하지만, 일단 홈으로 이동하기
                             buttonOK.findNavController().navigate(R.id.item_home)
                         }
