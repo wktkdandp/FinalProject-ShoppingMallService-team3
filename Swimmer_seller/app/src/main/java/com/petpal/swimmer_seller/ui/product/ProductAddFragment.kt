@@ -16,7 +16,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import androidx.navigation.findNavController
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.petpal.swimmer_seller.MainActivity
@@ -31,12 +33,13 @@ import java.util.Date
 import java.util.Locale
 
 class ProductAddFragment : Fragment() {
+    lateinit var productViewModel: ProductViewModel
     lateinit var fragmentProductAddBinding: FragmentProductAddBinding
     lateinit var mainActivity: MainActivity
 
     // TODO 나중에 List에 담아서 대표이미지 여러 개 등록하기
-    var mainImageUri: Uri? = null
-    var descImageUri: Uri? = null
+    private var mainImageUri: Uri? = null
+    private var descriptionImageUri: Uri? = null
 
     lateinit var mainGalleryLauncher: ActivityResultLauncher<Intent>
     lateinit var descGalleryLauncher: ActivityResultLauncher<Intent>
@@ -47,35 +50,28 @@ class ProductAddFragment : Fragment() {
     ): View? {
         fragmentProductAddBinding = FragmentProductAddBinding.inflate(inflater)
         mainActivity = activity as MainActivity
+        return fragmentProductAddBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val factory = ProductViewModelFactory(ProductRepository())
+        productViewModel = ViewModelProvider(this, factory)[ProductViewModel::class.java]
 
         mainGalleryLauncher = gallerySetting(fragmentProductAddBinding.imageViewMain, true)
-        descGalleryLauncher = gallerySetting(fragmentProductAddBinding.imageViewDesc, false)
+        descGalleryLauncher = gallerySetting(fragmentProductAddBinding.imageViewDescription, false)
 
         fragmentProductAddBinding.run {
-            toolbarProductAdd.run {
-                setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
-                setNavigationOnClickListener {
-                    it.findNavController().navigate(R.id.item_home)
-                }
+            toolbarProductAdd.setNavigationOnClickListener {
+                findNavController().popBackStack()
             }
-
             buttonCancel.setOnClickListener {
-                it.findNavController().navigate(R.id.item_home)
+                findNavController().popBackStack()
             }
 
-            // 입력시 실시간 유효성 검사
-            editTextName.addTextChangedListener {
-                validateEditText(it.toString(), textInputLayoutName, "상품명을 입력해 주세요")
-            }
-            editTextPrice.addTextChangedListener {
-                validateEditText(it.toString(), textInputLayoutPrice, "가격을 입력해 주세요")
-            }
-            editTextDescription.addTextChangedListener {
-                validateEditText(it.toString(), textInputLayoutDescription, "상품 설명을 입력해 주세요")
-            }
-
-            // 대, 중, 소 분류 자동 세팅
-            editTextCategoryMain.addTextChangedListener {
+            // 대 → 중 → 소 선택에 따라 드롭박스 단계별 활성화, 세팅
+            textInputEditTextCategoryMain.addTextChangedListener {
                 // 유효성 검사
                 validateEditText(it.toString(), textInputLayoutCategoryMain, "대분류를 선택해 주세요")
                 textInputLayoutCategoryMid.isEnabled = true
@@ -83,61 +79,68 @@ class ProductAddFragment : Fragment() {
                 // 선택한 대분류에 따라 중분류 다르게 표시, 대분류 먼저 선택해야 중분류 선택 활성화. 다시 공백 선택할 경우
                 // 소분류는 아직 비활성화
                 when (it.toString()) {
-                    "여성" -> editTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid1))
-                    "남성" -> editTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid2))
-                    "아동" -> editTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid3))
-                    "용품" -> editTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid4))
+                    getString(R.string.female) -> textInputEditTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid1))
+                    getString(R.string.male) -> textInputEditTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid2))
+                    getString(R.string.child) -> textInputEditTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid3))
+                    getString(R.string.supplies) -> textInputEditTextCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid4))
                     else -> textInputLayoutCategoryMid.isEnabled = false
                 }
             }
-            editTextCategoryMid.addTextChangedListener {
+            textInputEditTextCategoryMid.addTextChangedListener {
                 validateEditText(it.toString(), textInputLayoutCategoryMid, "중분류를 선택해 주세요")
                 // 선택한 중분류에 따라 소분류 다르게 표시
-                val categoryMain = editTextCategoryMain.text.toString()
+                val categoryMain = textInputEditTextCategoryMain.text.toString()
                 val categoryMid = it.toString()
 
                 textInputLayoutCategorySub.isEnabled = true
 
                 when (categoryMain) {
-                    "여성" -> {
+                    getString(R.string.female) -> {
                         when (categoryMid) {
-                            "수영복" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_1))
-                            "비키니" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_2))
-                            "래쉬가드" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_3))
-                            "비치웨어" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_4))
+                            getString(R.string.swimsuit) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_1))
+                            getString(R.string.bikini) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_2))
+                            getString(R.string.rashguard) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_3))
+                            getString(R.string.beachwear) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub1_4))
                         }
                     }
-                    "남성" -> {
+                    getString(R.string.male) -> {
                         when (categoryMid) {
-                            "수영복" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_1))
-                            "래쉬가드" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_2))
-                            "비치웨어" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_3))
+                            getString(R.string.swimsuit) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_1))
+                            getString(R.string.rashguard) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_2))
+                            getString(R.string.beachwear) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub2_3))
                         }
                     }
-                    "아동" -> {
+                    getString(R.string.child) -> {
                         when (categoryMid) {
-                            "수영복" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub3_1))
-                            "래쉬가드" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub3_2))
+                            getString(R.string.swimsuit) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub3_1))
+                            getString(R.string.rashguard) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub3_2))
                         }
                     }
-                    "용품" -> {
+                    getString(R.string.supplies) -> {
                         when(categoryMid){
-                            "수경" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_1))
-                            "수모" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_2))
-                            "오리발" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_3))
-                            "가방" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_4))
-                            "물놀이용품" -> editTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_5))
+                            getString(R.string.goggles) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_1))
+                            getString(R.string.cap) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_2))
+                            getString(R.string.flippers) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_3))
+                            getString(R.string.bag) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_4))
+                            getString(R.string.water_toy) -> textInputEditTextCategorySub.setSimpleItems(resources.getStringArray(R.array.categorySub4_5))
                         }
                     }
                 }
             }
-            editTextCategorySub.addTextChangedListener {
+            textInputEditTextCategorySub.addTextChangedListener {
                 validateEditText(it.toString(), textInputLayoutCategorySub, "소분류를 선택해 주세요")
             }
 
-            // ImageView 세팅
-            imageViewMain.setImageBitmap(null)
-            imageViewDesc.setImageBitmap(null)
+            // 입력시 실시간 유효성 검사
+            textInputEditTextName.addTextChangedListener {
+                validateEditText(it.toString(), textInputLayoutName, "상품명을 입력해 주세요")
+            }
+            textInputEditTextPrice.addTextChangedListener {
+                validateEditText(it.toString(), textInputLayoutPrice, "가격을 입력해 주세요")
+            }
+            textInputEditTextDescription.addTextChangedListener {
+                validateEditText(it.toString(), textInputLayoutDescription, "상품 설명을 입력해 주세요")
+            }
 
             // 대표 이미지 추가
             buttonAddMainImage.setOnClickListener {
@@ -165,83 +168,75 @@ class ProductAddFragment : Fragment() {
                     Snackbar.make(fragmentProductAddBinding.root, "상품 이미지를 1개 이상 등록해 주세요", Snackbar.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                if (!validateEditText(editTextName.text.toString(), textInputLayoutName, "상품명을 입력해 주세요")){
-                   return@setOnClickListener
-                }
-                if (!validateEditText(editTextCategoryMain.text.toString(), textInputLayoutCategoryMain, "대분류를 선택해 주세요")){
+                if (!validateEditText(textInputEditTextName.text.toString(), textInputLayoutName, "상품명을 입력해 주세요")){
                     return@setOnClickListener
                 }
-                if (!validateEditText(editTextCategoryMid.text.toString(), textInputLayoutCategoryMid, "중분류를 선택해 주세요")){
+                if (!validateEditText(textInputEditTextCategoryMain.text.toString(), textInputLayoutCategoryMain, "대분류를 선택해 주세요")){
                     return@setOnClickListener
                 }
-                if (!validateEditText(editTextCategorySub.text.toString(), textInputLayoutCategorySub, "소분류를 선택해 주세요")){
+                if (!validateEditText(textInputEditTextCategoryMid.text.toString(), textInputLayoutCategoryMid, "중분류를 선택해 주세요")){
                     return@setOnClickListener
                 }
-                if(!validateEditText(editTextPrice.text.toString(), textInputLayoutPrice, "가격을 입력해 주세요")){
+                if (!validateEditText(textInputEditTextCategorySub.text.toString(), textInputLayoutCategorySub, "소분류를 선택해 주세요")){
                     return@setOnClickListener
                 }
-                if (!validateEditText(editTextDescription.text.toString(), textInputLayoutDescription, "상품 설명을 입력해 주세요")){
+                if(!validateEditText(textInputEditTextPrice.text.toString(), textInputLayoutPrice, "가격을 입력해 주세요")){
                     return@setOnClickListener
                 }
-                if (descImageUri == null) {
+                if (!validateEditText(textInputEditTextDescription.text.toString(), textInputLayoutDescription, "상품 설명을 입력해 주세요")){
+                    return@setOnClickListener
+                }
+                if (descriptionImageUri == null) {
                     buttonAddDescImage.requestFocus()
                     scrollView.scrollTo(0, buttonAddDescImage.bottom)
                     Snackbar.make(fragmentProductAddBinding.root, "상품 설명 이미지를 등록해 주세요", Snackbar.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
-                // 입력한 정보 가져오기
-                val name = editTextName.text.toString()
-                val price = editTextPrice.text.toString()
-                val description = editTextDescription.text.toString()
+                progressBar.visibility = View.VISIBLE
 
-                // val inputHashTag = editTextHashTag.text.toString().split(",").map(String::trim)
-                val hashTag = editTextHashTag.text.toString()
-
-                val categoryMain = editTextCategoryMain.text.toString()
-                val categoryMid = editTextCategoryMid.text.toString()
-                val categorySub = editTextCategorySub.text.toString()
-
-                // TODO products 테이블 uid 로 변경하기
-                // 상품 식별 코드 (중복 방지를 위해 현시각으로 입력)
+                val category = Category(
+                    textInputEditTextCategoryMain.text.toString(),
+                    textInputEditTextCategoryMid.text.toString(),
+                    textInputEditTextCategorySub.text.toString()
+                )
                 val code = System.currentTimeMillis().toString()
-
-                // 대표 이미지
                 val mainImageFileName = "image/${code}_main_image.jpg"
-                // 설명 이미지
-                val descImageFileName = "image/${code}_description_image.jpg"
-
-                val sizeList = mutableListOf<Long>()
-                val colorList = mutableListOf<Long>()
-                val category = Category(categoryMain, categoryMid, categorySub)
-                val reviewList = mutableListOf<Review>()
-                val orderCount = 0L
-                val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-                val regDate = sdf.format(Date(System.currentTimeMillis()))
+                val descriptionImageFileName = "image/${code}_description_image.jpg"
 
                 val product = Product(
-                    "", code, name, price.toLong(), mainImageFileName,
-                    description, descImageFileName, mainActivity.loginSellerUid,
-                    sizeList, colorList, hashTag, category, reviewList, orderCount, regDate
+                    "",
+                    code,
+                    textInputEditTextName.text.toString(),
+                    textInputEditTextPrice.text.toString().toLong(),
+                    mainImageFileName,
+                    textInputEditTextDescription.text.toString(),
+                    descriptionImageFileName,
+                    mainActivity.loginSellerUid,
+                    mutableListOf<Long>(),
+                    mutableListOf<Long>(),
+                    textInputEditTextHashTag.text.toString(),
+                    category,
+                    mutableListOf<Review>(),
+                    0L,
+                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
                 )
 
                 // 상품 정보 DB 저장
-                ProductRepository.addProduct(product){
-                    // 업로드 중 표시
-                    progressBar.visibility = View.VISIBLE
-                    // 이미지 업로드
-                    ProductRepository.uploadImage(mainImageUri!!, mainImageFileName){
-                        ProductRepository.uploadImage(descImageUri!!, descImageFileName){
-                            Snackbar.make(fragmentProductAddBinding.root, "상품이 등록되었습니다.", Snackbar.LENGTH_SHORT).show()
-                            // 원래는 상품 목록으로 이동하지만, 일단 홈으로 이동하기
-                            buttonOK.findNavController().navigate(R.id.item_home)
-                        }
-                    }
-                }
+                productViewModel.addProduct(product)
+
+                // 이미지 업로드
+                productViewModel.uploadImages(mutableMapOf<Uri, String>(
+                    mainImageUri!! to mainImageFileName,
+                    descriptionImageUri!! to descriptionImageFileName
+                ))
+
+                Snackbar.make(fragmentProductAddBinding.root, "상품이 등록되었습니다.", Snackbar.LENGTH_SHORT).show()
+
+                // 전부 완료되면 상품등록 프레그먼드 제거하고 홈으로 이동
+                findNavController().popBackStack(R.id.item_product_add, true)
             }
         }
-
-        return fragmentProductAddBinding.root
     }
 
     // EditText 유효성 검사
@@ -289,7 +284,7 @@ class ProductAddFragment : Fragment() {
                         mainImageUri = uploadUri
                         fragmentProductAddBinding.buttonAddMainImage.text = "1/5"
                     } else {
-                        descImageUri = uploadUri
+                        descriptionImageUri = uploadUri
                         fragmentProductAddBinding.buttonAddDescImage.text = "1/1"
                     }
                 }
@@ -297,5 +292,16 @@ class ProductAddFragment : Fragment() {
         }
 
         return galleryLauncher
+    }
+}
+
+//뷰모델 팩토리
+class ProductViewModelFactory(private val repository: ProductRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return ProductViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

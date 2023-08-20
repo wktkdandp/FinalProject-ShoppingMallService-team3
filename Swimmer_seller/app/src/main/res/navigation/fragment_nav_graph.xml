@@ -14,9 +14,11 @@
             android:id="@+id/action_item_home_to_item_product_add"
             app:destination="@id/item_product_add" />
     </fragment>
+
     <fragment
         android:id="@+id/item_product_add"
         android:name="com.petpal.swimmer_seller.ui.product.ProductAddFragment"
         android:label="fragment_product_add"
         tools:layout="@layout/fragment_product_add" />
+
 </navigation>

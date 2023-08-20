@@ -5,11 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.petpal.swimmer_seller.MainActivity
 import com.petpal.swimmer_seller.R
+import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentHomeBinding
+import com.petpal.swimmer_seller.ui.product.ProductViewModel
+import com.petpal.swimmer_seller.ui.product.ProductViewModelFactory
 
 class HomeFragment : Fragment() {
     lateinit var fragmentHomeBinding: FragmentHomeBinding
@@ -24,7 +28,9 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
-        homeViewModel = ViewModelProvider(mainActivity)[HomeViewModel::class.java]
+        val factory = HomeViewModelFactory(ProductRepository())
+        homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
+
         homeViewModel.run {
             productCount.observe(mainActivity){
                 fragmentHomeBinding.textViewProductCount.text = "등록된 상품이 ${it}건 있습니다."
@@ -47,5 +53,16 @@ class HomeFragment : Fragment() {
          homeViewModel.getProductCount(mainActivity.loginSellerUid)
 
         return fragmentHomeBinding.root
+    }
+}
+
+// 뷰모델 팩토리
+class HomeViewModelFactory(private val repository: ProductRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return HomeViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

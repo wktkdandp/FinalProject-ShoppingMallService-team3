@@ -28,7 +28,7 @@
             style="@style/Widget.Material3.CheckedTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="상품 등록"
+            android:text="@string/prompt_add_product_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="등록된 상품이 0건 있습니다."
+            android:text="@string/prompt_product_count"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
@@ -45,7 +45,7 @@
             style="@style/Widget.Material3.CheckedTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="판매 상품을 등록해주세요."
+            android:text="@string/prompt_add_product"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <view
@@ -54,6 +54,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="상품등록 하기" />
+            android:text="@string/action_add_product" />
     </LinearLayout>
 </LinearLayout>
