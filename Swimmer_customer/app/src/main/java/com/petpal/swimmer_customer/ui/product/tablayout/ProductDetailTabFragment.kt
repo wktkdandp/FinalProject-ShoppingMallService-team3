@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.petpal.swimmer_customer.databinding.FragmentProductDetailTabBinding
-import com.petpal.swimmer_customer.model.exList
+import com.petpal.swimmer_customer.data.model.exList
 import com.petpal.swimmer_customer.ui.product.ProductViewModel
 
 class ProductDetailTabFragment(var idx: Int) : Fragment() {

@@ -1,4 +1,4 @@
-package com.petpal.swimmer_customer
+package com.petpal.swimmer_customer.ui
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.petpal.swimmer_customer.databinding.RankingItemBinding
-import com.petpal.swimmer_customer.model.Ranking
+import com.petpal.swimmer_customer.data.model.Ranking
 
 class HomeFragmentAdapter(val context: Context, private val dataSet: List<Ranking>) :
     RecyclerView.Adapter<HomeFragmentAdapter.ViewHolder>() {

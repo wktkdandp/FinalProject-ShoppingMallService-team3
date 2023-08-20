@@ -1,9 +1,9 @@
-package com.petpal.swimmer_customer
+package com.petpal.swimmer_customer.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.petpal.swimmer_customer.model.ProductDetailModel
+import com.petpal.swimmer_customer.data.model.ProductDetailModel
 
 
 class HomeFragmentViewModel  : ViewModel() {

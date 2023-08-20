@@ -14,7 +14,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentProductDetailBinding
-import com.petpal.swimmer_customer.model.exList
+import com.petpal.swimmer_customer.data.model.exList
 
 
 class ProductDetailFragment : Fragment() {
@@ -44,6 +44,7 @@ class ProductDetailFragment : Fragment() {
             observer()
             paymentButton()
             productDetailTabLayoutViewPage2()
+            productDetailViewPager2.isUserInputEnabled = false
 
         }
 
