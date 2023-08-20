@@ -63,6 +63,18 @@
             android:text="로그인하러 가기"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#FFFFFF" />
+        <Button
+            android:id="@+id/ButtonToFindPassword"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="비밀번호 찾으러 가기"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 
@@ -88,9 +100,16 @@
 
         <Button
             android:id="@+id/ButtonResetPassword"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="비밀번호 재설정"/>
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="비밀번호 재설정"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 

@@ -21,7 +21,6 @@ import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 class FindInfoFragment : Fragment() {
     lateinit var fragmentFindInfoBinding: FragmentFindInfoBinding
     lateinit var viewModel: FindInfoViewModel
-    lateinit var auth: FirebaseAuth
     lateinit var mainActivity: MainActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +32,6 @@ class FindInfoFragment : Fragment() {
         val factory = FindInfoViewModelFactory(CustomerUserRepository())
         viewModel = ViewModelProvider(this, factory).get(FindInfoViewModel::class.java)
 
-        val bundle = arguments
-        //val findId = bundle?.getString("key")
 
         val navController = findNavController()
         NavigationUI.setupWithNavController(fragmentFindInfoBinding.toolbarFindInfo, navController)
@@ -52,6 +49,7 @@ class FindInfoFragment : Fragment() {
                     fragmentFindInfoBinding.idFindLayout.visibility=View.VISIBLE
                     fragmentFindInfoBinding.passwordResetLayout.visibility=View.GONE
                     fragmentFindInfoBinding.ButtonFindInfoToLogin.visibility=View.GONE
+                    fragmentFindInfoBinding.ButtonToFindPassword.visibility=View.GONE
                 }
                 "resetPassword" -> {
                     fragmentFindInfoBinding.toolbarFindInfo.run{
@@ -66,6 +64,13 @@ class FindInfoFragment : Fragment() {
                 }
             }
         }
+        //비밀번호 찾으러 가기 버튼
+        fragmentFindInfoBinding.ButtonToFindPassword.setOnClickListener {
+            fragmentFindInfoBinding.idFindLayout.visibility=View.GONE
+            fragmentFindInfoBinding.passwordResetLayout.visibility=View.VISIBLE
+            fragmentFindInfoBinding.ButtonFindInfoToLogin.visibility=View.GONE
+            fragmentFindInfoBinding.ButtonToFindPassword.visibility=View.GONE
+        }
         //이메일 찾기 버튼
         fragmentFindInfoBinding.ButtonFindId.setOnClickListener {
             val nickname=fragmentFindInfoBinding.editTextFinIdNickname.text.toString()
@@ -79,6 +84,7 @@ class FindInfoFragment : Fragment() {
                     fragmentFindInfoBinding.editTextFindIdPhoneNumber.visibility=View.GONE
                     fragmentFindInfoBinding.ButtonFindId.visibility=View.GONE
                     fragmentFindInfoBinding.ButtonFindInfoToLogin.visibility=View.VISIBLE
+                    fragmentFindInfoBinding.ButtonToFindPassword.visibility=View.VISIBLE
 
 
                 }else{

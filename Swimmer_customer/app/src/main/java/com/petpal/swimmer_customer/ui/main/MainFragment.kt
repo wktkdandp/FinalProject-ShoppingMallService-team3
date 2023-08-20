@@ -12,7 +12,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_customer.R
-import com.petpal.swimmer_customer.alogin.LoginFragmentDirections
 import com.petpal.swimmer_customer.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {

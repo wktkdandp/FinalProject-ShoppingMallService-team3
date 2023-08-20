@@ -11,9 +11,9 @@ class LoginViewModel(private val customerUserRepository: CustomerUserRepository)
         return customerUserRepository.signInUser(email,password)
     }
 
-    fun getUserByIdx(userIdx: String): LiveData<User?>? {
-        return customerUserRepository.getUserByIdx(userIdx)
-    }
+//    fun getUserByIdx(userIdx: String): LiveData<User?>? {
+//        return customerUserRepository.getUserByIdx(userIdx)
+//    }
 
 
 
