@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.petpal.swimmer_seller.MainActivity
@@ -233,8 +234,9 @@ class ProductAddFragment : Fragment() {
                     ProductRepository.uploadImage(mainImageUri!!, mainImageFileName){
                         ProductRepository.uploadImage(descImageUri!!, descImageFileName){
                             Snackbar.make(fragmentProductAddBinding.root, "상품이 등록되었습니다.", Snackbar.LENGTH_SHORT).show()
-                            // 원래는 상품 목록으로 이동하지만, 일단 홈으로 이동하기
-                            buttonOK.findNavController().navigate(R.id.item_home)
+                            // 상품등록 프레그먼드 제거하고 홈으로 이동
+                            findNavController().popBackStack(R.id.item_product_add, true)
+                            findNavController().navigate(R.id.item_home)
                         }
                     }
                 }

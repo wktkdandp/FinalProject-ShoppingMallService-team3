@@ -2,8 +2,49 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/mainFragment">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.petpal.swimmer_seller.ui.user.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.petpal.swimmer_seller.ui.user.SignUpFragment"
+        android:label="SignUpFragment" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signUpInfoFragment"
+            app:destination="@id/signUpInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpInfoFragment"
+        android:name="com.petpal.swimmer_seller.ui.user.SignUpInfoFragment"
+        android:label="fragment_sign_up_info"
+        tools:layout="@layout/fragment_sign_up_info" >
+        <action
+            android:id="@+id/action_signUpInfoFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue="test@test.com"/>
+
+        <argument
+            android:name="password"
+            app:argType="string"
+            android:defaultValue="11111"/>
+    </fragment>
 
     <fragment
         android:id="@+id/mainFragment"

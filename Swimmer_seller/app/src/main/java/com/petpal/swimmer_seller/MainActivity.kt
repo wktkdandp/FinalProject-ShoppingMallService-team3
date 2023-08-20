@@ -3,26 +3,42 @@ package com.petpal.swimmer_seller
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.navigation.fragment.NavHostFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import android.os.SystemClock
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.google.firebase.FirebaseApp
-import com.petpal.swimmer_seller.databinding.ActivityMainBinding
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
-    lateinit var activityMainBinding: ActivityMainBinding
+    private lateinit var auth: FirebaseAuth
     lateinit var loginSellerUid: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
-        FirebaseApp.initializeApp(this)
+        setContentView(R.layout.activity_main)
 
-        // 판매자 uid
-        loginSellerUid = "-Nc6d4aE3D0UeN09R3XV"
+        // 테스트용 판매자 uid
+        // loginSellerUid = "-Nc6d4aE3D0UeN09R3XV"
 
-        setContentView(activityMainBinding.root)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        auth = Firebase.auth
+
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            //이미 로그인돼있다면 mainFragment로 이동
+            Log.d("user", currentUser.uid)
+            // 로그인 판매자 uid 저장
+            loginSellerUid = currentUser.uid
+            navController.popBackStack(R.id.loginFragment, true)
+            navController.navigate(R.id.mainFragment)
+        }
     }
 
     // 입력 요소에 포커스를 주는 메서드

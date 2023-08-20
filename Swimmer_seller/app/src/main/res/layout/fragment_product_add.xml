@@ -14,7 +14,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="상품 등록" />
+        app:title="@string/prompt_add_product_title" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
@@ -38,7 +38,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="상품 이미지 (최대 5개)" />
+                android:text="@string/prompt_main_image" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                     style="@style/Widget.Material3.Button.IconButton.Outlined"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:text="0/5"
+                    android:text="@string/prompt_main_image_count"
                     app:cornerRadius="5dp"
                     app:icon="@drawable/add_photo_alternate_24px"
                     app:iconGravity="textTop"
@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="상품명"
+                android:hint="@string/prompt_product_name"
                 android:transitionGroup="true"
                 app:endIconMode="clear_text"
                 app:errorEnabled="false">
@@ -92,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="대분류"
+                android:hint="@string/prompt_category_main"
                 android:transitionGroup="true"
                 app:errorEnabled="false">
 
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:enabled="false"
-                android:hint="중분류"
+                android:hint="@string/prompt_category_mid"
                 android:transitionGroup="true"
                 app:errorEnabled="false">
 
@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:enabled="false"
-                android:hint="소분류"
+                android:hint="@string/prompt_category_sub"
                 android:transitionGroup="true"
                 app:errorEnabled="false">
 
@@ -147,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="#해시태그"
+                android:hint="@string/prompt_hashtag"
                 android:transitionGroup="true"
                 app:endIconMode="clear_text"
                 app:errorEnabled="false">
@@ -164,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="가격"
+                android:hint="@string/prompt_price"
                 android:transitionGroup="true"
                 app:endIconMode="clear_text"
                 app:errorEnabled="false">
@@ -181,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="상품 설명"
+                android:hint="@string/prompt_product_description"
                 android:transitionGroup="true"
                 app:endIconMode="clear_text"
                 app:errorEnabled="false">
@@ -198,7 +198,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="상품 설명 이미지 (1개)" />
+                android:text="@string/prompt_description_image" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -212,7 +212,7 @@
                     style="@style/Widget.Material3.Button.IconButton.Outlined"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:text="0/1"
+                    android:text="@string/prompt_description_image_count"
                     app:cornerRadius="5dp"
                     app:icon="@drawable/add_photo_alternate_24px"
                     app:iconGravity="textTop"
@@ -239,16 +239,16 @@
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:text="취소" />
+                    android:text="@string/action_cancel" />
 
                 <Button
                     android:id="@+id/buttonOK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="등록" />
+                    android:text="@string/action_register" />
             </LinearLayout>
 
             <!--
