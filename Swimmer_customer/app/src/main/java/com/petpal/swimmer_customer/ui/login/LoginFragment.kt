@@ -40,8 +40,8 @@ class LoginFragment : Fragment() {
 
         if (isAutoLogin && currentUser != null) {
             // 이미 로그인된 사용자가 있으면 바로 메인으로
-            val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
-            findNavController().navigate(action)
+
+            findNavController().navigate(R.id.item_home)
             return fragmentLoginBinding.root
         }
 
@@ -129,8 +129,7 @@ class LoginFragment : Fragment() {
         if (success) {
             // 로그인 성공
             Toast.makeText(context, "로그인 성공", Toast.LENGTH_LONG).show()
-            val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.item_home)
 
             val isAutoLoginChecked = fragmentLoginBinding.checkboxAutoLogin.isChecked
             AutoLoginUtil.setAutoLogin(requireContext(), isAutoLoginChecked)

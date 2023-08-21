@@ -66,26 +66,7 @@ class CustomerUserRepository : UserRepository {
         return resultLiveData
     }
 
-//    override fun getUserByIdx(userIdx: String?): LiveData<User?> {
-//        val result = MutableLiveData<User?>()
-//        mDatabase.child(userIdx!!).addListenerForSingleValueEvent(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    val user = dataSnapshot.getValue(
-//                        User::class.java
-//                    )
-//                    result.setValue(user)
-//                } else {
-//                    result.setValue(null)
-//                }
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                result.value = null
-//            }
-//        })
-//        return result
-//    }
+
 
     override fun checkEmailDuplicated(email: String?): LiveData<Boolean> {
 
@@ -205,5 +186,32 @@ class CustomerUserRepository : UserRepository {
                 }
             })
         return resultLiveData
+    }
+
+    fun getCurrentUser(): LiveData<User?> {
+        val result = MutableLiveData<User?>()
+        val uid = mAuth.currentUser?.uid
+        if (uid != null) {
+            mDatabase.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        val user = dataSnapshot.getValue(User::class.java)
+                        result.setValue(user)
+                    } else {
+                        result.setValue(null)
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    result.value = null
+                }
+            })
+        } else {
+            result.value = null
+        }
+        return result
+    }
+    fun signOut() {
+        FirebaseAuth.getInstance().signOut()
     }
 }
