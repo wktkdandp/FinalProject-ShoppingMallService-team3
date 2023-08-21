@@ -15,6 +15,7 @@ import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -45,6 +46,8 @@ class ProductAddFragment : Fragment() {
     lateinit var mainGalleryLauncher: ActivityResultLauncher<Intent>
     lateinit var descGalleryLauncher: ActivityResultLauncher<Intent>
 
+    private val addHashTagList = mutableListOf<String>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,6 +65,8 @@ class ProductAddFragment : Fragment() {
 
         mainGalleryLauncher = gallerySetting(fragmentProductAddBinding.imageViewMain, true)
         descGalleryLauncher = gallerySetting(fragmentProductAddBinding.imageViewDescription, false)
+
+        addHashTagList.clear()
 
         fragmentProductAddBinding.run {
             toolbarProductAdd.setNavigationOnClickListener {
@@ -143,13 +148,13 @@ class ProductAddFragment : Fragment() {
                 validateEditText(it.toString(), textInputLayoutDescription, "상품 설명을 입력해 주세요")
             }
 
-            // 해시태그 추가
-            buttonAddHashTag.setOnClickListener {
-                val inputHashTagList = textInputEditTextHashTag.text.toString().split(",").map(String::trim)
-                for (inputHashTag in inputHashTagList) {
-
-
-                }
+            // 해시태그 Chip 추가
+            textInputEditTextHashTag.setOnEditorActionListener { v, actionId, event ->
+                addHashTag()
+                true
+            }
+            buttonAddHashTag.setOnClickListener{
+                addHashTag()
             }
 
             // 대표 이미지 추가
@@ -213,7 +218,11 @@ class ProductAddFragment : Fragment() {
                 val code = System.currentTimeMillis().toString()
                 val mainImageFileName = "image/${code}_main_image.jpg"
                 val descriptionImageFileName = "image/${code}_description_image.jpg"
-                val hashTagList = textInputEditTextHashTag.text.toString().split(" ").map(String::trim)
+                // 등록된 Chip 태그들
+                val hashTagList = chipGroupHashTag.children
+                    .mapNotNull { it as? Chip }
+                    .map { it.text.toString() }
+                    .toList()
 
                 val product = Product(
                     "",
@@ -247,6 +256,32 @@ class ProductAddFragment : Fragment() {
                 // 전부 완료되면 상품등록 프레그먼드 제거하고 홈으로 이동
                 findNavController().popBackStack(R.id.item_product_add, true)
             }
+        }
+    }
+
+    private fun addHashTag() {
+        fragmentProductAddBinding.run {
+            // 입력 문자열 태그로 분리, 중복 태그는 제외
+            val inputHashTagList = textInputEditTextHashTag.text.toString()
+                .split(",")
+                .map(String::trim)
+                .filter { !addHashTagList.contains(it) }
+
+            // 추가된 태그 저장
+            addHashTagList.addAll(inputHashTagList)
+
+            for (inputHashTag in inputHashTagList) {
+                val chip = layoutInflater.inflate(R.layout.layout_chip_input, chipGroupHashTag, false) as Chip
+                chip.apply {
+                    text = inputHashTag
+                    setOnCloseIconClickListener {
+                        chipGroupHashTag.removeView(it)
+                    }
+                }
+                chipGroupHashTag.addView(chip)
+            }
+
+            textInputEditTextHashTag.setText("")
         }
     }
 
