@@ -4,6 +4,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
+import com.google.firebase.functions.HttpsCallableResult
+import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.data.model.Seller
 
@@ -14,6 +16,7 @@ import com.petpal.swimmer_seller.data.model.Seller
 
 class UserRepository {
     val auth = Firebase.auth
+    val functions = Firebase.functions
     val sellerDatabase = Firebase.database.getReference("sellers")
 
     fun logout() {
@@ -43,4 +46,14 @@ class UserRepository {
         auth.useAppLanguage()
         auth.sendPasswordResetEmail(email).addOnCompleteListener(callback)
     }
+
+    fun getSellerByEmail(email: String, callback: (Task<HttpsCallableResult>) -> Unit) {
+        val data = hashMapOf(
+            "email" to email
+        )
+
+        functions.getHttpsCallable("searchUserByEmail").call(data).addOnCompleteListener(callback)
+
+    }
 }
+

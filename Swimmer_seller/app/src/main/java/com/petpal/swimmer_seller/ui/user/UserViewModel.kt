@@ -5,7 +5,7 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.UserRepository
 import com.petpal.swimmer_seller.data.model.Seller
@@ -63,8 +63,8 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
-    fun emailDataChanged(email:String) {
-        if(!isEmailValid(email)) {
+    fun emailDataChanged(email: String) {
+        if (!isEmailValid(email)) {
             _emailForm.value = EmailFormState(emailError = R.string.invalid_email)
         } else {
             _emailForm.value = EmailFormState(isDataValid = true)
@@ -117,7 +117,8 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
                 _userResult.value = UserResult(success = R.string.send_email_succeed)
             } else {
                 // 오류 처리
-                _userResult.value = UserResult(success = R.string.send_email_failed)
+                if(task.exception is FirebaseAuthInvalidUserException) _userResult.value = UserResult(error = R.string.user_cannot_found)
+                else _userResult.value = UserResult(error = R.string.send_email_failed)
             }
         }
     }

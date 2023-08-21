@@ -62,5 +62,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth-ktx"
     //RealtimeDatabase
     implementation "com.google.firebase:firebase-database-ktx"
+    //Cloud Functions
+    implementation("com.google.firebase:firebase-functions-ktx")
 
 }
