@@ -148,7 +148,7 @@ class CustomerUserRepository : UserRepository {
     override fun findEmailbyInfo(nickname: String?, phoneNumber: String?): LiveData<User?>? {
         val result = MutableLiveData<User?>()
 
-        // 폰번호가 일치하는 사용자를 찾는 쿼리를 작성합니다.
+        //핸드폰 번호 일치하는 노드 찾음
         mDatabase.orderByChild("phoneNumber").equalTo(phoneNumber)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {

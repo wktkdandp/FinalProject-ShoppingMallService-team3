@@ -93,6 +93,7 @@ class LoginFragment : Fragment() {
                 fragmentLoginBinding.textInputEditTextLoginEmail.text?.clear()
                 showKeyboard(fragmentLoginBinding.textInputEditTextLoginEmail)
             }, 2000)
+            return false
         }else if (!email.contains("@")) {
             fragmentLoginBinding.textInputLayoutAddUserEmail.error = "이메일 양식이 올바르지 않습니다."
             Handler(Looper.getMainLooper()).postDelayed({

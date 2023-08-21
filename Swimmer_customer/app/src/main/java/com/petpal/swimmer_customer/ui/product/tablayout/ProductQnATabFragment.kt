@@ -5,20 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-<<<<<<< HEAD:Swimmer_customer/app/src/main/java/com/petpal/swimmer_customer/HomeFragment.kt
-import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.petpal.swimmer_customer.databinding.FragmentHomeBinding
-import com.petpal.swimmer_customer.ui.main.MainFragmentDirections
-=======
 import com.petpal.swimmer_customer.R
->>>>>>> upstream/main:Swimmer_customer/app/src/main/java/com/petpal/swimmer_customer/ui/product/tablayout/ProductQnATabFragment.kt
 
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
-<<<<<<< HEAD:Swimmer_customer/app/src/main/java/com/petpal/swimmer_customer/HomeFragment.kt
-class HomeFragment : Fragment() {
-    lateinit var fragmentHomeBinding: FragmentHomeBinding
-=======
 /**
  * A simple [Fragment] subclass.
  * Use the [ProductQnATabFragment.newInstance] factory method to
@@ -37,27 +30,10 @@ class ProductQnATabFragment : Fragment() {
         }
     }
 
->>>>>>> upstream/main:Swimmer_customer/app/src/main/java/com/petpal/swimmer_customer/ui/product/tablayout/ProductQnATabFragment.kt
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-<<<<<<< HEAD:Swimmer_customer/app/src/main/java/com/petpal/swimmer_customer/HomeFragment.kt
-        fragmentHomeBinding= FragmentHomeBinding.inflate(layoutInflater)
-
-        // 자동로그인 로그아웃 구현용
-        fragmentHomeBinding.buttonLogOut.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val action = MainFragmentDirections.actionMainFragmentToLoginFragment()
-            findNavController().navigate(action)
-        }
-
-
-        return fragmentHomeBinding.root
-    }
-
-
-=======
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_product_qn_a_tab, container, false)
     }
@@ -81,5 +57,4 @@ class ProductQnATabFragment : Fragment() {
                 }
             }
     }
->>>>>>> upstream/main:Swimmer_customer/app/src/main/java/com/petpal/swimmer_customer/ui/product/tablayout/ProductQnATabFragment.kt
 }
