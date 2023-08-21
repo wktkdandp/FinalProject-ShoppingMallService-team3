@@ -8,17 +8,21 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.petpal.swimmer_seller.MainActivity
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentHomeBinding
 import com.petpal.swimmer_seller.ui.product.ProductViewModel
 import com.petpal.swimmer_seller.ui.product.ProductViewModelFactory
+import com.petpal.swimmer_seller.ui.user.UserViewModel
+import com.petpal.swimmer_seller.ui.user.UserViewModelFactory
 
 class HomeFragment : Fragment() {
     lateinit var fragmentHomeBinding: FragmentHomeBinding
     lateinit var mainActivity: MainActivity
 
+    private lateinit var userViewModel: UserViewModel
     lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
@@ -30,6 +34,8 @@ class HomeFragment : Fragment() {
 
         val factory = HomeViewModelFactory(ProductRepository())
         homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
+
+        userViewModel = ViewModelProvider(this, UserViewModelFactory())[UserViewModel::class.java]
 
         homeViewModel.run {
             productCount.observe(mainActivity){
@@ -46,6 +52,13 @@ class HomeFragment : Fragment() {
             buttonRegProduct.setOnClickListener {
                 // 상품 등록화면으로 이동
                 it.findNavController().navigate(R.id.action_item_home_to_item_product_add)
+            }
+
+            buttonLogout.setOnClickListener {
+                userViewModel.logOut()
+                //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
+                findNavController().popBackStack(R.id.mainFragment, true)
+                findNavController().navigate(R.id.loginFragment)
             }
         }
 

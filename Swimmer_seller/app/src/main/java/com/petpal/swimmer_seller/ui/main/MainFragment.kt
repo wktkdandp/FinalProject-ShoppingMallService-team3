@@ -16,8 +16,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 
 class MainFragment : Fragment() {
-    private lateinit var userViewModel: UserViewModel
-    lateinit var fragmentMainBinding: FragmentMainBinding
+    private lateinit var fragmentMainBinding: FragmentMainBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,20 +25,13 @@ class MainFragment : Fragment() {
         fragmentMainBinding = FragmentMainBinding.inflate(inflater)
 
         Log.d("user", "mainFragment onCreate")
-        userViewModel =
-            ViewModelProvider(this, UserViewModelFactory())[UserViewModel::class.java]
 
         // navigation
         val navHostFragment = childFragmentManager.findFragmentById(R.id.fragmentMainContainerView) as NavHostFragment
         val navController = navHostFragment.navController
 
         fragmentMainBinding.run {
-            button.setOnClickListener {
-                userViewModel.logOut()
-                //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
-                findNavController().popBackStack(R.id.mainFragment, true)
-                findNavController().navigate(R.id.loginFragment)
-            }
+            // 로그아웃 기능은 일단 홈에 배치하고 나중에 DrawerLayout 메뉴에 넣기
 
             bottomNavigation.run {
                 setupWithNavController(navController)

@@ -19,6 +19,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.petpal.swimmer_seller.MainActivity
@@ -142,6 +143,15 @@ class ProductAddFragment : Fragment() {
                 validateEditText(it.toString(), textInputLayoutDescription, "상품 설명을 입력해 주세요")
             }
 
+            // 해시태그 추가
+            buttonAddHashTag.setOnClickListener {
+                val inputHashTagList = textInputEditTextHashTag.text.toString().split(",").map(String::trim)
+                for (inputHashTag in inputHashTagList) {
+
+
+                }
+            }
+
             // 대표 이미지 추가
             buttonAddMainImage.setOnClickListener {
                 val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
@@ -203,6 +213,7 @@ class ProductAddFragment : Fragment() {
                 val code = System.currentTimeMillis().toString()
                 val mainImageFileName = "image/${code}_main_image.jpg"
                 val descriptionImageFileName = "image/${code}_description_image.jpg"
+                val hashTagList = textInputEditTextHashTag.text.toString().split(" ").map(String::trim)
 
                 val product = Product(
                     "",
@@ -215,7 +226,7 @@ class ProductAddFragment : Fragment() {
                     mainActivity.loginSellerUid,
                     mutableListOf<Long>(),
                     mutableListOf<Long>(),
-                    textInputEditTextHashTag.text.toString(),
+                    hashTagList,
                     category,
                     mutableListOf<Review>(),
                     0L,
