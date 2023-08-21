@@ -53,6 +53,4 @@
             app:destination="@id/LoginFragment"/>
 
     </fragment>
-
-
 </navigation>
