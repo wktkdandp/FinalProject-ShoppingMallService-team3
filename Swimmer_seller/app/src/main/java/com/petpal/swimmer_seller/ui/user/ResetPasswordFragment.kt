@@ -62,7 +62,7 @@ class ResetPasswordFragment : Fragment() {
                 result.error?.let {
                     showSendEmailResult(it)
                 }
-                result.success?.let {
+                result.successInt?.let {
                     showSendEmailResult(it)
                 }
             }
