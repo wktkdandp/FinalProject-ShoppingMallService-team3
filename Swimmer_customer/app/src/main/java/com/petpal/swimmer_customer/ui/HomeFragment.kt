@@ -15,6 +15,8 @@ import com.petpal.swimmer_customer.data.model.exList
 import com.petpal.swimmer_customer.data.model.HomeFragmentItemList
 import com.petpal.swimmer_customer.data.model.ProductDetailModel
 import com.petpal.swimmer_customer.ui.product.ProductDetailAdapter
+import androidx.navigation.fragment.findNavController
+import com.petpal.swimmer_customer.ui.main.MainFragmentDirections
 
 
 class HomeFragment : Fragment() {
