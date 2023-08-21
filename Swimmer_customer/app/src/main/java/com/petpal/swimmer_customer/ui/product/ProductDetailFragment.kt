@@ -54,7 +54,7 @@ class ProductDetailFragment : Fragment() {
     private fun FragmentProductDetailBinding.paymentButton() {
         paymentButton.setOnClickListener {
             Navigation.findNavController(fragmentProductDetailBinding.root)
-                .navigate(R.id.action_itemDetailFragment_to_orderCompleteFragment)
+                .navigate(R.id.action_itemDetailFragment_to_paymentFragment)
         }
     }
 

@@ -44,21 +44,30 @@
         <action
             android:id="@+id/action_itemDetailFragment_to_item_home"
             app:destination="@id/item_home" />
-        <action
-            android:id="@+id/action_itemDetailFragment_to_orderCompleteFragment"
-            app:destination="@id/orderCompleteFragment" />
         <argument
             android:name="idx"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_itemDetailFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
     </fragment>
     <fragment
-        android:id="@+id/orderCompleteFragment"
-        android:name="com.petpal.swimmer_customer.ui.order.OrderCompleteFragment"
-        android:label="fragment_order_complete"
-        tools:layout="@layout/fragment_order_complete" >
+        android:id="@+id/paymentFragment"
+        android:name="com.petpal.swimmer_customer.ui.payment.PaymentFragment"
+        android:label="PaymentFragment" >
         <action
-            android:id="@+id/action_orderCompleteFragment_to_item_home"
+            android:id="@+id/action_paymentFragment_to_completeFragment"
+            app:destination="@id/completeFragment" />
+        <action
+            android:id="@+id/action_paymentFragment_to_itemDetailFragment"
+            app:destination="@id/itemDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/completeFragment"
+        android:name="com.petpal.swimmer_customer.ui.payment.CompleteFragment"
+        android:label="CompleteFragment" >
+        <action
+            android:id="@+id/action_completeFragment_to_item_home"
             app:destination="@id/item_home" />
-
     </fragment>
 </navigation>
