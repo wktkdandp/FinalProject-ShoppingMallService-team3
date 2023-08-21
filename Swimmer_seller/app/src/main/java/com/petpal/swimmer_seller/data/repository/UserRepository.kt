@@ -1,9 +1,12 @@
-package com.petpal.swimmer_seller.data
+package com.petpal.swimmer_seller.data.repository
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ktx.database
+import com.google.firebase.functions.HttpsCallableResult
+import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.data.model.Seller
 
@@ -13,8 +16,9 @@ import com.petpal.swimmer_seller.data.model.Seller
  */
 
 class UserRepository {
-    val auth = Firebase.auth
-    val sellerDatabase = Firebase.database.getReference("sellers")
+    private val auth = Firebase.auth
+    private val functions = Firebase.functions
+    private val sellerDatabase = Firebase.database.getReference("sellers")
 
     fun logout() {
         auth.signOut()
@@ -22,7 +26,6 @@ class UserRepository {
 
     fun login(email: String, password: String, callback: (Task<AuthResult>) -> Unit) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(callback)
-        //user를 살리려면 여기서 집어넣어줘야함
     }
 
     fun signUp(email: String, password: String, callback: (Task<AuthResult>) -> Unit) {
@@ -30,7 +33,6 @@ class UserRepository {
         if (auth.currentUser == null) {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(callback)
-            //user를 살리려면 여기서도 집어넣어줘야함
         }
     }
 
@@ -43,4 +45,19 @@ class UserRepository {
         auth.useAppLanguage()
         auth.sendPasswordResetEmail(email).addOnCompleteListener(callback)
     }
+
+    fun getSellerByEmail(email: String, callback: (Task<HttpsCallableResult>) -> Unit) {
+        val data = hashMapOf(
+            "email" to email
+        )
+
+        functions.getHttpsCallable("searchUserByEmail").call(data).addOnCompleteListener(callback)
+
+    }
+
+    fun findEmail(name: String, phone: String, callback: (Task<DataSnapshot>) -> Unit) {
+        //db에서 name과 phone번호 둘다 일치하는 user의 email을 가지고 온다
+        sellerDatabase.orderByChild("contactPhoneNumber").equalTo(phone).get().addOnCompleteListener(callback)
+    }
 }
+
