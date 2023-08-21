@@ -5,6 +5,7 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.UserRepository
 import com.petpal.swimmer_seller.data.model.Seller
@@ -16,6 +17,9 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     private val _signUpForm = MutableLiveData<SignUpFormState>()
     val signUpFormState: LiveData<SignUpFormState> = _signUpForm
+
+    private val _emailForm = MutableLiveData<EmailFormState>()
+    val emailFormState: LiveData<EmailFormState> = _emailForm
 
     //TODO : firebase로 변경할 수 없나? 로그인에서만 사용하는디
     private val _userResult = MutableLiveData<UserResult>()
@@ -59,6 +63,14 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
+    fun emailDataChanged(email:String) {
+        if(!isEmailValid(email)) {
+            _emailForm.value = EmailFormState(emailError = R.string.invalid_email)
+        } else {
+            _emailForm.value = EmailFormState(isDataValid = true)
+        }
+    }
+
     fun signUpDataChanged(email: String, password: String, confirm: String) {
         if (!isEmailValid(email)) {
             _signUpForm.value = SignUpFormState(emailError = R.string.invalid_email)
@@ -97,6 +109,18 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
             }
         }
     }
+
+    fun sendPasswordResetEmail(email: String) {
+        userRepository.sendPasswordResetEmail(email) { task ->
+            if (task.isSuccessful) {
+                // 비밀번호 재설정 이메일이 성공적으로 전송됨
+                _userResult.value = UserResult(success = R.string.send_email_succeed)
+            } else {
+                // 오류 처리
+                _userResult.value = UserResult(success = R.string.send_email_failed)
+            }
+        }
+    }
 }
 
 data class SignUpFormState(
@@ -109,5 +133,10 @@ data class SignUpFormState(
 data class LoginFormState(
     val emailError: Int? = null,
     val passwordError: Int? = null,
+    val isDataValid: Boolean = false
+)
+
+data class EmailFormState(
+    val emailError: Int? = null,
     val isDataValid: Boolean = false
 )

@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -49,4 +52,9 @@
             app:argType="string"
             android:defaultValue="11111"/>
     </fragment>
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.petpal.swimmer_seller.ui.user.ResetPasswordFragment"
+        android:label="fragment_reset_password"
+        tools:layout="@layout/fragment_reset_password" />
 </navigation>

@@ -37,4 +37,10 @@ class UserRepository {
     fun addSeller(seller: Seller, callback: (Task<Void>) -> Unit) {
         sellerDatabase.push().setValue(seller).addOnCompleteListener(callback)
     }
+
+    fun sendPasswordResetEmail(email: String, callback: (Task<Void>) -> Unit) {
+        //단말기 언어설정 따라가도록
+        auth.useAppLanguage()
+        auth.sendPasswordResetEmail(email).addOnCompleteListener(callback)
+    }
 }
