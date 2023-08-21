@@ -15,7 +15,7 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-    lateinit var loginSellerUid: String
+    var loginSellerUid: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

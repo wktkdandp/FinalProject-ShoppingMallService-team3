@@ -6,12 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.databinding.FragmentMainBinding
-import com.petpal.swimmer_seller.ui.user.UserViewModel
-import com.petpal.swimmer_seller.ui.user.UserViewModelFactory
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 
@@ -30,8 +28,17 @@ class MainFragment : Fragment() {
         val navHostFragment = childFragmentManager.findFragmentById(R.id.fragmentMainContainerView) as NavHostFragment
         val navController = navHostFragment.navController
 
+        // 특정 화면에서 BottomNavigationBar 숨기기
+        navController.addOnDestinationChangedListener { navController: NavController, navDestination: NavDestination, bundle: Bundle? ->
+            if (navDestination.id == R.id.item_product_add) {
+                fragmentMainBinding.bottomNavigation.visibility = View.GONE
+            } else {
+                fragmentMainBinding.bottomNavigation.visibility = View.VISIBLE
+            }
+        }
+
         fragmentMainBinding.run {
-            // 로그아웃 기능은 일단 홈에 배치하고 나중에 DrawerLayout 메뉴에 넣기
+            // 로그아웃 버튼은 일단 Home 화면에 옮겨뒀습니다.
 
             bottomNavigation.run {
                 setupWithNavController(navController)

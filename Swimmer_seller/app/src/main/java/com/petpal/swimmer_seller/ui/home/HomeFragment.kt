@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
         }
 
         // 로그인한 판매자가 등록한 상품 개수 가져오기
-         homeViewModel.getProductCount(mainActivity.loginSellerUid)
+        homeViewModel.getProductCount(mainActivity.loginSellerUid)
 
         return fragmentHomeBinding.root
     }
