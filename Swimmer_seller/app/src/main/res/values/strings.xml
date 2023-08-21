@@ -57,6 +57,169 @@
     <string name="send_email_succeed">"비밀번호 재설정 이메일이 전송되었습니다."</string>
     <string name="send_email_failed">"오류가 발생했습니다. 다시 시도해주세요."</string>
 
+
     <string name="user_cannot_found">"가입되어있지 않은 이메일입니다."</string>
     <string name="contact_phone_cannot_found">"가입되어있지 않은 연락처입니다."</string>
+
+    <!-- 대분류 -->
+    <string-array name="categoryMain">
+        <item>여성</item>
+        <item>남성</item>
+        <item>아동</item>
+        <item>용품</item>
+    </string-array>
+
+    <!-- 중분류 -->
+    <string-array name="categoryMid1">
+        <item>수영복</item>
+        <item>비키니</item>
+        <item>래쉬가드</item>
+        <item>비치웨어</item>
+    </string-array>
+
+    <string-array name="categoryMid2">
+        <item>수영복</item>
+        <item>래쉬가드</item>
+        <item>비치웨어</item>
+    </string-array>
+
+    <string-array name="categoryMid3">
+        <item>수영복</item>
+        <item>래쉬가드</item>
+    </string-array>
+
+    <string-array name="categoryMid4">
+        <item>수경</item>
+        <item>수모</item>
+        <item>오리발</item>
+        <item>가방</item>
+        <item>물놀이용품</item>
+    </string-array>
+
+    <!-- 여성 소분류 -->
+    <string-array name="categorySub1_1">
+        <item>원피스</item>
+        <item>반전신</item>
+        <item>탄탄이</item>
+        <item>아쿠아</item>
+    </string-array>
+
+    <string-array name="categorySub1_2">
+        <item>모노키니</item>
+        <item>비키니</item>
+        <item>치마비키니</item>
+    </string-array>
+
+    <string-array name="categorySub1_3">
+        <item>슈트</item>
+        <item>상의</item>
+        <item>팬츠</item>
+        <item>레깅스</item>
+    </string-array>
+
+    <string-array name="categorySub1_4">
+        <item>원피스</item>
+        <item>상의</item>
+        <item>하의</item>
+    </string-array>
+
+    <!-- 남성 소분류 -->
+    <string-array name="categorySub2_1">
+        <item>5부</item>
+        <item>사각</item>
+        <item>탄탄이</item>
+    </string-array>
+
+    <string-array name="categorySub2_2">
+        <item>상의</item>
+        <item>팬츠</item>
+        <item>레깅스</item>
+    </string-array>
+
+    <string-array name="categorySub2_3">
+        <item>슈트</item>
+        <item>레깅스</item>
+        <item>상의</item>
+        <item>팬츠</item>
+    </string-array>
+
+    <!-- 아동 소분류 -->
+    <string-array name="categorySub3_1">
+        <item>걸즈</item>
+        <item>보이</item>
+    </string-array>
+
+    <string-array name="categorySub3_2">
+        <item>슈트</item>
+        <item>상의</item>
+        <item>팬츠</item>
+        <item>유아용</item>
+    </string-array>
+
+    <!-- 용품 소분류 -->
+    <string-array name="categorySub4_1">
+        <item>레이싱</item>
+        <item>트레이닝</item>
+        <item>오픈워터</item>
+    </string-array>
+
+    <string-array name="categorySub4_2">
+        <item>실리콘</item>
+        <item>코팅</item>
+        <item>스판/메쉬</item>
+    </string-array>
+
+    <string-array name="categorySub4_3">
+        <item>숏핀오리발</item>
+        <item>롱핀오리발</item>
+        <item>스노클링핀</item>
+        <item>오픈워터핀</item>
+    </string-array>
+
+    <string-array name="categorySub4_4">
+        <item>메쉬백</item>
+        <item>숄더백</item>
+        <item>드라이백</item>
+        <item>웨이스트백</item>
+        <item>백팩</item>
+    </string-array>
+
+    <string-array name="categorySub4_5">
+        <item>아쿠아슈즈</item>
+        <item>스노클링</item>
+        <item>부력조끼</item>
+        <item>부력판</item>
+        <item>튜브/암밴드</item>
+    </string-array>
+
+    <string name="action_add_product">상품등록 하기</string>
+    <string name="prompt_product_count">등록된 상품이 0건 있습니다.</string>
+    <string name="prompt_add_product">판매 상품을 등록해주세요.</string>
+    <string name="prompt_add_product_title">상품 등록</string>
+    <string name="prompt_main_image">상품 이미지 (최대 5개)</string>
+    <string name="prompt_main_image_count">0/5</string>
+    <string name="prompt_product_name">상품명</string>
+    <string name="prompt_category_main">대분류</string>
+    <string name="prompt_category_mid">중분류</string>
+    <string name="prompt_category_sub">소분류</string>
+    <string name="prompt_hashtag">#해시태그</string>
+    <string name="prompt_price">가격</string>
+    <string name="prompt_product_description">상품 설명</string>
+    <string name="prompt_description_image">상품 설명 이미지 (1개)</string>
+    <string name="prompt_description_image_count">0/1</string>
+    <string name="action_cancel">취소</string>
+    <string name="action_register">등록</string>
+    <string name="female">여성</string>
+    <string name="male">남성</string>
+    <string name="child">아동</string>
+    <string name="supplies">용품</string>
+    <string name="swimsuit">수영복</string>
+    <string name="bikini">비키니</string>
+    <string name="rashguard">래쉬가드</string>
+    <string name="beachwear">비치웨어</string>
+    <string name="goggles">수경</string>
+    <string name="cap">수모</string>
+    <string name="flippers">오리발</string>
+    <string name="bag">가방</string>
+    <string name="water_toy">물놀이용품</string>
 </resources>
