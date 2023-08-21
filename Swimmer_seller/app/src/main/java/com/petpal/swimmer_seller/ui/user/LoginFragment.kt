@@ -133,7 +133,8 @@ class LoginFragment : Fragment() {
         }
 
         findPasswordButton.setOnClickListener {
-            //비밀번호 찾기로 이동
+            //비밀번호 재설정으로 이동
+            findNavController().navigate(R.id.action_loginFragment_to_resetPasswordFragment)
         }
     }
 
