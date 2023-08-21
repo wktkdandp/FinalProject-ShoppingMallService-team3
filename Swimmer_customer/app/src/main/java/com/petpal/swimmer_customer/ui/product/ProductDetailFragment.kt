@@ -16,15 +16,14 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentProductDetailBinding
 import com.petpal.swimmer_customer.data.model.exList
+import com.petpal.swimmer_customer.ui.HomeFragmentViewModel
 
 
 class ProductDetailFragment : Fragment() {
 
     lateinit var fragmentProductDetailBinding: FragmentProductDetailBinding
     private var isFavorite = false
-    private val viewModel: ProductViewModel by viewModels {
-        ProductDetailViewModelFactory(args.idx)
-    }
+    private lateinit var viewModel: ProductViewModel
     private lateinit var viewPagerAdapter: ProductDetailAdapter
 
     // 네비게이션 args 값 가져오기
@@ -35,8 +34,9 @@ class ProductDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         fragmentProductDetailBinding = FragmentProductDetailBinding.inflate(inflater)
-
-
+        viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+        fragmentProductDetailBinding.vm = viewModel
+        fragmentProductDetailBinding.lifecycleOwner = this
 
         viewModel.setProductDetailRanking(exList)
 
@@ -44,11 +44,17 @@ class ProductDetailFragment : Fragment() {
             productDetailtoolbar()
             favorite()
             initViewPager2()
-            observer()
+//            observer()
             paymentButton()
             productDetailTabLayoutViewPage2()
             productDetailViewPager2.isUserInputEnabled = false
 
+            viewPagerAdapter.submitList(exList[args.idx].productDetailItemList)
+            viewModel.rankingText(
+                exList[args.idx].brand,
+                exList[args.idx].title,
+                exList[args.idx].price
+            )
         }
 
         return fragmentProductDetailBinding.root
@@ -108,15 +114,15 @@ class ProductDetailFragment : Fragment() {
 
     }
 
-    private fun observer() {
-
-        viewModel.productDetail.observe(viewLifecycleOwner) {
-            fragmentProductDetailBinding.brandTextView.text = it[args.idx].brand
-            fragmentProductDetailBinding.itemTitleTextView.text = it[args.idx].title
-            fragmentProductDetailBinding.priceTextView.text = it[args.idx].price
-            viewPagerAdapter.submitList(it[args.idx].productDetailItemList)
-        }
-    }
+//    private fun observer() {
+//
+//        viewModel.productDetail.observe(viewLifecycleOwner) {
+//            fragmentProductDetailBinding.brandTextView.text = it[args.idx].brand
+//            fragmentProductDetailBinding.itemTitleTextView.text = it[args.idx].title
+//            fragmentProductDetailBinding.priceTextView.text = it[args.idx].price
+//            viewPagerAdapter.submitList(it[args.idx].productDetailItemList)
+//        }
+//    }
 
     private fun updateFavoriteButtonState() {
         val drawableRes = if (isFavorite) R.drawable.full_favorite_24 else R.drawable.favorite_24px
@@ -125,19 +131,23 @@ class ProductDetailFragment : Fragment() {
 
     private fun productDetailTabLayoutViewPage2() {
         fragmentProductDetailBinding.productDetailTabLayout.tabRippleColor = null
-        val adapter = ProductDetailTabLayoutAdapter(this,args.idx)
+        val adapter = ProductDetailTabLayoutAdapter(this, args.idx)
         fragmentProductDetailBinding.productDetailViewPager2.adapter = adapter
 
         val tabName = arrayOf("상품상세", "상품후기 (0)", "상품 Q&A")
 
 
-        TabLayoutMediator(fragmentProductDetailBinding.productDetailTabLayout, fragmentProductDetailBinding.productDetailViewPager2) { tab, position ->
+        TabLayoutMediator(
+            fragmentProductDetailBinding.productDetailTabLayout,
+            fragmentProductDetailBinding.productDetailViewPager2
+        ) { tab, position ->
             tab.text = tabName[position]
         }.attach()
 
 
 
-        fragmentProductDetailBinding.productDetailTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        fragmentProductDetailBinding.productDetailTabLayout.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 fragmentProductDetailBinding.productDetailViewPager2.currentItem = tab!!.position
             }
