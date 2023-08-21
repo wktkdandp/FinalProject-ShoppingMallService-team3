@@ -14,7 +14,7 @@ import com.petpal.swimmer_customer.ui.product.ProductViewModel
 
 class ProductDetailTabFragment(var idx: Int) : Fragment() {
 
-    lateinit var fragmentProductDetailTabBinding: FragmentProductDetailTabBinding
+    private lateinit var fragmentProductDetailTabBinding: FragmentProductDetailTabBinding
     private lateinit var viewModel:ProductViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
