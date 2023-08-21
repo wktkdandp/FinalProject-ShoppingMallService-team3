@@ -1,6 +1,5 @@
-package com.petpal.swimmer_seller.data
+package com.petpal.swimmer_seller.data.repository
 
-import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.ktx.auth

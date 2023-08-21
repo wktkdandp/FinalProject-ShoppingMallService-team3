@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.petpal.swimmer_seller.R
-import com.petpal.swimmer_seller.data.UserRepository
+import com.petpal.swimmer_seller.data.repository.UserRepository
 import com.petpal.swimmer_seller.data.model.Seller
 
 class UserViewModel(private val userRepository: UserRepository) : ViewModel() {

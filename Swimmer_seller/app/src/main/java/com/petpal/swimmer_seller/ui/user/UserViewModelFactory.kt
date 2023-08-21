@@ -2,7 +2,7 @@ package com.petpal.swimmer_seller.ui.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.petpal.swimmer_seller.data.UserRepository
+import com.petpal.swimmer_seller.data.repository.UserRepository
 
 class UserViewModelFactory : ViewModelProvider.Factory {
 
