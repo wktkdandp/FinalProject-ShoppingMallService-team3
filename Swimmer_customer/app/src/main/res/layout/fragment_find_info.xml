@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
     <!-- 아이디 찾기 섹션 -->
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarFindInfo"
         android:layout_width="match_parent"
@@ -17,7 +19,7 @@
     <LinearLayout
         android:id="@+id/idFindLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -33,11 +35,30 @@
             android:layout_height="wrap_content"
             android:hint="전화번호를 입력해주세요" />
 
+        <ImageView
+            android:id="@+id/doneImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            app:tint="@color/green"
+            app:srcCompat="@drawable/done_24px" />
+
         <TextView
             android:id="@+id/textViewFoundId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/textViewFoundId2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/colorPrimary" />
 
         <Button
             android:id="@+id/ButtonFindId"
@@ -45,17 +66,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="300dp"
             android:layout_marginRight="20dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="아이디 찾기"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#FFFFFF" />
+
         <Button
             android:id="@+id/ButtonFindInfoToLogin"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
@@ -63,6 +86,7 @@
             android:text="로그인하러 가기"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#FFFFFF" />
+
         <Button
             android:id="@+id/ButtonToFindPassword"
             style="@style/Widget.Material3.Button.OutlinedButton"
@@ -80,23 +104,23 @@
 
     <!-- 비밀번호 재설정 섹션 -->
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/passwordResetLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/passwordResetLayout">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/editTextFindPwEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="이메일을 입력하세요"/>
+            android:hint="이메일을 입력하세요" />
 
         <EditText
             android:id="@+id/editTextFindPwPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="전화번호를 입력하세요"/>
+            android:hint="전화번호를 입력하세요" />
 
         <Button
             android:id="@+id/ButtonResetPassword"

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -50,6 +51,11 @@ class FindInfoFragment : Fragment() {
                     fragmentFindInfoBinding.passwordResetLayout.visibility=View.GONE
                     fragmentFindInfoBinding.ButtonFindInfoToLogin.visibility=View.GONE
                     fragmentFindInfoBinding.ButtonToFindPassword.visibility=View.GONE
+                    fragmentFindInfoBinding.doneImage.visibility=View.GONE
+//                    if(!fragmentFindInfoBinding.ButtonFindInfoToLogin.isVisible || !fragmentFindInfoBinding.ButtonToFindPassword.isVisible)
+//                    {
+//                        fragmentFindInfoBinding.ButtonFindId.gravity=
+//                    }
                 }
                 "resetPassword" -> {
                     fragmentFindInfoBinding.toolbarFindInfo.run{
@@ -79,16 +85,20 @@ class FindInfoFragment : Fragment() {
                 if(it !=null){
                     fragmentFindInfoBinding.editTextFinIdNickname.text.clear()
                     fragmentFindInfoBinding.editTextFindIdPhoneNumber.text.clear()
-                    fragmentFindInfoBinding.textViewFoundId.text="당신의 이메일은 ${it.email}입니다"
+                    fragmentFindInfoBinding.textViewFoundId.text="당신의 이메일은 "
+                    fragmentFindInfoBinding.textViewFoundId2.text="${it.email}입니다"
                     fragmentFindInfoBinding.editTextFinIdNickname.visibility=View.GONE
                     fragmentFindInfoBinding.editTextFindIdPhoneNumber.visibility=View.GONE
                     fragmentFindInfoBinding.ButtonFindId.visibility=View.GONE
                     fragmentFindInfoBinding.ButtonFindInfoToLogin.visibility=View.VISIBLE
                     fragmentFindInfoBinding.ButtonToFindPassword.visibility=View.VISIBLE
+                    fragmentFindInfoBinding.doneImage.visibility=View.VISIBLE
 
 
                 }else{
-                    fragmentFindInfoBinding.textViewFoundId.text="이메일 찾기 실패"
+                    fragmentFindInfoBinding.textViewFoundId.text="입력한 정보로 등록된 사용자가 없습니다."
+                    fragmentFindInfoBinding.editTextFinIdNickname.text.clear()
+                    fragmentFindInfoBinding.editTextFindIdPhoneNumber.text.clear()
                 }
             })
         }
@@ -129,6 +139,8 @@ class FindInfoFragment : Fragment() {
 
         return fragmentFindInfoBinding.root
     }
+
+
 
 }
 class FindInfoViewModelFactory(private val repository: CustomerUserRepository) : ViewModelProvider.Factory {

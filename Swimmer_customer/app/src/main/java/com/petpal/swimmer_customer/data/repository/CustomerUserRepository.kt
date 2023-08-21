@@ -153,11 +153,10 @@ class CustomerUserRepository : UserRepository {
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (childSnapshot in dataSnapshot.children) {
-                        val user = childSnapshot.getValue(
-                            User::class.java
-                        )
-                        if (user != null) {
-                            result.value = user // 일치하는 사용자 발견 시 해당 사용자 정보를 설정합니다.
+                        val user = childSnapshot.getValue(User::class.java)
+                        if (user != null && user.nickName == nickname) {
+                            // 사용자의 폰 번호와 닉네임이 모두 일치하는 경우 해당 사용자 정보를 설정합니다.
+                            result.value = user
                             return
                         }
                     }
