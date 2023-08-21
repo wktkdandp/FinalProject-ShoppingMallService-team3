@@ -5,15 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:theme="@style/Theme.Swimmer_customer"
     tools:context=".PaymentFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarPayment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/md_theme_light_background"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        tools:theme="@style/HomeToolbarTheme" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,11 +33,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="배송지"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:theme="@style/Theme.Swimmer_customer" />
 
             <Button
                 android:id="@+id/paymentDeliveryButton"
-                style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                style="@style/Base.Theme.Swimmer_customer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -180,13 +183,13 @@
 
             <Button
                 android:id="@+id/paymentConfirmButton"
-                style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-                app:icon="@drawable/credit_score_24px"
+                style="@style/Base.Theme.Swimmer_customer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
-                android:text="Holder" />
+                android:text="Holder"
+                app:icon="@drawable/credit_score_24px" />
 
         </LinearLayout>
 

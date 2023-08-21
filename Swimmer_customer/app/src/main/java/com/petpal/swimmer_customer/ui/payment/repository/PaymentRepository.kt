@@ -17,6 +17,12 @@ class PaymentRepository {
 
             itemCodeRef.orderByChild("productUid").get().addOnCompleteListener(callback)
         }
+        fun getCartItems(callback: (Task<DataSnapshot>) -> Unit) {
+            val database = FirebaseDatabase.getInstance()
+            val itemCodeRef = database.getReference("products")
+
+            itemCodeRef.orderByChild("productUid").get().addOnCompleteListener(callback)
+        }
 
         // 이미지 firebaseStore를 통해 가져오기
         fun getItemImage(imageView: ImageView, fileName: String?) {

@@ -28,6 +28,12 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
+            android:id="@+id/paymentItemOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="선택 옵션 :" />
+
+        <TextView
             android:id="@+id/paymentItemPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

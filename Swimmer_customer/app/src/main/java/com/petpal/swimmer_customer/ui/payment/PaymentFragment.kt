@@ -20,6 +20,7 @@ import com.petpal.swimmer_customer.databinding.PaymentItemRowBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
 import com.petpal.swimmer_customer.ui.payment.repository.PaymentRepository
 import com.petpal.swimmer_customer.ui.payment.vm.PaymentViewModel
+import org.w3c.dom.Text
 
 class PaymentFragment : Fragment() {
 
@@ -42,6 +43,10 @@ class PaymentFragment : Fragment() {
         paymentViewModel.run {
             itemList.observe(mainActivity) {
                 fragmentPaymentBinding.paymentViewPager.adapter?.notifyDataSetChanged()
+            }
+            paymentFee.observe(mainActivity) {
+                fragmentPaymentBinding.paymentConfirmButton.text = "${it}원 결제하기"
+                fragmentPaymentBinding.paymentCheck.text = "상품 금액 : ${it}원"
             }
         }
         fragmentPaymentBinding.run {
@@ -86,7 +91,6 @@ class PaymentFragment : Fragment() {
 
             // 버튼
             paymentConfirmButton.run {
-                text = "원 결제하기"
                 setOnClickListener {
                     // 결제 완료 버튼
                     // 주문 완료 화면으로 이동하기
@@ -96,7 +100,7 @@ class PaymentFragment : Fragment() {
             }
 
             // repos -> vm -> item 목록 받기
-            paymentViewModel.getItems()
+            paymentViewModel.getItemAndCalculatePrice()
 
             // 상품 정보 viewPager2
             paymentViewPager.apply {
@@ -119,11 +123,14 @@ class PaymentFragment : Fragment() {
             val paymentItemName: TextView
             val paymentItemPrice: TextView
             val paymentItemCount: TextView
+            val paymentItemOption: TextView
+
             init {
                 paymentItemImage = paymentItemRowBinding.paymentItemImage
                 paymentItemName = paymentItemRowBinding.paymentItemName
                 paymentItemPrice = paymentItemRowBinding.paymentItemPrice
                 paymentItemCount = paymentItemRowBinding.paymentItemCount
+                paymentItemOption = paymentItemRowBinding.paymentItemOption
             }
         }
 
@@ -143,9 +150,11 @@ class PaymentFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            holder.paymentItemName.text = paymentViewModel.itemList.value?.get(position)?.name
-            holder.paymentItemPrice.text = paymentViewModel.itemList.value?.get(position)?.price.toString()
-            holder.paymentItemCount.text = "수량 : ${position + 1}"
+            holder.paymentItemName.text = "제품명 : ${paymentViewModel.itemList.value?.get(position)?.name}"
+            holder.paymentItemPrice.text = "가격 : ${paymentViewModel.itemList.value?.get(position)?.price.toString()}"
+            // 현재 데이터셋 없으므로 1 고정
+            holder.paymentItemCount.text = "수량 : 1"
+            holder.paymentItemOption.text = "옵션 : ${paymentViewModel.itemList.value?.get(position)?.option}"
             PaymentRepository.getItemImage(holder.paymentItemImage, paymentViewModel.itemList.value?.get(position)?.mainImage)
         }
     }

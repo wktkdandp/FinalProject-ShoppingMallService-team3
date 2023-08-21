@@ -26,7 +26,7 @@ class CompleteFragment : Fragment() {
         fragmentCompleteBinding.run {
 
             // countdownTimer 로 사용자가 클릭을 하지 않아도 자동 화면 전환
-            val countDownTimer = object: CountDownTimer(6000, 1000) {
+            val countDownTimer = object: CountDownTimer(4000, 1000) {
 
                 override fun onTick(p0: Long) {
                     completeTextCountdown.text = "${(p0 / 1000)}초 뒤 홈 화면으로 이동합니다."
