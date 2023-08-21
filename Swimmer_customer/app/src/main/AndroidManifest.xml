@@ -19,7 +19,7 @@
 
         <activity
             android:name=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.Splash"
+            android:theme="@style/Theme.Swimmer_customer"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

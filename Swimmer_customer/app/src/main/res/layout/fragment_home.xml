@@ -9,6 +9,8 @@
     app:layoutDescription="@xml/fragment_home_scene"
     tools:context=".ui.HomeFragment">
 
+    <!-- TODO: Update blank fragment layout -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
