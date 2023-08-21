@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
@@ -21,7 +22,9 @@ class ProductDetailFragment : Fragment() {
 
     lateinit var fragmentProductDetailBinding: FragmentProductDetailBinding
     private var isFavorite = false
-    private lateinit var viewModel: ProductViewModel
+    private val viewModel: ProductViewModel by viewModels {
+        ProductDetailViewModelFactory(args.idx)
+    }
     private lateinit var viewPagerAdapter: ProductDetailAdapter
 
     // 네비게이션 args 값 가져오기
@@ -33,7 +36,7 @@ class ProductDetailFragment : Fragment() {
     ): View? {
         fragmentProductDetailBinding = FragmentProductDetailBinding.inflate(inflater)
 
-        viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+
 
         viewModel.setProductDetailRanking(exList)
 

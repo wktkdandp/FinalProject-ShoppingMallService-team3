@@ -7,6 +7,7 @@ import com.petpal.swimmer_customer.data.model.ProductDetailModel
 
 
 class HomeFragmentViewModel  : ViewModel() {
+
     private val _productDetailList: MutableLiveData<List<ProductDetailModel>> = MutableLiveData()
 
 
