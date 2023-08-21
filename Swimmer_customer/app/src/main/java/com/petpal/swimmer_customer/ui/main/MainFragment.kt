@@ -16,29 +16,51 @@ import com.petpal.swimmer_customer.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
     lateinit var fragmentMainBinding: FragmentMainBinding
-    lateinit var mainActivity: MainActivity
-    //lateinit var auth:FirebaseAuth
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //자동로그인시 현재 사용자 인식하는지 확인
-
         fragmentMainBinding = FragmentMainBinding.inflate(layoutInflater)
-        mainActivity=activity as MainActivity
-
-        Log.d("currentUser", FirebaseAuth.getInstance().currentUser?.email!!)
-        fragmentMainBinding.buttonLogOut.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val action = MainFragmentDirections.actionMainFragmentToLoginFragment()
-            findNavController().navigate(action)
-        }
 
         val navHostFragment = childFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
-        fragmentMainBinding.bottomNavigation.setupWithNavController(navController)
+
+        fragmentMainBinding.bottomNavigation.run {
+            setupWithNavController(navController)
+            //화면 세팅
+            setOnItemSelectedListener {
+                when (it.itemId) {
+                    R.id.item_home -> {
+                        // 홈 이동
+                        navController.navigate(R.id.item_home)
+                        true
+                    }
+                    R.id.item_category -> {
+                        //카테고리 페이지
+                        navController.navigate(R.id.item_category)
+                        true
+                    }
+                    R.id.item_favorite -> {
+                        //찜 페이지 이동
+                        navController.navigate(R.id.item_favorite)
+                        true
+                    }
+                    R.id.item_history -> {
+                        //히스토리 페이지 이동
+                        navController.navigate(R.id.item_history)
+                        true
+                    }
+                    R.id.item_mypage -> {
+                        // 마이페이지 이동
+                        navController.navigate(R.id.item_mypage)
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
 
         return fragmentMainBinding.root
     }
-
 }

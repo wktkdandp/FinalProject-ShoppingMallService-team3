@@ -80,7 +80,6 @@ class LoginFragment : Fragment() {
         fragmentLoginBinding.ButtonKakaoLogin.setOnClickListener {
 
         }
-
         return fragmentLoginBinding.root
     }
 

@@ -32,7 +32,6 @@ class RegisterFragment : Fragment() {
     lateinit var mainActivity: MainActivity
     //이메일 중복검사  성공여부 변수
     private var isEmailValid = false
-    private val mDatabase: DatabaseReference = FirebaseDatabase.getInstance().reference
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,32 +56,7 @@ class RegisterFragment : Fragment() {
             }
         }
 
-        //중복검사 버튼
-        fragmentRegisterBinding.buttonAddUserEmailDuplicateCheck.setOnClickListener {
-            val email = fragmentRegisterBinding.textInputEditTextAddUserEmail.text.toString()
-            viewModel.checkEmailDuplicated(email).observe(viewLifecycleOwner, Observer { isDuplicate ->
-                Log.d("koko12345", isDuplicate.toString())
-                if (isDuplicate) {
-                    AlertDialog.Builder(requireContext())
-                        .setTitle("알림")
-                        .setMessage("이미 존재하는 이메일입니다.")
-                        .setPositiveButton("확인") { dialog, _ ->
-                            fragmentRegisterBinding.textInputEditTextAddUserEmail.text?.clear()
-                            showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserEmail)
-                        }
-                        .show() // 이 부분 추가
-                } else {
-                    isEmailValid=true
-                    AlertDialog.Builder(requireContext())
-                        .setTitle("알림")
-                        .setMessage("이메일을 사용할 수 있습니다.")
-                        .setPositiveButton("확인") { dialog, _ ->
-                            showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserPassword)
-                        }
-                        .show()
-                }
-            })
-        }
+
 
         //회원가입 버튼
         fragmentRegisterBinding.buttonRegister.setOnClickListener {
@@ -111,13 +85,50 @@ class RegisterFragment : Fragment() {
                     Toast.makeText(context, "회원가입에 성공했습니다. 로그인해주세요.", Toast.LENGTH_LONG).show()
                 } else {
                     // 회원가입 실패
-                    Log.d("koko","회원가입 실패")
+                    Toast.makeText(context, "회원가입에 실패했습니다.", Toast.LENGTH_LONG).show()
+                    fragmentRegisterBinding.textInputEditTextAddUserEmail.text?.clear()
+                    fragmentRegisterBinding.textInputEditTextAddUserPassword.text?.clear()
+                    fragmentRegisterBinding.textInputEditTextAddUserPasswordRepeat.text?.clear()
+                    fragmentRegisterBinding.textInputEditTextAddUserNickname.text?.clear()
+                    fragmentRegisterBinding.textInputEditTextAddUserNickname.text?.clear()
+                    fragmentRegisterBinding.textInputEditTextAddUserNickname.text?.clear()
+                    fragmentRegisterBinding.textInputEditTextAddUserPhoneNumber.text?.clear()
+                    fragmentRegisterBinding.infoAgree.isChecked=false
+
+                }
+            })
+        }
+
+        //중복검사 버튼
+        fragmentRegisterBinding.buttonAddUserEmailDuplicateCheck.setOnClickListener {
+            val email = fragmentRegisterBinding.textInputEditTextAddUserEmail.text.toString()
+            viewModel.checkEmailDuplicated(email).observe(viewLifecycleOwner, Observer { isDuplicate ->
+                if (isDuplicate) {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("알림")
+                        .setMessage("이미 존재하는 이메일입니다.")
+                        .setPositiveButton("확인") { dialog, _ ->
+                            fragmentRegisterBinding.textInputEditTextAddUserEmail.text?.clear()
+                            showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserEmail)
+                        }
+                        .show()
+                } else {
+                    isEmailValid=true
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("알림")
+                        .setMessage("이메일을 사용할 수 있습니다.")
+                        .setPositiveButton("확인") { dialog, _ ->
+                            showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserPassword)
+                        }
+                        .show()
                 }
             })
         }
 
             return fragmentRegisterBinding.root
     }
+
+
     //수영 경력
     private fun UserSwimExp():String {
         return when (fragmentRegisterBinding.swimExpGroup.checkedChipId) {
@@ -178,7 +189,7 @@ class RegisterFragment : Fragment() {
         return true
     }
     //키보드 올리기
-      fun showKeyboard(view: View) {
+    private fun showKeyboard(view: View) {
         if (view.requestFocus()) {
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
