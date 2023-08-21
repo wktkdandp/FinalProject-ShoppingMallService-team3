@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_product"
+        android:icon="@drawable/shopping_bag_24px"
+        android:title="상품 관리"
+        app:showAsAction="always|withText">
+        <menu>
+            <item
+                android:id="@+id/item_product_add"
+                android:title="상품 등록" />
+            <item
+                android:id="@+id/item_product_info"
+                android:title="상품 조회/수정" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/item_order"
+        android:icon="@drawable/local_shipping_24px"
+        android:title="주문/배송 관리"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/item_cs"
+        android:icon="@drawable/headset_mic_24px"
+        android:title="CS"
+        app:showAsAction="always|withText">
+        <menu>
+            <item
+                android:id="@+id/item_notice"
+                android:title="공지 관리" />
+            <item
+                android:id="@+id/item_inq"
+                android:title="Item" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/item_setting"
+        android:icon="@drawable/settings_24px"
+        android:title="설정"
+        app:showAsAction="always|withText" />
+</menu>
