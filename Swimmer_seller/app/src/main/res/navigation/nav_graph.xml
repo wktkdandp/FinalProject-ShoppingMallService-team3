@@ -19,12 +19,11 @@
         <action
             android:id="@+id/action_loginFragment_to_resetPasswordFragment"
             app:destination="@id/resetPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_findEmailFragment"
+            app:destination="@id/findEmailFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.petpal.swimmer_seller.ui.main.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.petpal.swimmer_seller.ui.user.SignUpFragment"
@@ -52,9 +51,20 @@
             app:argType="string"
             android:defaultValue="11111"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.petpal.swimmer_seller.ui.main.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
     <fragment
         android:id="@+id/resetPasswordFragment"
         android:name="com.petpal.swimmer_seller.ui.user.ResetPasswordFragment"
         android:label="fragment_reset_password"
         tools:layout="@layout/fragment_reset_password" />
+    <fragment
+        android:id="@+id/findEmailFragment"
+        android:name="com.petpal.swimmer_seller.ui.user.FindEmailFragment"
+        android:label="fragment_find_email"
+        tools:layout="@layout/fragment_find_email" />
 </navigation>

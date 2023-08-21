@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
         val passwordEditText = fragmentLoginBinding.textInputEditTextLoginPassword
         val loginButton = fragmentLoginBinding.buttonLogin
         val goToSignupButton = fragmentLoginBinding.buttonGoToSignup
-        val findEmailButton = fragmentLoginBinding.buttonFindEmail
+        val findEmailButton = fragmentLoginBinding.buttonGoToFindEmail
         val findPasswordButton = fragmentLoginBinding.buttonFindPassword
 
         userViewModel.run {
@@ -80,7 +80,7 @@ class LoginFragment : Fragment() {
                 loginResult.error?.let {
                     showLoginFailed(it)
                 }
-                loginResult.success?.let {
+                loginResult.successInt?.let {
                     updateUiWithUser(it)
                 }
             }
@@ -130,6 +130,7 @@ class LoginFragment : Fragment() {
 
         findEmailButton.setOnClickListener {
             //이메일 찾기로 이동
+            findNavController().navigate(R.id.action_loginFragment_to_findEmailFragment)
         }
 
         findPasswordButton.setOnClickListener {

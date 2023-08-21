@@ -35,6 +35,10 @@ android {
     viewBinding {
         enabled = true
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -62,5 +66,8 @@ dependencies {
     implementation "com.google.firebase:firebase-auth-ktx"
     //RealtimeDatabase
     implementation "com.google.firebase:firebase-database-ktx"
-
+    //Cloud Functions
+    implementation("com.google.firebase:firebase-functions-ktx")
+    // Stoarage
+    implementation 'com.google.firebase:firebase-storage:20.2.1'
 }

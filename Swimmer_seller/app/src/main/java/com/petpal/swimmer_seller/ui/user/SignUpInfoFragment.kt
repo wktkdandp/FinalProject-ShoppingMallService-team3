@@ -56,7 +56,7 @@ class SignUpInfoFragment : Fragment() {
                 result.error?.let {
                     showSignUpFailed(it)
                 }
-                result.success?.let {
+                result.successInt?.let {
                     updateUiWithUser(it)
                 }
             }
