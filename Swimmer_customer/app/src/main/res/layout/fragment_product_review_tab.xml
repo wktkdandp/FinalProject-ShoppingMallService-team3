@@ -1,14 +1,358 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.product.tablayout.ProductReviewTabFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".ui.product.tablayout.ProductReviewTabFragment">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/reviewTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/review_tab_review_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/reviewCounterTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(0)"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/reviewTextView"
+            app:layout_constraintStart_toEndOf="@id/reviewTextView"
+            app:layout_constraintTop_toTopOf="@id/reviewTextView" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/reviewCounterTextView" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/buyerRatingContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            app:layout_constraintStart_toStartOf="@id/reviewTextView"
+            app:layout_constraintTop_toBottomOf="@id/view1">
+
+            <TextView
+                android:id="@+id/buyerRatingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/review_tab_buyerRating"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/justOkTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/veryGoodTextView" />
+
+            <ImageView
+                android:id="@+id/starRateImageView"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="#FFEB3B"
+                android:src="@drawable/star_rate"
+                app:layout_constraintStart_toStartOf="@id/buyerRatingTextView"
+                app:layout_constraintTop_toBottomOf="@id/buyerRatingTextView" />
+
+            <TextView
+                android:id="@+id/statRateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="5"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintBottom_toBottomOf="@id/starRateImageView"
+                app:layout_constraintStart_toEndOf="@id/starRateImageView"
+                app:layout_constraintTop_toTopOf="@id/starRateImageView" />
+
+            <TextView
+                android:id="@+id/veryGoodTextView"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/review_tab_very_good"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/buyerRatingTextView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <SeekBar
+                android:id="@+id/veryGoodSeekBar"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:clickable="false"
+                android:progress="50"
+                android:progressTint="@color/colorSecondary"
+                android:thumbTint="@color/colorSecondary"
+                app:layout_constraintBottom_toBottomOf="@id/veryGoodTextView"
+                app:layout_constraintEnd_toStartOf="@id/veryGoodCounterTextView"
+                app:layout_constraintStart_toEndOf="@id/veryGoodTextView"
+                app:layout_constraintTop_toTopOf="@id/veryGoodTextView" />
+
+            <TextView
+                android:id="@+id/veryGoodCounterTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="2,200"
+                app:layout_constraintBottom_toBottomOf="@id/veryGoodTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/veryGoodTextView" />
+
+            <TextView
+                android:id="@+id/likeItTextView"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/review_tab_like_it"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/buyerRatingTextView"
+                app:layout_constraintTop_toBottomOf="@id/veryGoodCounterTextView" />
+
+            <SeekBar
+                android:id="@+id/likeItSeekBar"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:clickable="false"
+                android:progress="50"
+                android:progressTint="@color/colorSecondary"
+                android:thumbTint="@color/colorSecondary"
+                app:layout_constraintBottom_toBottomOf="@id/likeItTextView"
+                app:layout_constraintEnd_toStartOf="@id/veryGoodCounterTextView"
+                app:layout_constraintStart_toEndOf="@id/likeItTextView"
+                app:layout_constraintTop_toTopOf="@id/likeItTextView" />
+
+            <TextView
+                android:id="@+id/likeItCounterTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="2,200"
+                app:layout_constraintBottom_toBottomOf="@id/likeItTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/likeItTextView" />
+
+            <TextView
+                android:id="@+id/soSoTextView"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/review_tab_so_so"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/buyerRatingTextView"
+                app:layout_constraintTop_toBottomOf="@id/likeItTextView" />
+
+            <SeekBar
+                android:id="@+id/soSoSeekBar"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:clickable="false"
+                android:progress="50"
+                android:progressTint="@color/colorSecondary"
+                android:thumbTint="@color/colorSecondary"
+                app:layout_constraintBottom_toBottomOf="@id/soSoTextView"
+                app:layout_constraintEnd_toStartOf="@id/soSoCounterTextView"
+                app:layout_constraintStart_toEndOf="@id/soSoTextView"
+                app:layout_constraintTop_toTopOf="@id/soSoTextView" />
+
+            <TextView
+                android:id="@+id/soSoCounterTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="2,200"
+                app:layout_constraintBottom_toBottomOf="@id/soSoTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/soSoTextView" />
+
+            <TextView
+                android:id="@+id/justOkTextView"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/review_tab_just_okay"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/buyerRatingTextView"
+                app:layout_constraintTop_toBottomOf="@id/soSoTextView" />
+
+            <SeekBar
+                android:id="@+id/justOkSeekBar"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:clickable="false"
+                android:progress="50"
+                android:progressTint="@color/colorSecondary"
+                android:thumbTint="@color/colorSecondary"
+                app:layout_constraintBottom_toBottomOf="@id/justOkTextView"
+                app:layout_constraintEnd_toStartOf="@id/justOkCounterTextView"
+                app:layout_constraintStart_toEndOf="@id/justOkTextView"
+                app:layout_constraintTop_toTopOf="@id/justOkTextView" />
+
+            <TextView
+                android:id="@+id/justOkCounterTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="2,200"
+                app:layout_constraintBottom_toBottomOf="@id/justOkTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/justOkTextView" />
+
+            <TextView
+                android:id="@+id/notMuchTextView"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/review_tab_not_much"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/buyerRatingTextView"
+                app:layout_constraintTop_toBottomOf="@id/justOkTextView" />
+
+            <SeekBar
+                android:id="@+id/notMuchSeekBar"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:clickable="false"
+                android:progress="50"
+                android:progressTint="@color/colorSecondary"
+                android:thumbTint="@color/colorSecondary"
+                app:layout_constraintBottom_toBottomOf="@id/notMuchTextView"
+                app:layout_constraintEnd_toStartOf="@id/notMuchCounterTextView"
+                app:layout_constraintStart_toEndOf="@id/notMuchTextView"
+                app:layout_constraintTop_toTopOf="@id/notMuchTextView" />
+
+            <TextView
+                android:id="@+id/notMuchCounterTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="2,200"
+                app:layout_constraintBottom_toBottomOf="@id/notMuchTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/notMuchTextView" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/buyerRatingContainer" />
+
+        <LinearLayout
+            android:id="@+id/reviewOptionLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/buyerRatingContainer"
+            app:layout_constraintTop_toBottomOf="@id/view2">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/reviewOptionChipGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/startRatingChip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:layoutDirection="rtl"
+                    android:text="@string/review_tab_star_rating"
+                    android:textColor="@color/black"
+                    app:chipBackgroundColor="@drawable/chip_state_color_list"
+                    app:chipIcon="@drawable/keyboard_arrow_down_24px"
+                    app:chipIconTint="@color/black"
+                    app:chipIconVisible="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/heightChip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:layoutDirection="rtl"
+                    android:text="@string/review_tab_height"
+                    android:textColor="@color/black"
+                    app:chipBackgroundColor="@drawable/chip_state_color_list"
+                    app:chipIcon="@drawable/keyboard_arrow_down_24px"
+                    app:chipIconTint="@color/black"
+                    app:chipIconVisible="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/weightChip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:layoutDirection="rtl"
+                    android:text="@string/review_tab_weight"
+                    android:textColor="@color/black"
+                    app:chipBackgroundColor="@drawable/chip_state_color_list"
+                    app:chipIcon="@drawable/keyboard_arrow_down_24px"
+                    app:chipIconTint="@color/black"
+                    app:chipIconVisible="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/defaultSizeChip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:layoutDirection="rtl"
+                    android:text="@string/review_tab_default_size"
+                    android:textColor="@color/black"
+                    app:chipBackgroundColor="@drawable/chip_state_color_list"
+                    app:chipIcon="@drawable/keyboard_arrow_down_24px"
+                    app:chipIconTint="@color/black"
+                    app:chipIconVisible="true" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </LinearLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buyerRatingContainer">
+
+            <include
+                android:id="@+id/reviewChipBottomSheet"
+                style="@style/Widget.Material3.BottomSheet"
+                layout="@layout/fragment_product_review_tab_chip_bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:behavior_peekHeight="0dp"
+                app:layout_behavior="@string/bottom_sheet_behavior" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

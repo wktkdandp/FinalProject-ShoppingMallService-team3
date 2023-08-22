@@ -5,56 +5,42 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.petpal.swimmer_customer.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.petpal.swimmer_customer.databinding.FragmentProductReviewTabBinding
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProductReviewTabFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ProductReviewTabFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var fragmentProductReviewTabBinding: FragmentProductReviewTabBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_review_tab, container, false)
+        fragmentProductReviewTabBinding = FragmentProductReviewTabBinding.inflate(inflater)
+        fragmentProductReviewTabBinding.run{
+
+
+            startRatingChip.setOnClickListener {
+                val bottomSheetDialog = BottomSheetDialog(requireContext())
+                val bottomSheetView = layoutInflater.inflate(R.layout.fragment_product_review_tab_chip_bottom_sheet, null)
+                bottomSheetDialog.setContentView(bottomSheetView)
+                bottomSheetDialog.show()
+
+            }
+
+
+        }
+        // Bottom Sheet 의 동작을 제어하는 객체
+
+
+        return fragmentProductReviewTabBinding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProductReviewTabFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProductReviewTabFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }
+
+
