@@ -11,14 +11,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
@@ -29,17 +33,18 @@ import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.data.model.Review
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentProductAddBinding
+import com.petpal.swimmer_seller.databinding.LayoutImageviewDeleteBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class ProductAddFragment : Fragment() {
     lateinit var productViewModel: ProductViewModel
-    lateinit var fragmentProductAddBinding: FragmentProductAddBinding
+    private lateinit var fragmentProductAddBinding: FragmentProductAddBinding
     lateinit var mainActivity: MainActivity
 
-    // TODO 나중에 List에 담아서 대표이미지 여러 개 등록하기
-    private var mainImageUri: Uri? = null
+    // 대표 이미지 최대 5개, 설명 이미지 1개
+    private var mainImageUriList = mutableListOf<Uri>()
     private var descriptionImageUri: Uri? = null
 
     lateinit var mainGalleryLauncher: ActivityResultLauncher<Intent>
@@ -62,8 +67,8 @@ class ProductAddFragment : Fragment() {
         val factory = ProductViewModelFactory(ProductRepository())
         productViewModel = ViewModelProvider(this, factory)[ProductViewModel::class.java]
 
-        mainGalleryLauncher = gallerySetting(fragmentProductAddBinding.imageViewMain, true)
-        descGalleryLauncher = gallerySetting(fragmentProductAddBinding.imageViewDescription, false)
+        mainGalleryLauncher = multiGallerySetting()
+        descGalleryLauncher = singleGallerySetting()
 
         addHashTagList.clear()
 
@@ -73,6 +78,11 @@ class ProductAddFragment : Fragment() {
             }
             buttonCancel.setOnClickListener {
                 findNavController().popBackStack()
+            }
+
+            recyclerViewMainImage.run {
+                adapter = MainImageRecyclerViewAdapter()
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             }
 
             // 대 → 중 → 소 선택에 따라 드롭박스 단계별 활성화, 세팅
@@ -176,7 +186,7 @@ class ProductAddFragment : Fragment() {
 
             buttonOK.setOnClickListener {
                 // 최종 유효성 검사
-                if (mainImageUri == null) {
+                if (mainImageUriList.size < 1) {
                     buttonAddMainImage.requestFocus()
                     scrollView.scrollTo(0, buttonAddMainImage.top)
                     Snackbar.make(fragmentProductAddBinding.root, "상품 이미지를 1개 이상 등록해 주세요", Snackbar.LENGTH_SHORT).show()
@@ -215,7 +225,14 @@ class ProductAddFragment : Fragment() {
                     dropdownCategorySub.text.toString()
                 )
                 val code = System.currentTimeMillis().toString()
-                val mainImageFileName = "image/${code}_main_image.jpg"
+
+                // DB에 저장될 이미지 파일들
+                val uploadImagesMap = mutableMapOf<Uri, String>()
+                // 메인 이미지 Uri 별로 파일명 설정
+                for (idx in mainImageUriList.indices) {
+                    uploadImagesMap[mainImageUriList[idx]] = "image/${code}_main_image${idx+1}.jpg"
+                }
+
                 val descriptionImageFileName = "image/${code}_description_image.jpg"
 
                 val product = Product(
@@ -223,7 +240,7 @@ class ProductAddFragment : Fragment() {
                     code,
                     textInputEditTextProductName.text.toString(),
                     textInputEditTextPrice.text.toString().toLong(),
-                    mainImageFileName,
+                    uploadImagesMap.values.toList(),
                     textInputEditTextDescription.text.toString(),
                     descriptionImageFileName,
                     mainActivity.loginSellerUid,
@@ -240,10 +257,8 @@ class ProductAddFragment : Fragment() {
                 productViewModel.addProduct(product)
 
                 // 이미지 업로드
-                productViewModel.uploadImages(mutableMapOf<Uri, String>(
-                    mainImageUri!! to mainImageFileName,
-                    descriptionImageUri!! to descriptionImageFileName
-                ))
+                uploadImagesMap[descriptionImageUri!!] = descriptionImageFileName
+                productViewModel.uploadImages(uploadImagesMap)
 
                 Snackbar.make(fragmentProductAddBinding.root, "상품이 등록되었습니다.", Snackbar.LENGTH_SHORT).show()
 
@@ -295,37 +310,93 @@ class ProductAddFragment : Fragment() {
         }
     }
     
-    // 갤러리 설정
-    private fun gallerySetting(previewImageView: ImageView, isMainImage: Boolean): ActivityResultLauncher<Intent>{
+    // 다중 선택 갤러리 설정
+    private fun multiGallerySetting(): ActivityResultLauncher<Intent>{
+        val galleryContract = ActivityResultContracts.StartActivityForResult()
+        val galleryLauncher = registerForActivityResult(galleryContract) {
+            // 메인 이미지 최대 5개까지만 첨부 가능
+            if (mainImageUriList.size < 6){
+                if (it.resultCode == AppCompatActivity.RESULT_OK) {
+                    if (it.data?.data != null) {
+                        val uploadUri = it.data?.data
+                        val previewCardView = layoutInflater.inflate(R.layout.layout_imageview_delete, fragmentProductAddBinding.linearMainImage, false) as CardView
+                        val previewImageView = previewCardView.findViewById<ImageView>(R.id.imageViewDelete)
+                        val previewButton = previewCardView.findViewById<Button>(R.id.buttonDelete)
+                        previewButton.setOnClickListener {
+                            // TODO 이 부분을 ViewModel에서 UI 파악할 수 있도록 빼기?
+                            // 이미지 삭제, 리스트에서 제거
+                            fragmentProductAddBinding.linearMainImage.removeView(previewCardView)
+                            mainImageUriList.remove(uploadUri)
+                            fragmentProductAddBinding.buttonAddMainImage.text = "${mainImageUriList.size}/5"
+                        }
+                        // 화면에 이미지 CardView 추가
+                        fragmentProductAddBinding.linearMainImage.addView(previewCardView)
+                        // 메인 이미지 리스트에 추가
+                        mainImageUriList.add(uploadUri!!)
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            val source = ImageDecoder.createSource(mainActivity.contentResolver, uploadUri!!)
+                            val bitmap = ImageDecoder.decodeBitmap(source)
+                            previewImageView.setImageBitmap(bitmap)
+                        } else {
+                            val cursor = mainActivity.contentResolver.query(uploadUri!!, null, null, null, null)
+                            if (cursor != null) {
+                                cursor.moveToNext()
+
+                                val colIdx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                                val source = cursor.getString(colIdx)
+
+                                val bitmap = BitmapFactory.decodeFile(source)
+                                previewImageView.setImageBitmap(bitmap)
+                            }
+                        }
+                        mainImageUriList.add(uploadUri)
+                        fragmentProductAddBinding.buttonAddMainImage.text = "${mainImageUriList.size}/5"
+                    }
+                }
+            }
+        }
+
+        return galleryLauncher
+    }
+
+    // 단일 선택 갤러리 설정
+    private fun singleGallerySetting(): ActivityResultLauncher<Intent>{
         val galleryContract = ActivityResultContracts.StartActivityForResult()
         val galleryLauncher = registerForActivityResult(galleryContract) {
 
-            if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                if (it.data?.data != null) {
-                    val uploadUri = it.data?.data
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        val source = ImageDecoder.createSource(mainActivity.contentResolver, uploadUri!!)
-                        val bitmap = ImageDecoder.decodeBitmap(source)
-                        previewImageView.setImageBitmap(bitmap)
-                    } else {
-                        val cursor = mainActivity.contentResolver.query(uploadUri!!, null, null, null, null)
-                        if (cursor != null) {
-                            cursor.moveToNext()
-
-                            val colIdx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-                            val source = cursor.getString(colIdx)
-
-                            val bitmap = BitmapFactory.decodeFile(source)
-                            previewImageView.setImageBitmap(bitmap)
+            if (descriptionImageUri == null) {
+                if (it.resultCode == AppCompatActivity.RESULT_OK) {
+                    if (it.data?.data != null) {
+                        val uploadUri = it.data?.data
+                        val previewCardView = layoutInflater.inflate(R.layout.layout_imageview_delete, fragmentProductAddBinding.linearMainImage, false) as CardView
+                        val previewImageView = previewCardView.findViewById<ImageView>(R.id.imageViewDelete)
+                        val previewButton = previewCardView.findViewById<Button>(R.id.buttonDelete)
+                        previewButton.setOnClickListener {
+                            // 이미지 삭제, 리스트에서 제거
+                            fragmentProductAddBinding.linearMainImage.removeView(previewCardView)
+                            descriptionImageUri = null
+                            fragmentProductAddBinding.buttonAddDescImage.text = "0/1"
                         }
-                    }
+                        fragmentProductAddBinding.linearMainImage.addView(previewCardView)
 
-                    if (isMainImage) {
-                        // TODO 차후 메인 이미지 여러 개 저장시 List<Uri>로 저장하는 방식으로 변경하기
-                        mainImageUri = uploadUri
-                        fragmentProductAddBinding.buttonAddMainImage.text = "1/5"
-                    } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            val source = ImageDecoder.createSource(mainActivity.contentResolver, uploadUri!!)
+                            val bitmap = ImageDecoder.decodeBitmap(source)
+                            previewImageView.setImageBitmap(bitmap)
+                        } else {
+                            val cursor = mainActivity.contentResolver.query(uploadUri!!, null, null, null, null)
+                            if (cursor != null) {
+                                cursor.moveToNext()
+
+                                val colIdx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                                val source = cursor.getString(colIdx)
+
+                                val bitmap = BitmapFactory.decodeFile(source)
+                                previewImageView.setImageBitmap(bitmap)
+                            }
+                        }
+
                         descriptionImageUri = uploadUri
                         fragmentProductAddBinding.buttonAddDescImage.text = "1/1"
                     }
@@ -334,6 +405,48 @@ class ProductAddFragment : Fragment() {
         }
 
         return galleryLauncher
+    }
+
+    inner class MainImageRecyclerViewAdapter: RecyclerView.Adapter<MainImageRecyclerViewAdapter.MainImageViewHolder>(){
+        inner class MainImageViewHolder(imageViewBinding: LayoutImageviewDeleteBinding):RecyclerView.ViewHolder(imageViewBinding.root) {
+            val imageViewMain: ImageView
+            val buttonDeleteMain: Button
+            var uri : Uri?
+
+            init {
+                imageViewMain = imageViewBinding.imageViewDelete
+                buttonDeleteMain = imageViewBinding.buttonDelete
+                uri = null
+
+                buttonDeleteMain.setOnClickListener {
+                    mainImageUriList.remove(uri)
+                    fragmentProductAddBinding.buttonAddMainImage.text = "${mainImageUriList.count()}/5"
+                    notifyDataSetChanged()
+                }
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainImageViewHolder {
+            val imageViewBinding = LayoutImageviewDeleteBinding.inflate(layoutInflater)
+            val mainImageViewHolder = MainImageViewHolder(imageViewBinding)
+
+            imageViewBinding.root.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+
+            return mainImageViewHolder
+        }
+
+        override fun getItemCount(): Int {
+            return mainImageUriList.size
+        }
+
+        override fun onBindViewHolder(holder: MainImageViewHolder, position: Int) {
+            holder.uri = mainImageUriList[position]
+            holder.imageViewMain.setImageURI(mainImageUriList[position])
+        }
+
     }
 }
 
@@ -347,3 +460,4 @@ class ProductViewModelFactory(private val repository: ProductRepository) : ViewM
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+

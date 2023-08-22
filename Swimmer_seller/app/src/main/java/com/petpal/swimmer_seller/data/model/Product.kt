@@ -6,7 +6,7 @@ data class Product(
     var code: String,
     var name: String,
     var price: Long,
-    var mainImage: String,
+    var mainImage: List<String>,
     var description: String,
     var descriptionImage: String,
     var sellerUid: String,

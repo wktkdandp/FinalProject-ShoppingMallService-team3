@@ -25,11 +25,7 @@
         tools:layout="@layout/fragment_product_add" >
         <action
             android:id="@+id/action_item_product_add_to_productOptionFragment"
-            app:destination="@id/productOptionFragment">
-            <argument
-                android:name="product"
-                app:argType="com.petpal.swimmer_seller.data.model.Product" />
-        </action>
+            app:destination="@id/productOptionFragment"/>
     </fragment>
     <fragment
         android:id="@+id/guideFragment"

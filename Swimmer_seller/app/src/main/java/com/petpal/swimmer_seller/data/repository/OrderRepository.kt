@@ -6,8 +6,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.petpal.swimmer_seller.data.model.Order
 
 class OrderRepository {
-    private val database = FirebaseDatabase.getInstance()
-    private val ordersRef = database.getReference("orders")
+    private val ordersRef = FirebaseDatabase.getInstance().getReference("orders")
 
     // 전체 주문 가져오기
     fun getAllOrder(callback: (Task<DataSnapshot>) -> Unit){

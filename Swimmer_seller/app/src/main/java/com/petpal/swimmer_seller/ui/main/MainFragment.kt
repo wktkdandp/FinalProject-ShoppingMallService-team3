@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.petpal.swimmer_seller.R
-import com.petpal.swimmer_seller.databinding.FragmentMainBinding
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.petpal.swimmer_seller.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
     private lateinit var fragmentMainBinding: FragmentMainBinding

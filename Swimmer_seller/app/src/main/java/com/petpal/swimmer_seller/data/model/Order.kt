@@ -1,5 +1,7 @@
 package com.petpal.swimmer_seller.data.model
 
+import java.io.Serializable
+
 data class Order(
     var orderUid:String,
     var code:String,
