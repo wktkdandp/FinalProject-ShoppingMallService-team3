@@ -20,7 +20,6 @@ import com.petpal.swimmer_customer.databinding.PaymentItemRowBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
 import com.petpal.swimmer_customer.ui.payment.repository.PaymentRepository
 import com.petpal.swimmer_customer.ui.payment.vm.PaymentViewModel
-import org.w3c.dom.Text
 
 class PaymentFragment : Fragment() {
 
@@ -28,13 +27,16 @@ class PaymentFragment : Fragment() {
     lateinit var mainActivity: MainActivity
     lateinit var paymentViewModel: PaymentViewModel
 
-    // spinner array
-    val spinnerList = arrayOf("베송 메세지 선택","안전한 배송 부탁드려요.","빠른 배송 부탁드려요.","부재 시 전화주세요.","문 앞에 배송 부탁드려요.")
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // spinner array
+        // getResources 활용 하려면 oncreate 이후에 실행 가능 기억하기
+        val spinnerItems = resources.getStringArray(R.array.spinner_items)
+        val spinnerList = arrayOf(spinnerItems[0], spinnerItems[1], spinnerItems[2], spinnerItems[3], spinnerItems[4])
 
         fragmentPaymentBinding = FragmentPaymentBinding.inflate(inflater)
         mainActivity = activity as MainActivity
@@ -46,7 +48,7 @@ class PaymentFragment : Fragment() {
             }
             paymentFee.observe(mainActivity) {
                 fragmentPaymentBinding.paymentConfirmButton.text = "${it}원 결제하기"
-                fragmentPaymentBinding.paymentCheck.text = "상품 금액 : ${it}원"
+                fragmentPaymentBinding.paymentCheck.text = "총 상품 금액 : ${it}원"
             }
         }
         fragmentPaymentBinding.run {
@@ -79,13 +81,13 @@ class PaymentFragment : Fragment() {
 
             // 상단 툴바
             toolbarPayment.run {
-                title = "결제 페이지"
                 setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
                 val navigationIcon = navigationIcon
                 navigationIcon?.setTint(ContextCompat.getColor(context, R.color.black))
                 setNavigationOnClickListener {
-                    Navigation.findNavController(fragmentPaymentBinding.root)
-                        .navigate(R.id.action_paymentFragment_to_itemDetailFragment)
+                    // 백 버튼 문제 해결하기 -> 완료
+                    Navigation.findNavController(fragmentPaymentBinding.root).popBackStack()
+                        /*.navigate(R.id.itemDetailFragment)*/
                 }
             }
 
@@ -93,9 +95,16 @@ class PaymentFragment : Fragment() {
             paymentConfirmButton.run {
                 setOnClickListener {
                     // 결제 완료 버튼
+                    // seller한테 넘겨줄 order객체 서버로 전송하는 메서드 구현 예정
+
+                    // complete -> 주문 완료 화면
                     // 주문 완료 화면으로 이동하기
                     Navigation.findNavController(fragmentPaymentBinding.root)
-                        .navigate(R.id.completeFragment)
+                        .navigate(R.id.action_paymentFragment_to_completeFragment)
+
+                    // failed -> 서버 오류를 알려주는 dialog 생성
+
+
                 }
             }
 
@@ -122,15 +131,17 @@ class PaymentFragment : Fragment() {
             val paymentItemImage: ImageView
             val paymentItemName: TextView
             val paymentItemPrice: TextView
-            val paymentItemCount: TextView
-            val paymentItemOption: TextView
+            val paymentItemQuantity: TextView
+            val paymentItemColor: TextView
+            val paymentItemSize: TextView
 
             init {
                 paymentItemImage = paymentItemRowBinding.paymentItemImage
                 paymentItemName = paymentItemRowBinding.paymentItemName
                 paymentItemPrice = paymentItemRowBinding.paymentItemPrice
-                paymentItemCount = paymentItemRowBinding.paymentItemCount
-                paymentItemOption = paymentItemRowBinding.paymentItemOption
+                paymentItemQuantity = paymentItemRowBinding.paymentItemQuantity
+                paymentItemColor = paymentItemRowBinding.paymentItemColor
+                paymentItemSize = paymentItemRowBinding.paymentItemSize
             }
         }
 
@@ -150,18 +161,17 @@ class PaymentFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            holder.paymentItemName.text = "제품명 : ${paymentViewModel.itemList.value?.get(position)?.name}"
+            holder.paymentItemName.text = paymentViewModel.itemList.value?.get(position)?.name.toString()
             holder.paymentItemPrice.text = "가격 : ${paymentViewModel.itemList.value?.get(position)?.price.toString()}"
+
             // 현재 데이터셋 없으므로 1 고정
-            holder.paymentItemCount.text = "수량 : 1"
-            holder.paymentItemOption.text = "옵션 : ${paymentViewModel.itemList.value?.get(position)?.option}"
+            holder.paymentItemQuantity.text = "수량 : 1"
+
+            // option -> color, size로 분할
+            holder.paymentItemColor.text = "색상 : ${paymentViewModel.itemList.value?.get(position)?.color}"
+            holder.paymentItemSize.text = "사이즈 : ${paymentViewModel.itemList.value?.get(position)?.size}"
             PaymentRepository.getItemImage(holder.paymentItemImage, paymentViewModel.itemList.value?.get(position)?.mainImage)
         }
-    }
-
-    // 총 결제 금액 표기용 메서드
-    fun totalToButton() {
-
     }
 }
 

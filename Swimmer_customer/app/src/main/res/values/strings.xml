@@ -11,4 +11,14 @@
     <string name="item_search">검색</string>
     <string name="item_shopping_cart">장바구니</string>
     <string name="paymentButton">구매하기</string>
+
+    <!-- payment / spinner items -->
+    <string-array name="spinner_items">
+        <item name="spinner1">배송 메세지 선택</item>
+        <item name="spinner2">안전한 배송 부탁드려요</item>
+        <item name="spinner3">빠른 배송 부탁드려요</item>
+        <item name="spinner4">부재 시 전화주세요</item>
+        <item name="spinner5">문 앞에 배송 부탁드려요</item>
+    </string-array>
+
 </resources>
