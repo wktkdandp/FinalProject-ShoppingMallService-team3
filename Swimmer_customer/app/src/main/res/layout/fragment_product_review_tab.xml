@@ -43,7 +43,8 @@
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
             android:background="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/reviewCounterTextView" />
+            app:layout_constraintTop_toBottomOf="@id/reviewCounterTextView"
+            tools:layout_editor_absoluteX="0dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/buyerRatingContainer"
@@ -267,6 +268,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="5dp"
             app:layout_constraintStart_toStartOf="@id/buyerRatingContainer"
             app:layout_constraintTop_toBottomOf="@id/view2">
 
@@ -288,7 +290,7 @@
                     app:chipBackgroundColor="@drawable/chip_state_color_list"
                     app:chipIcon="@drawable/keyboard_arrow_down_24px"
                     app:chipIconTint="@color/black"
-                    app:chipIconVisible="true"/>
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/heightChip"
@@ -333,26 +335,26 @@
                     app:chipIconVisible="true" />
 
             </com.google.android.material.chip.ChipGroup>
-
         </LinearLayout>
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <View
+            android:id="@+id/view3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/reviewOptionLayout" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewRv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buyerRatingContainer">
-
-            <include
-                android:id="@+id/reviewChipBottomSheet"
-                style="@style/Widget.Material3.BottomSheet"
-                layout="@layout/fragment_product_review_tab_chip_bottom_sheet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:behavior_peekHeight="0dp"
-                app:layout_behavior="@string/bottom_sheet_behavior" />
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            app:layout_constraintTop_toBottomOf="@id/view3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

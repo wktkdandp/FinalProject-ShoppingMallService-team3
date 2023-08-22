@@ -10,9 +10,6 @@
     <color name="colorNeutral">#FFFBFF</color>
     <color name="seed">#414BB2</color>
     <color name="md_theme_light_primary">#4953BB</color>
-    <color name="colorPrimary">#4953BB</color>
-    <color name="colorSecondary">#4F56A9</color>
-    <color name="colorNeutral">#BDC2FF</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#E0E0FF</color>
     <color name="md_theme_light_onPrimaryContainer">#000668</color>
