@@ -202,7 +202,7 @@
     <string name="prompt_category_main">대분류</string>
     <string name="prompt_category_mid">중분류</string>
     <string name="prompt_category_sub">소분류</string>
-    <string name="prompt_hashtag">#해시태그</string>
+    <string name="prompt_hashtag_helper">쉼표(,)로 구분, 최대 10개</string>
     <string name="prompt_price">가격</string>
     <string name="prompt_product_description">상품 설명</string>
     <string name="prompt_description_image">상품 설명 이미지 (1개)</string>
@@ -222,4 +222,5 @@
     <string name="flippers">오리발</string>
     <string name="bag">가방</string>
     <string name="water_toy">물놀이용품</string>
+    <string name="prompt_hashtag">해시태그</string>
 </resources>

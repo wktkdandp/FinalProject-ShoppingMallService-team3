@@ -7,6 +7,6 @@ data class Ranking(
     val brand: String,
     val title: String,
     val price: String,
-    val description: String,
+    val productDetailTabImage: String,
     val productDetailItemList: List<ProductDetailModel>,
     )

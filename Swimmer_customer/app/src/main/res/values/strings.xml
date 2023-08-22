@@ -11,4 +11,16 @@
     <string name="item_search">검색</string>
     <string name="item_shopping_cart">장바구니</string>
     <string name="paymentButton">구매하기</string>
+    <string name="fragment_home_raking_text">랭킹</string>
+    <string name="review_tab_review_text">상품후기│</string>
+    <string name="review_tab_buyerRating">구매자 평점</string>
+    <string name="review_tab_very_good">아주 좋아요</string>
+    <string name="review_tab_like_it">맘에 들어요</string>
+    <string name="review_tab_so_so">보통이에요</string>
+    <string name="review_tab_just_okay">그냥 그래요</string>
+    <string name="review_tab_not_much">별로에요</string>
+    <string name="review_tab_star_rating">별점</string>
+    <string name="review_tab_height">키</string>
+    <string name="review_tab_weight">체중</string>
+    <string name="review_tab_default_size">평소사이즈</string>
 </resources>

@@ -12,7 +12,7 @@ data class Product(
     var sellerUid: String,
     var sizeList: List<Long>,
     var colorList: List<Long>,
-    var hashTag: String,
+    var hashTag: List<String>,
     var category: Category,
     var reviewList: List<Review>,
     var orderCount: Long,
