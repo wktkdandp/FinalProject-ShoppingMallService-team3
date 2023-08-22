@@ -33,6 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    dataBinding {
+        enabled = true
+    }
     viewBinding {
         enabled = true
     }
@@ -68,5 +71,11 @@ dependencies {
 
     // splashscreen
     implementation 'androidx.core:core-splashscreen:1.0.0-alpha01'
+
+    // firebase
+    implementation 'com.google.firebase:firebase-storage:20.2.1'
+    implementation 'com.google.firebase:firebase-database:20.2.2'
+    implementation platform('com.google.firebase:firebase-bom:32.2.2')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
 }
