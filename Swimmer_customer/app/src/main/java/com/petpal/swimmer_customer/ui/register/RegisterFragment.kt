@@ -49,7 +49,7 @@ class RegisterFragment : Fragment() {
 
         //툴바
         fragmentRegisterBinding.toolbarAddUser.run{
-            title = "회원가입"
+            title = getString(R.string.title_signup)
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
             setNavigationOnClickListener {
                 findNavController().popBackStack()
@@ -73,7 +73,7 @@ class RegisterFragment : Fragment() {
             }
             if(!isEmailValid)
             {
-                fragmentRegisterBinding.textInputLayoutAddUserEmail.error = "아이디 중복검사를 진행해주세요."
+                fragmentRegisterBinding.textInputLayoutAddUserEmail.error = getString(R.string.error_check_id_duplication)
                 fragmentRegisterBinding.buttonAddUserEmailDuplicateCheck.requestFocus()
                 return@setOnClickListener
             }
@@ -82,10 +82,10 @@ class RegisterFragment : Fragment() {
                 if (success!!) {
                     // 회원가입 성공
                     findNavController().popBackStack()
-                    Toast.makeText(context, "회원가입에 성공했습니다. 로그인해주세요.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.signup_success), Toast.LENGTH_LONG).show()
                 } else {
                     // 회원가입 실패
-                    Toast.makeText(context, "회원가입에 실패했습니다.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.signup_failure), Toast.LENGTH_LONG).show()
                     fragmentRegisterBinding.textInputEditTextAddUserEmail.text?.clear()
                     fragmentRegisterBinding.textInputEditTextAddUserPassword.text?.clear()
                     fragmentRegisterBinding.textInputEditTextAddUserPasswordRepeat.text?.clear()
@@ -105,9 +105,9 @@ class RegisterFragment : Fragment() {
             viewModel.checkEmailDuplicated(email).observe(viewLifecycleOwner, Observer { isDuplicate ->
                 if (isDuplicate) {
                     AlertDialog.Builder(requireContext())
-                        .setTitle("알림")
-                        .setMessage("이미 존재하는 이메일입니다.")
-                        .setPositiveButton("확인") { dialog, _ ->
+                        .setTitle(getString(R.string.title_notification))
+                        .setMessage(getString(R.string.error_email_already_exists))
+                        .setPositiveButton(getString(R.string.action_confirm)) { dialog, _ ->
                             fragmentRegisterBinding.textInputEditTextAddUserEmail.text?.clear()
                             showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserEmail)
                         }
@@ -115,8 +115,8 @@ class RegisterFragment : Fragment() {
                 } else {
                     isEmailValid=true
                     AlertDialog.Builder(requireContext())
-                        .setTitle("알림")
-                        .setMessage("이메일을 사용할 수 있습니다.")
+                        .setTitle(getString(R.string.title_notification))
+                        .setMessage(getString(R.string.message_email_available))
                         .setPositiveButton("확인") { dialog, _ ->
                             showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserPassword)
                         }
@@ -132,16 +132,16 @@ class RegisterFragment : Fragment() {
     //수영 경력
     private fun UserSwimExp():String {
         return when (fragmentRegisterBinding.swimExpGroup.checkedChipId) {
-            R.id.swimExp1 -> "1년 이하"
-            R.id.swimExp2 -> "3년 이하"
-            R.id.swimExp3 -> "5년 이하"
-            R.id.swimExp4 -> "5년 이상"
-            else -> "선택안함"
+            R.id.swimExp1 -> getString(R.string.duration_less_than_1_year)
+            R.id.swimExp2 -> getString(R.string.duration_less_than_3_years)
+            R.id.swimExp3 -> getString(R.string.duration_less_than_5_years)
+            R.id.swimExp4 -> getString(R.string.duration_more_than_5_years)
+            else -> getString(R.string.duration_no_selection)
         }
     }
     private fun checkEmail(email: String): Boolean {
         if (!email.contains("@")) {
-            fragmentRegisterBinding.textInputLayoutAddUserEmail.error = "이메일 양식이 올바르지 않습니다."
+            fragmentRegisterBinding.textInputLayoutAddUserEmail.error = getString(R.string.error_invalid_email_format)
             Handler(Looper.getMainLooper()).postDelayed({
                 fragmentRegisterBinding.textInputLayoutAddUserEmail.error = ""
                 fragmentRegisterBinding.textInputEditTextAddUserEmail.text?.clear()
@@ -155,7 +155,7 @@ class RegisterFragment : Fragment() {
     private fun checkPassword(password: String, confirmPassword: String): Boolean {
         // 비밀번호의 길이 검사
         if (password.length < 6) {
-            fragmentRegisterBinding.textInputLayoutAddUserPassword.error = "비밀번호는 6자 이상이어야 합니다."
+            fragmentRegisterBinding.textInputLayoutAddUserPassword.error = getString(R.string.error_password_length)
             Handler(Looper.getMainLooper()).postDelayed({
                 fragmentRegisterBinding.textInputLayoutAddUserPassword.error = ""
                 fragmentRegisterBinding.textInputEditTextAddUserPassword.text?.clear()
@@ -166,7 +166,7 @@ class RegisterFragment : Fragment() {
         }
         // 비밀번호 일치 검사
         else if (password != confirmPassword) {
-            fragmentRegisterBinding.textInputLayoutAddUserPasswordRepeat.error = "비밀번호가 일치하지 않습니다."
+            fragmentRegisterBinding.textInputLayoutAddUserPasswordRepeat.error = getString(R.string.error_passwords_not_match)
             Handler(Looper.getMainLooper()).postDelayed({
                 fragmentRegisterBinding.textInputLayoutAddUserPasswordRepeat.error = ""
                 fragmentRegisterBinding.textInputEditTextAddUserPassword.text?.clear()
@@ -180,7 +180,7 @@ class RegisterFragment : Fragment() {
     //정보 동의 체크박스
     private fun isCheckboxChecked(): Boolean {
         if (!fragmentRegisterBinding.infoAgree.isChecked) {
-            fragmentRegisterBinding.textViewInfoAgree.text = "정보 동의를 체크해주세요."
+            fragmentRegisterBinding.textViewInfoAgree.text = getString(R.string.error_consent_required)
             Handler(Looper.getMainLooper()).postDelayed({
                 fragmentRegisterBinding.textViewInfoAgree.text = ""
             }, 2000)

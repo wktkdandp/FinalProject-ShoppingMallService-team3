@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -38,7 +39,7 @@ class MypageFragment : Fragment() {
 
 
         fragmentMypageBinding.toolbarMypage.run {
-            title = "마이 페이지"
+            title = getString(R.string.mypage_title)
             inflateMenu(R.menu.mypage_toolbar_menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -57,13 +58,13 @@ class MypageFragment : Fragment() {
 
         viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer { user ->
             if (user != null) {
-                fragmentMypageBinding.textViewNickname.text="닉네임 : ${user.nickName} "
+                fragmentMypageBinding.textViewNickname.text=getString(R.string.nickname_is,user.nickName)
             } else {
                 //로그인하지않고 마이페이지 들어왔을때 일단 구현만 해놓음
                 AlertDialog.Builder(requireContext())
-                    .setTitle("알림")
-                    .setMessage("로그인이 필요한 서비스입니다.")
-                    .setPositiveButton("확인") { dialog, _ ->
+                    .setTitle(getString(R.string.title_notification))
+                    .setMessage(getString(R.string.alert_message_login_required))
+                    .setPositiveButton(getString(R.string.action_confirm)) { dialog, _ ->
                         findNavController().navigate(R.id.action_item_mypage_to_LoginFragment)
                         dialog.dismiss()
                     }
@@ -111,9 +112,9 @@ class MypageFragment : Fragment() {
             //자동로그인을 꺼줘야 함
             AutoLoginUtil.setAutoLogin(requireContext(), false)
             AlertDialog.Builder(requireContext())
-                .setTitle("알림")
-                .setMessage("로그아웃 완료되었습니다.")
-                .setPositiveButton("확인") { dialog, _ ->
+                .setTitle(getString(R.string.title_notification))
+                .setMessage(getString(R.string.alert_message_logout_completed))
+                .setPositiveButton(getString(R.string.action_confirm)) { dialog, _ ->
                     findNavController().navigate(R.id.action_item_mypage_to_LoginFragment)
                     dialog.dismiss()
                 }
