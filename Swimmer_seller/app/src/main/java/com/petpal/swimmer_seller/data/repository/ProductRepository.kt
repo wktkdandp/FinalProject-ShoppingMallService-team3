@@ -12,8 +12,8 @@ class ProductRepository {
     // 상품 정보 저장
     fun addProduct(product: Product, callback: (Task<Void>) -> Unit) {
         // Product 객체 삽입 후 랜덤 세팅된 key값을 Product객체 내 productUid로 저장
-        val productsDataRef = FirebaseDatabase.getInstance().getReference("products")
-        val pushedRef = productsDataRef.push()
+        val productsRef = FirebaseDatabase.getInstance().getReference("products")
+        val pushedRef = productsRef.push()
         product.productUid = pushedRef.key!!
         pushedRef.setValue(product).addOnCompleteListener(callback)
     }
@@ -21,9 +21,9 @@ class ProductRepository {
     // 상품 정보 수정
     fun modifyProduct(product: Product, isNewImage: Boolean, callback: (Task<Void>) -> Unit) {
         val database = FirebaseDatabase.getInstance()
-        val productsDataRef = database.getReference("products")
+        val productsRef = database.getReference("products")
 
-        productsDataRef.orderByChild("productUid").equalTo(product.productUid).get()
+        productsRef.orderByChild("productUid").equalTo(product.productUid).get()
             .addOnCompleteListener {
                 for (dataSnapshot in it.result.children) {
                     // 수정 가능한 항목만 값 수정
@@ -48,9 +48,9 @@ class ProductRepository {
     // 상품 정보 삭제
     fun deleteProduct(productUid: String, callback: (Task<Void>) -> Unit) {
         val database = FirebaseDatabase.getInstance()
-        val productsDataRef = database.getReference("products")
+        val productsRef = database.getReference("products")
 
-        productsDataRef.orderByChild("productUid").equalTo(productUid).get()
+        productsRef.orderByChild("productUid").equalTo(productUid).get()
             .addOnCompleteListener {
                 for (dataSnapshot in it.result.children) {
                     dataSnapshot.ref.removeValue().addOnCompleteListener(callback)
@@ -61,9 +61,9 @@ class ProductRepository {
     // 특정 판매자가 등록한 상품 목록 가져오기
     fun getProductListBySellerIdx(sellerUid: String, callback: (Task<DataSnapshot>) -> Unit) {
         val database = FirebaseDatabase.getInstance()
-        val productsDataRef = database.getReference("products")
+        val productsRef = database.getReference("products")
 
-        productsDataRef.orderByChild("sellerUid").equalTo(sellerUid)
+        productsRef.orderByChild("sellerUid").equalTo(sellerUid)
             .ref.orderByChild("regDate").get().addOnCompleteListener(callback)
     }
 
