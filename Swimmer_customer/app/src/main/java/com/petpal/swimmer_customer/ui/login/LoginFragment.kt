@@ -25,7 +25,7 @@ import com.petpal.swimmer_customer.util.AutoLoginUtil
 class LoginFragment : Fragment() {
     lateinit var fragmentLoginBinding: FragmentLoginBinding
     lateinit var viewModel: LoginViewModel
-    lateinit var auth: FirebaseAuth
+    //lateinit var auth: FirebaseAuth
     lateinit var mainActivity: MainActivity
 
     override fun onCreateView(

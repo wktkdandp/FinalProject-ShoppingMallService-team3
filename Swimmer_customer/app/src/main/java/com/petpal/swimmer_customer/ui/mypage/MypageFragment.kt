@@ -89,6 +89,10 @@ class MypageFragment : Fragment() {
 
             }
         }
+        //내 정보 수정으로 이동
+        fragmentMypageBinding.buttonModifyInfo.setOnClickListener {
+            findNavController().navigate(R.id.CheckPasswordFragment)
+        }
         //주문 조회로 이동
         fragmentMypageBinding.buttonOrderComplete.setOnClickListener {
 
@@ -104,12 +108,12 @@ class MypageFragment : Fragment() {
 
         //내 리뷰 보기로 이동
         fragmentMypageBinding.buttonShowMyReview.setOnClickListener {
-
+            findNavController().navigate(R.id.MyreviewFragment)
         }
         //로그아웃
         fragmentMypageBinding.buttonLogOut.setOnClickListener {
            viewModel.signOut()
-            //자동로그인을 꺼줘야 함
+            //자동 로그인을 꺼줘야 함
             AutoLoginUtil.setAutoLogin(requireContext(), false)
             AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.title_notification))

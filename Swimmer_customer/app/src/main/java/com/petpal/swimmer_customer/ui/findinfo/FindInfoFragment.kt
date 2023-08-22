@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.internal.ViewUtils.showKeyboard
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentFindInfoBinding
@@ -43,6 +44,9 @@ class FindInfoFragment : Fragment() {
         val navController = findNavController()
         NavigationUI.setupWithNavController(fragmentFindInfoBinding.toolbarFindInfo, navController)
 
+
+        //LoginFragment에서 보낸 arguments를 받아서 findid-> 아이디 찾기 visible
+        //                                       resetpassword-> 비밀번호 찾기 visible
         arguments?.let {
             when (it.getString(getString(R.string.findinfokey))) {
                 getString(R.string.findid) -> {
@@ -73,7 +77,7 @@ class FindInfoFragment : Fragment() {
                 }
             }
         }
-        //비밀번호 찾으러 가기 버튼
+        //비밀번호 찾으러 가기 버튼 두 레이아웃의 visible gone의 처리를 바꾼다. 버튼 따로
         fragmentFindInfoBinding.ButtonToFindPassword.setOnClickListener {
             fragmentFindInfoBinding.idFindLayout.visibility = View.GONE
             fragmentFindInfoBinding.passwordResetLayout.visibility = View.VISIBLE
@@ -82,22 +86,24 @@ class FindInfoFragment : Fragment() {
         }
         //이메일 찾기 버튼
         fragmentFindInfoBinding.ButtonFindId.setOnClickListener {
-            val nickname = fragmentFindInfoBinding.editTextFinIdNickname.text.toString()
-            val phoneNumber = fragmentFindInfoBinding.editTextFindIdPhoneNumber.text.toString()
+            val nickname = fragmentFindInfoBinding.textInputEditFindIdNickname.text.toString()
+            val phoneNumber = fragmentFindInfoBinding.textInputEditFindIdPhone.text.toString()
 
+            //유효성 검사 false시 리스너 종료
             if (!checkNickname(nickname) || !checkPhoneNumberId(phoneNumber)) {
                 return@setOnClickListener
             }
 
+            //user로 반환되는 값이 null이 아닐경우 이메일을 보여주는 탭 + 로그인 하러 가기,비밀번호 찾으러 가기 visible
             viewModel.findEmailByInfo(nickname, phoneNumber)?.observe(viewLifecycleOwner, Observer {
                 val userEmail=getString(R.string.message_email_template,it?.email)
                 if (it != null) {
-                    fragmentFindInfoBinding.editTextFinIdNickname.text.clear()
-                    fragmentFindInfoBinding.editTextFindIdPhoneNumber.text.clear()
+                    fragmentFindInfoBinding.textInputEditFindIdNickname.text?.clear()
+                    fragmentFindInfoBinding.textInputEditFindIdPhone.text?.clear()
                     fragmentFindInfoBinding.textViewFoundId.text = getString(R.string.message_your_email_is)
                     fragmentFindInfoBinding.textViewFoundId2.text =userEmail
-                    fragmentFindInfoBinding.editTextFinIdNickname.visibility = View.GONE
-                    fragmentFindInfoBinding.editTextFindIdPhoneNumber.visibility = View.GONE
+                    fragmentFindInfoBinding.textInputEditFindIdNickname.visibility = View.GONE
+                    fragmentFindInfoBinding.textInputEditFindIdPhone.visibility = View.GONE
                     fragmentFindInfoBinding.ButtonFindId.visibility = View.GONE
                     fragmentFindInfoBinding.ButtonFindInfoToLogin.visibility = View.VISIBLE
                     fragmentFindInfoBinding.ButtonToFindPassword.visibility = View.VISIBLE
@@ -106,8 +112,8 @@ class FindInfoFragment : Fragment() {
 
                 } else {
                     fragmentFindInfoBinding.textViewFoundId.text = getString(R.string.error_no_user_matching_info)
-                    fragmentFindInfoBinding.editTextFinIdNickname.text.clear()
-                    fragmentFindInfoBinding.editTextFindIdPhoneNumber.text.clear()
+                    fragmentFindInfoBinding.textInputEditFindIdNickname.text?.clear()
+                    fragmentFindInfoBinding.textInputEditFindIdPhone.text?.clear()
                 }
             })
         }
@@ -118,12 +124,14 @@ class FindInfoFragment : Fragment() {
         //비밀번호 재설정 버튼
         fragmentFindInfoBinding.ButtonResetPassword.setOnClickListener {
 
-            val email = fragmentFindInfoBinding.editTextFindPwEmail.text.toString()
-            val phoneNumber = fragmentFindInfoBinding.editTextFindPwPhoneNumber.text.toString()
+            val email = fragmentFindInfoBinding.textInputEditResetPasswordEmail.text.toString()
+            val phoneNumber = fragmentFindInfoBinding.textInputEditResetPasswordPhone.text.toString()
 
+            //유효성 검사 false시 리스너 종료
             if(!checkEmail(email) || !checkPhoneNumberPw(phoneNumber)){
                 return@setOnClickListener
             }
+            //Boolean값으로 true가 들어오면 완료되었다는 메세지 띄움(dismiss) positive 버튼 누를 시 로그인화면으로 이동
             viewModel.resetPassword(email, phoneNumber)?.observe(viewLifecycleOwner, Observer {
                 if (it == true) {
                     // 다이얼로그 표시
@@ -136,8 +144,10 @@ class FindInfoFragment : Fragment() {
                         }
                         .show()
                 } else {
-
+                    //실패시
                     Toast.makeText(requireContext(), getString(R.string.error_password_reset_failed), Toast.LENGTH_SHORT).show()
+                    fragmentFindInfoBinding.textInputEditResetPasswordEmail.text?.clear()
+                    fragmentFindInfoBinding.textInputEditResetPasswordPhone.text?.clear()
                 }
             })
         }
@@ -145,64 +155,69 @@ class FindInfoFragment : Fragment() {
         return fragmentFindInfoBinding.root
     }
 
+    //닉네임 유효성검사
     private fun checkNickname(nickname: String): Boolean {
         if (nickname.isEmpty()) {
-            fragmentFindInfoBinding.editTextFinIdNickname.error = getString(R.string.error_nickname_required)
+            fragmentFindInfoBinding.textInputLayoutFindIdNickname.error = getString(R.string.error_nickname_required)
             Handler(Looper.getMainLooper()).postDelayed({
-                fragmentFindInfoBinding.editTextFinIdNickname.error = ""
-                fragmentFindInfoBinding.editTextFinIdNickname.text?.clear()
-                showKeyboard(fragmentFindInfoBinding.editTextFinIdNickname)
+                fragmentFindInfoBinding.textInputLayoutFindIdNickname.error = ""
+                fragmentFindInfoBinding.textInputEditFindIdNickname.text?.clear()
+                showKeyboard(fragmentFindInfoBinding.textInputEditFindIdNickname)
             }, 2000)
             return false
         }
         return true
     }
-
+    //아이디 탭 번호 유효성 검사
     private fun checkPhoneNumberId(phoneNumber: String): Boolean {
         if (phoneNumber.isEmpty()) {
-            fragmentFindInfoBinding.editTextFindIdPhoneNumber.error = getString(R.string.error_phone_required)
+            fragmentFindInfoBinding.textInputLayoutFindIdPhone.error = getString(R.string.error_phone_required)
             Handler(Looper.getMainLooper()).postDelayed({
-                fragmentFindInfoBinding.editTextFindIdPhoneNumber.error = ""
-                fragmentFindInfoBinding.editTextFindIdPhoneNumber.text?.clear()
-                showKeyboard(fragmentFindInfoBinding.editTextFindIdPhoneNumber)
+                fragmentFindInfoBinding.textInputLayoutFindIdPhone.error=""
+                fragmentFindInfoBinding.textInputEditFindIdPhone.text?.clear()
+                showKeyboard(fragmentFindInfoBinding.textInputEditFindIdPhone)
             }, 2000)
             return false
         }
         return true
     }
+    //이메일 유효성 검사
     private fun checkEmail(email:String):Boolean{
         if(email.isEmpty()){
-            fragmentFindInfoBinding.editTextFindPwEmail.error=getString(R.string.error_email_required)
+            fragmentFindInfoBinding.textInputLayoutResetPasswordEmail.error=getString(R.string.error_email_required)
             Handler(Looper.getMainLooper()).postDelayed({
-                fragmentFindInfoBinding.editTextFindPwEmail.error = ""
-                fragmentFindInfoBinding.editTextFindPwEmail.text?.clear()
-                showKeyboard(fragmentFindInfoBinding.editTextFindPwEmail)
+                fragmentFindInfoBinding.textInputLayoutResetPasswordEmail.error = ""
+                fragmentFindInfoBinding.textInputEditResetPasswordEmail.text?.clear()
+                showKeyboard(fragmentFindInfoBinding.textInputEditResetPasswordEmail)
             }, 2000)
+            return false
         }else if(!email.contains("@")){
-            fragmentFindInfoBinding.editTextFindPwEmail.error=getString(R.string.error_invalid_email_format)
+            fragmentFindInfoBinding.textInputLayoutResetPasswordEmail.error=getString(R.string.error_invalid_email_format)
             Handler(Looper.getMainLooper()).postDelayed({
-                fragmentFindInfoBinding.editTextFindPwEmail.error = ""
-                fragmentFindInfoBinding.editTextFindPwEmail.text?.clear()
-                showKeyboard(fragmentFindInfoBinding.editTextFindPwEmail)
+                fragmentFindInfoBinding.textInputLayoutResetPasswordEmail.error = ""
+                fragmentFindInfoBinding.textInputEditResetPasswordEmail.text?.clear()
+                showKeyboard(fragmentFindInfoBinding.textInputEditResetPasswordEmail)
             }, 2000)
+            return false
         }
 
         return true
     }
+    //비밀번호 탭 번호 유효성 검사
     private fun checkPhoneNumberPw(phoneNumber: String): Boolean {
         if (phoneNumber.isEmpty()) {
-            fragmentFindInfoBinding.editTextFindPwPhoneNumber.error = getString(R.string.error_phone_required)
+            fragmentFindInfoBinding.textInputLayoutResetPasswordPhone.error = getString(R.string.error_phone_required)
             Handler(Looper.getMainLooper()).postDelayed({
-                fragmentFindInfoBinding.editTextFindPwPhoneNumber.error = ""
-                fragmentFindInfoBinding.editTextFindPwPhoneNumber.text?.clear()
-                showKeyboard(fragmentFindInfoBinding.editTextFindPwPhoneNumber)
+                fragmentFindInfoBinding.textInputLayoutResetPasswordPhone.error = ""
+                fragmentFindInfoBinding.textInputEditResetPasswordPhone.text?.clear()
+                showKeyboard(fragmentFindInfoBinding.textInputEditResetPasswordPhone)
             }, 2000)
             return false
         }
         return true
     }
 
-
+    //키보드 올리기
     fun showKeyboard(view: View) {
         if (view.requestFocus()) {
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -211,6 +226,7 @@ class FindInfoFragment : Fragment() {
     }
 }
 
+//뷰모델 팩토리
 class FindInfoViewModelFactory(private val repository: CustomerUserRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(FindInfoViewModel::class.java)) {

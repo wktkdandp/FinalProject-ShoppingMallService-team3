@@ -39,6 +39,24 @@
         android:label="register_fragment"
         tools:layout="@layout/fragment_register">
     </fragment>
+    <fragment
+        android:id="@+id/MyreviewFragment"
+        android:name="com.petpal.swimmer_customer.ui.myreview.MyReviewFragment"
+        android:label="myreview_fragment"
+        tools:layout="@layout/fragment_my_review">
+    </fragment>
+    <fragment
+        android:id="@+id/CheckPasswordFragment"
+        android:name="com.petpal.swimmer_customer.ui.modifyinfo.CheckPasswordFragment"
+        android:label="checkpassword_fragment"
+        tools:layout="@layout/fragment_check_password">
+    </fragment>
+    <fragment
+        android:id="@+id/ModifyInfoFragment"
+        android:name="com.petpal.swimmer_customer.ui.modifyinfo.ModifyInfoFragment"
+        android:label="modifyinfo_fragment"
+        tools:layout="@layout/fragment_modify_info">
+    </fragment>
 
     <fragment
         android:id="@+id/FindInfoFragment"

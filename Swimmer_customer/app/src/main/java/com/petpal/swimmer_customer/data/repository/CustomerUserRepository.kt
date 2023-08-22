@@ -21,8 +21,10 @@ class CustomerUserRepository : UserRepository {
         mAuth = FirebaseAuth.getInstance()
         mDatabase = FirebaseDatabase.getInstance().getReference("users")
     }
+    //회원가입+db에 저장하는 메서드
     override fun addUser(user: User?): LiveData<Boolean?>? {
         val resultLiveData = MutableLiveData<Boolean?>()
+        //firebase auth의 회원가입 메서드
         mAuth.createUserWithEmailAndPassword(user?.email!!, user.password!!)
 
             .addOnCompleteListener { task: Task<AuthResult?> ->
@@ -53,8 +55,10 @@ class CustomerUserRepository : UserRepository {
         return resultLiveData
     }
 
+    //로그인 메서드
     override fun signInUser(email: String, password: String): LiveData<Boolean?> {
         val resultLiveData = MutableLiveData<Boolean>()
+        //firebase auth의 로그인 메서드
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task: Task<AuthResult?> ->
                 if (task.isSuccessful) {
@@ -67,11 +71,12 @@ class CustomerUserRepository : UserRepository {
     }
 
 
-
+    //이메일 중복체크
     override fun checkEmailDuplicated(email: String?): LiveData<Boolean> {
 
         val emailExists = MutableLiveData<Boolean>()
         Log.d("targetEmail",email!!)
+        //받아온 이메일과 user의 자식 노드들의 email 속성을 검사
         mDatabase.orderByChild("email").equalTo(email)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -119,6 +124,8 @@ class CustomerUserRepository : UserRepository {
     //
     //        return result;
     //    }
+
+    //유저 삭제
     override fun deleteUser(userIdx: String?): LiveData<Boolean?>? {
         val result = MutableLiveData<Boolean?>()
         mDatabase.child(userIdx!!).removeValue()
@@ -126,6 +133,7 @@ class CustomerUserRepository : UserRepository {
         return result
     }
 
+    //이메일 찾기 메서드
     override fun findEmailbyInfo(nickname: String?, phoneNumber: String?): LiveData<User?>? {
         val result = MutableLiveData<User?>()
 
@@ -151,11 +159,11 @@ class CustomerUserRepository : UserRepository {
         return result
     }
 
-
+    //비밀번호 재설정 메서드
     override fun resetPassword(email: String?, phoneNumber: String?): LiveData<Boolean?>? {
         val resultLiveData = MutableLiveData<Boolean?>()
 
-        // DB에서 이메일로 users 하위의 모든 노드에서 email 속성을 검사
+        // DB에서 이메일로 users 하위의 자식 노드들에서 email 속성을 검사
         mDatabase.orderByChild("email").equalTo(email)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -187,11 +195,13 @@ class CustomerUserRepository : UserRepository {
             })
         return resultLiveData
     }
-
+    //현재 사용자를 얻어오는 메서드
     fun getCurrentUser(): LiveData<User?> {
         val result = MutableLiveData<User?>()
+        //현재 사용자의 uid를 받아옴
         val uid = mAuth.currentUser?.uid
         if (uid != null) {
+            //현재 사용자의 uid와 일치하는 user를 찾으면 result에 반환
             mDatabase.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -211,7 +221,9 @@ class CustomerUserRepository : UserRepository {
         }
         return result
     }
+    //로그아웃 메서드
     fun signOut() {
+        //firebase auth의 로그아웃 메서드
         FirebaseAuth.getInstance().signOut()
     }
 }
