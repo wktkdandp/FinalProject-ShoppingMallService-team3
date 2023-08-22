@@ -21,7 +21,7 @@ class OrderCompleteFragment : Fragment() {
         fragmentOrderCompleteBinding = FragmentOrderCompleteBinding.inflate(layoutInflater)
 
         fragmentOrderCompleteBinding.run {
-            orderCompleteToolbar.run {
+            /*orderCompleteToolbar.run {
                 title="주문 화면"
                 setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
                 val navigationIcon = navigationIcon
@@ -30,7 +30,7 @@ class OrderCompleteFragment : Fragment() {
                     Navigation.findNavController(fragmentOrderCompleteBinding.root)
                         .navigate(R.id.action_orderCompleteFragment_to_item_home)
                 }
-            }
+            }*/
         }
 
         return fragmentOrderCompleteBinding.root
