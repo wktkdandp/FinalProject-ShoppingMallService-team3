@@ -9,11 +9,6 @@ import com.petpal.swimmer_seller.data.repository.ProductRepository
 
 class ProductViewModel(private val productRepository: ProductRepository):ViewModel() {
 
-    private val _productResult = MutableLiveData<ProductResult>()
-    val productResult : LiveData<ProductResult> = _productResult
-
-    fun productDataChanged(){}
-
     fun addProduct(product: Product){
         productRepository.addProduct(product){}
     }

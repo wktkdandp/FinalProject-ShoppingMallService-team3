@@ -2,6 +2,8 @@ package com.petpal.swimmer_seller.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.petpal.swimmer_seller.data.model.Address
+import com.petpal.swimmer_seller.data.model.Item
 import com.petpal.swimmer_seller.data.model.Order
 import com.petpal.swimmer_seller.data.repository.OrderRepository
 import com.petpal.swimmer_seller.data.repository.ProductRepository
@@ -37,6 +39,36 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
                 if (order != null) {
                     orderList.add(order)
                 }
+
+                /*
+                // data class라서 위 방식 안통하면 아래 방식으로 대체 가능
+                val orderUid = orderSnapshot.child("orderUid").value as String
+                val code = orderSnapshot.child("code").value as Long
+                val orderDate = orderSnapshot.child("orderDate").value as String
+                val message = orderSnapshot.child("message").value as String
+                val state = orderSnapshot.child("state").value as Long
+                val address = orderSnapshot.child("address").value as Address
+                val itemList = mutableListOf<Item>()
+                for (itemSnapshot in orderSnapshot.child("itemList").children) {
+                    val productUid = itemSnapshot.child("productUid").value as String
+                    val size = itemSnapshot.child("size").value as Long
+                    val color = itemSnapshot.child("color").value as Long
+                    val quantity = itemSnapshot.child("quantity").value as Long
+                    val sellerUid = itemSnapshot.child("sellerUid").value as String
+
+                    val item = Item(productUid, size, color, quantity, sellerUid)
+                    itemList.add(item)
+                }
+                val couponUid = orderSnapshot.child("couponUid").value as String
+                val userPoint = orderSnapshot.child("usePoint").value as Long
+                val payMethod = orderSnapshot.child("payMethod").value as Long
+                val totalPrice = orderSnapshot.child("totalPrice").value as Long
+
+                val order = Order(orderUid, code, orderDate, message,
+                    state, address, itemList, couponUid, userPoint, payMethod, totalPrice)
+
+                orderList.add(order)
+                 */
             }
 
             // 전체 주문 건 수 (값 잘 가져오는지 임시 테스트용으로 쓸 예정)
@@ -56,7 +88,7 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
 }
 
 // 주문상태
-enum class OrderState(val code: Long, name: String){
+enum class OrderState(val code: Long, val str: String){
     PAYMENT(1, "결제완료"),
     READY(2, "배송준비"),
     DELIVERY(3, "배송중"),

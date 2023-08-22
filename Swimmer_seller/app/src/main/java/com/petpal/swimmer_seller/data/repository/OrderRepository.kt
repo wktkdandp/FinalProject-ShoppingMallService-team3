@@ -6,40 +6,32 @@ import com.google.firebase.database.FirebaseDatabase
 import com.petpal.swimmer_seller.data.model.Order
 
 class OrderRepository {
+    private val database = FirebaseDatabase.getInstance()
+    private val ordersRef = database.getReference("orders")
+
     // 전체 주문 가져오기
     fun getAllOrder(callback: (Task<DataSnapshot>) -> Unit){
-        val database = FirebaseDatabase.getInstance()
-        val ordersRef = database.getReference("orders")
         ordersRef.orderByChild("orderUid").get().addOnCompleteListener(callback)
     }
 
     // 특정 주문 가져오기
     fun getOrderByOrderUid(orderUid: Long, callback: (Task<DataSnapshot>) -> Unit) {
-        val database = FirebaseDatabase.getInstance()
-        val ordersRef = database.getReference("orders")
         ordersRef.orderByChild("orderUid").equalTo(orderUid.toDouble()).get().addOnCompleteListener(callback)
     }
 
-    // TODO itemList/sellerUid 잘 통할지 테스트 예정
     // 판매자에게 들어온 모든 상태 주문 가져오기
     fun getOrderBySellerUid(sellerUid: String, callback: (Task<DataSnapshot>) -> Unit) {
-        val database = FirebaseDatabase.getInstance()
-        val ordersRef = database.getReference("orders")
         ordersRef.orderByChild("itemList/sellerUid").equalTo(sellerUid).get().addOnCompleteListener(callback)
     }
 
     // 판매자에게 들어온 특정 상태 주문 가져오기
     fun getOrderBySellerUid(sellerUid: String, state: Long, callback: (Task<DataSnapshot>) -> Unit) {
-        val database = FirebaseDatabase.getInstance()
-        val ordersRef = database.getReference("orders")
         ordersRef.orderByChild("itemList/sellerUid").equalTo(sellerUid)
             .ref.orderByChild("state").equalTo(state.toDouble()).get().addOnCompleteListener(callback)
     }
 
     // 주문 수정
     fun modifyOrder(order: Order, callback: (Task<DataSnapshot>) -> Unit) {
-        val database = FirebaseDatabase.getInstance()
-        val ordersRef = database.getReference("orders")
         ordersRef.orderByChild("orderUid").equalTo(order.orderUid.toDouble()).get().addOnCompleteListener {
             for (dataSnapshot in it.result.children) {
                 // 판매자용 앱에서는 일단 주문 상태만 변경

@@ -2,7 +2,7 @@ package com.petpal.swimmer_seller.data.model
 
 data class Order(
     var orderUid:String,
-    var code:Long,
+    var code:String,
     var orderDate:String,
     var message:String,
     var state:Long,

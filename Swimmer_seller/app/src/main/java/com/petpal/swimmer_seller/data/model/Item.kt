@@ -5,5 +5,5 @@ data class Item (
     var size: Long,
     var color: Long,
     var quantity: Long,
-    var sellerUid: Long
+    var sellerUid: String
 )

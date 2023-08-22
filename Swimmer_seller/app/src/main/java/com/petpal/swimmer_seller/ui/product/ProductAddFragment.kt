@@ -15,7 +15,6 @@ import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -218,11 +217,6 @@ class ProductAddFragment : Fragment() {
                 val code = System.currentTimeMillis().toString()
                 val mainImageFileName = "image/${code}_main_image.jpg"
                 val descriptionImageFileName = "image/${code}_description_image.jpg"
-                // 등록된 Chip 태그들
-                val hashTagList = chipGroupHashTag.children
-                    .mapNotNull { it as? Chip }
-                    .map { it.text.toString() }
-                    .toList()
 
                 val product = Product(
                     "",
@@ -235,7 +229,7 @@ class ProductAddFragment : Fragment() {
                     mainActivity.loginSellerUid,
                     mutableListOf<Long>(),
                     mutableListOf<Long>(),
-                    hashTagList,
+                    addHashTagList,
                     category,
                     mutableListOf<Review>(),
                     0L,
@@ -261,10 +255,11 @@ class ProductAddFragment : Fragment() {
 
     private fun addHashTag() {
         fragmentProductAddBinding.run {
-            // 입력 문자열 태그로 분리, 중복 태그는 제외
+            // 입력 문자열 태그로 분리, 중복 태그 & 이미 chip 생성된 태그 제외
             val inputHashTagList = textInputEditTextHashTag.text.toString()
                 .split(",")
                 .map(String::trim)
+                .distinct()
                 .filter { !addHashTagList.contains(it) }
 
             // 추가된 태그 저장
@@ -276,6 +271,7 @@ class ProductAddFragment : Fragment() {
                     text = inputHashTag
                     setOnCloseIconClickListener {
                         chipGroupHashTag.removeView(it)
+                        addHashTagList.remove(inputHashTag)
                     }
                 }
                 chipGroupHashTag.addView(chip)
