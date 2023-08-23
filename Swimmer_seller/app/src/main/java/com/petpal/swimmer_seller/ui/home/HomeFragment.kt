@@ -53,13 +53,6 @@ class HomeFragment : Fragment() {
                 // 상품 등록화면으로 이동
                 it.findNavController().navigate(R.id.action_item_home_to_item_product_add)
             }
-
-            buttonLogout.setOnClickListener {
-                userViewModel.logOut()
-                //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
-                findNavController().popBackStack(R.id.mainFragment, true)
-                findNavController().navigate(R.id.loginFragment)
-            }
         }
 
         // 로그인한 판매자가 등록한 상품 개수 가져오기
