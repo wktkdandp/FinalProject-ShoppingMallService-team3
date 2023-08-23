@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.petpal.swimmer_seller.MainActivity
 import com.petpal.swimmer_seller.R
-import com.petpal.swimmer_seller.data.model.Order
 import com.petpal.swimmer_seller.data.repository.OrderRepository
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentHomeBinding
@@ -94,7 +92,7 @@ class HomeFragment : Fragment() {
 
         // TODO color, size 데이터 타입 등 orders 구조 통일되면 테스트하기
         // 로그인 판매자가 관련된 주문들 주문상태별로 개수 표시
-        // homeViewModel.getAllOrderCount(mainActivity.loginSellerUid)
+        // homeViewModel.getOrderCountByState(mainActivity.loginSellerUid)
         
         // 로그인 판매자가 등록한 상품 개수 표시
         homeViewModel.getProductCount(mainActivity.loginSellerUid)
