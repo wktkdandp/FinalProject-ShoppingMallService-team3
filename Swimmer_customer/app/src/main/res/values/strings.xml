@@ -64,6 +64,7 @@
     <string name="alert_message_logout_completed">로그아웃 완료되었습니다.</string>
     <string name="nickname_is">닉네임 : %s</string>
     <string name="delivery_point_manage">배송지 관리</string>
+    <string name="detail_address_toolbar">상세정보</string>
 
     <string name="bottom_sheet_149_cm">149 cm 이하</string>
     <string name="bottom_sheet_150_152_cm">150 ~ 152 cm</string>

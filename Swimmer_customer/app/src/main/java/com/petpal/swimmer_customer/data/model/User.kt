@@ -1,5 +1,7 @@
 package com.petpal.swimmer_customer.data.model
 
+import java.io.Serializable
+
 
 data class Address(
     val addressIdx: Long? = null,
@@ -7,7 +9,7 @@ data class Address(
     val address: String? = null,
     val name: String? = null,
     val phoneNumber: String? = null
-)
+): Serializable
 
 data class Item(
     val productIdx: Long? = null,

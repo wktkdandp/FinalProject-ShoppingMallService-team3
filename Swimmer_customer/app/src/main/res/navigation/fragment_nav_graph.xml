@@ -40,12 +40,27 @@
         tools:layout="@layout/fragment_register">
     </fragment>
     <fragment
-        android:id="@+id/DeliveryPointManage"
+        android:id="@+id/DeliveryPointManageFragment"
         android:name="com.petpal.swimmer_customer.ui.deliverypointmanage.DeliveryPointManageFragment"
         android:label="deliverypointmanage_fragment"
         tools:layout="@layout/fragment_delivery_point_manage">
+
+    </fragment>
+    <fragment
+        android:id="@+id/DetailAddressFragment"
+        android:name="com.petpal.swimmer_customer.ui.deliverypointmanage.DetailAddressFragment"
+        android:label="detailaddress_fragment"
+        tools:layout="@layout/fragment_detail_address">
+
     </fragment>
 
+    <fragment
+        android:id="@+id/AddressDialogFragment"
+        android:name="com.petpal.swimmer_customer.ui.deliverypointmanage.AddressDialogFragment"
+        android:label="addressdialog_fragment"
+        tools:layout="@layout/fragment_address_dialog">
+
+    </fragment>
     <fragment
         android:id="@+id/MyreviewFragment"
         android:name="com.petpal.swimmer_customer.ui.myreview.MyReviewFragment"
@@ -146,7 +161,7 @@
         tools:layout="@layout/fragment_mypage">
         <action
             android:id="@+id/action_item_mypage_to_DeliveryPointManageFragment"
-            app:destination="@id/DeliveryPointManage" />
+            app:destination="@id/DeliveryPointManageFragment" />
 
 
         <action
