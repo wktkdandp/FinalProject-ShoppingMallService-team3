@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/reviewTabChipHeightBottomSheet"
+    style="@style/Widget.Material3.BottomSheet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:text="@string/review_tab_height"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/reviewOptionChipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip149cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_149_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip150cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_150_152_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip153cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_153_155cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip156cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_156_158_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip159cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_159_161_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip162cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_162_164_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip165cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_165_167_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip168cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_168_170_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip171cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_171_173_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip174cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_174_176_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip177cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_177_179_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip180cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_180_182_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip183cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_183_185_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip186cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_186_188_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip189cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_189_191_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip191cm"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layoutDirection="rtl"
+            android:text="@string/bottom_sheet_191_cm"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@drawable/chip_state_color_list"
+            app:chipIconTint="@color/black"
+            app:chipIconVisible="true" />
+
+    </com.google.android.material.chip.ChipGroup>
+</LinearLayout>
