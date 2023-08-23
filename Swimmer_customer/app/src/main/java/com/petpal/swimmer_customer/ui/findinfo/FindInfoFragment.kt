@@ -148,6 +148,7 @@ class FindInfoFragment : Fragment() {
                     Toast.makeText(requireContext(), getString(R.string.error_password_reset_failed), Toast.LENGTH_SHORT).show()
                     fragmentFindInfoBinding.textInputEditResetPasswordEmail.text?.clear()
                     fragmentFindInfoBinding.textInputEditResetPasswordPhone.text?.clear()
+                    fragmentFindInfoBinding.textInputLayoutResetPasswordEmail.requestFocus()
                 }
             })
         }

@@ -2,6 +2,7 @@ package com.petpal.swimmer_customer.ui.mypage
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import com.petpal.swimmer_customer.databinding.FragmentMypageBinding
 import com.petpal.swimmer_customer.ui.findinfo.FindInfoViewModel
 import com.petpal.swimmer_customer.ui.findinfo.FindInfoViewModelFactory
+import com.petpal.swimmer_customer.ui.login.LoginFragmentDirections
 import com.petpal.swimmer_customer.util.AutoLoginUtil
 
 
@@ -81,7 +83,7 @@ class MypageFragment : Fragment() {
 
         //보여주기 용이라 특정 쿠폰을 선택해도 선택창으로 돌아오도록 세팅
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 spinner.setSelection(0)
             }
 
@@ -106,9 +108,10 @@ class MypageFragment : Fragment() {
 
         }
 
-        //내 리뷰 보기로 이동
-        fragmentMypageBinding.buttonShowMyReview.setOnClickListener {
-            findNavController().navigate(R.id.MyreviewFragment)
+        //배송지 관리로 이동
+        fragmentMypageBinding.buttonDeliveryPointManage.setOnClickListener {
+            val action = MypageFragmentDirections.actionItemMypageToDeliveryPointManageFragment()
+            findNavController().navigate(action)
         }
         //로그아웃
         fragmentMypageBinding.buttonLogOut.setOnClickListener {

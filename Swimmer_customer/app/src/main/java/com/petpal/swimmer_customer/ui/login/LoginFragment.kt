@@ -1,26 +1,31 @@
 package com.petpal.swimmer_customer.ui.login
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet.Motion
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.R
+import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import com.petpal.swimmer_customer.databinding.FragmentLoginBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
-import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import com.petpal.swimmer_customer.util.AutoLoginUtil
+
 
 class LoginFragment : Fragment() {
     lateinit var fragmentLoginBinding: FragmentLoginBinding
@@ -62,6 +67,18 @@ class LoginFragment : Fragment() {
 
             })
         }
+
+//        fragmentLoginBinding.checkboxAutoLogin.setOnTouchListener { v, event ->
+//            if(event.action==MotionEvent.ACTION_UP && !fragmentLoginBinding.checkboxAutoLogin.isChecked)
+//            {
+//                showConsentDialog()
+//                true
+//            }else{
+//                false
+//            }
+//        }
+
+
         fragmentLoginBinding.ButtonRegister.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             findNavController().navigate(action)
@@ -142,6 +159,7 @@ class LoginFragment : Fragment() {
             fragmentLoginBinding.textInputEditTextLoginPassword.text?.clear()
         }
     }
+
 }
 
 //뷰모델 팩토리

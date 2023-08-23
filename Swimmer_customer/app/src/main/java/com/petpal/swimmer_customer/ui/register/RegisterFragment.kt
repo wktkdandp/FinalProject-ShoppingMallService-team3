@@ -8,9 +8,11 @@ import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -40,6 +42,9 @@ class RegisterFragment : Fragment() {
         mainActivity=activity as MainActivity
         fragmentRegisterBinding= FragmentRegisterBinding.inflate(layoutInflater)
         auth= FirebaseAuth.getInstance()
+
+        //체크박스 리스너 활성화
+        privacy_Policy_Checkbox()
 
         val factory = RegisterViewModelFactory(CustomerUserRepository())
         viewModel = ViewModelProvider(this, factory).get(RegisterViewModel::class.java)
@@ -93,7 +98,7 @@ class RegisterFragment : Fragment() {
                     fragmentRegisterBinding.textInputEditTextAddUserNickname.text?.clear()
                     fragmentRegisterBinding.textInputEditTextAddUserNickname.text?.clear()
                     fragmentRegisterBinding.textInputEditTextAddUserPhoneNumber.text?.clear()
-                    fragmentRegisterBinding.infoAgree.isChecked=false
+                    fragmentRegisterBinding.checkboxPrivacyPolicy.isChecked=false
 
                 }
             })
@@ -179,7 +184,7 @@ class RegisterFragment : Fragment() {
     }
     //정보 동의 체크박스
     private fun isCheckboxChecked(): Boolean {
-        if (!fragmentRegisterBinding.infoAgree.isChecked) {
+        if (!fragmentRegisterBinding.checkboxPrivacyPolicy.isChecked) {
             fragmentRegisterBinding.textViewInfoAgree.text = getString(R.string.error_consent_required)
             Handler(Looper.getMainLooper()).postDelayed({
                 fragmentRegisterBinding.textViewInfoAgree.text = ""
@@ -193,6 +198,40 @@ class RegisterFragment : Fragment() {
         if (view.requestFocus()) {
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
+    private fun showCustomDialog() {
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.custom_consent_dialog, null)
+
+        val consentConfirmButton: Button = view.findViewById(R.id.consentConfirmButton)
+        val consentCancelButton: Button = view.findViewById(R.id.consentCancelButton)
+
+        AlertDialog.Builder(requireContext())
+            .setView(view)
+            .create()
+            .apply {
+                //다이얼로그 내의 버튼에 따라 분기
+                consentConfirmButton.setOnClickListener {
+                    fragmentRegisterBinding.checkboxPrivacyPolicy.isChecked = true
+                    dismiss()
+                }
+
+                consentCancelButton.setOnClickListener {
+                    fragmentRegisterBinding.checkboxPrivacyPolicy.isChecked = false
+                    dismiss()
+                }
+                show()
+            }
+    }
+    //체크박스가 터치되면 if문 안의 모션이벤트와 체크여부에 따라 커스텀 다이얼로그 메서드 호출
+    private fun privacy_Policy_Checkbox() {
+        fragmentRegisterBinding.checkboxPrivacyPolicy.setOnTouchListener { v, event ->
+            if(event.action == MotionEvent.ACTION_UP && !fragmentRegisterBinding.checkboxPrivacyPolicy.isChecked) {
+                showCustomDialog()
+                true
+            } else {
+                false
+            }
         }
     }
 

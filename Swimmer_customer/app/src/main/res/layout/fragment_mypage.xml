@@ -126,12 +126,12 @@
             android:layout_marginTop="10dp" />
 
         <Button
-            android:id="@+id/buttonShowMyReview"
+            android:id="@+id/buttonDeliveryPointManage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="?android:attr/selectableItemBackground"
-            android:text="내 정보 수정"
+            android:text="배송지 관리"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
