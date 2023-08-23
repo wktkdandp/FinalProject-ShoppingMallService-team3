@@ -38,4 +38,21 @@
         android:label="fragment_product_option"
         tools:layout="@layout/fragment_product_option" />
 
+
+
+    <fragment
+        android:id="@+id/item_mypage"
+        android:name="com.petpal.swimmer_seller.ui.mypage.MypageFragment"
+        android:label="fragment_mypage"
+        tools:layout="@layout/fragment_mypage" />
+    <fragment
+        android:id="@+id/item_menu"
+        android:name="com.petpal.swimmer_seller.ui.menu.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_item_menu_to_item_product_add"
+            app:destination="@id/item_product_add" />
+    </fragment>
+
 </navigation>

@@ -40,30 +40,8 @@ class MainFragment : Fragment() {
         fragmentMainBinding.run {
             // 로그아웃 버튼은 일단 Home 화면에 옮겨뒀습니다.
 
-            bottomNavigation.run {
-                setupWithNavController(navController)
-                // 처음 화면 세팅
-                selectedItemId = R.id.item_home
+            bottomNavigation.setupWithNavController(navController)
 
-                setOnItemSelectedListener {
-                    when (it.itemId) {
-                        R.id.item_home -> {
-                            // 홈 이동
-                            navController.navigate(R.id.item_home)
-                            true
-                        }
-                        R.id.item_menu -> {
-                            // 메뉴 열기
-                            true
-                        }
-                        R.id.item_mypage -> {
-                            // 마이페이지 이동
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            }
         }
         return fragmentMainBinding.root
     }
