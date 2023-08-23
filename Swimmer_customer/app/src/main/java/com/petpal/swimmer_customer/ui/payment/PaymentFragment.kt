@@ -15,18 +15,24 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.petpal.swimmer_customer.R
+import com.petpal.swimmer_customer.data.model.ItemsForCustomer
+import com.petpal.swimmer_customer.data.model.OrderByCustomer
 import com.petpal.swimmer_customer.databinding.FragmentPaymentBinding
 import com.petpal.swimmer_customer.databinding.PaymentItemRowBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
 import com.petpal.swimmer_customer.ui.payment.repository.PaymentRepository
 import com.petpal.swimmer_customer.ui.payment.vm.PaymentViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PaymentFragment : Fragment() {
 
     lateinit var fragmentPaymentBinding: FragmentPaymentBinding
     lateinit var mainActivity: MainActivity
     lateinit var paymentViewModel: PaymentViewModel
-
+    lateinit var totalFee: String
+    lateinit var orderItemList: MutableList<ItemsForCustomer>
 
 
     override fun onCreateView(
@@ -43,13 +49,18 @@ class PaymentFragment : Fragment() {
         paymentViewModel = ViewModelProvider(mainActivity)[PaymentViewModel::class.java]
 
         paymentViewModel.run {
+
             itemList.observe(mainActivity) {
                 fragmentPaymentBinding.paymentViewPager.adapter?.notifyDataSetChanged()
+                orderItemList = it
             }
+
             paymentFee.observe(mainActivity) {
                 fragmentPaymentBinding.paymentConfirmButton.text = "${it}원 결제하기"
                 fragmentPaymentBinding.paymentCheck.text = "총 상품 금액 : ${it}원"
+                totalFee = it
             }
+
         }
         fragmentPaymentBinding.run {
 
@@ -96,15 +107,20 @@ class PaymentFragment : Fragment() {
                 setOnClickListener {
                     // 결제 완료 버튼
                     // seller한테 넘겨줄 order객체 서버로 전송하는 메서드 구현 예정
+                    val sdfDate = SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.getDefault())
+                    val orderDate = sdfDate.format(Date(System.currentTimeMillis()))
 
-                    // complete -> 주문 완료 화면
-                    // 주문 완료 화면으로 이동하기
-                    Navigation.findNavController(fragmentPaymentBinding.root)
-                        .navigate(R.id.action_paymentFragment_to_completeFragment)
+                    val sdfUid = SimpleDateFormat("MMddhhmmss", Locale.getDefault())
+                    val orderUid = sdfUid.format(Date(System.currentTimeMillis()))
 
-                    // failed -> 서버 오류를 알려주는 dialog 생성
-
-
+                    val order = OrderByCustomer("결제 완료", orderUid, orderDate, "spinner.text", "chip selected",
+                    totalFee.toLong(), orderItemList, "coupon", 1)
+                    PaymentRepository.sendOrderToSeller(order) {
+                        // complete -> 주문 완료 화면
+                        // 주문 완료 화면으로 이동하기
+                        Navigation.findNavController(fragmentPaymentBinding.root)
+                            .navigate(R.id.action_paymentFragment_to_completeFragment)
+                    }
                 }
             }
 
@@ -157,7 +173,9 @@ class PaymentFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
+
             return paymentViewModel.itemList.value?.size!!
+
         }
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
