@@ -5,6 +5,7 @@
     <string name="prompt_password">비밀번호</string>
     <string name="prompt_password_confirm">비밀번호 확인</string>
     <string name="action_login">로그인</string>
+    <string name="action_logout">로그아웃</string>
     <string name="action_signup">회원가입</string>
     <string name="action_signup_info">사업자 정보 입력</string>
     <string name="action_reset_password">비밀번호 재설정</string>
@@ -231,4 +232,7 @@
     <string name="manage_notice_title">공지 관리</string>
     <string name="manage_inquiry_title">문의 관리</string>
     <string name="setting_title">설정</string>
+    <string name="menu_title">메뉴</string>
+    <string name="mypage_title">마이페이지</string>
+    <string name="label_edit_password">비밀번호 수정</string>
 </resources>

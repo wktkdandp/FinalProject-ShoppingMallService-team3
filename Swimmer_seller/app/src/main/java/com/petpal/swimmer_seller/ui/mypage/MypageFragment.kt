@@ -1,60 +1,58 @@
 package com.petpal.swimmer_seller.ui.mypage
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.petpal.swimmer_seller.R
+import com.petpal.swimmer_seller.databinding.FragmentMypageBinding
+import com.petpal.swimmer_seller.ui.user.UserViewModel
+import com.petpal.swimmer_seller.ui.user.UserViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MypageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MypageFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var userViewModel: UserViewModel
+    private var _fragmentMypageBinding: FragmentMypageBinding? = null
 
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val fragmentMypageBinding get() = _fragmentMypageBinding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mypage, container, false)
+        _fragmentMypageBinding = FragmentMypageBinding.inflate(layoutInflater)
+        return fragmentMypageBinding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MypageFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MypageFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        userViewModel =
+            ViewModelProvider(this, UserViewModelFactory())[UserViewModel::class.java]
+
+        val textViewContactName = fragmentMypageBinding.textViewContactName
+        val textViewBrandName = fragmentMypageBinding.textViewBrandName
+        val buttonLogOut = fragmentMypageBinding.buttonLogOut
+
+        userViewModel.run {
+            //현재 사용자 정보 가져오기
+            getCurrentSellerInfo()
+
+            currentUser.observe(viewLifecycleOwner) { seller ->
+                textViewBrandName.text = seller.brandName
+                textViewContactName.text = seller.contactName+"님 안녕하세요!"
             }
+        }
+
+        buttonLogOut.setOnClickListener {
+            userViewModel.logOut()
+//            //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
+//            findNavController().popBackStack(R.id.mainFragment, true)
+//            findNavController().navigate(R.id.loginFragment)
+        }
     }
+
 }

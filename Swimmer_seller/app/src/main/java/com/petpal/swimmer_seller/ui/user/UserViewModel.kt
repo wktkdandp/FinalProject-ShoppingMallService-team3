@@ -24,9 +24,12 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
     private val _findEmailForm = MutableLiveData<FindEmailFormState>()
     val findEmailFormState: LiveData<FindEmailFormState> = _findEmailForm
 
-    //TODO : firebase로 변경할 수 없나? 로그인에서만 사용하는디
     private val _userResult = MutableLiveData<UserResult>()
     val userResult: LiveData<UserResult> = _userResult
+
+    //이걸 저장하면 로그인할 때 여기에 저장하면 되는거 아닌가?
+    private val _currentUser = MutableLiveData<Seller>()
+    val currentUser: LiveData<Seller> = _currentUser
 
     fun login(email: String, password: String) {
         // can be launched in a separate asynchronous job
@@ -151,6 +154,30 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
             } else {
                 Log.d("findEmail", "findEmail Failed")
                 _userResult.value = UserResult(error = R.string.contact_phone_cannot_found)
+            }
+        }
+    }
+
+    fun getCurrentSellerInfo() {
+        userRepository.getCurrentSellerInfo {
+            if(it.result.exists()) {
+                for(snapShot in it.result.children){
+                    val email = snapShot.child("email").value as String
+                    val businessRegNumber= snapShot.child("businessRegNumber").value as String
+                    val representName= snapShot.child("representName").value as String
+                    val brandName= snapShot.child("brandName").value as String
+                    val description= snapShot.child("description").value as String
+                    val address= snapShot.child("address").value as String
+                    val brandPhoneNumber= snapShot.child("brandPhoneNumber").value as String
+                    val bankName= snapShot.child("bankName").value as String
+                    val accountNumber= snapShot.child("accountNumber").value as String
+                    val contactName= snapShot.child("contactName").value as String
+                    val contactPhoneNumber= snapShot.child("contactPhoneNumber").value as String
+                    val contactEmail = snapShot.child("contactEmail").value as String
+
+                    _currentUser.value = Seller(email, businessRegNumber, representName, brandName, description, address, brandPhoneNumber, bankName, accountNumber, contactName, contactPhoneNumber, contactEmail)
+                    Log.d("currentUser", _currentUser.value.toString())
+                }
             }
         }
     }
