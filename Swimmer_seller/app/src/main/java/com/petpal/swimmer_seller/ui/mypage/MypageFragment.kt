@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.petpal.swimmer_seller.MainActivity
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.databinding.FragmentMypageBinding
 import com.petpal.swimmer_seller.ui.user.UserViewModel
@@ -16,6 +17,7 @@ class MypageFragment : Fragment() {
 
     private lateinit var userViewModel: UserViewModel
     private var _fragmentMypageBinding: FragmentMypageBinding? = null
+    private lateinit var mainActivity: MainActivity
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,6 +27,7 @@ class MypageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentMypageBinding = FragmentMypageBinding.inflate(layoutInflater)
+        mainActivity = activity as MainActivity
         return fragmentMypageBinding.root
     }
 
@@ -50,8 +53,9 @@ class MypageFragment : Fragment() {
         buttonLogOut.setOnClickListener {
             userViewModel.logOut()
 //            //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
-//            findNavController().popBackStack(R.id.mainFragment, true)
+            findNavController().popBackStack(R.id.mainFragment, true)
 //            findNavController().navigate(R.id.loginFragment)
+            mainActivity.navigate(R.id.loginFragment)
         }
     }
 
