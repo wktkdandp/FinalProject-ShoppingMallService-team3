@@ -18,6 +18,8 @@ class OrderRepository {
         ordersRef.orderByChild("orderUid").equalTo(orderUid.toDouble()).get().addOnCompleteListener(callback)
     }
 
+    /*
+    // RealtimeDatabase에서 아래 쿼리가 안먹혀서 전체 읽어오고 필터링 하는 식으로 구현
     // 판매자에게 들어온 모든 상태 주문 가져오기
     fun getOrderBySellerUid(sellerUid: String, callback: (Task<DataSnapshot>) -> Unit) {
         ordersRef.orderByChild("itemList/sellerUid").equalTo(sellerUid).get().addOnCompleteListener(callback)
@@ -28,6 +30,7 @@ class OrderRepository {
         ordersRef.orderByChild("itemList/sellerUid").equalTo(sellerUid)
             .ref.orderByChild("state").equalTo(state.toDouble()).get().addOnCompleteListener(callback)
     }
+    */
 
     // 주문 수정
     fun modifyOrder(order: Order, callback: (Task<DataSnapshot>) -> Unit) {

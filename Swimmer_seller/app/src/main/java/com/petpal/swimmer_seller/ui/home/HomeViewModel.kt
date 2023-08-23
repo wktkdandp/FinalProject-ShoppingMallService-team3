@@ -19,6 +19,17 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
     var exchangeCount = MutableLiveData<Long>()
     var refundCount = MutableLiveData<Long>()
 
+    init {
+        orderCount.value = 0L
+        paymentCount.value = 0L
+        readyCount.value = 0L
+        deliveryCount.value = 0L
+        completeCount.value = 0L
+        cancelCount.value = 0L
+        exchangeCount.value = 0L
+        refundCount.value = 0L
+    }
+
     // 등록 상품 건 수
     var productCount = MutableLiveData<Long>()
 
@@ -31,47 +42,21 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
 
     // 로그인 판매자에게 들어온 주문 상태별 건 수 가져오기
     fun getAllOrderCount(sellerUid: String) {
-        orderRepository.getOrderBySellerUid(sellerUid) { task ->
+        orderRepository.getAllOrder { task ->
             val orderList = mutableListOf<Order>()
-
             for (orderSnapshot in task.result.children) {
                 val order = orderSnapshot.getValue(Order::class.java)
                 if (order != null) {
-                    orderList.add(order)
+                    for (item in order.itemList) {
+                        if (item.sellerUid == sellerUid) {
+                            orderList.add(order)
+                            break
+                        }
+                    }
                 }
-
-                /*
-                // data class라서 위 방식 안통하면 아래 방식으로 대체 가능
-                val orderUid = orderSnapshot.child("orderUid").value as String
-                val code = orderSnapshot.child("code").value as Long
-                val orderDate = orderSnapshot.child("orderDate").value as String
-                val message = orderSnapshot.child("message").value as String
-                val state = orderSnapshot.child("state").value as Long
-                val address = orderSnapshot.child("address").value as Address
-                val itemList = mutableListOf<Item>()
-                for (itemSnapshot in orderSnapshot.child("itemList").children) {
-                    val productUid = itemSnapshot.child("productUid").value as String
-                    val size = itemSnapshot.child("size").value as Long
-                    val color = itemSnapshot.child("color").value as Long
-                    val quantity = itemSnapshot.child("quantity").value as Long
-                    val sellerUid = itemSnapshot.child("sellerUid").value as String
-
-                    val item = Item(productUid, size, color, quantity, sellerUid)
-                    itemList.add(item)
-                }
-                val couponUid = orderSnapshot.child("couponUid").value as String
-                val userPoint = orderSnapshot.child("usePoint").value as Long
-                val payMethod = orderSnapshot.child("payMethod").value as Long
-                val totalPrice = orderSnapshot.child("totalPrice").value as Long
-
-                val order = Order(orderUid, code, orderDate, message,
-                    state, address, itemList, couponUid, userPoint, payMethod, totalPrice)
-
-                orderList.add(order)
-                 */
             }
 
-            // 전체 주문 건 수 (값 잘 가져오는지 임시 테스트용으로 쓸 예정)
+            // 판매자에게 들어온 전체 주문 수
             orderCount.value = orderList.count().toLong()
 
             // 주문상태 주문 건 수

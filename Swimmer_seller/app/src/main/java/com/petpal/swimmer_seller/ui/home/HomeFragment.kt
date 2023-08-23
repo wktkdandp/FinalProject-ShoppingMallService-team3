@@ -92,9 +92,9 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // TODO DB에 orders 데이터 생기면 테스트 예정
+        // TODO color, size 데이터 타입 등 orders 구조 통일되면 테스트하기
         // 로그인 판매자가 관련된 주문들 주문상태별로 개수 표시
-        // homeViewModel.getProductCount(mainActivity.loginSellerUid)
+        // homeViewModel.getAllOrderCount(mainActivity.loginSellerUid)
         
         // 로그인 판매자가 등록한 상품 개수 표시
         homeViewModel.getProductCount(mainActivity.loginSellerUid)

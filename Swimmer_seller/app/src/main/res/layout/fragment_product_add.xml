@@ -57,30 +57,25 @@
                     style="@style/Widget.Material3.Button.IconButton.Outlined"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:layout_marginRight="5dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
                     android:text="@string/prompt_main_image_count"
                     app:cornerRadius="5dp"
                     app:icon="@drawable/add_photo_alternate_24px"
                     app:iconGravity="textTop"
                     app:iconPadding="5dp" />
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewMainImage"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:contentDescription="메인 이미지 리스트">
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/linearMainImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal" >
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerViewMainImage"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal" />
-                    </LinearLayout>
-                </HorizontalScrollView>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
 
@@ -246,6 +241,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <LinearLayout
+                android:id="@+id/linearDescriptionImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
@@ -257,6 +253,7 @@
                     style="@style/Widget.Material3.Button.IconButton.Outlined"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:layout_marginRight="5dp"
                     android:insetLeft="0dp"
                     android:insetTop="0dp"
                     android:insetRight="0dp"

@@ -5,5 +5,8 @@ data class Item (
     var size: Long,
     var color: Long,
     var quantity: Long,
-    var sellerUid: String
+    var sellerUid: String,
+    var name: String,
+    var mainImage: String,
+    var price: Long,
 )

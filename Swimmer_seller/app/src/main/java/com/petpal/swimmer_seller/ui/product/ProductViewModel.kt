@@ -1,9 +1,8 @@
 package com.petpal.swimmer_seller.ui.product
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.petpal.swimmer_seller.data.model.Image
 import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 
@@ -13,9 +12,13 @@ class ProductViewModel(private val productRepository: ProductRepository):ViewMod
         productRepository.addProduct(product){}
     }
 
-    fun uploadImages(images: MutableMap<Uri, String>){
+    fun uploadImage(uri: Uri, fileName: String) {
+        productRepository.uploadImage(uri, fileName){}
+    }
+
+    fun uploadImageList(images: MutableList<Image>){
         for (image in images){
-            productRepository.uploadImage(image.key, image.value){}
+            productRepository.uploadImage(image.uri, image.fileName){}
         }
     }
 

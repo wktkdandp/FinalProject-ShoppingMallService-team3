@@ -1,5 +1,8 @@
 package com.petpal.swimmer_seller.data.model
 
+import android.graphics.Bitmap
+import android.net.Uri
+
 // 상품 클래스
 data class Product(
     var productUid: String,
@@ -17,4 +20,10 @@ data class Product(
     var reviewList: List<Review>,
     var orderCount: Long,
     var regDate: String
+)
+
+data class Image(
+    var uri: Uri,
+    var bitmap: Bitmap,
+    var fileName: String
 )

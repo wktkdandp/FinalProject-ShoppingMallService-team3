@@ -1,6 +1,7 @@
 package com.petpal.swimmer_seller.ui.product
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +31,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.petpal.swimmer_seller.MainActivity
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Category
+import com.petpal.swimmer_seller.data.model.Image
 import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.data.model.Review
 import com.petpal.swimmer_seller.data.repository.ProductRepository
@@ -44,8 +47,8 @@ class ProductAddFragment : Fragment() {
     lateinit var mainActivity: MainActivity
 
     // 대표 이미지 최대 5개, 설명 이미지 1개
-    private var mainImageUriList = mutableListOf<Uri>()
-    private var descriptionImageUri: Uri? = null
+    private var mainImageList = mutableListOf<Image>()
+    private var descriptionImage: Uri? = null
 
     lateinit var mainGalleryLauncher: ActivityResultLauncher<Intent>
     lateinit var descGalleryLauncher: ActivityResultLauncher<Intent>
@@ -67,8 +70,8 @@ class ProductAddFragment : Fragment() {
         val factory = ProductViewModelFactory(ProductRepository())
         productViewModel = ViewModelProvider(this, factory)[ProductViewModel::class.java]
 
-        mainGalleryLauncher = multiGallerySetting()
-        descGalleryLauncher = singleGallerySetting()
+        mainGalleryLauncher = mainImageGallerySetting()
+        descGalleryLauncher = descriptionImageGallerySetting()
 
         addHashTagList.clear()
 
@@ -186,7 +189,7 @@ class ProductAddFragment : Fragment() {
 
             buttonOK.setOnClickListener {
                 // 최종 유효성 검사
-                if (mainImageUriList.size < 1) {
+                if (mainImageList.size < 1) {
                     buttonAddMainImage.requestFocus()
                     scrollView.scrollTo(0, buttonAddMainImage.top)
                     Snackbar.make(fragmentProductAddBinding.root, "상품 이미지를 1개 이상 등록해 주세요", Snackbar.LENGTH_SHORT).show()
@@ -210,13 +213,13 @@ class ProductAddFragment : Fragment() {
                 if (!validateEditText(textInputEditTextDescription.text.toString(), textInputLayoutDescription, "상품 설명을 입력해 주세요")){
                     return@setOnClickListener
                 }
-                if (descriptionImageUri == null) {
+                if (descriptionImage == null) {
                     buttonAddDescImage.requestFocus()
                     scrollView.scrollTo(0, buttonAddDescImage.bottom)
                     Snackbar.make(fragmentProductAddBinding.root, "상품 설명 이미지를 등록해 주세요", Snackbar.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-
+                // 상품 등록 진행중 표시
                 progressBar.visibility = View.VISIBLE
 
                 val category = Category(
@@ -224,15 +227,13 @@ class ProductAddFragment : Fragment() {
                     dropdownCategoryMid.text.toString(),
                     dropdownCategorySub.text.toString()
                 )
+                // 상품 식별, 파일명에 사용할 고유 코드
                 val code = System.currentTimeMillis().toString()
 
-                // DB에 저장될 이미지 파일들
-                val uploadImagesMap = mutableMapOf<Uri, String>()
-                // 메인 이미지 Uri 별로 파일명 설정
-                for (idx in mainImageUriList.indices) {
-                    uploadImagesMap[mainImageUriList[idx]] = "image/${code}_main_image${idx+1}.jpg"
+                // DB에 저장할 이미지들 파일명 설정
+                for (idx in mainImageList.indices) {
+                    mainImageList[idx].fileName = "image/${code}_main_image${idx+1}.jpg"
                 }
-
                 val descriptionImageFileName = "image/${code}_description_image.jpg"
 
                 val product = Product(
@@ -240,7 +241,7 @@ class ProductAddFragment : Fragment() {
                     code,
                     textInputEditTextProductName.text.toString(),
                     textInputEditTextPrice.text.toString().toLong(),
-                    uploadImagesMap.values.toList(),
+                    mainImageList.map{ it.fileName },
                     textInputEditTextDescription.text.toString(),
                     descriptionImageFileName,
                     mainActivity.loginSellerUid,
@@ -257,8 +258,8 @@ class ProductAddFragment : Fragment() {
                 productViewModel.addProduct(product)
 
                 // 이미지 업로드
-                uploadImagesMap[descriptionImageUri!!] = descriptionImageFileName
-                productViewModel.uploadImages(uploadImagesMap)
+                productViewModel.uploadImageList(mainImageList)
+                productViewModel.uploadImage(descriptionImage!!, descriptionImageFileName)
 
                 Snackbar.make(fragmentProductAddBinding.root, "상품이 등록되었습니다.", Snackbar.LENGTH_SHORT).show()
 
@@ -310,49 +311,33 @@ class ProductAddFragment : Fragment() {
         }
     }
     
-    // 다중 선택 갤러리 설정
-    private fun multiGallerySetting(): ActivityResultLauncher<Intent>{
+    // 메인 이미지 갤러리 설정
+    private fun mainImageGallerySetting(): ActivityResultLauncher<Intent>{
         val galleryContract = ActivityResultContracts.StartActivityForResult()
         val galleryLauncher = registerForActivityResult(galleryContract) {
             // 메인 이미지 최대 5개까지만 첨부 가능
-            if (mainImageUriList.size < 6){
-                if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                    if (it.data?.data != null) {
-                        val uploadUri = it.data?.data
-                        val previewCardView = layoutInflater.inflate(R.layout.layout_imageview_delete, fragmentProductAddBinding.linearMainImage, false) as CardView
-                        val previewImageView = previewCardView.findViewById<ImageView>(R.id.imageViewDelete)
-                        val previewButton = previewCardView.findViewById<Button>(R.id.buttonDelete)
-                        previewButton.setOnClickListener {
-                            // TODO 이 부분을 ViewModel에서 UI 파악할 수 있도록 빼기?
-                            // 이미지 삭제, 리스트에서 제거
-                            fragmentProductAddBinding.linearMainImage.removeView(previewCardView)
-                            mainImageUriList.remove(uploadUri)
-                            fragmentProductAddBinding.buttonAddMainImage.text = "${mainImageUriList.size}/5"
+            if (mainImageList.count() < 5){
+                if (it.resultCode == AppCompatActivity.RESULT_OK && it.data?.data != null) {
+                    val uploadUri = it.data?.data
+                    var uploadBitmap: Bitmap? = null
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        val source = ImageDecoder.createSource(mainActivity.contentResolver, uploadUri!!)
+                        uploadBitmap = ImageDecoder.decodeBitmap(source)
+                    } else {
+                        val cursor = mainActivity.contentResolver.query(uploadUri!!, null, null, null, null)
+                        if (cursor != null) {
+                            cursor.moveToNext()
+                            val colIdx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                            val source = cursor.getString(colIdx)
+                            uploadBitmap = BitmapFactory.decodeFile(source)
                         }
-                        // 화면에 이미지 CardView 추가
-                        fragmentProductAddBinding.linearMainImage.addView(previewCardView)
-                        // 메인 이미지 리스트에 추가
-                        mainImageUriList.add(uploadUri!!)
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            val source = ImageDecoder.createSource(mainActivity.contentResolver, uploadUri!!)
-                            val bitmap = ImageDecoder.decodeBitmap(source)
-                            previewImageView.setImageBitmap(bitmap)
-                        } else {
-                            val cursor = mainActivity.contentResolver.query(uploadUri!!, null, null, null, null)
-                            if (cursor != null) {
-                                cursor.moveToNext()
-
-                                val colIdx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-                                val source = cursor.getString(colIdx)
-
-                                val bitmap = BitmapFactory.decodeFile(source)
-                                previewImageView.setImageBitmap(bitmap)
-                            }
-                        }
-                        mainImageUriList.add(uploadUri)
-                        fragmentProductAddBinding.buttonAddMainImage.text = "${mainImageUriList.size}/5"
                     }
+                    // 메인 이미지 리스트에 추가
+                    val image = Image(uploadUri, uploadBitmap!!, "")
+                    mainImageList.add(image)
+                    fragmentProductAddBinding.buttonAddMainImage.text = "${mainImageList.size}/5"
+                    fragmentProductAddBinding.recyclerViewMainImage.adapter?.notifyDataSetChanged()
                 }
             }
         }
@@ -360,46 +345,45 @@ class ProductAddFragment : Fragment() {
         return galleryLauncher
     }
 
-    // 단일 선택 갤러리 설정
-    private fun singleGallerySetting(): ActivityResultLauncher<Intent>{
+    // 설명 이미지 갤러리 설정
+    private fun descriptionImageGallerySetting(): ActivityResultLauncher<Intent>{
         val galleryContract = ActivityResultContracts.StartActivityForResult()
         val galleryLauncher = registerForActivityResult(galleryContract) {
-
-            if (descriptionImageUri == null) {
-                if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                    if (it.data?.data != null) {
-                        val uploadUri = it.data?.data
-                        val previewCardView = layoutInflater.inflate(R.layout.layout_imageview_delete, fragmentProductAddBinding.linearMainImage, false) as CardView
-                        val previewImageView = previewCardView.findViewById<ImageView>(R.id.imageViewDelete)
-                        val previewButton = previewCardView.findViewById<Button>(R.id.buttonDelete)
-                        previewButton.setOnClickListener {
-                            // 이미지 삭제, 리스트에서 제거
-                            fragmentProductAddBinding.linearMainImage.removeView(previewCardView)
-                            descriptionImageUri = null
-                            fragmentProductAddBinding.buttonAddDescImage.text = "0/1"
-                        }
-                        fragmentProductAddBinding.linearMainImage.addView(previewCardView)
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            val source = ImageDecoder.createSource(mainActivity.contentResolver, uploadUri!!)
-                            val bitmap = ImageDecoder.decodeBitmap(source)
-                            previewImageView.setImageBitmap(bitmap)
-                        } else {
-                            val cursor = mainActivity.contentResolver.query(uploadUri!!, null, null, null, null)
-                            if (cursor != null) {
-                                cursor.moveToNext()
-
-                                val colIdx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-                                val source = cursor.getString(colIdx)
-
-                                val bitmap = BitmapFactory.decodeFile(source)
-                                previewImageView.setImageBitmap(bitmap)
-                            }
-                        }
-
-                        descriptionImageUri = uploadUri
-                        fragmentProductAddBinding.buttonAddDescImage.text = "1/1"
+            // 설명 이미지가 없을 경우만 추가 가능
+            if (descriptionImage == null) {
+                if (it.resultCode == AppCompatActivity.RESULT_OK && it.data?.data != null) {
+                    val uploadUri = it.data?.data
+                    val previewCardView = layoutInflater.inflate(R.layout.layout_imageview_delete, fragmentProductAddBinding.linearDescriptionImage, false) as CardView
+                    val previewImageView = previewCardView.findViewById<ImageView>(R.id.imageViewDelete)
+                    val previewButton = previewCardView.findViewById<Button>(R.id.buttonDelete)
+                    previewButton.setOnClickListener {
+                        // 이미지 삭제, 리스트에서 제거
+                        fragmentProductAddBinding.linearDescriptionImage.removeView(previewCardView)
+                        descriptionImage = null
+                        fragmentProductAddBinding.buttonAddDescImage.text = "0/1"
                     }
+                    fragmentProductAddBinding.linearDescriptionImage.addView(previewCardView)
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        val source = ImageDecoder.createSource(mainActivity.contentResolver, uploadUri!!)
+                        val bitmap = ImageDecoder.decodeBitmap(source)
+                        previewImageView.setImageBitmap(bitmap)
+                    } else {
+                        val cursor = mainActivity.contentResolver.query(uploadUri!!, null, null, null, null)
+                        if (cursor != null) {
+                            cursor.moveToNext()
+
+                            val colIdx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                            val source = cursor.getString(colIdx)
+
+                            val bitmap = BitmapFactory.decodeFile(source)
+                            previewImageView.setImageBitmap(bitmap)
+                        }
+                    }
+
+                    descriptionImage = uploadUri
+                    fragmentProductAddBinding.buttonAddDescImage.text = "1/1"
+                    fragmentProductAddBinding.recyclerViewMainImage.adapter?.notifyDataSetChanged()
                 }
             }
         }
@@ -407,20 +391,18 @@ class ProductAddFragment : Fragment() {
         return galleryLauncher
     }
 
+    // 메인 이미지 리사이클러뷰 어댑터
     inner class MainImageRecyclerViewAdapter: RecyclerView.Adapter<MainImageRecyclerViewAdapter.MainImageViewHolder>(){
         inner class MainImageViewHolder(imageViewBinding: LayoutImageviewDeleteBinding):RecyclerView.ViewHolder(imageViewBinding.root) {
-            val imageViewMain: ImageView
-            val buttonDeleteMain: Button
-            var uri : Uri?
+            val imageViewMain: ImageView = imageViewBinding.imageViewDelete
+            val textViewIsMain : TextView = imageViewBinding.textViewIsMain
+            private val buttonDeleteMain: Button = imageViewBinding.buttonDelete
 
             init {
-                imageViewMain = imageViewBinding.imageViewDelete
-                buttonDeleteMain = imageViewBinding.buttonDelete
-                uri = null
-
+                // 우측 상단 X버튼 클릭시 이미지 삭제
                 buttonDeleteMain.setOnClickListener {
-                    mainImageUriList.remove(uri)
-                    fragmentProductAddBinding.buttonAddMainImage.text = "${mainImageUriList.count()}/5"
+                    mainImageList.removeAt(adapterPosition)
+                    fragmentProductAddBinding.buttonAddMainImage.text = "${mainImageList.count()}/5"
                     notifyDataSetChanged()
                 }
             }
@@ -428,29 +410,23 @@ class ProductAddFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainImageViewHolder {
             val imageViewBinding = LayoutImageviewDeleteBinding.inflate(layoutInflater)
-            val mainImageViewHolder = MainImageViewHolder(imageViewBinding)
-
-            imageViewBinding.root.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-
-            return mainImageViewHolder
+            return MainImageViewHolder(imageViewBinding)
         }
 
         override fun getItemCount(): Int {
-            return mainImageUriList.size
+            return mainImageList.size
         }
 
         override fun onBindViewHolder(holder: MainImageViewHolder, position: Int) {
-            holder.uri = mainImageUriList[position]
-            holder.imageViewMain.setImageURI(mainImageUriList[position])
+            // 메인 이미지 리스트에 저장된 이미지를 커스텀 뷰에 표시
+            holder.imageViewMain.setImageBitmap(mainImageList[position].bitmap)
+            // 첫번째 이미지를 대표 이미지로 표시
+            holder.textViewIsMain.visibility = if (position == 0) { View.VISIBLE } else { View.INVISIBLE }
         }
-
     }
 }
 
-//뷰모델 팩토리
+// 뷰모델 팩토리
 class ProductViewModelFactory(private val repository: ProductRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {
@@ -460,4 +436,3 @@ class ProductViewModelFactory(private val repository: ProductRepository) : ViewM
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
-
