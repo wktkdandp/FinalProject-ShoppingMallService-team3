@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.petpal.swimmer_seller.R
-import com.petpal.swimmer_seller.data.repository.UserRepository
 import com.petpal.swimmer_seller.data.model.Seller
+import com.petpal.swimmer_seller.data.repository.UserRepository
 
 class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
@@ -93,7 +93,8 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         if (name.isEmpty()) {
             _findEmailForm.value = FindEmailFormState(nameError = R.string.invalid_name)
         } else if (phoneNumber.isEmpty()) {
-            _findEmailForm.value = FindEmailFormState(phoneNumberError = R.string.invalid_phone_number)
+            _findEmailForm.value =
+                FindEmailFormState(phoneNumberError = R.string.invalid_phone_number)
         } else {
             _findEmailForm.value = FindEmailFormState(isDataValid = true)
         }
@@ -144,9 +145,9 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         userRepository.findEmail(name, phone) {
             //성공이면 userResult의 success를 사용자의 email로 바꿔주고
             //실패면 에러 string 넣어주기
-            if(it.result.exists()) {
+            if (it.result.exists()) {
                 Log.d("findEmail", "findEmail Succeed")
-                for(snapShot in it.result.children){
+                for (snapShot in it.result.children) {
                     val email = snapShot.child("email").value as String
                     _userResult.value = UserResult(successString = email)
                 }
@@ -160,22 +161,37 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     fun getCurrentSellerInfo() {
         userRepository.getCurrentSellerInfo {
-            if(it.result.exists()) {
-                for(snapShot in it.result.children){
+            if (it.result.exists()) {
+                for (snapShot in it.result.children) {
                     val email = snapShot.child("email").value as String
-                    val businessRegNumber= snapShot.child("businessRegNumber").value as String
-                    val representName= snapShot.child("representName").value as String
-                    val brandName= snapShot.child("brandName").value as String
-                    val description= snapShot.child("description").value as String
-                    val address= snapShot.child("address").value as String
-                    val brandPhoneNumber= snapShot.child("brandPhoneNumber").value as String
-                    val bankName= snapShot.child("bankName").value as String
-                    val accountNumber= snapShot.child("accountNumber").value as String
-                    val contactName= snapShot.child("contactName").value as String
-                    val contactPhoneNumber= snapShot.child("contactPhoneNumber").value as String
+                    val sellerAuthUid = snapShot.child("sellerAuthUid").value as String
+                    val businessRegNumber = snapShot.child("businessRegNumber").value as String
+                    val representName = snapShot.child("representName").value as String
+                    val brandName = snapShot.child("brandName").value as String
+                    val description = snapShot.child("description").value as String
+                    val address = snapShot.child("address").value as String
+                    val brandPhoneNumber = snapShot.child("brandPhoneNumber").value as String
+                    val bankName = snapShot.child("bankName").value as String
+                    val accountNumber = snapShot.child("accountNumber").value as String
+                    val contactName = snapShot.child("contactName").value as String
+                    val contactPhoneNumber = snapShot.child("contactPhoneNumber").value as String
                     val contactEmail = snapShot.child("contactEmail").value as String
 
-                    _currentUser.value = Seller(email, businessRegNumber, representName, brandName, description, address, brandPhoneNumber, bankName, accountNumber, contactName, contactPhoneNumber, contactEmail)
+                    _currentUser.value = Seller(
+                        email,
+                        sellerAuthUid,
+                        businessRegNumber,
+                        representName,
+                        brandName,
+                        description,
+                        address,
+                        brandPhoneNumber,
+                        bankName,
+                        accountNumber,
+                        contactName,
+                        contactPhoneNumber,
+                        contactEmail
+                    )
                     Log.d("currentUser", _currentUser.value.toString())
                 }
             }
