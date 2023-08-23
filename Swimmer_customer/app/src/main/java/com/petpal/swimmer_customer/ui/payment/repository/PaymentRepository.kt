@@ -40,8 +40,8 @@ class PaymentRepository {
             val orderRef = database.getReference("orders")
 
             orderRef.push().setValue(order).addOnCompleteListener(callback)
+            order.orderUid = orderRef.key!!
         }
-
 
     }
 }

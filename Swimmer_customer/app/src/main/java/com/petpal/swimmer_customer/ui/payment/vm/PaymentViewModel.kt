@@ -23,7 +23,7 @@ class PaymentViewModel: ViewModel() {
                 val productUid = i.child("productUid").value as String
                 val sellerUid = i.child("sellerUid").value as String
                 val name = i.child("name").value as String
-                val mainImage = i.child("mainImage").value as String
+                val mainImage = i.child("mainImage").child("0").value as String
                 val price = i.child("price").value as Long
 
                 // 수량, 사이즈, 컬러는 data 생성된 후에 추가 테스트 진행 예정

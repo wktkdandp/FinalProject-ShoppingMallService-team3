@@ -118,6 +118,7 @@ class PaymentFragment : Fragment() {
             paymentConfirmButton.run {
                 setOnClickListener {
                     // 결제 완료 버튼
+
                     // seller한테 넘겨줄 order객체 서버로 전송하는 메서드 구현 예정
                     val sdfDate = SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.getDefault())
                     val orderDate = sdfDate.format(Date(System.currentTimeMillis()))
@@ -126,8 +127,7 @@ class PaymentFragment : Fragment() {
                     val orderUid = sdfUid.format(Date(System.currentTimeMillis()))
 
                     val order = OrderByCustomer("결제완료", orderUid, orderDate, spinnerSelect, chipSelect,
-                    totalFee.toLong(), orderItemList, "test_coupon_item", 1000)
-
+                        totalFee.toLong(), orderItemList, "test_address", "test_coupon_item", 1000)
                     PaymentRepository.sendOrderToSeller(order) {
 
                         it.addOnCanceledListener {
