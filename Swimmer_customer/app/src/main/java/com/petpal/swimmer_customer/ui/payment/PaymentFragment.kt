@@ -1,6 +1,7 @@
 package com.petpal.swimmer_customer.ui.payment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import com.petpal.swimmer_customer.databinding.PaymentItemRowBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
 import com.petpal.swimmer_customer.ui.payment.repository.PaymentRepository
 import com.petpal.swimmer_customer.ui.payment.vm.PaymentViewModel
+import kotlinx.coroutines.selects.select
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -31,8 +33,17 @@ class PaymentFragment : Fragment() {
     lateinit var fragmentPaymentBinding: FragmentPaymentBinding
     lateinit var mainActivity: MainActivity
     lateinit var paymentViewModel: PaymentViewModel
+
+    // mvvm 패턴으로 변경 시 vm으로 이동 시킬 변수들
     lateinit var totalFee: String
-    lateinit var orderItemList: MutableList<ItemsForCustomer>
+    private lateinit var orderItemList: MutableList<ItemsForCustomer>
+    lateinit var spinnerSelect: String
+    lateinit var chipSelect: String
+
+    // -R&D-
+    // state : 배송 상태 -> static으로 구분해주기
+    // spinner, chipgroup, button -> mvvm 패턴을 위해 vm으로 메서드 이전 후 데이터 처리
+    // 사용자로부터 값을 받지 못한 부분에 대한 error dialog 혹은 null 값 처리
 
 
     override fun onCreateView(
@@ -81,11 +92,13 @@ class PaymentFragment : Fragment() {
 
                 onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
+                        Log.d("!!", "$selectedItem")
+                        // 선택된 item -> OrderByCustomer.message 에 넣어주기
+                        spinnerSelect = selectedItem.toString()
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {
-
+                        // dialog 를 통해 사용자에게 알려준다.
                     }
                 }
             }
@@ -98,7 +111,6 @@ class PaymentFragment : Fragment() {
                 setNavigationOnClickListener {
                     // 백 버튼 문제 해결하기 -> 완료
                     Navigation.findNavController(fragmentPaymentBinding.root).popBackStack()
-                        /*.navigate(R.id.itemDetailFragment)*/
                 }
             }
 
@@ -113,13 +125,21 @@ class PaymentFragment : Fragment() {
                     val sdfUid = SimpleDateFormat("MMddhhmmss", Locale.getDefault())
                     val orderUid = sdfUid.format(Date(System.currentTimeMillis()))
 
-                    val order = OrderByCustomer("결제 완료", orderUid, orderDate, "spinner.text", "chip selected",
-                    totalFee.toLong(), orderItemList, "coupon", 1)
+                    val order = OrderByCustomer("결제완료", orderUid, orderDate, spinnerSelect, chipSelect,
+                    totalFee.toLong(), orderItemList, "test_coupon_item", 1000)
+
                     PaymentRepository.sendOrderToSeller(order) {
-                        // complete -> 주문 완료 화면
-                        // 주문 완료 화면으로 이동하기
-                        Navigation.findNavController(fragmentPaymentBinding.root)
-                            .navigate(R.id.action_paymentFragment_to_completeFragment)
+
+                        it.addOnCanceledListener {
+                            // canceled -> error dialog
+                        }
+                        it.addOnCompleteListener {
+                            // complete -> 주문 완료 화면
+                            // 주문 완료 화면으로 이동하기
+                            Navigation.findNavController(fragmentPaymentBinding.root)
+                                .navigate(R.id.action_paymentFragment_to_completeFragment)
+                        }
+
                     }
                 }
             }
@@ -135,6 +155,21 @@ class PaymentFragment : Fragment() {
             TabLayoutMediator(paymentTab, paymentViewPager) {
                     tab, position -> paymentViewPager.setCurrentItem(tab.position)
             }.attach()
+
+            // chipGroup 제어 부분
+            paymentChipGroup.run {
+                setOnCheckedStateChangeListener { group, checkedIds ->
+                    when (checkedChipId) {
+                        // 해당 chipId를 통해서 long 타입 전환
+                        R.id.paymentNaver -> chipSelect = "네이버페이"
+                        R.id.paymentKakao -> chipSelect = "카카오페이"
+                        R.id.paymentCard -> chipSelect = "카드결제"
+                        R.id.paymentAccount -> chipSelect = "계좌간편결제"
+                        R.id.paymentMoblie -> chipSelect = "핸드폰결제"
+                        R.id.paymentCash -> chipSelect = "무통장입금"
+                    }
+                }
+            }
 
         }
 

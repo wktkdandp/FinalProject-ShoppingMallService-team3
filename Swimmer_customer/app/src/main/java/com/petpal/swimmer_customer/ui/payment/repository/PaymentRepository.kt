@@ -12,12 +12,6 @@ import com.petpal.swimmer_customer.data.model.OrderByCustomer
 class PaymentRepository {
     companion object {
         // item 가져오기
-        fun getItems(callback: (Task<DataSnapshot>) -> Unit) {
-            val database = FirebaseDatabase.getInstance()
-            val itemCodeRef = database.getReference("products")
-
-            itemCodeRef.orderByChild("productUid").get().addOnCompleteListener(callback)
-        }
         fun getCartItems(callback: (Task<DataSnapshot>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val itemCodeRef = database.getReference("products")
