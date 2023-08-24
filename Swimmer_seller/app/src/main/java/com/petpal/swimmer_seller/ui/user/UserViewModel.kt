@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Seller
 import com.petpal.swimmer_seller.data.repository.UserRepository
@@ -61,6 +63,8 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         userRepository.signUp(email, password) {
             if (it.isSuccessful && it.result.user != null) {
                 _userResult.value = UserResult(successInt = R.string.signup_succeed)
+                //signup을 하고 난 후에야 currentUser가 되니까 여기서 sellerUid넣어주기
+                seller.sellerAuthUid = Firebase.auth.currentUser!!.uid
                 addSeller(seller)
             } else {
                 Log.d("signup", it.exception.toString())
