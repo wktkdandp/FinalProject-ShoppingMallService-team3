@@ -17,24 +17,13 @@
     <Button
         android:id="@+id/buttonFindAddress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="주소 찾기" />
+        android:layout_height="100dp"
+        android:text="배송지 추가하기" />
 
-    <TextView
-        android:id="@+id/textViewAddressName"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewDeliveryPoint"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/textViewAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-    <TextView
-        android:id="@+id/textViewAddressPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 </LinearLayout>

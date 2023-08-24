@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -20,8 +19,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentRegisterBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
@@ -137,7 +134,7 @@ class RegisterFragment : Fragment() {
     //수영 경력
     private fun UserSwimExp():String {
         return when (fragmentRegisterBinding.swimExpGroup.checkedChipId) {
-            R.id.swimExp1 -> getString(R.string.duration_less_than_1_year)
+            R.id.isDefaultDeliveryPoint -> getString(R.string.duration_less_than_1_year)
             R.id.swimExp2 -> getString(R.string.duration_less_than_3_years)
             R.id.swimExp3 -> getString(R.string.duration_less_than_5_years)
             R.id.swimExp4 -> getString(R.string.duration_more_than_5_years)
