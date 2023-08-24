@@ -74,21 +74,41 @@ class OrderManageFragment : Fragment() {
             toolbarManageOrder.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
+
+
+
         }
 
-        orderViewModel.orderList.observe(viewLifecycleOwner) {
-            fragmentOrderManageBinding.run {
-                if (it.isEmpty()) {
-                    linearLayoutNoOrder.visibility = View.VISIBLE
-                    linearLayoutRecyclerView.visibility = View.GONE
-                } else {
-                    linearLayoutNoOrder.visibility = View.GONE
-                    linearLayoutRecyclerView.visibility = View.VISIBLE
+        orderViewModel.run {
+            orderList.observe(viewLifecycleOwner) {
+                fragmentOrderManageBinding.run {
+                    if (it.isEmpty()) {
+                        linearLayoutNoOrder.visibility = View.VISIBLE
+                        linearLayoutRecyclerView.visibility = View.GONE
+                    } else {
+                        linearLayoutNoOrder.visibility = View.GONE
+                        linearLayoutRecyclerView.visibility = View.VISIBLE
+                    }
+
+                    recyclerViewOrder.adapter?.notifyDataSetChanged()
+
+                    textViewOrderPaymentCount.text = it.filter {
+                        it.state == OrderState.PAYMENT.code
+                    }.size.toString()
+
+                    textViewOrderReadyCount.text = it.filter {
+                        it.state == OrderState.READY.code
+                    }.size.toString()
+
+                    textViewOrderProcessCount.text = it.filter {
+                        it.state == OrderState.DELIVERY.code
+                    }.size.toString()
+
+                    textViewOrderCompleteCount.text = it.filter {
+                        it.state == OrderState.COMPLETE.code
+                    }.size.toString()
                 }
-
-                recyclerViewOrder.adapter?.notifyDataSetChanged()
             }
-
         }
     }
 
