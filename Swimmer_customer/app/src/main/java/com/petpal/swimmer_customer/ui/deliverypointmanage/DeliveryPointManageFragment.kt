@@ -1,5 +1,6 @@
 package com.petpal.swimmer_customer.ui.deliverypointmanage
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -13,14 +14,19 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.core.Context
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.Address
+import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import com.petpal.swimmer_customer.databinding.FragmentDeliveryPointManageBinding
 import com.petpal.swimmer_customer.databinding.FragmentMainBinding
 import com.petpal.swimmer_customer.databinding.ItemDeliveryPointBinding
@@ -29,24 +35,59 @@ import com.petpal.swimmer_customer.util.NetworkStatus
 class DeliveryPointManageFragment : Fragment() {
 
     lateinit var fragmentDeliveryPointManageBinding: FragmentDeliveryPointManageBinding
-    val addressList= arrayOf("부천","김천","시천","사천")
-    val phoneList= arrayOf("1234","5678","017234","23425")
-    val nameList= arrayOf("고진호","홍길동","박준석","이정우")
+    lateinit var viewModel:DeliveryPointManageViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         fragmentDeliveryPointManageBinding = FragmentDeliveryPointManageBinding.inflate(layoutInflater)
 
-
+        val factory = DeliveryPointManageModelFactory(CustomerUserRepository())
+        viewModel = ViewModelProvider(this, factory).get(DeliveryPointManageViewModel::class.java)
         // 받아온 데이터 처리
         val address = arguments?.getString("address")
         val postcode= arguments?.getString("postcode")
+        val from=arguments?.getString("FromOrder")
         if(address!=null){
             val bundle = Bundle()
             bundle.putString("address", address)
             bundle.putString("postcode",postcode)
             findNavController().navigate(R.id.DetailAddressFragment, bundle)
+        }
+        val argument = arguments?.getString("FromOrder")
+        if (argument?.equals("FromOrder") == true) {
+            (fragmentDeliveryPointManageBinding.recyclerViewDeliveryPoint.adapter as RecyclerViewAdapter).setOnItemClickListener { selectedAddress ->
+                val bundle = Bundle().apply {
+                    putString("name", selectedAddress.name)
+                    putString("address", selectedAddress.address)
+                    putString("phoneNumber", selectedAddress.phoneNumber)
+                }
+                findNavController().navigate(R.id.paymentFragment, bundle)
+            }
+        }
+
+        viewModel.addresses.observe(viewLifecycleOwner, Observer { addresses ->
+            // RecyclerView 데이터 업데이트
+            (fragmentDeliveryPointManageBinding.recyclerViewDeliveryPoint.adapter as RecyclerViewAdapter).submitAddresses(addresses)
+        })
+
+        viewModel.deleteResult.observe(viewLifecycleOwner, Observer { result ->
+            if (result == true) {
+                Snackbar.make(fragmentDeliveryPointManageBinding.root, "Address deleted successfully", Snackbar.LENGTH_SHORT).show()
+                // Optionally refresh the list or remove the deleted item from the RecyclerView
+                val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+                if (currentUserUID != null) {
+                    viewModel.fetchAddressesForUser(currentUserUID)
+                }
+            } else {
+                Snackbar.make(fragmentDeliveryPointManageBinding.root, "Failed to delete address", Snackbar.LENGTH_SHORT).show()
+            }
+        })
+
+        // 데이터 가져오기
+        val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+        if (currentUserUID != null) {
+            viewModel.fetchAddressesForUser(currentUserUID)
         }
 
         fragmentDeliveryPointManageBinding.run{
@@ -56,27 +97,13 @@ class DeliveryPointManageFragment : Fragment() {
             }
         }
 
-//        //보냈다가 다시 돌아온 마지막 데이터
-//        val addressUnit: Address? = arguments?.getSerializable("addressKey") as Address?
-//        val name=addressUnit?.name
-//        val finalAddress=addressUnit?.address
-//        val phone=addressUnit?.phoneNumber
-//
-//        if (addressUnit != null) {
-//            fragmentDeliveryPointManageBinding.textViewAddressName.text=name
-//            fragmentDeliveryPointManageBinding.textViewAddress.text=finalAddress
-//            fragmentDeliveryPointManageBinding.textViewAddressPhone.text=phone
-//        } else {
-//            Log.d("ReceivedData", "No data received")
-//        }
+
 
 
         fragmentDeliveryPointManageBinding.toolbarDeliveryPointManage.run {
             title = getString(R.string.delivery_point_manage)
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
             setNavigationOnClickListener {
-                //왜 popbackstack()하면 앱이 꺼지는가? 해결
-                //findNavController().navigate(R.id.item_mypage)
                 findNavController().popBackStack()
             }
         }
@@ -84,7 +111,6 @@ class DeliveryPointManageFragment : Fragment() {
         fragmentDeliveryPointManageBinding.buttonFindAddress.setOnClickListener() {
             val status = NetworkStatus.getConnectivityStatus(requireContext())
             if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
-                // Declare DialogFragment to launch address search web view
                 findNavController().navigate(R.id.AddressDialogFragment)
             } else {
                 Snackbar.make(
@@ -100,31 +126,23 @@ class DeliveryPointManageFragment : Fragment() {
         return fragmentDeliveryPointManageBinding.root
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        //보냈다가 다시 돌아온 마지막 데이터
-//
-//        val addressUnit = arguments?.getSerializable("addressKey") as Address?
-//        val name=addressUnit?.name
-//        val finalAddress=addressUnit?.address
-//        val phone=addressUnit?.phoneNumber
-//        val postcode=addressUnit?.postCode
-//        if (name != null) {
-//            Log.d("testkoko12",name)
-//        }
-//        if (addressUnit != null) {
-//
-//        } else {
-//            Log.d("ReceivedData", "No data received")
-//        }
-//    }
     inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolderClass>(){
-
+        var addresses = listOf<Address>()
+        var currentlyCheckedPosition= -1
+        var onItemClickListener:((Address)->Unit)?=null
+    fun submitAddresses(newAddresses: List<Address>) {
+        addresses = newAddresses
+        notifyDataSetChanged()
+    }
+        @JvmName("setOnItemClickListenerFunction")
+        fun setOnItemClickListener(listener: (Address) ->Unit){
+            onItemClickListener=listener
+        }
         inner class ViewHolderClass(rowBinding: ItemDeliveryPointBinding) : RecyclerView.ViewHolder(rowBinding.root){
 
 
             val textViewAddressName: TextView
-            val isDefaultDeliveryPoint: Chip
+            val textViewIsDefaultDeliveryPoint:TextView
             val textViewAddress: TextView
             val checkboxDefaultDeliveryPoint: CheckBox
             val textViewAddressPhone: TextView
@@ -133,14 +151,38 @@ class DeliveryPointManageFragment : Fragment() {
             init{
                 textViewAddressName=rowBinding.textViewAddressName
                 textViewAddress=rowBinding.textViewAddress
-                isDefaultDeliveryPoint=rowBinding.isDefaultDeliveryPoint
+                textViewIsDefaultDeliveryPoint=rowBinding.textViewIsDefaultDeliveryPoint
                 checkboxDefaultDeliveryPoint=rowBinding.checkboxDefaultDeliveryPoint
                 textViewAddressPhone=rowBinding.textViewAddressPhone
                 buttonDeleteDeliveryPoint=rowBinding.ButtonDeleteDeliveryPoint
                 rowBinding.root.setOnClickListener {
+                    onItemClickListener?.invoke(addresses[adapterPosition])
+                }
+                buttonDeleteDeliveryPoint.setOnClickListener {
 
+                    val addressToDelete = addresses[adapterPosition]
+
+                    val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+                    if (currentUserUID != null) {
+                        // Call the ViewModel's delete function
+                        addressToDelete.addressIdx?.let { it1 ->
+                            viewModel.deleteAddressForUser(currentUserUID, it1)
+                        }
+                    }
+                }
+                checkboxDefaultDeliveryPoint.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        if (currentlyCheckedPosition != adapterPosition) {
+                            notifyItemChanged(currentlyCheckedPosition)
+                            currentlyCheckedPosition = adapterPosition
+                        }
+                    } else if (currentlyCheckedPosition == adapterPosition) {
+                        currentlyCheckedPosition = -1
+                    }
+                    textViewIsDefaultDeliveryPoint.visibility = if (isChecked) View.VISIBLE else View.GONE
                 }
             }
+
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
@@ -158,16 +200,26 @@ class DeliveryPointManageFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-           return addressList.size
+           return addresses.size
 
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
-            holder.textViewAddress.text=addressList[position]
-            holder.textViewAddressName.text=nameList[position]
-            holder.textViewAddressPhone.text=phoneList[position]
-
+            val currentAddress = addresses[position]
+            holder.textViewAddress.text = currentAddress.address
+            holder.textViewAddressName.text = currentAddress.name
+            holder.textViewAddressPhone.text = getString(R.string.delivery_phone_is)+currentAddress.phoneNumber
+            holder.checkboxDefaultDeliveryPoint.isChecked = position == currentlyCheckedPosition
         }
     }
 }
-
+class DeliveryPointManageModelFactory(private val repository: CustomerUserRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DeliveryPointManageViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return DeliveryPointManageViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}

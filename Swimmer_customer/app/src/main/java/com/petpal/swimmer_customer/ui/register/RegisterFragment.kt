@@ -65,7 +65,6 @@ class RegisterFragment : Fragment() {
             val email = fragmentRegisterBinding.textInputEditTextAddUserEmail.text.toString()
             val password = fragmentRegisterBinding.textInputEditTextAddUserPassword.text.toString()
             val confirmPassword = fragmentRegisterBinding.textInputEditTextAddUserPasswordRepeat.text.toString()
-            val uid=auth.currentUser?.uid
             val Nickname =fragmentRegisterBinding.textInputEditTextAddUserNickname.text.toString()
             val PhoneNumber = fragmentRegisterBinding.textInputEditTextAddUserPhoneNumber.text.toString()
             val swimExp=UserSwimExp()
@@ -80,7 +79,7 @@ class RegisterFragment : Fragment() {
                 return@setOnClickListener
             }
             //Log.d("koko", "Email: $email, Password: $password, Nickname: $Nickname, PhoneNumber: $PhoneNumber")
-            viewModel.addUser(uid,email,password,Nickname,PhoneNumber, swimExp)?.observe(viewLifecycleOwner, Observer { success ->
+            viewModel.addUser(null,email,password,Nickname,PhoneNumber, swimExp)?.observe(viewLifecycleOwner, Observer { success ->
                 if (success!!) {
                     // 회원가입 성공
                     findNavController().popBackStack()

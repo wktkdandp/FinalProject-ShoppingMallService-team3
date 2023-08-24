@@ -17,7 +17,7 @@
     <Button
         android:id="@+id/buttonFindAddress"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         android:text="배송지 추가하기" />
 
     <androidx.recyclerview.widget.RecyclerView

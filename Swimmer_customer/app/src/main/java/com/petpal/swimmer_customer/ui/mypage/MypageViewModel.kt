@@ -7,8 +7,8 @@ import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 
 class MypageViewModel(private val customerUserRepository: CustomerUserRepository) : ViewModel() {
 
-    fun getCurrentUser(): LiveData<User?>? {
-        return customerUserRepository.getCurrentUser()
+    fun getCurrentUser(uid:String): LiveData<User?> {
+        return customerUserRepository.getCurrentUser(uid)
     }
     fun signOut() {
         customerUserRepository.signOut()
