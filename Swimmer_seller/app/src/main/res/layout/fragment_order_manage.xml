@@ -100,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="배송대기"
+                        android:text="@string/label_shipping_await"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -139,7 +139,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="배송중"
+                        android:text="@string/label_shipping_continue"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -178,7 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="배송완료"
+                        android:text="@string/label_shipping_completed"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
