@@ -17,6 +17,8 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.R
+import com.petpal.swimmer_seller.data.model.OrderState
+import com.petpal.swimmer_seller.data.model.getOrderState
 import com.petpal.swimmer_seller.databinding.FragmentOrderManageBinding
 import com.petpal.swimmer_seller.databinding.RowOrderBinding
 
@@ -133,7 +135,7 @@ class OrderManageFragment : Fragment() {
         override fun onBindViewHolder(holder: OrderRecyclerViewHolder, position: Int) {
             //TODO : LONG(enum)이라 text로 바꿔줘야함
             holder.textViewOrderState.text =
-                orderViewModel.orderList.value!![position].state.toString()
+                getOrderState(orderViewModel.orderList.value!![position].state).str
             holder.textViewOrderNum.text =
                 "No. ${orderViewModel.orderList.value!![position].orderUid}"
             holder.textViewOrderDate.text = orderViewModel.orderList.value!![position].orderDate
@@ -142,7 +144,7 @@ class OrderManageFragment : Fragment() {
             //TODO: userUid도 필요함
 //            holder.textViewOrderCustomerID.text = orderViewModel.orderList.value!![position].userUid
             holder.textViewOrderProducts.text =
-                "${orderViewModel.orderList.value!![position].itemList[0].name}외 ${orderViewModel.orderList.value!![position].itemList.size - 1}건"
+                "${orderViewModel.orderList.value!![position].itemList[0].name} 외 ${orderViewModel.orderList.value!![position].itemList.size - 1}건"
 
         }
     }
