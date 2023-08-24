@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
@@ -71,7 +72,9 @@ class ProductDetailFragment : Fragment() {
             productDetailToolbar()
             favorite()
             initViewPager2()
-//            observer()
+
+            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            bottomNavigationView.visibility = View.GONE
 
             paymentButtonBottomSheet()
             productDetailTabLayoutViewPage2()
@@ -109,13 +112,7 @@ class ProductDetailFragment : Fragment() {
                 hashTagChipGroup.addView(chip)
             }
 
-            viewModel.sizePosition.observe(viewLifecycleOwner) {
 
-            }
-
-            viewModel.colorPosition.observe(viewLifecycleOwner) {
-                Log.d("나미", it.toString())
-            }
         }
         return fragmentProductDetailBinding.root
     }

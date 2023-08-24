@@ -20,14 +20,21 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/productDetailViewPager2"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:nestedScrollingEnabled="true"
-                android:orientation="horizontal" />
+                android:layout_height="match_parent">
 
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/productDetailViewPager2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="true"
+                    android:orientation="horizontal" />
+
+            </FrameLayout>
         </androidx.core.widget.NestedScrollView>
+
+
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -209,9 +216,9 @@
                 android:adjustViewBounds="true"
                 android:background="#E8FFFFFF"
                 android:src="@drawable/favorite_24px"
+                app:layout_constraintTop_toTopOf="@id/paymentButton"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/paymentButton"
@@ -221,8 +228,7 @@
                 android:text="@string/paymentButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/favoriteButton"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/favoriteButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

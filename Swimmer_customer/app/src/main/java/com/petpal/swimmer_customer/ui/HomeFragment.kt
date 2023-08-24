@@ -36,7 +36,6 @@ class HomeFragment : Fragment() {
     ): View? {
 
         fragmentHomeFragmentBinding = FragmentHomeBinding.inflate(inflater)
-
         viewModel = ViewModelProvider(this)[HomeFragmentViewModel::class.java]
         viewModel.setProductDetail(HomeFragmentItemList)
 

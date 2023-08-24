@@ -9,12 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
-
 import androidx.navigation.ui.setupWithNavController
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentMainBinding
