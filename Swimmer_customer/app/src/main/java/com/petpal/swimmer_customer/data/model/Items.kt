@@ -19,7 +19,7 @@ data class ItemsForCustomer (
 data class OrderByCustomer(
     // 주문 완료 상태로 전송
     // Long -> String 변경
-    var state: String,
+    var state: Long,
 
     // seller orderList 전달 항목
     // 데이터 자동 생성처리
@@ -31,7 +31,7 @@ data class OrderByCustomer(
     // 보낼 수 있는 데이터
     var orderDate: String,
     var message: String,
-    var payMethod: String,
+    var payMethod: Long,
     var totalPrice: Long,
 
     // productUid를 통해 받아온다면 안넘겨줘도 되는 데이터?

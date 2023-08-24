@@ -38,7 +38,7 @@ class PaymentFragment : Fragment() {
     lateinit var totalFee: String
     private lateinit var orderItemList: MutableList<ItemsForCustomer>
     lateinit var spinnerSelect: String
-    lateinit var chipSelect: String
+    var chipSelect: Long = 0
 
     // -R&D-
     // state : 배송 상태 -> static으로 구분해주기
@@ -126,7 +126,7 @@ class PaymentFragment : Fragment() {
                     val sdfUid = SimpleDateFormat("MMddhhmmss", Locale.getDefault())
                     val orderUid = sdfUid.format(Date(System.currentTimeMillis()))
 
-                    val order = OrderByCustomer("결제완료", orderUid, orderDate, spinnerSelect, chipSelect,
+                    val order = OrderByCustomer(1, orderUid, orderDate, spinnerSelect, chipSelect,
                         totalFee.toLong(), orderItemList, "test_address", "test_coupon_item", 1000)
                     PaymentRepository.sendOrderToSeller(order) {
 
@@ -161,12 +161,12 @@ class PaymentFragment : Fragment() {
                 setOnCheckedStateChangeListener { group, checkedIds ->
                     when (checkedChipId) {
                         // 해당 chipId를 통해서 long 타입 전환
-                        R.id.paymentNaver -> chipSelect = "네이버페이"
-                        R.id.paymentKakao -> chipSelect = "카카오페이"
-                        R.id.paymentCard -> chipSelect = "카드결제"
-                        R.id.paymentAccount -> chipSelect = "계좌간편결제"
-                        R.id.paymentMoblie -> chipSelect = "핸드폰결제"
-                        R.id.paymentCash -> chipSelect = "무통장입금"
+                        R.id.paymentNaver -> chipSelect = 1
+                        R.id.paymentKakao -> chipSelect = 2
+                        R.id.paymentCard -> chipSelect = 3
+                        R.id.paymentAccount -> chipSelect = 4
+                        R.id.paymentMoblie -> chipSelect = 5
+                        R.id.paymentCash -> chipSelect = 6
                     }
                 }
             }
@@ -218,7 +218,7 @@ class PaymentFragment : Fragment() {
             holder.paymentItemPrice.text = "가격 : ${paymentViewModel.itemList.value?.get(position)?.price.toString()}"
 
             // 현재 데이터셋 없으므로 1 고정
-            holder.paymentItemQuantity.text = "수량 : 1"
+            holder.paymentItemQuantity.text = "수량 : ${paymentViewModel.itemList.value?.get(position)?.quantity.toString()}"
 
             // option -> color, size로 분할
             holder.paymentItemColor.text = "색상 : ${paymentViewModel.itemList.value?.get(position)?.color}"

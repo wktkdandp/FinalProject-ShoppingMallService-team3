@@ -14,7 +14,7 @@ class PaymentRepository {
         // item 가져오기
         fun getCartItems(callback: (Task<DataSnapshot>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
-            val itemCodeRef = database.getReference("products")
+            val itemCodeRef = database.getReference("itemsForCustomer")
 
             itemCodeRef.orderByChild("productUid").get().addOnCompleteListener(callback)
         }
@@ -40,7 +40,6 @@ class PaymentRepository {
             val orderRef = database.getReference("orders")
 
             orderRef.push().setValue(order).addOnCompleteListener(callback)
-            order.orderUid = orderRef.key!!
         }
 
     }
