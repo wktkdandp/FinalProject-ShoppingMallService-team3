@@ -1,6 +1,7 @@
 package com.petpal.swimmer_customer.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,8 @@ import com.petpal.swimmer_customer.data.model.HomeFragmentItemList
 import com.petpal.swimmer_customer.data.model.ProductDetailModel
 import com.petpal.swimmer_customer.ui.product.ProductDetailAdapter
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_customer.ui.main.MainFragmentDirections
 
 
@@ -31,7 +34,7 @@ class HomeFragment : Fragment() {
     ): View? {
 
         fragmentHomeFragmentBinding = FragmentHomeBinding.inflate(inflater)
-
+        Log.d("uid",FirebaseAuth.getInstance().currentUser?.uid!!)
         viewModel = ViewModelProvider(this)[HomeFragmentViewModel::class.java]
         viewModel.setProductDetail(HomeFragmentItemList)
 

@@ -1,6 +1,7 @@
 package com.petpal.swimmer_customer.ui.login
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.petpal.swimmer_customer.data.model.User
 import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
@@ -8,8 +9,21 @@ import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 class LoginViewModel(private val customerUserRepository: CustomerUserRepository) : ViewModel() {
 
     fun signIn(email: String, password: String): LiveData<Boolean?>? {
+        if (!isValidEmail(email) || !isValidPassword(password)) {
+            return MutableLiveData<Boolean?>(null)
+        }
         return customerUserRepository.signInUser(email,password)
     }
+
+    fun isValidEmail(email: String): Boolean {
+        if(email.isEmpty()) return false
+        return email.contains("@")
+    }
+
+    fun isValidPassword(password: String): Boolean {
+        return password.length >= 6 && password.isNotEmpty()
+    }
+
 
 //    fun getUserByIdx(userIdx: String): LiveData<User?>? {
 //        return customerUserRepository.getUserByIdx(userIdx)
