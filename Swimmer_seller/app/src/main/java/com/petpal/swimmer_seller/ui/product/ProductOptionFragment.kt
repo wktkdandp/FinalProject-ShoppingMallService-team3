@@ -48,9 +48,12 @@ class ProductOptionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d("hhl", "ProductOptionFragment onViewCreated()")
         val args = ProductOptionFragmentArgs.fromBundle(requireArguments())
         product = args.Product
         imageArray = args.Image
+        Log.d("hhl", product.name.toString())
+        Log.d("hhl", imageArray.first().fileName.toString())
 
         fragmentProductOptionBinding.run {
             productViewModel.run {

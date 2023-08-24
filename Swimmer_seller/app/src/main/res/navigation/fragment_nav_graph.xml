@@ -59,6 +59,14 @@
         <action
             android:id="@+id/action_item_menu_to_item_product_add"
             app:destination="@id/item_product_add" />
+        <action
+            android:id="@+id/action_item_menu_to_item_manage_order"
+            app:destination="@id/item_manage_order" />
     </fragment>
+    <fragment
+        android:id="@+id/item_manage_order"
+        android:name="com.petpal.swimmer_seller.ui.order.OrderManageFragment"
+        android:label="fragment_order_manage"
+        tools:layout="@layout/fragment_order_manage" />
 
 </navigation>

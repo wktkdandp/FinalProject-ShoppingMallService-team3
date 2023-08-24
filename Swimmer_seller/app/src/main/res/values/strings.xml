@@ -239,5 +239,7 @@
     <string name="menu_title">메뉴</string>
     <string name="mypage_title">마이페이지</string>
     <string name="label_edit_password">비밀번호 수정</string>
+    <string name="label_payment_completed">결제완료</string>
+    <string name="no_order">이런! 주문이 없네요</string>
     <string name="prompt_delete">삭제</string>
 </resources>

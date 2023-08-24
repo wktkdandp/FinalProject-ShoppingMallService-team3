@@ -38,24 +38,35 @@ class MenuFragment : Fragment() {
                     R.id.item_product -> {
                         item.isChecked = true
                         linearLayoutProductManage.visibility = View.VISIBLE
+                        linearLayoutOrderMagage.visibility = View.GONE
                         linearLayoutCS.visibility = View.GONE
+                        linearLayoutSetting.visibility = View.GONE
                     }
 
                     R.id.item_order -> {
                         item.isChecked = true
                         //주문관리 페이지로 이동
+                        linearLayoutProductManage.visibility = View.GONE
+                        linearLayoutOrderMagage.visibility = View.VISIBLE
+                        linearLayoutCS.visibility = View.GONE
+                        linearLayoutSetting.visibility = View.GONE
 
                     }
 
                     R.id.item_cs -> {
                         item.isChecked = true
                         linearLayoutProductManage.visibility = View.GONE
+                        linearLayoutOrderMagage.visibility = View.GONE
                         linearLayoutCS.visibility = View.VISIBLE
+                        linearLayoutSetting.visibility = View.GONE
                     }
 
                     R.id.item_setting -> {
                         item.isChecked = true
-                        //설정 페이지로 이동
+                        linearLayoutProductManage.visibility = View.GONE
+                        linearLayoutOrderMagage.visibility = View.GONE
+                        linearLayoutCS.visibility = View.GONE
+                        linearLayoutSetting.visibility = View.VISIBLE
                     }
                 }
                 selectedItem = item
@@ -70,11 +81,19 @@ class MenuFragment : Fragment() {
             buttonGoToModifyProduct.setOnClickListener {
                 //상품 조회/수정 페이지로 이동
             }
+
+            buttonGoToManageOrder.setOnClickListener {
+                //주문 배송관리 페이지로 이동
+                findNavController().navigate(R.id.action_item_menu_to_item_manage_order)
+            }
             buttonGoToManageNotice.setOnClickListener {
                 //공지관리 페이지로 이동
             }
             buttonGoToManageInq.setOnClickListener {
                 //문의 관리 페이지로 이동
+            }
+            buttonGoToSetting.setOnClickListener {
+                //설정 페이지로 이동
             }
         }
     }

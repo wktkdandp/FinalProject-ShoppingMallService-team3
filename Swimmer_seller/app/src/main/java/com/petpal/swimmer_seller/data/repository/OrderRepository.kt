@@ -1,8 +1,13 @@
 package com.petpal.swimmer_seller.data.repository
 
+
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.petpal.swimmer_seller.data.model.Item
 import com.petpal.swimmer_seller.data.model.Order
 
 class OrderRepository {
@@ -18,19 +23,60 @@ class OrderRepository {
         ordersRef.orderByChild("orderUid").equalTo(orderUid.toDouble()).get().addOnCompleteListener(callback)
     }
 
-    /*
-    // RealtimeDatabase에서 아래 쿼리가 안먹혀서 전체 읽어오고 필터링 하는 식으로 구현
-    // 판매자에게 들어온 모든 상태 주문 가져오기
-    fun getOrderBySellerUid(sellerUid: String, callback: (Task<DataSnapshot>) -> Unit) {
-        ordersRef.orderByChild("itemList/sellerUid").equalTo(sellerUid).get().addOnCompleteListener(callback)
-    }
+    // 특정 판매자에게 들어온 모든 주문 가져오기
+    fun getOrderBySellerUid(sellerUid: String, onOrdersLoaded: (List<Order>) -> Unit) {
+        val orders = mutableListOf<Order>()
+        ordersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(orderSnapshot in snapshot.children) {
+                    val orderData = orderSnapshot.value as Map<*,*>
+                    Log.d("orderData", orderData.toString())
+                    val itemList = (orderData["itemList"] as List<*>).map {
+                        val item = it as Map<*,*>
+                        Item(
+                            item["productUid"] as String,
+                            //TODO Long으로 바꾸기
+                            item["size"] as String,
+                            //TODO Long으로 바꾸기
+                            item["color"] as String,
+                            item["quantity"] as Long,
+                            item["sellerUid"] as String,
+                            item["name"] as String,
+                            item["mainImage"] as String,
+                            item["price"] as Long
+                        )
+                    }
+                    Log.d("order itemList", itemList.toString())
+                    Log.d("order it.sellerUidm sellerUid", sellerUid)
+                    if(itemList.any { it.sellerUid==sellerUid }) {
+                        val order = Order(
+                            orderSnapshot.key as String,
+                            orderData["orderDate"] as String,
+                            orderData["message"] as String,
+                            orderData["state"] as Long,
+                            //TODO: 나중에 Address으로 바꾸기
+                            orderData["address"] as String,
+                            itemList,
+                            orderData["couponUid"] as String,
+                            orderData["usePoint"] as Long,
+                            orderData["payMethod"] as Long,
+                            orderData["totalPrice"] as Long
+                        )
+                        Log.d("order myOrder", order.toString())
+                        orders.add(order)
+                    }
+                }
+                //필터링된 order가 들어감
+                onOrdersLoaded(orders)
+            }
 
-    // 판매자에게 들어온 특정 상태 주문 가져오기
-    fun getOrderBySellerUid(sellerUid: String, state: Long, callback: (Task<DataSnapshot>) -> Unit) {
-        ordersRef.orderByChild("itemList/sellerUid").equalTo(sellerUid)
-            .ref.orderByChild("state").equalTo(state.toDouble()).get().addOnCompleteListener(callback)
+            override fun onCancelled(error: DatabaseError) {
+                //빈 order가 들어감
+                onOrdersLoaded(orders)
+            }
+
+        })
     }
-    */
 
     // 주문 수정
     fun modifyOrder(order: Order, callback: (Task<DataSnapshot>) -> Unit) {

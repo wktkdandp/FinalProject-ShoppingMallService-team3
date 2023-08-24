@@ -7,18 +7,18 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -253,10 +253,14 @@ class ProductAddFragment : Fragment() {
                     SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
                 )
 
+                Log.d("hhl", "Product 객체 생성 완료 ${product.name}")
+
                 // DB에 저장할 product, image 리스트 전달
                 val imageArrayList = arrayListOf<Image>()
                 imageArrayList.addAll(mainImageList.map { it.first })
                 imageArrayList.add(descriptionImage!!)
+
+                Log.d("hhl", "ImageArrayList 준비 완료 ${imageArrayList.size}개 이미지 첨부")
 
                 // Safe Args 방식 전달
                 val action = ProductAddFragmentDirections.actionItemProductAddToProductOptionFragment(product, imageArrayList.toTypedArray())
@@ -351,16 +355,16 @@ class ProductAddFragment : Fragment() {
                     var bitmap: Bitmap? = null
 
                     // 이미지 카드뷰 추가
-                    val previewCardView = layoutInflater.inflate(R.layout.layout_imageview_delete, fragmentProductAddBinding.linearDescriptionImage, false) as CardView
-                    val previewImageView = previewCardView.findViewById<ImageView>(R.id.imageViewDelete)
-                    val previewButton = previewCardView.findViewById<Button>(R.id.buttonDelete)
+                    val previewLinearLayout = layoutInflater.inflate(R.layout.layout_imageview_delete, fragmentProductAddBinding.linearDescriptionImage, false) as LinearLayout
+                    val previewImageView = previewLinearLayout.findViewById<ImageView>(R.id.imageViewDelete)
+                    val previewButton = previewLinearLayout.findViewById<Button>(R.id.buttonDelete)
                     previewButton.setOnClickListener {
                         // 이미지 카드뷰 삭제, 리스트에서 제거
-                        fragmentProductAddBinding.linearDescriptionImage.removeView(previewCardView)
+                        fragmentProductAddBinding.linearDescriptionImage.removeView(previewLinearLayout)
                         descriptionImage = null
                         fragmentProductAddBinding.buttonAddDescImage.text = "0/1"
                     }
-                    fragmentProductAddBinding.linearDescriptionImage.addView(previewCardView)
+                    fragmentProductAddBinding.linearDescriptionImage.addView(previewLinearLayout)
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         val source = ImageDecoder.createSource(mainActivity.contentResolver, uri)
@@ -408,6 +412,7 @@ class ProductAddFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainImageViewHolder {
             val imageViewBinding = LayoutImageviewDeleteBinding.inflate(layoutInflater)
+            // imageViewBinding.root.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
             return MainImageViewHolder(imageViewBinding)
         }
 
