@@ -1,5 +1,6 @@
 package com.petpal.swimmer_seller.data.repository
 
+
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
@@ -78,7 +79,6 @@ class OrderRepository {
 
         })
     }
-
 
     // 주문 수정
     fun modifyOrder(order: Order, callback: (Task<DataSnapshot>) -> Unit) {

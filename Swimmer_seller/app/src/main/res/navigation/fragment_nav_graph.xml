@@ -13,13 +13,30 @@
         <action
             android:id="@+id/action_item_home_to_item_product_add"
             app:destination="@id/item_product_add" />
+        <action
+            android:id="@+id/action_item_home_to_guideFragment"
+            app:destination="@id/guideFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/item_product_add"
         android:name="com.petpal.swimmer_seller.ui.product.ProductAddFragment"
         android:label="fragment_product_add"
-        tools:layout="@layout/fragment_product_add" />
+        tools:layout="@layout/fragment_product_add" >
+        <action
+            android:id="@+id/action_item_product_add_to_productOptionFragment"
+            app:destination="@id/productOptionFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/guideFragment"
+        android:name="com.petpal.swimmer_seller.ui.guide.GuideFragment"
+        android:label="fragment_guide"
+        tools:layout="@layout/fragment_guide" />
+    <fragment
+        android:id="@+id/productOptionFragment"
+        android:name="com.petpal.swimmer_seller.ui.product.ProductOptionFragment"
+        android:label="fragment_product_option"
+        tools:layout="@layout/fragment_product_option" />
 
 
 

@@ -1,5 +1,6 @@
 package com.petpal.swimmer_seller.data.model
 
+
 data class Order(
     var orderUid:String,
     var orderDate:String,
@@ -16,3 +17,4 @@ data class Order(
     var payMethod:String,
     var totalPrice:Long
 )
+
