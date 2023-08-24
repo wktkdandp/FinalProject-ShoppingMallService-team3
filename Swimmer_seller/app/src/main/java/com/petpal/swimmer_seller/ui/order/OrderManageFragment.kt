@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.databinding.FragmentOrderManageBinding
 import com.petpal.swimmer_seller.databinding.RowOrderBinding
 
@@ -58,6 +60,10 @@ class OrderManageFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
             }
+
+            toolbarManageOrder.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
         }
 
         orderViewModel.orderList.observe(viewLifecycleOwner) {
@@ -91,6 +97,8 @@ class OrderManageFragment : Fragment() {
             init {
                 rowOrderBinding.root.setOnClickListener {
                     //해당 주문 상세 페이지로 이동
+                    //TODO: 주문 uid? 암튼 주문을 식별할 요소를 넘겨줘야함
+                    findNavController().navigate(R.id.action_item_manage_order_to_item_order_detail)
                 }
             }
 

@@ -60,14 +60,15 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
             orderCount.value = orderList.count().toLong()
 
             // 주문상태 주문 건 수
-            paymentCount.value = orderList.count { it.state == OrderState.PAYMENT.code }.toLong()
-            readyCount.value = orderList.count { it.state == OrderState.READY.code}.toLong()
-            deliveryCount.value = orderList.count { it.state == OrderState.DELIVERY.code }.toLong()
-            completeCount.value = orderList.count { it.state == OrderState.COMPLETE.code }.toLong()
+            //TODO: str을 code로 바꾸기
+            paymentCount.value = orderList.count { it.state == OrderState.PAYMENT.str }.toLong()
+            readyCount.value = orderList.count { it.state == OrderState.READY.str}.toLong()
+            deliveryCount.value = orderList.count { it.state == OrderState.DELIVERY.str }.toLong()
+            completeCount.value = orderList.count { it.state == OrderState.COMPLETE.str }.toLong()
 
-            cancelCount.value = orderList.count { it.state == OrderState.CANCEL.code }.toLong()
-            exchangeCount.value = orderList.count { it.state == OrderState.EXCHANGE.code}.toLong()
-            refundCount.value = orderList.count { it.state == OrderState.REFUND.code }.toLong()
+            cancelCount.value = orderList.count { it.state == OrderState.CANCEL.str }.toLong()
+            exchangeCount.value = orderList.count { it.state == OrderState.EXCHANGE.str}.toLong()
+            refundCount.value = orderList.count { it.state == OrderState.REFUND.str }.toLong()
         }
     }
 }
