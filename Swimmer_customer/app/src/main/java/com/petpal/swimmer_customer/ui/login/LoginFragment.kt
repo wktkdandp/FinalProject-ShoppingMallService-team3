@@ -1,31 +1,36 @@
 package com.petpal.swimmer_customer.ui.login
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet.Motion
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.R
+import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import com.petpal.swimmer_customer.databinding.FragmentLoginBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
-import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import com.petpal.swimmer_customer.util.AutoLoginUtil
+
 
 class LoginFragment : Fragment() {
     lateinit var fragmentLoginBinding: FragmentLoginBinding
     lateinit var viewModel: LoginViewModel
-    lateinit var auth: FirebaseAuth
+    //lateinit var auth: FirebaseAuth
     lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
@@ -40,20 +45,21 @@ class LoginFragment : Fragment() {
 
         if (isAutoLogin && currentUser != null) {
             // 이미 로그인된 사용자가 있으면 바로 메인으로
-            val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
-            findNavController().navigate(action)
+
+            findNavController().navigate(R.id.item_home)
             return fragmentLoginBinding.root
         }
 
-        val factory = LoginViewModelFactory(CustomerUserRepository())
-        viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
+            val factory = LoginViewModelFactory(CustomerUserRepository())
+            viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
-        //로그인 눌렀을 때
-        fragmentLoginBinding.ButtonLogin.setOnClickListener {
-            val email = fragmentLoginBinding.textInputEditTextLoginEmail.text.toString()
-            val password = fragmentLoginBinding.textInputEditTextLoginPassword.text.toString()
+            //로그인 눌렀을 때
+            fragmentLoginBinding.ButtonLogin.setOnClickListener {
+                val email = fragmentLoginBinding.textInputEditTextLoginEmail.text.toString()
+                val password = fragmentLoginBinding.textInputEditTextLoginPassword.text.toString()
 
-            if (!checkEmail(email) || !checkPassword(password)) {
+                //유효성 검사 false -> 리스너 종료
+                if (!checkEmail(email) || !checkPassword(password)) {
                 return@setOnClickListener
             }
             viewModel.signIn(email, password)?.observe(viewLifecycleOwner, Observer { success ->
@@ -61,18 +67,30 @@ class LoginFragment : Fragment() {
 
             })
         }
+
+//        fragmentLoginBinding.checkboxAutoLogin.setOnTouchListener { v, event ->
+//            if(event.action==MotionEvent.ACTION_UP && !fragmentLoginBinding.checkboxAutoLogin.isChecked)
+//            {
+//                showConsentDialog()
+//                true
+//            }else{
+//                false
+//            }
+//        }
+
+
         fragmentLoginBinding.ButtonRegister.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             findNavController().navigate(action)
         }
         //아이디찾기 눌렀을 때
         fragmentLoginBinding.ButtonFindId.setOnClickListener {
-            val bundle= bundleOf("key" to "findId")
+            val bundle= bundleOf(getString(R.string.findinfokey) to getString(R.string.findid))
             findNavController().navigate(R.id.action_loginFragment_to_findInfoFragment, bundle)
         }
         //비밀번호찾기 눌렀을 때
         fragmentLoginBinding.ButtonResetPassword.setOnClickListener {
-            val bundle= bundleOf("key" to "resetPassword")
+            val bundle= bundleOf(getString(R.string.findinfokey) to getString(R.string.resetpassword))
             findNavController().navigate(R.id.action_loginFragment_to_findInfoFragment, bundle)
 
         }
@@ -87,7 +105,7 @@ class LoginFragment : Fragment() {
     private fun checkEmail(email: String): Boolean {
 
         if(email.isEmpty()){
-            fragmentLoginBinding.textInputLayoutAddUserEmail.error = "이메일을 입력해주세요."
+            fragmentLoginBinding.textInputLayoutAddUserEmail.error = getString(R.string.error_email_required)
             Handler(Looper.getMainLooper()).postDelayed({
                 fragmentLoginBinding.textInputLayoutAddUserEmail.error = ""
                 fragmentLoginBinding.textInputEditTextLoginEmail.text?.clear()
@@ -95,7 +113,7 @@ class LoginFragment : Fragment() {
             }, 2000)
             return false
         }else if (!email.contains("@")) {
-            fragmentLoginBinding.textInputLayoutAddUserEmail.error = "이메일 양식이 올바르지 않습니다."
+            fragmentLoginBinding.textInputLayoutAddUserEmail.error = getString(R.string.error_invalid_email_format)
             Handler(Looper.getMainLooper()).postDelayed({
                 fragmentLoginBinding.textInputLayoutAddUserEmail.error = ""
                 fragmentLoginBinding.textInputEditTextLoginEmail.text?.clear()
@@ -108,7 +126,7 @@ class LoginFragment : Fragment() {
     //비밀번호 유효성 검사
     private fun checkPassword(password: String): Boolean {
    if (password.length < 6 || password.isEmpty()) {
-            fragmentLoginBinding.textInputLayoutLoginPassword.error = "비밀번호는 6자 이상이어야 합니다."
+            fragmentLoginBinding.textInputLayoutLoginPassword.error = getString(R.string.error_password_length)
             Handler(Looper.getMainLooper()).postDelayed({
                 fragmentLoginBinding.textInputLayoutLoginPassword.error = ""
                 fragmentLoginBinding.textInputEditTextLoginPassword.text?.clear()
@@ -128,20 +146,20 @@ class LoginFragment : Fragment() {
     private fun handleLoginResult(success: Boolean) {
         if (success) {
             // 로그인 성공
-            Toast.makeText(context, "로그인 성공", Toast.LENGTH_LONG).show()
-            val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
-            findNavController().navigate(action)
+            Toast.makeText(context, getString(R.string.login_success), Toast.LENGTH_LONG).show()
+            findNavController().navigate(R.id.item_home)
 
             val isAutoLoginChecked = fragmentLoginBinding.checkboxAutoLogin.isChecked
             AutoLoginUtil.setAutoLogin(requireContext(), isAutoLoginChecked)
         } else {
             // 로그인 실패
-            Toast.makeText(context, "로그인 실패 이메일 또는 비밀번호를 확인해주세요.", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.login_failure), Toast.LENGTH_LONG).show()
             fragmentLoginBinding.textInputLayoutAddUserEmail.error = ""
             fragmentLoginBinding.textInputEditTextLoginEmail.text?.clear()
             fragmentLoginBinding.textInputEditTextLoginPassword.text?.clear()
         }
     }
+
 }
 
 //뷰모델 팩토리

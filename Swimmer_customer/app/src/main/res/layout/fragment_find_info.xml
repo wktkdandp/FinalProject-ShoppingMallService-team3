@@ -23,17 +23,41 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <EditText
-            android:id="@+id/editTextFinIdNickname"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutFindIdNickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="닉네임을 입력해주세요" />
+            android:hint=""
+            android:transitionGroup="true"
+            app:endIconMode="clear_text">
 
-        <EditText
-            android:id="@+id/editTextFindIdPhoneNumber"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditFindIdNickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="닉네임을 입력해주세요"
+                android:inputType="text|textEmailAddress"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:errorEnabled="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutFindIdPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="전화번호를 입력해주세요" />
+            android:hint=""
+            android:transitionGroup="true"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditFindIdPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="전화번호를 입력해주세요"
+                android:inputType="phone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:errorEnabled="true" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
             android:id="@+id/doneImage"
@@ -41,8 +65,8 @@
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:layout_marginTop="80dp"
-            app:tint="@color/green"
-            app:srcCompat="@drawable/done_24px" />
+            app:srcCompat="@drawable/done_24px"
+            app:tint="@color/green" />
 
         <TextView
             android:id="@+id/textViewFoundId"
@@ -110,18 +134,41 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <EditText
-            android:id="@+id/editTextFindPwEmail"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutResetPasswordEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="이메일을 입력하세요" />
+            android:hint=""
+            android:transitionGroup="true"
+            app:endIconMode="clear_text">
 
-        <EditText
-            android:id="@+id/editTextFindPwPhoneNumber"
+            <com.google.android.material.textfield.TextInputEditText
+                app:errorEnabled="true"
+                android:id="@+id/textInputEditResetPasswordEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="이메일을 입력해주세요"
+                android:inputType="text|textEmailAddress"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutResetPasswordPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="전화번호를 입력하세요" />
+            android:hint=""
+            android:transitionGroup="true"
+            app:endIconMode="clear_text">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditResetPasswordPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="전화번호를 입력해주세요"
+                android:inputType="phone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:errorEnabled="true" />
+        </com.google.android.material.textfield.TextInputLayout>
         <Button
             android:id="@+id/ButtonResetPassword"
             style="@style/Widget.Material3.Button.OutlinedButton"
