@@ -1,9 +1,11 @@
 package com.petpal.swimmer_seller.ui.order
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -31,13 +33,14 @@ class OrderManageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentOrderManageBinding = FragmentOrderManageBinding.inflate(layoutInflater)
-        orderViewModel = ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
+        orderViewModel =
+            ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
 
         //이 판매자가 올린 상품에 대한 주문 목록만 세팅하기
         orderViewModel.getOrderBySellerUid(Firebase.auth.currentUser!!.uid)
 
         fragmentOrderManageBinding.run {
-            if(orderViewModel.orderList.value!!.isEmpty()) {
+            if (orderViewModel.orderList.value!!.isEmpty()) {
                 linearLayoutNoOrder.visibility = View.VISIBLE
                 linearLayoutRecyclerView.visibility = View.GONE
             } else {
@@ -58,7 +61,12 @@ class OrderManageFragment : Fragment() {
             recyclerViewOrder.run {
                 adapter = OrderRecyclerViewAdapter()
                 layoutManager = LinearLayoutManager(requireContext())
-                addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
+                addItemDecoration(
+                    MaterialDividerItemDecoration(
+                        context,
+                        MaterialDividerItemDecoration.VERTICAL
+                    )
+                )
             }
 
             toolbarManageOrder.setNavigationOnClickListener {
@@ -68,7 +76,7 @@ class OrderManageFragment : Fragment() {
 
         orderViewModel.orderList.observe(viewLifecycleOwner) {
             fragmentOrderManageBinding.run {
-                if(it.isEmpty()) {
+                if (it.isEmpty()) {
                     linearLayoutNoOrder.visibility = View.VISIBLE
                     linearLayoutRecyclerView.visibility = View.GONE
                 } else {
@@ -97,8 +105,13 @@ class OrderManageFragment : Fragment() {
             init {
                 rowOrderBinding.root.setOnClickListener {
                     //해당 주문 상세 페이지로 이동
-                    //TODO: 주문 uid? 암튼 주문을 식별할 요소를 넘겨줘야함
-                    findNavController().navigate(R.id.action_item_manage_order_to_item_order_detail)
+                    //order객체 넘겨줌
+                    val bundle = bundleOf()
+                    bundle.putParcelable(
+                        "order",
+                        orderViewModel.orderList.value!![adapterPosition]
+                    )
+                    findNavController().navigate(R.id.action_item_manage_order_to_item_order_detail, bundle)
                 }
             }
 
@@ -119,13 +132,17 @@ class OrderManageFragment : Fragment() {
 
         override fun onBindViewHolder(holder: OrderRecyclerViewHolder, position: Int) {
             //TODO : LONG(enum)이라 text로 바꿔줘야함
-            holder.textViewOrderState.text = orderViewModel.orderList.value!![position].state.toString()
-            holder.textViewOrderNum.text = "No. ${orderViewModel.orderList.value!![position].orderUid}"
+            holder.textViewOrderState.text =
+                orderViewModel.orderList.value!![position].state.toString()
+            holder.textViewOrderNum.text =
+                "No. ${orderViewModel.orderList.value!![position].orderUid}"
             holder.textViewOrderDate.text = orderViewModel.orderList.value!![position].orderDate
-            holder.textViewTotalOrderPrice.text = orderViewModel.orderList.value!![position].totalPrice.toString()
+            holder.textViewTotalOrderPrice.text =
+                orderViewModel.orderList.value!![position].totalPrice.toString()
             //TODO: userUid도 필요함
 //            holder.textViewOrderCustomerID.text = orderViewModel.orderList.value!![position].userUid
-            holder.textViewOrderProducts.text = "${orderViewModel.orderList.value!![position].itemList[0].name}외 ${orderViewModel.orderList.value!![position].itemList.size-1}건"
+            holder.textViewOrderProducts.text =
+                "${orderViewModel.orderList.value!![position].itemList[0].name}외 ${orderViewModel.orderList.value!![position].itemList.size - 1}건"
 
         }
     }

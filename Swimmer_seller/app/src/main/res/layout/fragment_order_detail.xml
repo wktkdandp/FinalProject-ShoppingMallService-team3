@@ -19,7 +19,6 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
         android:fillViewport="true">
 
         <LinearLayout
@@ -200,7 +199,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/reyclerViewOrderProductList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:nestedScrollingEnabled="false" />
 
