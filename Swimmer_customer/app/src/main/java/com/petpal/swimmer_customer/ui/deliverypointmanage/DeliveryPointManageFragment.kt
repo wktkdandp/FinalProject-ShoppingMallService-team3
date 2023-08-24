@@ -47,7 +47,6 @@ class DeliveryPointManageFragment : Fragment() {
         // 받아온 데이터 처리
         val address = arguments?.getString("address")
         val postcode= arguments?.getString("postcode")
-        val from=arguments?.getString("FromOrder")
         if(address!=null){
             val bundle = Bundle()
             bundle.putString("address", address)
@@ -73,14 +72,14 @@ class DeliveryPointManageFragment : Fragment() {
 
         viewModel.deleteResult.observe(viewLifecycleOwner, Observer { result ->
             if (result == true) {
-                Snackbar.make(fragmentDeliveryPointManageBinding.root, "Address deleted successfully", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(fragmentDeliveryPointManageBinding.root, "배송지가 삭제되었습니다.", Snackbar.LENGTH_SHORT).show()
                 // Optionally refresh the list or remove the deleted item from the RecyclerView
                 val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
                 if (currentUserUID != null) {
                     viewModel.fetchAddressesForUser(currentUserUID)
                 }
             } else {
-                Snackbar.make(fragmentDeliveryPointManageBinding.root, "Failed to delete address", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(fragmentDeliveryPointManageBinding.root, "배송지 삭제에 실패하였습니다.", Snackbar.LENGTH_SHORT).show()
             }
         })
 
@@ -104,7 +103,7 @@ class DeliveryPointManageFragment : Fragment() {
             title = getString(R.string.delivery_point_manage)
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
             setNavigationOnClickListener {
-                findNavController().popBackStack()
+                findNavController().navigate(R.id.item_mypage)
             }
         }
 

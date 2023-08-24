@@ -67,6 +67,7 @@
     <string name="detail_address_toolbar">상세정보</string>
     <string name="delivery_name_is">이름 : </string>
     <string name="delivery_phone_is">핸드폰 번호 : </string>
+    <string name="delevery_point_cancel">배송지 등록이 취소되었습니다.</string>
 
     <string name="bottom_sheet_149_cm">149 cm 이하</string>
     <string name="bottom_sheet_150_152_cm">150 ~ 152 cm</string>

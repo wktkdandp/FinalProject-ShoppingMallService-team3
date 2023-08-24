@@ -1,4 +1,4 @@
-package com.petpal.swimmer_customer.ui.deliverypointmanage
+package com.petpal.swimmer_customer.ui.detailAddress
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData

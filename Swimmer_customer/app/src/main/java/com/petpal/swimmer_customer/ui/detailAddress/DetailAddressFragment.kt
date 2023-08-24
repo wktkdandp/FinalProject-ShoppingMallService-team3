@@ -1,12 +1,10 @@
-package com.petpal.swimmer_customer.ui.deliverypointmanage
+package com.petpal.swimmer_customer.ui.detailAddress
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -17,8 +15,6 @@ import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.Address
 import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import com.petpal.swimmer_customer.databinding.FragmentDetailAddressBinding
-import com.petpal.swimmer_customer.ui.findinfo.FindInfoViewModel
-import com.petpal.swimmer_customer.ui.findinfo.FindInfoViewModelFactory
 
 class DetailAddressFragment : Fragment() {
     lateinit var fragmentDetailAddressBinding: FragmentDetailAddressBinding
@@ -28,7 +24,6 @@ class DetailAddressFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         fragmentDetailAddressBinding= FragmentDetailAddressBinding.inflate(layoutInflater)
-        val mauth=FirebaseAuth.getInstance().currentUser?.uid
         // 받아온 데이터 처리
         val address = arguments?.getString("address")
         val postcode= arguments?.getString("postcode")
@@ -38,9 +33,24 @@ class DetailAddressFragment : Fragment() {
 
         fragmentDetailAddressBinding.toolbarDetailAddress.run{
             title = getString(R.string.detail_address_toolbar)
+            inflateMenu(R.menu.mypage_toolbar_menu)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.item_notification -> {
+
+                    }
+
+                    R.id.item_shopping_cart -> {
+
+                    }
+
+                }
+                false
+            }
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
             setNavigationOnClickListener {
-                findNavController().popBackStack()
+                Toast.makeText(context, getString(R.string.delevery_point_cancel), Toast.LENGTH_LONG).show()
+                findNavController().navigate(R.id.DeliveryPointManageFragment)
             }
         }
         fragmentDetailAddressBinding.run{
@@ -56,6 +66,11 @@ class DetailAddressFragment : Fragment() {
                 viewModel.addAddressForUser(uid!!, address1)
 
             }
+            ButtCancelAddress.setOnClickListener {
+                Toast.makeText(context, getString(R.string.delevery_point_cancel), Toast.LENGTH_LONG).show()
+                findNavController().navigate(R.id.DeliveryPointManageFragment)
+            }
+
             viewModel.updateResult.observe(viewLifecycleOwner, Observer { isSuccess ->
                 if (isSuccess == true) {
                     Toast.makeText(context, "배송지가 추가되었습니다.", Toast.LENGTH_SHORT).show()

@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/DetailAddressFragment"
-        android:name="com.petpal.swimmer_customer.ui.deliverypointmanage.DetailAddressFragment"
+        android:name="com.petpal.swimmer_customer.ui.detailAddress.DetailAddressFragment"
         android:label="detailaddress_fragment"
         tools:layout="@layout/fragment_detail_address">
 

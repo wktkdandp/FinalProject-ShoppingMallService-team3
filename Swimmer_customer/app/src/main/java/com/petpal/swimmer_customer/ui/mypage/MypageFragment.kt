@@ -58,22 +58,6 @@ class MypageFragment : Fragment() {
             }
         }
 
-//        viewModel.getCurrentUser(uid!!).observe(viewLifecycleOwner, Observer { user ->
-//            if (user != null) {
-//                fragmentMypageBinding.textViewNickname.text=getString(R.string.nickname_is,user.nickName)
-//            } else {
-//                //로그인하지않고 마이페이지 들어왔을때 일단 구현만 해놓음
-//                AlertDialog.Builder(requireContext())
-//                    .setTitle(getString(R.string.title_notification))
-//                    .setMessage(getString(R.string.alert_message_login_required))
-//                    .setPositiveButton(getString(R.string.action_confirm)) { dialog, _ ->
-//                        //findNavController().navigate(R.id.action_item_mypage_to_LoginFragment)
-//                        dialog.dismiss()
-//                    }
-//                    .show()
-//            }
-//        })
-
 
         val coupons = listOf("쿠폰","10% 할인쿠폰", " 5,000원 할인쿠폰", "무료 배송 쿠폰")
 
