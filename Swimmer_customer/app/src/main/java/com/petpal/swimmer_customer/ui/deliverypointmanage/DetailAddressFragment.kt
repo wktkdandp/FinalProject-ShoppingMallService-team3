@@ -25,7 +25,6 @@ class DetailAddressFragment : Fragment() {
         val postcode= arguments?.getString("postcode")
 
 
-
         fragmentDetailAddressBinding.toolbarDetailAddress.run{
             title = getString(R.string.detail_address_toolbar)
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
@@ -35,13 +34,13 @@ class DetailAddressFragment : Fragment() {
         }
         fragmentDetailAddressBinding.run{
             textView2.text=address
-
+            //recylcerview에 ui맞춰서 정보 뿌리기
             ButtonSubmitAddress.setOnClickListener {
                 val bundle=Bundle()
                 val name=textInputEditDetailAddressName.text.toString()
                 val detailAddress=textInputEditDetailAddress.text.toString()
                 val phone=textInputEditDetailAddressPhone.text.toString()
-                val address1=Address(1,postcode?.toLong(), "$address $detailAddress",name,phone)
+                val address1=Address(null, postcode?.toLong(),"$address $detailAddress",name,phone)
                 Log.d("testkoko",address1.name!!)
                 bundle.putSerializable("addressKey",address1)
                 findNavController().navigate(R.id.DeliveryPointManageFragment,bundle)

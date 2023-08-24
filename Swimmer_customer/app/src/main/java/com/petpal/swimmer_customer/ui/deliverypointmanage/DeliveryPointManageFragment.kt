@@ -32,11 +32,11 @@ class DeliveryPointManageFragment : Fragment() {
 
         // 받아온 데이터 처리
         val address = arguments?.getString("address")
-        //val postcode= arguments?.getString("postcode")
+        val postcode= arguments?.getString("postcode")
         if(address!=null){
             val bundle = Bundle()
             bundle.putString("address", address)
-            //bundle.putString("postcode",postcode)
+            bundle.putString("postcode",postcode)
             findNavController().navigate(R.id.DetailAddressFragment, bundle)
         }
 
@@ -92,12 +92,13 @@ class DeliveryPointManageFragment : Fragment() {
         val name=addressUnit?.name
         val finalAddress=addressUnit?.address
         val phone=addressUnit?.phoneNumber
+        val postcode=addressUnit?.postCode
         if (name != null) {
             Log.d("testkoko12",name)
         }
         if (addressUnit != null) {
             fragmentDeliveryPointManageBinding.textViewAddressName.text=name
-            fragmentDeliveryPointManageBinding.textViewAddress.text=finalAddress
+            fragmentDeliveryPointManageBinding.textViewAddress.text=finalAddress +" "+postcode
             fragmentDeliveryPointManageBinding.textViewAddressPhone.text=phone
         } else {
             Log.d("ReceivedData", "No data received")
