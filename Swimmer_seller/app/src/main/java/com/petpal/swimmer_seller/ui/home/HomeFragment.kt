@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
                 fragmentHomeBinding.textViewReadyCount.text = it.toString()
             }
             deliveryCount.observe(viewLifecycleOwner){
-                fragmentHomeBinding.textViewDeliveryCount.text = it.toString()
+                fragmentHomeBinding.textViewProcessCount.text = it.toString()
             }
             completeCount.observe(viewLifecycleOwner){
                 fragmentHomeBinding.textViewCompleteCount.text = it.toString()
@@ -74,7 +74,7 @@ class HomeFragment : Fragment() {
 
             buttonRegProduct.setOnClickListener {
                 // 상품 등록 화면으로 이동
-                it.findNavController().navigate(R.id.action_item_home_to_item_product_add)
+                it.findNavController().navigate(R.id.action_item_home_to_productOptionFragment)
             }
 
             linearGuide.setOnClickListener {
@@ -101,13 +101,3 @@ class HomeFragment : Fragment() {
     }
 }
 
-// 뷰모델 팩토리
-class HomeViewModelFactory(private val productRepository: ProductRepository, private val orderRepository: OrderRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return HomeViewModel(productRepository, orderRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

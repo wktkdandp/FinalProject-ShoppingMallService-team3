@@ -45,17 +45,18 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardViewPayment"
                     style="@style/Widget.Material3.CardView.Elevated"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    app:contentPadding="10dp"
+                    tools:contentPadding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="15dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/textViewPaymentCount"
@@ -83,17 +84,18 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardViewReady"
                     style="@style/Widget.Material3.CardView.Elevated"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    app:contentPadding="10dp"
+                    tools:contentPadding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="15dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/textViewReadyCount"
@@ -119,20 +121,21 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardViewProgress"
                     style="@style/Widget.Material3.CardView.Elevated"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    app:contentPadding="10dp"
+                    tools:contentPadding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="15dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textViewDeliveryCount"
+                            android:id="@+id/textViewProcessCount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -155,16 +158,17 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardViewComplete"
                     style="@style/Widget.Material3.CardView.Elevated"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    app:contentPadding="10dp"
+                    tools:contentPadding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="15dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/textViewCompleteCount"

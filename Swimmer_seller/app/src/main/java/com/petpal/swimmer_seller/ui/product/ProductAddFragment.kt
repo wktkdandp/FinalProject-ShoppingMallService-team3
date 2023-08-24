@@ -187,7 +187,7 @@ class ProductAddFragment : Fragment() {
                 descGalleryLauncher.launch(galleryIntent)
             }
 
-            buttonOK.setOnClickListener {
+            buttonNext.setOnClickListener {
                 // 최종 유효성 검사
                 if (mainImageList.size < 1) {
                     buttonAddMainImage.requestFocus()
@@ -423,16 +423,5 @@ class ProductAddFragment : Fragment() {
             // 첫번째 이미지를 대표 이미지로 표시
             holder.textViewIsMain.visibility = if (position == 0) { View.VISIBLE } else { View.INVISIBLE }
         }
-    }
-}
-
-// 뷰모델 팩토리
-class ProductViewModelFactory(private val repository: ProductRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return ProductViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

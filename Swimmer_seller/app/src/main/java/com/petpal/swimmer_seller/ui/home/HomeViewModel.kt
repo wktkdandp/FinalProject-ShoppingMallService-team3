@@ -2,7 +2,6 @@ package com.petpal.swimmer_seller.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.petpal.swimmer_seller.data.model.Address
 import com.petpal.swimmer_seller.data.model.Item
 import com.petpal.swimmer_seller.data.model.Order
 import com.petpal.swimmer_seller.data.repository.OrderRepository
@@ -101,7 +100,7 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
         // 주문상태 주문 건 수
         paymentCount.value = orderList.count { it.state == OrderState.PAYMENT.str }.toLong()
         readyCount.value = orderList.count { it.state == OrderState.READY.str}.toLong()
-        deliveryCount.value = orderList.count { it.state == OrderState.DELIVERY.str }.toLong()
+        deliveryCount.value = orderList.count { it.state == OrderState.PROCESS.str }.toLong()
         completeCount.value = orderList.count { it.state == OrderState.COMPLETE.str }.toLong()
 
         cancelCount.value = orderList.count { it.state == OrderState.CANCEL.str }.toLong()
@@ -132,7 +131,7 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
             // 주문상태 주문 건 수
             paymentCount.value = orderList.count { it.state == OrderState.PAYMENT.code }.toLong()
             readyCount.value = orderList.count { it.state == OrderState.READY.code}.toLong()
-            deliveryCount.value = orderList.count { it.state == OrderState.DELIVERY.code }.toLong()
+            deliveryCount.value = orderList.count { it.state == OrderState.PROCESS.code }.toLong()
             completeCount.value = orderList.count { it.state == OrderState.COMPLETE.code }.toLong()
 
             cancelCount.value = orderList.count { it.state == OrderState.CANCEL.code }.toLong()
@@ -147,7 +146,7 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
 enum class OrderState(val code: Long, val str: String){
     PAYMENT(1, "결제완료"),
     READY(2, "배송준비"),
-    DELIVERY(3, "배송중"),
+    PROCESS(3, "배송중"),
     COMPLETE(4, "배송완료"),
     CANCEL(5, "취소"),
     EXCHANGE(6, "교환"),
