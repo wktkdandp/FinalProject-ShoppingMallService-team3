@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.petpal.swimmer_seller.data.model.Order
+import com.petpal.swimmer_seller.data.model.getOrderState
 import com.petpal.swimmer_seller.databinding.FragmentOrderDetailBinding
 import com.petpal.swimmer_seller.databinding.RowOrderItemBinding
 
@@ -62,6 +63,7 @@ class OrderDetailFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
+            textViewOrderState2.text = getOrderState(order.state).str
             textViewOrderUid.text = order.orderUid
             textViewOrderDate.text = order.orderDate
             //TODO: UserID 도 필요
