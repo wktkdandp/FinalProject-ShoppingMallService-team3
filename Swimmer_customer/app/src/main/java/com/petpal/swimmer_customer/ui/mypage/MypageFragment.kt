@@ -25,6 +25,9 @@ import com.petpal.swimmer_customer.ui.findinfo.FindInfoViewModelFactory
 import com.petpal.swimmer_customer.ui.login.LoginFragmentDirections
 import com.petpal.swimmer_customer.util.AutoLoginUtil
 
+//배송지 관리로 가는 마이페이지 프래그먼트
+//util의 AutoLoginUtil을 이용하여 로그아웃시, 자동로그인 비활성화
+
 
 class MypageFragment : Fragment() {
 

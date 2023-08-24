@@ -26,6 +26,8 @@ import com.petpal.swimmer_customer.databinding.FragmentLoginBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
 import com.petpal.swimmer_customer.util.AutoLoginUtil
 
+//로그인의 유효성검사를 실시하고 로그인 메서드 실행
+//util의 AutoLoginUtil을 이용하여 자동 로그인 처리
 
 class LoginFragment : Fragment() {
     lateinit var fragmentLoginBinding: FragmentLoginBinding
@@ -67,16 +69,6 @@ class LoginFragment : Fragment() {
 
             })
         }
-
-//        fragmentLoginBinding.checkboxAutoLogin.setOnTouchListener { v, event ->
-//            if(event.action==MotionEvent.ACTION_UP && !fragmentLoginBinding.checkboxAutoLogin.isChecked)
-//            {
-//                showConsentDialog()
-//                true
-//            }else{
-//                false
-//            }
-//        }
 
 
         fragmentLoginBinding.ButtonRegister.setOnClickListener {

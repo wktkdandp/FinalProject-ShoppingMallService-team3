@@ -32,6 +32,8 @@ import com.petpal.swimmer_customer.databinding.FragmentMainBinding
 import com.petpal.swimmer_customer.databinding.ItemDeliveryPointBinding
 import com.petpal.swimmer_customer.util.NetworkStatus
 
+//배송지 목록을 리사이클러뷰로 띄우고 관리하는 배송지 관리 프래그먼트
+
 class DeliveryPointManageFragment : Fragment() {
 
     lateinit var fragmentDeliveryPointManageBinding: FragmentDeliveryPointManageBinding

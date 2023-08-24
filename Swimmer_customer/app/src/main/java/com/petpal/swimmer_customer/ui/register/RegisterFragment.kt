@@ -24,6 +24,8 @@ import com.petpal.swimmer_customer.databinding.FragmentRegisterBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
 import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 
+//
+
 class RegisterFragment : Fragment() {
     lateinit var fragmentRegisterBinding: FragmentRegisterBinding
     lateinit var viewModel: RegisterViewModel

@@ -26,6 +26,8 @@ import com.petpal.swimmer_customer.databinding.FragmentFindInfoBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
 import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 
+//이메일 찾기, 비밀번호 재설정의 유효성 검사를 실시하고 이메일 찾기, 비밀번호 재설정 메서드 실행
+
 class FindInfoFragment : Fragment() {
     lateinit var fragmentFindInfoBinding: FragmentFindInfoBinding
     lateinit var viewModel: FindInfoViewModel

@@ -15,6 +15,12 @@ import androidx.navigation.fragment.findNavController
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentAddressDialogBinding
 
+//배송지 추가를 눌렀을때 나오는 다음 api 웹뷰 처리 프래그먼트
+
+
+
+
+
 private infix fun Unit.BridgeInterface(unit: Unit) {
 
 }
@@ -34,6 +40,7 @@ class AddressDialogFragment : Fragment() {
             BridgeInterface(),
             "Android"
         )
+        //캐시 삭제
         fragmentAddressDialogBinding.webViewAddress.clearCache(true);
         fragmentAddressDialogBinding.webViewAddress.clearHistory();
 
@@ -45,20 +52,10 @@ class AddressDialogFragment : Fragment() {
                 view?.loadUrl("javascript:sample2_execDaumPostcode();")
             }
         }
-        fragmentAddressDialogBinding.webViewAddress.webChromeClient = object : WebChromeClient() {
-            override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
-                Log.d(
-                    "WebView",
-                    "${consoleMessage.message()} -- From line ${consoleMessage.lineNumber()} of ${consoleMessage.sourceId()}"
-                )
-                return super.onConsoleMessage(consoleMessage)
-            }
-        }
 
         // WebView에 원하는 페이지를 로드
         val mainUrl = "https://swimmer-f0505.web.app"
         fragmentAddressDialogBinding.webViewAddress.loadUrl(mainUrl)
-
 
         return fragmentAddressDialogBinding.root
     }
@@ -66,9 +63,19 @@ class AddressDialogFragment : Fragment() {
     fun navigateWithData(data: String) {
         val splitData = data.split(",")
         val bundle = Bundle()
-
-        bundle.putString("address", splitData[0])
-        bundle.putString("postcode", splitData[1])
+        //split에 쉼표로 분기하는데 애초에 api에서 넘어온 data는 data.address+처리 코드 // data.zonecode 두개를 쉼표로 나누기
+        //위함이었는데 data.address에서 ,가 붙여져서 넘어오면 IndexOutOfBoundsException가 생긴다 그래서
+        //splitData의 크기가 3이면 주소에 splitData[0]+splitData[1] 를 해서 오류를 방지
+        if (splitData.size >= 3) {
+            bundle.putString("address", splitData[0] +" "+ splitData[1].trim())
+            bundle.putString("postcode", splitData[2].trim())
+        } else if (splitData.size == 2) {
+            bundle.putString("address", splitData[0].trim())
+            bundle.putString("postcode", splitData[1].trim())
+        } else {
+            // 데이터 형식이 예상과 다를 경우의 처리
+            return
+        }
 
         findNavController().navigate(R.id.DeliveryPointManageFragment, bundle)
     }
