@@ -8,40 +8,54 @@ import com.petpal.swimmer_seller.data.model.Image
 import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 
-class ProductViewModel(private val productRepository: ProductRepository):ViewModel() {
+class ProductViewModel(private val productRepository: ProductRepository) : ViewModel() {
 
-    private val _sizeList = MutableLiveData<List<String>>()
-    val sizeList: LiveData<List<String>> = _sizeList
+    private val _sizeList = MutableLiveData<MutableList<String>>()
+    val sizeList: LiveData<MutableList<String>> = _sizeList
 
-    private val _colorList = MutableLiveData<List<String>>()
-    val colorList:LiveData<List<String>> = _colorList
-
-    // color - size 표시용
-    private val _optionPairList = MutableLiveData<List<Pair<String, String>>>()
-    val optionPairList: LiveData<List<Pair<String, String>>> = _optionPairList
+    private val _colorList = MutableLiveData<MutableList<String>>()
+    val colorList: LiveData<MutableList<String>> = _colorList
 
     init {
         _sizeList.value = mutableListOf()
         _colorList.value = mutableListOf()
-        _optionPairList.value = mutableListOf<Pair<String, String>>()
     }
 
-    // colorList, sizeList를 기반으로 옵션 세트 매칭 -> RecyclerView 표시용
-    fun setOptionPairList(){
+    // 색상, 사이즈 리스트 값 저장
+    fun addColorAndSizeOption(colorList: List<String>, sizeList: List<String>) {
+        // 기존 리스트에 추가 후 중복 제거
+        val newColorList = this.colorList.value
+        newColorList?.addAll(colorList.filter { !newColorList.contains(it) })
+        _colorList.value = newColorList!!
 
+        val newSizeList = this.sizeList.value
+        newSizeList?.addAll(sizeList.filter { !newSizeList.contains(it) })
+         _sizeList.value = newSizeList!!
     }
 
-    fun addProduct(product: Product){
-        productRepository.addProduct(product){}
+    // RecyclerView에서 삭제 버튼을 누른 순번의 옵션 제거
+    fun deleteColorOption(colorIdx: Int) {
+        val newColorList = this.colorList.value
+        newColorList?.removeAt(colorIdx)
+        _colorList.value = newColorList!!
+    }
+    fun deleteSizeOption(sizeIdx: Int) {
+        val newSizeList = this.sizeList.value
+        newSizeList?.removeAt(sizeIdx)
+        _sizeList.value = newSizeList!!
+    }
+
+    fun addProduct(product: Product) {
+        productRepository.addProduct(product) {}
     }
 
     fun uploadImage(uri: Uri, fileName: String) {
-        productRepository.uploadImage(uri, fileName){}
+        productRepository.uploadImage(uri, fileName) {}
     }
 
-    fun uploadImageList(images: MutableList<Image>){
-        for (image in images){
-            productRepository.uploadImage(image.uri, image.fileName){}
+    fun uploadImageList(images: MutableList<Image>) {
+        for (image in images) {
+            productRepository.uploadImage(image.uri, image.fileName) {}
         }
     }
 }
