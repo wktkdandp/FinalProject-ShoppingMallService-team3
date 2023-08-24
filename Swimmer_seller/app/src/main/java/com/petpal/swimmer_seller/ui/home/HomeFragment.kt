@@ -74,7 +74,7 @@ class HomeFragment : Fragment() {
 
             buttonRegProduct.setOnClickListener {
                 // 상품 등록 화면으로 이동
-                it.findNavController().navigate(R.id.action_item_home_to_productOptionFragment)
+                it.findNavController().navigate(R.id.action_item_home_to_item_product_add)
             }
 
             linearGuide.setOnClickListener {

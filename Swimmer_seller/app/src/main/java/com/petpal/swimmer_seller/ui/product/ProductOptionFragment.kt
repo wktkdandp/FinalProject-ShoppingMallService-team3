@@ -8,11 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
+import com.petpal.swimmer_seller.R
+import com.petpal.swimmer_seller.data.model.Image
+import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentProductOptionBinding
 import com.petpal.swimmer_seller.databinding.LayoutBottomSheetOptionBinding
@@ -21,6 +26,9 @@ import com.petpal.swimmer_seller.databinding.RowProductOptionBinding
 class ProductOptionFragment : Fragment() {
     private lateinit var productViewModel: ProductViewModel
     private lateinit var fragmentProductOptionBinding: FragmentProductOptionBinding
+
+    lateinit var product: Product
+    lateinit var imageArray: Array<Image>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +47,10 @@ class ProductOptionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val args = ProductOptionFragmentArgs.fromBundle(requireArguments())
+        product = args.Product
+        imageArray = args.Image
 
         fragmentProductOptionBinding.run {
             productViewModel.run {
@@ -93,8 +105,23 @@ class ProductOptionFragment : Fragment() {
                 addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
             }
 
+            // 상품 등록
             buttonRegisterProduct.setOnClickListener {
-                // TODO 상품 등록
+                progressBarOption.visibility = View.VISIBLE
+                // TODO product 객체 받아서 colorList, sizeList 세팅 후 DB 저장
+
+                product.colorList = productViewModel.colorList.value
+                product.sizeList = productViewModel.sizeList.value
+
+                // 상품 정보 DB 저장
+                productViewModel.addProduct(product)
+
+                // 이미지 업로드
+                productViewModel.uploadImageList(imageArray)
+
+                Snackbar.make(fragmentProductOptionBinding.root, "상품이 등록되었습니다.", Snackbar.LENGTH_SHORT).show()
+                // 홈 화면 전환
+                findNavController().popBackStack(R.id.item_home, false)
             }
         }
 

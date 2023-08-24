@@ -49,13 +49,15 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
         productRepository.addProduct(product) {}
     }
 
-    fun uploadImage(uri: Uri, fileName: String) {
-        productRepository.uploadImage(uri, fileName) {}
+    fun uploadImage(image: Image) {
+        val uri = Uri.parse(image.uriString)
+        productRepository.uploadImage(uri, image.fileName!!) {}
     }
 
-    fun uploadImageList(images: MutableList<Image>) {
+    fun uploadImageList(images: Array<Image>) {
         for (image in images) {
-            productRepository.uploadImage(image.uri, image.fileName) {}
+            val uri = Uri.parse(image.uriString)
+            productRepository.uploadImage(uri, image.fileName!!) {}
         }
     }
 }

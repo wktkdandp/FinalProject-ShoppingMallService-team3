@@ -16,9 +16,6 @@
         <action
             android:id="@+id/action_item_home_to_guideFragment"
             app:destination="@id/guideFragment" />
-        <action
-            android:id="@+id/action_item_home_to_productOptionFragment"
-            app:destination="@id/productOptionFragment" />
     </fragment>
 
     <fragment
@@ -31,17 +28,23 @@
             app:destination="@id/productOptionFragment"/>
     </fragment>
     <fragment
+        android:id="@+id/productOptionFragment"
+        android:name="com.petpal.swimmer_seller.ui.product.ProductOptionFragment"
+        android:label="fragment_product_option"
+        tools:layout="@layout/fragment_product_option" >
+        <argument
+            android:name="Product"
+            app:argType="com.petpal.swimmer_seller.data.model.Product" />
+        <argument
+            android:name="Image"
+            app:argType="com.petpal.swimmer_seller.data.model.Image[]" />
+    </fragment>
+
+    <fragment
         android:id="@+id/guideFragment"
         android:name="com.petpal.swimmer_seller.ui.guide.GuideFragment"
         android:label="fragment_guide"
         tools:layout="@layout/fragment_guide" />
-    <fragment
-        android:id="@+id/productOptionFragment"
-        android:name="com.petpal.swimmer_seller.ui.product.ProductOptionFragment"
-        android:label="fragment_product_option"
-        tools:layout="@layout/fragment_product_option" />
-
-
 
     <fragment
         android:id="@+id/item_mypage"
