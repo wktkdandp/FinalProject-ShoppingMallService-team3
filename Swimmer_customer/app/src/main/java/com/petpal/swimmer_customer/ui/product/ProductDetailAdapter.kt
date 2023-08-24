@@ -1,5 +1,6 @@
 package com.petpal.swimmer_customer.ui.product
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,43 +9,66 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.firebase.storage.FirebaseStorage
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.ProductDetailModel
 
 
-class ProductDetailAdapter : ListAdapter<ProductDetailModel, ProductDetailAdapter.ItemViewHolder>(differ) {
+class ProductDetailAdapter(private val context: Context, private val imagePaths: MutableList<ProductDetailModel>) :
+    ListAdapter<ProductDetailModel, ProductDetailAdapter.ItemViewHolder>(
+        differ
+    ) {
 
     inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(ranking: ProductDetailModel) {
-            val ImageView = view.findViewById<ImageView>(R.id.productDetailImageView)
 
-
-            Glide
-                .with(ImageView.context)
-                .load(ranking.image)
-                .into(ImageView)
-
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ItemViewHolder(inflater.inflate(R.layout.activity_product_detail_viewpage2, parent, false))
+        return ItemViewHolder(
+            inflater.inflate(
+                R.layout.activity_product_detail_viewpage2,
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(currentList[position])
+
+        val ImageView = holder.itemView.findViewById<ImageView>(R.id.productDetailImage)
+        val imagePath = imagePaths[position]
+
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val pathRef = storageRef.child(imagePath.image)
+
+        pathRef.downloadUrl.addOnSuccessListener {
+            Glide.with(context)
+                .load(it)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .centerCrop()
+                .into(ImageView)
+        }
+
     }
 
     companion object {
 
         val differ = object : DiffUtil.ItemCallback<ProductDetailModel>() {
-            override fun areItemsTheSame(oldItem: ProductDetailModel, newItem: ProductDetailModel): Boolean {
+            override fun areItemsTheSame(
+                oldItem: ProductDetailModel,
+                newItem: ProductDetailModel
+            ): Boolean {
                 return oldItem.image == newItem.image
             }
 
-            override fun areContentsTheSame(oldItem: ProductDetailModel, newItem: ProductDetailModel): Boolean {
+            override fun areContentsTheSame(
+                oldItem: ProductDetailModel,
+                newItem: ProductDetailModel
+            ): Boolean {
                 return oldItem == newItem
             }
 

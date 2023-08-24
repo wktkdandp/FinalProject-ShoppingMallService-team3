@@ -1,6 +1,7 @@
 package com.petpal.swimmer_customer.ui.payment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.petpal.swimmer_customer.R
+import com.petpal.swimmer_customer.data.model.ItemsForCustomer
 import com.petpal.swimmer_customer.databinding.FragmentPaymentBinding
 import com.petpal.swimmer_customer.databinding.PaymentItemRowBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
@@ -49,6 +51,7 @@ class PaymentFragment : Fragment() {
                 fragmentPaymentBinding.paymentCheck.text = "상품 금액 : ${it}원"
             }
         }
+
         fragmentPaymentBinding.run {
 
             // 배송지 선택 button
