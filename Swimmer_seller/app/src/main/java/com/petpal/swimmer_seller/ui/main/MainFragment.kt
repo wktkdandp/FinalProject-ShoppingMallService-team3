@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.petpal.swimmer_seller.R
-import com.petpal.swimmer_seller.databinding.FragmentMainBinding
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.petpal.swimmer_seller.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
     private lateinit var fragmentMainBinding: FragmentMainBinding
@@ -30,7 +30,7 @@ class MainFragment : Fragment() {
 
         // 특정 화면에서 BottomNavigationBar 숨기기
         navController.addOnDestinationChangedListener { _: NavController, navDestination: NavDestination, _: Bundle? ->
-            if (navDestination.id == R.id.item_product_add) {
+            if (navDestination.id == R.id.item_product_add || navDestination.id == R.id.item_manage_order) {
                 fragmentMainBinding.bottomNavigation.visibility = View.GONE
             } else {
                 fragmentMainBinding.bottomNavigation.visibility = View.VISIBLE
@@ -40,30 +40,8 @@ class MainFragment : Fragment() {
         fragmentMainBinding.run {
             // 로그아웃 버튼은 일단 Home 화면에 옮겨뒀습니다.
 
-            bottomNavigation.run {
-                setupWithNavController(navController)
-                // 처음 화면 세팅
-                selectedItemId = R.id.item_home
+            bottomNavigation.setupWithNavController(navController)
 
-                setOnItemSelectedListener {
-                    when (it.itemId) {
-                        R.id.item_home -> {
-                            // 홈 이동
-                            navController.navigate(R.id.item_home)
-                            true
-                        }
-                        R.id.item_menu -> {
-                            // 메뉴 열기
-                            true
-                        }
-                        R.id.item_mypage -> {
-                            // 마이페이지 이동
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            }
         }
         return fragmentMainBinding.root
     }
