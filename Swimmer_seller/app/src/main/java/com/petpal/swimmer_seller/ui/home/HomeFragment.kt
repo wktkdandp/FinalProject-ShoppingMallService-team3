@@ -13,30 +13,43 @@ import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.repository.OrderRepository
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentHomeBinding
+import com.petpal.swimmer_seller.ui.order.OrderViewModel
+import com.petpal.swimmer_seller.ui.order.OrderViewModelFactory
+import com.petpal.swimmer_seller.ui.product.ProductViewModel
+import com.petpal.swimmer_seller.ui.product.ProductViewModelFactory
 import com.petpal.swimmer_seller.ui.user.UserViewModel
 import com.petpal.swimmer_seller.ui.user.UserViewModelFactory
 
 class HomeFragment : Fragment() {
-    lateinit var fragmentHomeBinding: FragmentHomeBinding
-    private lateinit var mainActivity: MainActivity
-
     private lateinit var userViewModel: UserViewModel
-    lateinit var homeViewModel: HomeViewModel
+    private lateinit var productViewModel: ProductViewModel
+    private lateinit var orderViewModel: OrderViewModel
+
+    private lateinit var _fragmentHomeBinding: FragmentHomeBinding
+    private val fragmentHomeBinding get() = _fragmentHomeBinding
+
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentHomeBinding = FragmentHomeBinding.inflate(inflater)
+        _fragmentHomeBinding = FragmentHomeBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
-        // ViewModel 초기화
-        val homeViewModelFactory = HomeViewModelFactory(ProductRepository(), OrderRepository())
-        homeViewModel = ViewModelProvider(this, homeViewModelFactory)[HomeViewModel::class.java]
+        // ViewModel
+        productViewModel = ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
         userViewModel = ViewModelProvider(this, UserViewModelFactory())[UserViewModel::class.java]
+        orderViewModel = ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
 
-        // LiveData 관찰
-        homeViewModel.run {
+        // Observer
+        productViewModel.run {
+            productCount.observe(viewLifecycleOwner){
+                fragmentHomeBinding.textViewProductCount.text = "등록된 상품이 ${it}건 있습니다."
+            }
+        }
+
+        orderViewModel.run {
             paymentCount.observe(viewLifecycleOwner){
                 fragmentHomeBinding.textViewPaymentCount.text = it.toString()
             }
@@ -58,12 +71,8 @@ class HomeFragment : Fragment() {
             refundCount.observe(viewLifecycleOwner){
                 fragmentHomeBinding.textViewRefundCount.text = "${it}건"
             }
-
-            productCount.observe(viewLifecycleOwner){
-                fragmentHomeBinding.textViewProductCount.text = "등록된 상품이 ${it}건 있습니다."
-            }
         }
-        
+
         fragmentHomeBinding.run {
             toolbarHome.run {
                 // 툴바 타이틀 폰트 설정
@@ -77,7 +86,7 @@ class HomeFragment : Fragment() {
 
             linearGuide.setOnClickListener {
                 // 판매자 가이드 화면으로 이동
-                findNavController().navigate(R.id.action_item_home_to_guideFragment)
+                findNavController().navigate(R.id.action_item_home_to_item_guide)
             }
             // 홈 화면에 로그아웃 버튼 위젯이 안보여서 일단 주석처리 해둘게요
 //            buttonLogout.setOnClickListener {
@@ -88,11 +97,11 @@ class HomeFragment : Fragment() {
 //            }
         }
 
-        // 로그인 판매자가 관련된 주문들 주문상태별로 개수 표시
-        homeViewModel.getOrderCountByState(mainActivity.loginSellerUid)
+        // 로그인 판매자가 관련된 주문들 건 수 표시
+        orderViewModel.getOrderCountByState(mainActivity.loginSellerUid)
         
         // 로그인 판매자가 등록한 상품 개수 표시
-        homeViewModel.getProductCount(mainActivity.loginSellerUid)
+        productViewModel.getProductCount(mainActivity.loginSellerUid)
 
         return fragmentHomeBinding.root
     }

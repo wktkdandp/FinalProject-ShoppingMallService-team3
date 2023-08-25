@@ -193,6 +193,21 @@
         <item>튜브/암밴드</item>
     </string-array>
 
+    <!-- 상품 목록 필터링 -->
+    <string-array name="productFilter">
+        <item>여성</item>
+        <item>남성</item>
+        <item>아동</item>
+        <item>용품</item>
+    </string-array>
+
+    <!-- 상품 목록 정렬 -->
+    <string-array name="productSort">
+        <item>가격순</item>
+        <item>이름순</item>
+        <item>등록순</item>
+    </string-array>
+
     <string name="action_add_product">상품등록 하기</string>
     <string name="prompt_product_count">등록된 상품이 0건 있습니다.</string>
     <string name="prompt_add_product">판매 상품을 등록해주세요.</string>

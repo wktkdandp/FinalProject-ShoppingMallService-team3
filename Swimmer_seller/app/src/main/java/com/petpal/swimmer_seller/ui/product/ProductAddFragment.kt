@@ -42,7 +42,10 @@ import java.util.Locale
 
 class ProductAddFragment : Fragment() {
     lateinit var productViewModel: ProductViewModel
-    private lateinit var fragmentProductAddBinding: FragmentProductAddBinding
+
+    private var _fragmentProductAddBinding: FragmentProductAddBinding? = null
+    private val fragmentProductAddBinding get() = _fragmentProductAddBinding!!
+
     lateinit var mainActivity: MainActivity
 
     // 대표 이미지 최대 5개, 설명 이미지 1개
@@ -58,7 +61,7 @@ class ProductAddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentProductAddBinding = FragmentProductAddBinding.inflate(inflater)
+        _fragmentProductAddBinding = FragmentProductAddBinding.inflate(inflater)
         mainActivity = activity as MainActivity
         return fragmentProductAddBinding.root
     }
@@ -66,8 +69,7 @@ class ProductAddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory = ProductViewModelFactory(ProductRepository())
-        productViewModel = ViewModelProvider(this, factory)[ProductViewModel::class.java]
+        productViewModel = ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
 
         mainGalleryLauncher = mainImageGallerySetting()
         descGalleryLauncher = descriptionImageGallerySetting()
@@ -263,7 +265,7 @@ class ProductAddFragment : Fragment() {
                 Log.d("hhl", "ImageArrayList 준비 완료 ${imageArrayList.size}개 이미지 첨부")
 
                 // Safe Args 방식 전달
-                val action = ProductAddFragmentDirections.actionItemProductAddToProductOptionFragment(product, imageArrayList.toTypedArray())
+                val action = ProductAddFragmentDirections.actionItemProductAddToItemProductOption(product, imageArrayList.toTypedArray())
                 findNavController().navigate(action)
             }
         }
