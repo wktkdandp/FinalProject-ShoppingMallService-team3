@@ -22,6 +22,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.FirebaseDatabase
@@ -101,8 +103,9 @@ class ProductDetailFragment : Fragment() {
             }
 
             viewPagerAdapter.submitList(imageList)
+            var categoryText ="${productList[args.idx].category.main} > ${productList[args.idx].category.mid} > ${productList[args.idx].category.sub}"
             viewModel.rankingText(
-                productList[args.idx].category.mid,
+                categoryText,
                 productList[args.idx].name,
                 productList[args.idx].price
             )
@@ -111,7 +114,9 @@ class ProductDetailFragment : Fragment() {
                 val chip = createChip(text)
                 hashTagChipGroup.addView(chip)
             }
-
+            scrollToFab.setOnClickListener {
+                productDetailScrollView.smoothScrollTo(0, 0)
+            }
 
         }
         return fragmentProductDetailBinding.root
@@ -410,9 +415,20 @@ class ProductDetailFragment : Fragment() {
         chip.isClickable = false
         chip.isCheckable = false
         chip.backgroundTintList = null
-        chip.chipStrokeWidth = 0f
+
+        // 둥글게
+        val shapeAppearanceModel = ShapeAppearanceModel()
+            .toBuilder()
+            .setAllCorners(CornerFamily.ROUNDED, 50f)
+            .build()
+
+        chip.shapeAppearanceModel = shapeAppearanceModel
+
+        // 배경색
+        chip.setChipBackgroundColorResource(R.color.colorSecondary)
+        chip.setChipStrokeColorResource(R.color.colorSecondary)
+        chip.setTextColor(resources.getColor(R.color.white))
         return chip
     }
-
 
 }

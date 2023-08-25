@@ -14,7 +14,7 @@ class ProductViewModel() : ViewModel() {
 
     private val _productDetail: MutableLiveData<List<Product>> = MutableLiveData()
     private var _productDetailImage: MutableLiveData<String> = MutableLiveData()
-    private var _rankingBrand: MutableLiveData<String> = MutableLiveData()
+    private var _rankingCategory: MutableLiveData<String> = MutableLiveData()
     private var _rankingTitle: MutableLiveData<String> = MutableLiveData()
     private var _rankingPrice: MutableLiveData<Int> = MutableLiveData()
     private var _bottomSheetItemCountTextView: MutableLiveData<Int> = MutableLiveData(1)
@@ -28,8 +28,8 @@ class ProductViewModel() : ViewModel() {
     val productDetailImage: LiveData<String>
         get() = _productDetailImage
 
-    val rankingBrand: LiveData<String>
-        get() = _rankingBrand
+    val rankingCategory: LiveData<String>
+        get() = _rankingCategory
     val rankingTitle: LiveData<String>
         get() = _rankingTitle
 
@@ -60,7 +60,7 @@ class ProductViewModel() : ViewModel() {
     }
 
     fun rankingText(brandText: String, titleText: String, priceText: Int) {
-        _rankingBrand.value = brandText
+        _rankingCategory.value = brandText
         _rankingTitle.value = titleText
         _rankingPrice.value = priceText
     }
@@ -85,8 +85,8 @@ class ProductViewModel() : ViewModel() {
 
 
     private fun updateButtonState() {
-        val isSizeZero = _sizePosition.value == 0
-        val isColorZero = _colorPosition.value == 0
+        val isSizeZero = sizePosition.value == 0
+        val isColorZero = colorPosition.value == 0
 
         _isButtonEnabled.value = !isSizeZero && !isColorZero
     }

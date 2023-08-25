@@ -25,7 +25,7 @@ class ProductDetailTabFragment(var idx: Int) : Fragment() {
         viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
         fragmentProductDetailTabBinding.vm = viewModel
         fragmentProductDetailTabBinding.lifecycleOwner = this
-        viewModel.productDetailImageUri(productList[idx].infoImage)
+        viewModel.productDetailImageUri(productList[idx].descriptionImage)
 
         return fragmentProductDetailTabBinding.root
 

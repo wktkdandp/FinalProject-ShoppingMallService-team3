@@ -16,12 +16,15 @@
         tools:context=".ui.product.ProductDetailFragment">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/productDetailScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginBottom="70dp"
                 android:layout_height="match_parent">
 
                 <androidx.viewpager2.widget.ViewPager2
@@ -31,9 +34,8 @@
                     android:nestedScrollingEnabled="true"
                     android:orientation="horizontal" />
 
-            </FrameLayout>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -94,13 +96,14 @@
                         </FrameLayout>
 
                         <TextView
-                            android:id="@+id/brandTextView"
+                            android:id="@+id/categoryTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="@{vm.rankingBrand}"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
+                            android:layout_marginBottom="5dp"
+                            android:text="@{vm.rankingCategory}"
+                            android:textColor="@color/gray_8A"
+                            android:textSize="13sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="@id/viewPager2Container"
                             app:layout_constraintTop_toBottomOf="@id/viewPager2Container" />
@@ -114,7 +117,7 @@
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             app:layout_constraintStart_toStartOf="@id/viewPager2Container"
-                            app:layout_constraintTop_toBottomOf="@id/brandTextView" />
+                            app:layout_constraintTop_toBottomOf="@id/categoryTextView" />
 
                         <TextView
                             android:id="@+id/priceTextView"
@@ -155,10 +158,9 @@
 
                                 <com.google.android.material.chip.ChipGroup
                                     android:id="@+id/hashTagChipGroup"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:backgroundTint="@android:color/transparent">
-
+                                    app:chipSpacingHorizontal="3dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="35dp">
 
                                 </com.google.android.material.chip.ChipGroup>
                             </LinearLayout>
@@ -198,6 +200,15 @@
                 app:tabRippleColor="@android:color/transparent" />
         </com.google.android.material.appbar.AppBarLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/scrollToFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="60dp"
+            android:src="@drawable/arrow_upward_24px" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/paymentLayout"
             android:layout_width="match_parent"
@@ -216,9 +227,9 @@
                 android:adjustViewBounds="true"
                 android:background="#E8FFFFFF"
                 android:src="@drawable/favorite_24px"
-                app:layout_constraintTop_toTopOf="@id/paymentButton"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/paymentButton" />
 
             <Button
                 android:id="@+id/paymentButton"
