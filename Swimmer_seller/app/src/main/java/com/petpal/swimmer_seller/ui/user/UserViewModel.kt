@@ -6,8 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Seller
 import com.petpal.swimmer_seller.data.repository.UserRepository
@@ -32,6 +30,12 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
     //이걸 저장하면 로그인할 때 여기에 저장하면 되는거 아닌가?
     private val _currentUser = MutableLiveData<Seller>()
     val currentUser: LiveData<Seller> = _currentUser
+
+    private val _infoForm = MutableLiveData<InfoFormState>()
+    val infoFormState: LiveData<InfoFormState> = _infoForm
+
+    private val _consent = MutableLiveData<Boolean>()
+    val consentState: LiveData<Boolean> = _consent
 
     fun login(email: String, password: String) {
         // can be launched in a separate asynchronous job
@@ -63,8 +67,6 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         userRepository.signUp(email, password) {
             if (it.isSuccessful && it.result.user != null) {
                 _userResult.value = UserResult(successInt = R.string.signup_succeed)
-                //signup을 하고 난 후에야 currentUser가 되니까 여기서 sellerUid넣어주기
-                seller.sellerAuthUid = Firebase.auth.currentUser!!.uid
                 addSeller(seller)
             } else {
                 Log.d("signup", it.exception.toString())
@@ -104,6 +106,54 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
+    fun infoDataChanged(
+        businessRegNumber: String,
+        representName: String,
+        brandName: String,
+        description: String,
+        address: String,
+        brandPhoneNumber: String,
+        bankName: String,
+        accountNumber: String,
+        contactName: String,
+        contactPhoneNumber: String,
+        contactEmail: String,
+    ) {
+        if (businessRegNumber.isEmpty()) {
+            _infoForm.value = InfoFormState(businessRegNumberError = R.string.invalid_bus_reg_num)
+        } else if (representName.isEmpty()) {
+            _infoForm.value = InfoFormState(representNameError = R.string.invalid_represent_name)
+        } else if (brandName.isEmpty()) {
+            _infoForm.value = InfoFormState(brandNameError = R.string.invalid_brand_name)
+        } else if (description.isEmpty()) {
+            _infoForm.value = InfoFormState(descriptionError = R.string.invalid_description)
+        } else if (address.isEmpty()) {
+            _infoForm.value = InfoFormState(addressError = R.string.invalid_address)
+        } else if (brandPhoneNumber.isEmpty()) {
+            _infoForm.value =
+                InfoFormState(brandPhoneNumberError = R.string.invalid_brand_phone_num)
+        } else if (bankName.isEmpty()) {
+            _infoForm.value = InfoFormState(bankNameError = R.string.invalid_bank_name)
+        } else if (accountNumber.isEmpty()) {
+            _infoForm.value = InfoFormState(accountNumberError = R.string.invalid_account_num)
+        } else if (contactName.isEmpty()) {
+            _infoForm.value = InfoFormState(contactNameError = R.string.invalid_contact_name)
+        } else if (contactPhoneNumber.isEmpty()) {
+            _infoForm.value =
+                InfoFormState(contactPhoneNumberError = R.string.invalid_contact_phone_num)
+        } else if (contactEmail.isEmpty()) {
+            _infoForm.value = InfoFormState(contactEmailError = R.string.invalid_contact_email)
+        } else {
+            _infoForm.value = InfoFormState(isDataValid = true)
+        }
+    }
+
+    fun consentChanged(isConsentAgreed: Boolean) {
+        Log.d("consent", isConsentAgreed.toString())
+        _consent.value = isConsentAgreed
+    }
+
+
     private fun isEmailValid(email: String): Boolean {
         return if (email.contains("@")) {
             Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -121,7 +171,7 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         return password == confirm
     }
 
-    fun addSeller(seller: Seller) {
+    private fun addSeller(seller: Seller) {
         userRepository.addSeller(seller) {
             if (it.isSuccessful) {
                 _userResult.value = UserResult(successInt = R.string.signup_info_succeed)
@@ -183,7 +233,6 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
                     _currentUser.value = Seller(
                         email,
-                        sellerAuthUid,
                         businessRegNumber,
                         representName,
                         brandName,
@@ -207,22 +256,37 @@ data class SignUpFormState(
     val emailError: Int? = null,
     val passwordError: Int? = null,
     val confirmError: Int? = null,
-    val isDataValid: Boolean = false
+    val isDataValid: Boolean = false,
 )
 
 data class LoginFormState(
     val emailError: Int? = null,
     val passwordError: Int? = null,
-    val isDataValid: Boolean = false
+    val isDataValid: Boolean = false,
 )
 
 data class EmailFormState(
     val emailError: Int? = null,
-    val isDataValid: Boolean = false
+    val isDataValid: Boolean = false,
 )
 
 data class FindEmailFormState(
     val nameError: Int? = null,
     val phoneNumberError: Int? = null,
-    val isDataValid: Boolean = false
+    val isDataValid: Boolean = false,
+)
+
+data class InfoFormState(
+    val businessRegNumberError: Int? = null,
+    val representNameError: Int? = null,
+    val brandNameError: Int? = null,
+    val descriptionError: Int? = null,
+    val addressError: Int? = null,
+    val brandPhoneNumberError: Int? = null,
+    val bankNameError: Int? = null,
+    val accountNumberError: Int? = null,
+    val contactNameError: Int? = null,
+    val contactPhoneNumberError: Int? = null,
+    val contactEmailError: Int? = null,
+    val isDataValid: Boolean = false,
 )

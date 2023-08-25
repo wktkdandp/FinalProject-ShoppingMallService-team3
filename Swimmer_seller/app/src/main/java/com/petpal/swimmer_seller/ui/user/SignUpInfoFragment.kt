@@ -1,6 +1,8 @@
 package com.petpal.swimmer_seller.ui.user
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Seller
 import com.petpal.swimmer_seller.databinding.FragmentSignUpInfoBinding
@@ -24,7 +27,7 @@ class SignUpInfoFragment : Fragment() {
     // onDestroyView.
     private val fragmentSignUpInfoBinding get() = _fragmentSignUpInfoBinding!!
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View? {
         _fragmentSignUpInfoBinding = FragmentSignUpInfoBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
@@ -39,20 +42,6 @@ class SignUpInfoFragment : Fragment() {
         email = arguments?.getString("email")!!
         password = arguments?.getString("password")!!
 
-        val textInputEditTextCompanyRegNum =
-            fragmentSignUpInfoBinding.textInputEditTextCompanyRegNum
-        val textInputEditTextOwnerName = fragmentSignUpInfoBinding.textInputEditTextOwnerName
-        val textInputEditTextCompanyName = fragmentSignUpInfoBinding.textInputEditTextCompanyName
-        val textInputEditTextCompanyDesc = fragmentSignUpInfoBinding.textInputEditTextCompanyDesc
-        val textInputEditTextCompanyAddrs = fragmentSignUpInfoBinding.textInputEditTextCompanyAddrs
-        val textInputEditTextCompanyContact =
-            fragmentSignUpInfoBinding.textInputEditTextCompanyContact
-        val textInputEditTextCompanyAccount =
-            fragmentSignUpInfoBinding.textInputEditTextCompanyAccount
-        val textInputEditTextManagerName = fragmentSignUpInfoBinding.textInputEditTextManagerName
-        val textInputEditTextManagerContact =
-            fragmentSignUpInfoBinding.textInputEditTextManagerContact
-        val textInputEditTextManagerEmail = fragmentSignUpInfoBinding.textInputEditTextManagerEmail
 
         userViewModel.run {
             userResult.observe(viewLifecycleOwner) { result ->
@@ -64,6 +53,63 @@ class SignUpInfoFragment : Fragment() {
                     updateUiWithUser(it)
                 }
             }
+
+            //정보 입력 유효성 검사
+            infoFormState.observe(viewLifecycleOwner) {
+                if (it == null) {
+                    return@observe
+                }
+
+                fragmentSignUpInfoBinding.run {
+                    //_formComplete 상태에 따라 button enable 변경
+                    buttonSignUp.isEnabled = it.isDataValid && checkBox.isChecked
+
+                    if (it.businessRegNumberError == null) textInputLayoutCompanyRegNum.error = null
+                    else textInputLayoutCompanyRegNum.error = getString(it.businessRegNumberError)
+
+                    if (it.representNameError == null) textInputLayoutOwnerName.error = null
+                    else textInputLayoutOwnerName.error = getString(it.representNameError)
+
+                    if (it.brandNameError == null) textInputLayoutCompanyName.error = null
+                    else textInputLayoutCompanyName.error = getString(it.brandNameError)
+
+                    if (it.descriptionError == null) textInputLayoutCompanyDesc.error = null
+                    else textInputLayoutCompanyDesc.error = getString(it.descriptionError)
+
+                    if (it.addressError == null) textInputLayoutCompanyAddrs.error = null
+                    else textInputLayoutCompanyAddrs.error = getString(it.addressError)
+
+                    if (it.brandPhoneNumberError == null) textInputLayoutCompanyContact.error = null
+                    else textInputLayoutCompanyContact.error = getString(it.brandPhoneNumberError)
+
+                    if (it.bankNameError == null) textInputLayoutCompanyBank.error = null
+                    else textInputLayoutCompanyBank.error = getString(it.bankNameError)
+
+                    if (it.accountNumberError == null) textInputLayoutCompanyAccount.error = null
+                    else textInputLayoutCompanyAccount.error = getString(it.accountNumberError)
+
+                    if (it.contactNameError == null) textInputLayoutManagerName.error = null
+                    else textInputLayoutManagerName.error = getString(it.contactNameError)
+
+                    if (it.contactPhoneNumberError == null) textInputLayoutManagerContact.error =
+                        null
+                    else textInputLayoutManagerContact.error = getString(it.contactPhoneNumberError)
+
+                    if (it.contactEmailError == null) textInputLayoutManagerEmail.error = null
+                    else textInputLayoutManagerEmail.error = getString(it.contactEmailError)
+                }
+            }
+
+            consentState.observe(viewLifecycleOwner) {
+                if (it == null) {
+                    return@observe
+                }
+
+                fragmentSignUpInfoBinding.buttonSignUp.isEnabled =
+                    it && infoFormState.value?.isDataValid ?: false
+            }
+
+
         }
 
         fragmentSignUpInfoBinding.run {
@@ -93,11 +139,11 @@ class SignUpInfoFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
+
             buttonSignUp.setOnClickListener {
 
                 val seller = Seller(
                     email,
-                    "",
                     textInputEditTextCompanyRegNum.text.toString(),
                     textInputEditTextOwnerName.text.toString(),
                     textInputEditTextCompanyName.text.toString(),
@@ -116,9 +162,72 @@ class SignUpInfoFragment : Fragment() {
 
             }
 
+            val afterTextChangedListener = object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    count: Int,
+                    after: Int,
+                ) {
+                    // ignore
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    // ignore
+                }
+
+                override fun afterTextChanged(s: Editable) {
+                    userViewModel.infoDataChanged(
+                        textInputEditTextCompanyRegNum.text.toString(),
+                        textInputEditTextOwnerName.text.toString(),
+                        textInputEditTextCompanyName.text.toString(),
+                        textInputEditTextCompanyDesc.text.toString(),
+                        textInputEditTextCompanyAddrs.text.toString(),
+                        textInputEditTextCompanyContact.text.toString(),
+                        fragmentSignUpInfoBinding.textViewBank.text.toString(),
+                        textInputEditTextCompanyAccount.text.toString(),
+                        textInputEditTextManagerName.text.toString(),
+                        textInputEditTextManagerContact.text.toString(),
+                        textInputEditTextManagerEmail.text.toString(),
+                    )
+                }
+            }
+            textInputEditTextCompanyRegNum.addTextChangedListener(afterTextChangedListener)
+            textInputEditTextOwnerName.addTextChangedListener(afterTextChangedListener)
+            textInputEditTextCompanyName.addTextChangedListener(afterTextChangedListener)
+            textInputEditTextCompanyDesc.addTextChangedListener(afterTextChangedListener)
+            textInputEditTextCompanyAddrs.addTextChangedListener(afterTextChangedListener)
+            textInputEditTextCompanyContact.addTextChangedListener(afterTextChangedListener)
+            textInputEditTextCompanyAccount.addTextChangedListener(afterTextChangedListener)
+            textInputEditTextManagerName.addTextChangedListener(afterTextChangedListener)
+            textInputEditTextManagerContact.addTextChangedListener(afterTextChangedListener)
+            textInputEditTextManagerEmail.addTextChangedListener(afterTextChangedListener)
+            checkBox.setOnCheckedChangeListener { _, b ->
+                if (b) showConsentDialog()
+                else userViewModel.consentChanged(b)
+            }
         }
 
 
+    }
+
+    private fun showConsentDialog() {
+        val builder = MaterialAlertDialogBuilder(requireContext())
+            .setTitle("개인정보 수집이용 약관")
+            .setMessage(R.string.privacy_policy)
+            .setPositiveButton("확인") { _, _ ->
+                fragmentSignUpInfoBinding.checkBox.isChecked = true
+                userViewModel.consentChanged(true)
+            }
+            .setNegativeButton("취소") { _, _ ->
+                fragmentSignUpInfoBinding.checkBox.isChecked = false
+                userViewModel.consentChanged(false)
+            }
+            .setOnCancelListener {
+                fragmentSignUpInfoBinding.checkBox.isChecked = false
+                userViewModel.consentChanged(false)
+            }
+        builder.show()
     }
 
 
