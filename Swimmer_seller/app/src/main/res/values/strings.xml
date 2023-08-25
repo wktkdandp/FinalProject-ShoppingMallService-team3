@@ -255,7 +255,7 @@
     <string name="label_order_receiver_contact">수령인 연락처</string>
     <string name="label_order_shipping_address">배송지</string>
     <string name="label_order_shipping_message">배송메세지</string>
-    <string name="label_shipping_await">배송대기</string>
+    <string name="label_shipping_await">배송준비</string>
     <string name="label_shipping_continue">배송중</string>
     <string name="label_shipping_completed">배송완료</string>
 </resources>
