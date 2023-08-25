@@ -223,11 +223,11 @@ class DeliveryPointManageFragment : Fragment() {
     }
 }
 class DeliveryPointManageModelFactory(private val repository: CustomerUserRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DeliveryPointManageViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return DeliveryPointManageViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(DeliveryPointManageViewModel::class.java)) {
+                    @Suppress("UNCHECKED_CAST")
+                    return DeliveryPointManageViewModel(repository) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

@@ -59,20 +59,8 @@ class DetailAddressFragment : Fragment() {
             val uid = FirebaseAuth.getInstance().currentUser?.uid
             val address = Address(null, arguments?.getString("postcode")?.toLong(), "${binding.textViewApiAddress.text} $detailAddress", name, phone)
 
-            if (!viewModel.isValidName(name)) {
-                showError(binding.textInputLayoutDetailAddressName, binding.textInputEditDetailAddressName, getString(R.string.error_name_required))
-                return@setOnClickListener
-            }
+            if(!validateCheck(name,detailAddress,phone)){return@setOnClickListener}
 
-            if (!viewModel.isValidDetailAddress(detailAddress)) {
-                showError(binding.textInputLayoutDetailAddress, binding.textInputEditDetailAddress, getString(R.string.error_detail_delivery_point_required))
-                return@setOnClickListener
-            }
-
-            if (!viewModel.isValidPhone(phone)) {
-                showError(binding.textInputLayoutDetailAddressPhone, binding.textInputEditDetailAddressPhone, getString(R.string.error_phone_required))
-                return@setOnClickListener
-            }
             if (uid != null) {
                 viewModel.addAddressForUser(uid, address)
             }
@@ -110,6 +98,23 @@ class DetailAddressFragment : Fragment() {
             textInputEditText.text?.clear()
             showKeyboard(textInputEditText)
         }, 2000)
+    }
+    private fun validateCheck(name:String,detailAddress:String,phone:String):Boolean{
+        if (!viewModel.isValidName(name)) {
+            showError(binding.textInputLayoutDetailAddressName, binding.textInputEditDetailAddressName, getString(R.string.error_name_required))
+            return false
+        }
+
+        if (!viewModel.isValidDetailAddress(detailAddress)) {
+            showError(binding.textInputLayoutDetailAddress, binding.textInputEditDetailAddress, getString(R.string.error_detail_delivery_point_required))
+            return false
+        }
+
+        if (!viewModel.isValidPhone(phone)) {
+            showError(binding.textInputLayoutDetailAddressPhone, binding.textInputEditDetailAddressPhone, getString(R.string.error_phone_required))
+            return false
+        }
+        return true
     }
 
     private fun showToast(message: String) {
