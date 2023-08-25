@@ -56,6 +56,7 @@ class HomeFragment : Fragment() {
         orderViewModel.run {
             orderList.observe(viewLifecycleOwner){
                 fragmentHomeBinding.run {
+                    // 주문 상태 건 수 표시
                     textViewPaymentCount.text = it.filter {
                         it.state == OrderState.PAYMENT.code
                     }.size.toString()
@@ -108,7 +109,7 @@ class HomeFragment : Fragment() {
         orderViewModel.getOrderBySellerUid(Firebase.auth.currentUser!!.uid)
         
         // 로그인 판매자가 등록한 상품 개수 표시
-        productViewModel.getAllProductBySellerUid(Firebase.auth.currentUser!!.uid)
+        productViewModel.getProductCount(Firebase.auth.currentUser!!.uid)
 
         return fragmentHomeBinding.root
     }

@@ -43,7 +43,7 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
         }
     }
 
-    // 판매자가 등록한 상품 리스트 가져오기 (데이터 표시용)
+    // 판매자가 등록한 상품 리스트 가져오기 (상품 목록용)
     fun getAllProductBySellerUid(sellerUid: String){
         productRepository.getProductBySellerUid(sellerUid){
             val tempProductList = mutableListOf<Product>()

@@ -15,13 +15,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
+import com.petpal.swimmer_seller.MainActivity
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Image
 import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.data.repository.ProductRepository
+import com.petpal.swimmer_seller.databinding.FragmentMainBinding
 import com.petpal.swimmer_seller.databinding.FragmentProductOptionBinding
 import com.petpal.swimmer_seller.databinding.LayoutBottomSheetOptionBinding
 import com.petpal.swimmer_seller.databinding.RowProductOptionBinding
+import com.petpal.swimmer_seller.ui.main.MainFragment
 
 class ProductOptionFragment : Fragment() {
     private lateinit var productViewModel: ProductViewModel
@@ -111,19 +114,17 @@ class ProductOptionFragment : Fragment() {
             // 상품 등록
             buttonRegisterProduct.setOnClickListener {
                 progressBarOption.visibility = View.VISIBLE
-                // TODO product 객체 받아서 colorList, sizeList 세팅 후 DB 저장
 
+                // 전달받은 product 객체에 colorList, sizeList 정보 세팅
                 product.colorList = productViewModel.colorList.value
                 product.sizeList = productViewModel.sizeList.value
 
                 // 상품 정보 DB 저장
                 productViewModel.addProduct(product)
-
                 // 이미지 업로드
                 productViewModel.uploadImageList(imageArray)
 
-                Snackbar.make(fragmentProductOptionBinding.root, "상품이 등록되었습니다.", Snackbar.LENGTH_SHORT).show()
-                // 홈 화면 전환
+                Snackbar.make(requireView(), "상품이 등록되었습니다.", Snackbar.LENGTH_LONG)
                 findNavController().popBackStack(R.id.item_home, false)
             }
         }

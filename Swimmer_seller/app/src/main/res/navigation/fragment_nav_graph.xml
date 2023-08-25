@@ -71,7 +71,11 @@
         android:id="@+id/item_manage_order"
         android:name="com.petpal.swimmer_seller.ui.order.OrderManageFragment"
         android:label="fragment_order_manage"
-        tools:layout="@layout/fragment_order_manage" />
+        tools:layout="@layout/fragment_order_manage" >
+        <action
+            android:id="@+id/action_item_manage_order_to_item_order_detail"
+            app:destination="@id/item_order_detail" />
+    </fragment>
     <fragment
         android:id="@+id/item_order_detail"
         android:name="com.petpal.swimmer_seller.ui.order.OrderDetailFragment"
@@ -86,10 +90,6 @@
         android:id="@+id/item_product_list"
         android:name="com.petpal.swimmer_seller.ui.product.ProductListFragment"
         android:label="fragment_product_list"
-        tools:layout="@layout/fragment_product_list">
-        <action
-            android:id="@+id/action_item_manage_order_to_item_order_detail"
-            app:destination="@id/item_order_detail" />
-    </fragment>
+        tools:layout="@layout/fragment_product_list"/>
 
 </navigation>

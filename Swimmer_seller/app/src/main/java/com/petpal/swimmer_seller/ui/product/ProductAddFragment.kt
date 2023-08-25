@@ -36,12 +36,15 @@ import com.petpal.swimmer_seller.data.model.Review
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentProductAddBinding
 import com.petpal.swimmer_seller.databinding.LayoutImageviewDeleteBinding
+import com.petpal.swimmer_seller.ui.user.UserViewModel
+import com.petpal.swimmer_seller.ui.user.UserViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class ProductAddFragment : Fragment() {
     lateinit var productViewModel: ProductViewModel
+    lateinit var userViewModel: UserViewModel
 
     private var _fragmentProductAddBinding: FragmentProductAddBinding? = null
     private val fragmentProductAddBinding get() = _fragmentProductAddBinding!!
@@ -70,6 +73,8 @@ class ProductAddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         productViewModel = ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
+        userViewModel = ViewModelProvider(this, UserViewModelFactory())[UserViewModel::class.java]
+        userViewModel.getCurrentSellerInfo()
 
         mainGalleryLauncher = mainImageGallerySetting()
         descGalleryLauncher = descriptionImageGallerySetting()
@@ -228,6 +233,10 @@ class ProductAddFragment : Fragment() {
                     dropdownCategoryMid.text.toString(),
                     dropdownCategorySub.text.toString()
                 )
+                
+                // 로그인 판매자 브랜드 이름
+                val brandName = userViewModel.currentUser.value?.brandName
+                
                 // 상품 식별, 파일명에 사용할 고유 코드
                 val code = System.currentTimeMillis().toString()
 
@@ -252,17 +261,14 @@ class ProductAddFragment : Fragment() {
                     category,
                     mutableListOf<Review>(),
                     0L,
-                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()),
+                    brandName
                 )
-
-                Log.d("hhl", "Product 객체 생성 완료 ${product.name}")
 
                 // DB에 저장할 product, image 리스트 전달
                 val imageArrayList = arrayListOf<Image>()
                 imageArrayList.addAll(mainImageList.map { it.first })
                 imageArrayList.add(descriptionImage!!)
-
-                Log.d("hhl", "ImageArrayList 준비 완료 ${imageArrayList.size}개 이미지 첨부")
 
                 // Safe Args 방식 전달
                 val action = ProductAddFragmentDirections.actionItemProductAddToItemProductOption(product, imageArrayList.toTypedArray())
