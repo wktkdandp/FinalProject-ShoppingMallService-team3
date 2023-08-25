@@ -14,8 +14,8 @@
             android:id="@+id/action_item_home_to_item_product_add"
             app:destination="@id/item_product_add" />
         <action
-            android:id="@+id/action_item_home_to_guideFragment"
-            app:destination="@id/guideFragment" />
+            android:id="@+id/action_item_home_to_item_guide"
+            app:destination="@id/item_guide" />
     </fragment>
 
     <fragment
@@ -24,24 +24,24 @@
         android:label="fragment_product_add"
         tools:layout="@layout/fragment_product_add" >
         <action
-            android:id="@+id/action_item_product_add_to_productOptionFragment"
-            app:destination="@id/productOptionFragment"/>
+            android:id="@+id/action_item_product_add_to_item_product_option"
+            app:destination="@id/item_product_option" />
     </fragment>
     <fragment
-        android:id="@+id/productOptionFragment"
+        android:id="@+id/item_product_option"
         android:name="com.petpal.swimmer_seller.ui.product.ProductOptionFragment"
         android:label="fragment_product_option"
         tools:layout="@layout/fragment_product_option" >
         <argument
-            android:name="Product"
+            android:name="product"
             app:argType="com.petpal.swimmer_seller.data.model.Product" />
         <argument
-            android:name="Image"
+            android:name="imageArray"
             app:argType="com.petpal.swimmer_seller.data.model.Image[]" />
     </fragment>
 
     <fragment
-        android:id="@+id/guideFragment"
+        android:id="@+id/item_guide"
         android:name="com.petpal.swimmer_seller.ui.guide.GuideFragment"
         android:label="fragment_guide"
         tools:layout="@layout/fragment_guide" />
@@ -62,11 +62,19 @@
         <action
             android:id="@+id/action_item_menu_to_item_manage_order"
             app:destination="@id/item_manage_order" />
+        <action
+            android:id="@+id/action_item_menu_to_item_product_list"
+            app:destination="@id/item_product_list" />
     </fragment>
     <fragment
         android:id="@+id/item_manage_order"
         android:name="com.petpal.swimmer_seller.ui.order.OrderManageFragment"
         android:label="fragment_order_manage"
         tools:layout="@layout/fragment_order_manage" />
+    <fragment
+        android:id="@+id/item_product_list"
+        android:name="com.petpal.swimmer_seller.ui.product.ProductListFragment"
+        android:label="fragment_product_list"
+        tools:layout="@layout/fragment_product_list" />
 
 </navigation>

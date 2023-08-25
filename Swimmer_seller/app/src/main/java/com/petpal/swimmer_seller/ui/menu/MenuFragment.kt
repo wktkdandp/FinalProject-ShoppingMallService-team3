@@ -80,6 +80,7 @@ class MenuFragment : Fragment() {
 
             buttonGoToModifyProduct.setOnClickListener {
                 //상품 조회/수정 페이지로 이동
+                findNavController().navigate(R.id.action_item_menu_to_item_product_list)
             }
 
             buttonGoToManageOrder.setOnClickListener {

@@ -25,17 +25,24 @@ import com.petpal.swimmer_seller.databinding.RowProductOptionBinding
 
 class ProductOptionFragment : Fragment() {
     private lateinit var productViewModel: ProductViewModel
-    private lateinit var fragmentProductOptionBinding: FragmentProductOptionBinding
+
+    private var _fragmentProductOptionBinding: FragmentProductOptionBinding? = null
+    private val fragmentProductOptionBinding get() = _fragmentProductOptionBinding!!
 
     lateinit var product: Product
-    lateinit var imageArray: Array<Image>
+    private lateinit var imageArray: Array<Image>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentProductOptionBinding = FragmentProductOptionBinding.inflate(inflater)
-        productViewModel = ViewModelProvider(this, ProductViewModelFactory(ProductRepository()))[ProductViewModel::class.java]
+        _fragmentProductOptionBinding = FragmentProductOptionBinding.inflate(inflater)
+        productViewModel = ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
+
+        // 이전 프래그먼트에서 전달받은 값
+        val args = ProductOptionFragmentArgs.fromBundle(requireArguments())
+        product = args.product
+        imageArray = args.imageArray
 
         fragmentProductOptionBinding.run {
             textViewOptionGuide.visibility = View.VISIBLE
@@ -47,13 +54,6 @@ class ProductOptionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.d("hhl", "ProductOptionFragment onViewCreated()")
-        val args = ProductOptionFragmentArgs.fromBundle(requireArguments())
-        product = args.Product
-        imageArray = args.Image
-        Log.d("hhl", product.name.toString())
-        Log.d("hhl", imageArray.first().fileName.toString())
 
         fragmentProductOptionBinding.run {
             productViewModel.run {
