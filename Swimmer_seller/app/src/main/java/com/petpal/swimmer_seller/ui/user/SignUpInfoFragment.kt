@@ -9,8 +9,6 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Seller
 import com.petpal.swimmer_seller.databinding.FragmentSignUpInfoBinding
@@ -41,15 +39,19 @@ class SignUpInfoFragment : Fragment() {
         email = arguments?.getString("email")!!
         password = arguments?.getString("password")!!
 
-        val textInputEditTextCompanyRegNum = fragmentSignUpInfoBinding.textInputEditTextCompanyRegNum
+        val textInputEditTextCompanyRegNum =
+            fragmentSignUpInfoBinding.textInputEditTextCompanyRegNum
         val textInputEditTextOwnerName = fragmentSignUpInfoBinding.textInputEditTextOwnerName
         val textInputEditTextCompanyName = fragmentSignUpInfoBinding.textInputEditTextCompanyName
         val textInputEditTextCompanyDesc = fragmentSignUpInfoBinding.textInputEditTextCompanyDesc
         val textInputEditTextCompanyAddrs = fragmentSignUpInfoBinding.textInputEditTextCompanyAddrs
-        val textInputEditTextCompanyContact = fragmentSignUpInfoBinding.textInputEditTextCompanyContact
-        val textInputEditTextCompanyAccount = fragmentSignUpInfoBinding.textInputEditTextCompanyAccount
+        val textInputEditTextCompanyContact =
+            fragmentSignUpInfoBinding.textInputEditTextCompanyContact
+        val textInputEditTextCompanyAccount =
+            fragmentSignUpInfoBinding.textInputEditTextCompanyAccount
         val textInputEditTextManagerName = fragmentSignUpInfoBinding.textInputEditTextManagerName
-        val textInputEditTextManagerContact = fragmentSignUpInfoBinding.textInputEditTextManagerContact
+        val textInputEditTextManagerContact =
+            fragmentSignUpInfoBinding.textInputEditTextManagerContact
         val textInputEditTextManagerEmail = fragmentSignUpInfoBinding.textInputEditTextManagerEmail
 
         userViewModel.run {
@@ -95,7 +97,7 @@ class SignUpInfoFragment : Fragment() {
 
                 val seller = Seller(
                     email,
-                    Firebase.auth.currentUser!!.uid,
+                    "",
                     textInputEditTextCompanyRegNum.text.toString(),
                     textInputEditTextOwnerName.text.toString(),
                     textInputEditTextCompanyName.text.toString(),
@@ -106,7 +108,7 @@ class SignUpInfoFragment : Fragment() {
                     textInputEditTextCompanyAccount.text.toString(),
                     textInputEditTextManagerName.text.toString(),
                     textInputEditTextManagerContact.text.toString(),
-                    textInputEditTextManagerEmail.text.toString()+"@"+textViewManagerEmailDomain.text.toString()
+                    textInputEditTextManagerEmail.text.toString() + "@" + textViewManagerEmailDomain.text.toString()
                 )
 
                 //회원가입 하기

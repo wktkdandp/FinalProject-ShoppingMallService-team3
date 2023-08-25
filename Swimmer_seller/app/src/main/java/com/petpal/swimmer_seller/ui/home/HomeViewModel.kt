@@ -2,9 +2,8 @@ package com.petpal.swimmer_seller.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.petpal.swimmer_seller.data.model.Address
-import com.petpal.swimmer_seller.data.model.Item
 import com.petpal.swimmer_seller.data.model.Order
+import com.petpal.swimmer_seller.data.model.OrderState
 import com.petpal.swimmer_seller.data.repository.OrderRepository
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 
@@ -60,6 +59,7 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
             orderCount.value = orderList.count().toLong()
 
             // 주문상태 주문 건 수
+            //TODO: str을 code로 바꾸기
             paymentCount.value = orderList.count { it.state == OrderState.PAYMENT.code }.toLong()
             readyCount.value = orderList.count { it.state == OrderState.READY.code}.toLong()
             deliveryCount.value = orderList.count { it.state == OrderState.DELIVERY.code }.toLong()
@@ -70,16 +70,5 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
             refundCount.value = orderList.count { it.state == OrderState.REFUND.code }.toLong()
         }
     }
-}
-
-// 주문상태
-enum class OrderState(val code: Long, val str: String){
-    PAYMENT(1, "결제완료"),
-    READY(2, "배송준비"),
-    DELIVERY(3, "배송중"),
-    COMPLETE(4, "배송완료"),
-    CANCEL(5, "취소"),
-    EXCHANGE(6, "교환"),
-    REFUND(7, "환불")
 }
 

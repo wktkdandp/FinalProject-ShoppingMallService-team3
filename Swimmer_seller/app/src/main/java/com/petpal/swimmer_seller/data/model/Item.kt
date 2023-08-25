@@ -1,6 +1,10 @@
 package com.petpal.swimmer_seller.data.model
 
-data class Item (
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class Item(
     var productUid: String,
     //TODO Long으로 바꾸기
     var size: String,
@@ -11,5 +15,5 @@ data class Item (
     var name: String,
     var mainImage: String,
     var price: Long,
-)
+) : Parcelable
 

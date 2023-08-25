@@ -53,15 +53,13 @@ class OrderRepository {
                             orderSnapshot.key as String,
                             orderData["orderDate"] as String,
                             orderData["message"] as String,
-                            //TODO: 나중에 Long으로 바꾸기
-                            orderData["state"] as String,
+                            orderData["state"] as Long,
                             //TODO: 나중에 Address으로 바꾸기
                             orderData["address"] as String,
                             itemList,
                             orderData["couponUid"] as String,
                             orderData["usePoint"] as Long,
-                            //TODO: 나중에 Long으로 바꾸기
-                            orderData["payMethod"] as String,
+                            orderData["payMethod"] as Long,
                             orderData["totalPrice"] as Long
                         )
                         Log.d("order myOrder", order.toString())
