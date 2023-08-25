@@ -9,6 +9,8 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Seller
 import com.petpal.swimmer_seller.databinding.FragmentSignUpInfoBinding
@@ -93,6 +95,7 @@ class SignUpInfoFragment : Fragment() {
 
                 val seller = Seller(
                     email,
+                    Firebase.auth.currentUser!!.uid,
                     textInputEditTextCompanyRegNum.text.toString(),
                     textInputEditTextOwnerName.text.toString(),
                     textInputEditTextCompanyName.text.toString(),

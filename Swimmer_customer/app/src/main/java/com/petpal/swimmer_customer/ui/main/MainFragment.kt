@@ -22,9 +22,19 @@ class MainFragment : Fragment() {
     ): View? {
         fragmentMainBinding = FragmentMainBinding.inflate(layoutInflater)
 
-        val navHostFragment =
-            childFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHostFragment = childFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.LoginFragment, R.id.RegisterFragment, R.id.FindInfoFragment -> {
+                    fragmentMainBinding.bottomNavigation.visibility = View.GONE
+                }
+                else -> {
+                    fragmentMainBinding.bottomNavigation.visibility = View.VISIBLE
+                }
+            }
+        }
 
         fragmentMainBinding.bottomNavigation.run {
             setupWithNavController(navController)

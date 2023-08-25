@@ -21,6 +21,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import com.petpal.swimmer_customer.data.model.ProductDetailModel
+import com.petpal.swimmer_customer.ui.product.ProductDetailAdapter
+import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.petpal.swimmer_customer.ui.main.MainFragmentDirections
 
 
 class HomeFragment : Fragment() {
@@ -36,6 +42,7 @@ class HomeFragment : Fragment() {
     ): View? {
 
         fragmentHomeFragmentBinding = FragmentHomeBinding.inflate(inflater)
+        Log.d("uid",FirebaseAuth.getInstance().currentUser?.uid!!)
         viewModel = ViewModelProvider(this)[HomeFragmentViewModel::class.java]
         viewModel.setProductDetail(HomeFragmentItemList)
 
