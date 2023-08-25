@@ -5,7 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.product.ProductAddFragment" >
+    tools:context=".ui.product.ProductAddFragment">
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarProductAdd"
@@ -19,17 +26,11 @@
         app:title="@string/prompt_add_product_title"
         app:titleTextColor="@color/white" />
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progressBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="gone"/>
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +42,8 @@
                 android:id="@+id/textViewMainImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/prompt_main_image" />
+                android:text="@string/prompt_main_image"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,19 +57,25 @@
                     style="@style/Widget.Material3.Button.IconButton.Outlined"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:layout_marginRight="5dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
                     android:text="@string/prompt_main_image_count"
                     app:cornerRadius="5dp"
                     app:icon="@drawable/add_photo_alternate_24px"
                     app:iconGravity="textTop"
                     app:iconPadding="5dp" />
 
-                <ImageView
-                    android:id="@+id/imageViewMain"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:adjustViewBounds="true"
-                    android:cropToPadding="false"
-                    android:scaleType="fitXY" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewMainImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal">
+
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
 
@@ -144,22 +152,51 @@
                     app:simpleItems="@array/categorySub1_1" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutTag"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="@string/prompt_hashtag"
-                android:transitionGroup="true"
-                app:endIconMode="clear_text"
-                app:errorEnabled="false">
+                android:gravity="top"
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_input_edit_text_hash_tag"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutTag"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:hint="@string/prompt_hashtag"
+                    android:transitionGroup="true"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="false"
+                    app:helperText="@string/prompt_hashtag_helper"
+                    app:helperTextEnabled="true"
+                    app:helperTextTextColor="@color/md_theme_light_secondary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditTextHashTag"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/buttonAddHashTag"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="65dp"
+                    android:text="추가"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    app:cornerRadius="5dp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupHashTag"
+                style="@style/Widget.Material3.ChipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutPrice"
@@ -200,9 +237,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/prompt_description_image" />
+                android:text="@string/prompt_description_image"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <LinearLayout
+                android:id="@+id/linearDescriptionImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
@@ -214,42 +253,17 @@
                     style="@style/Widget.Material3.Button.IconButton.Outlined"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:layout_marginRight="5dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
                     android:text="@string/prompt_description_image_count"
                     app:cornerRadius="5dp"
                     app:icon="@drawable/add_photo_alternate_24px"
                     app:iconGravity="textTop"
                     app:iconPadding="5dp" />
 
-                <ImageView
-                    android:id="@+id/imageViewDescription"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <Button
-                    android:id="@+id/buttonCancel"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:text="@string/action_cancel" />
-
-                <Button
-                    android:id="@+id/buttonOK"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/action_register" />
             </LinearLayout>
 
             <!--
@@ -264,5 +278,30 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layoutButtom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/buttonCancel"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:text="@string/action_cancel" />
+
+        <Button
+            android:id="@+id/buttonOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/action_register" />
+
+    </LinearLayout>
 
 </LinearLayout>

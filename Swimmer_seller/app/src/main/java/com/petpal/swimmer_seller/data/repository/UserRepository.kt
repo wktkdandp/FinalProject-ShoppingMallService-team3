@@ -1,5 +1,6 @@
 package com.petpal.swimmer_seller.data.repository
 
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.ktx.auth
@@ -58,6 +59,13 @@ class UserRepository {
     fun findEmail(name: String, phone: String, callback: (Task<DataSnapshot>) -> Unit) {
         //db에서 name과 phone번호 둘다 일치하는 user의 email을 가지고 온다
         sellerDatabase.orderByChild("contactPhoneNumber").equalTo(phone).get().addOnCompleteListener(callback)
+    }
+
+    fun getCurrentSellerInfo(callback: (Task<DataSnapshot>) -> Unit) {
+        //현재 user의 email정보를 sellers db에서 찾아서 그 정보 가져오기
+        val currentUserEmail = auth.currentUser!!.email
+        Log.d("currentUser", currentUserEmail!!)
+        sellerDatabase.orderByChild("email").equalTo(currentUserEmail).get().addOnCompleteListener(callback)
     }
 }
 
