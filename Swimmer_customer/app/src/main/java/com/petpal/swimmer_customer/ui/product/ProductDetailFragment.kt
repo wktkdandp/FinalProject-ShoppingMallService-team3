@@ -75,7 +75,8 @@ class ProductDetailFragment : Fragment() {
             favorite()
             initViewPager2()
 
-            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            val bottomNavigationView =
+                requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
             bottomNavigationView.visibility = View.GONE
 
             paymentButtonBottomSheet()
@@ -103,9 +104,9 @@ class ProductDetailFragment : Fragment() {
             }
 
             viewPagerAdapter.submitList(imageList)
-            var categoryText ="${productList[args.idx].category.main} > ${productList[args.idx].category.mid} > ${productList[args.idx].category.sub}"
+
             viewModel.rankingText(
-                categoryText,
+                productList[args.idx].brandName,
                 productList[args.idx].name,
                 productList[args.idx].price
             )

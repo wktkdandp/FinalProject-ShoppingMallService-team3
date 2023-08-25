@@ -23,9 +23,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="70dp"
-                android:layout_height="match_parent">
+                android:orientation="vertical">
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/productDetailViewPager2"
@@ -96,17 +96,27 @@
                         </FrameLayout>
 
                         <TextView
-                            android:id="@+id/categoryTextView"
+                            android:id="@+id/brandTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
-                            android:text="@{vm.rankingCategory}"
+                            android:text="@{vm.rankingBrand}"
                             android:textColor="@color/gray_8A"
                             android:textSize="13sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="@id/viewPager2Container"
                             app:layout_constraintTop_toBottomOf="@id/viewPager2Container" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:backgroundTint="@color/gray_8A"
+                            android:background="@drawable/baseline_arrow_forward_ios_24"
+                            app:layout_constraintBottom_toBottomOf="@id/brandTextView"
+                            app:layout_constraintStart_toEndOf="@id/brandTextView"
+                            app:layout_constraintTop_toTopOf="@id/brandTextView" />
+
 
                         <TextView
                             android:id="@+id/itemTitleTextView"
@@ -117,7 +127,7 @@
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             app:layout_constraintStart_toStartOf="@id/viewPager2Container"
-                            app:layout_constraintTop_toBottomOf="@id/categoryTextView" />
+                            app:layout_constraintTop_toBottomOf="@id/brandTextView" />
 
                         <TextView
                             android:id="@+id/priceTextView"
@@ -158,9 +168,9 @@
 
                                 <com.google.android.material.chip.ChipGroup
                                     android:id="@+id/hashTagChipGroup"
-                                    app:chipSpacingHorizontal="3dp"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="35dp">
+                                    android:layout_height="35dp"
+                                    app:chipSpacingHorizontal="3dp">
 
                                 </com.google.android.material.chip.ChipGroup>
                             </LinearLayout>

@@ -14,7 +14,7 @@ class ProductViewModel() : ViewModel() {
 
     private val _productDetail: MutableLiveData<List<Product>> = MutableLiveData()
     private var _productDetailImage: MutableLiveData<String> = MutableLiveData()
-    private var _rankingCategory: MutableLiveData<String> = MutableLiveData()
+    private var _rankingBrand: MutableLiveData<String> = MutableLiveData()
     private var _rankingTitle: MutableLiveData<String> = MutableLiveData()
     private var _rankingPrice: MutableLiveData<Int> = MutableLiveData()
     private var _bottomSheetItemCountTextView: MutableLiveData<Int> = MutableLiveData(1)
@@ -28,8 +28,8 @@ class ProductViewModel() : ViewModel() {
     val productDetailImage: LiveData<String>
         get() = _productDetailImage
 
-    val rankingCategory: LiveData<String>
-        get() = _rankingCategory
+    val rankingBrand: LiveData<String>
+        get() = _rankingBrand
     val rankingTitle: LiveData<String>
         get() = _rankingTitle
 
@@ -60,7 +60,7 @@ class ProductViewModel() : ViewModel() {
     }
 
     fun rankingText(brandText: String, titleText: String, priceText: Int) {
-        _rankingCategory.value = brandText
+        _rankingBrand.value = brandText
         _rankingTitle.value = titleText
         _rankingPrice.value = priceText
     }
