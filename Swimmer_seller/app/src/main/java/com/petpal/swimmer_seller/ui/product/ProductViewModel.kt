@@ -15,8 +15,8 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
     private val _productCount = MutableLiveData<Long>()
     val productCount: LiveData<Long> = _productCount
 
-    private val _product = MutableLiveData<Product>()
-    val currentProduct: LiveData<Product> = _product
+    private val _currentProduct = MutableLiveData<Product>()
+    val currentProduct: LiveData<Product> = _currentProduct
 
     private val _sizeList = MutableLiveData<MutableList<String>>()
     val sizeList: LiveData<MutableList<String>> = _sizeList
@@ -31,13 +31,19 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
         _colorList.value = mutableListOf()
     }
 
+    // 상품 정보 가져오기 (상품 상세, 수정용)
     fun getProduct(productUid: String){
         productRepository.getProductByProductUid(productUid){
-
+            if (it.result.exists()) {
+                val product = it.result.getValue(Product::class.java)
+                if (product != null) {
+                    _currentProduct.value = product!!
+                }
+            }
         }
     }
 
-    // 판매자가 등록한 상품 리스트 (데이터 표시용)
+    // 판매자가 등록한 상품 리스트 가져오기 (데이터 표시용)
     fun getAllProductBySellerUid(sellerUid: String){
         productRepository.getProductBySellerUid(sellerUid){
             val tempProductList = mutableListOf<Product>()
@@ -87,11 +93,13 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
         productRepository.addProduct(product) {}
     }
 
+    // Storage 이미지 업로드
     fun uploadImage(image: Image) {
         val uri = Uri.parse(image.uriString)
         productRepository.uploadImage(uri, image.fileName!!) {}
     }
 
+    // Storage 이미지 여러 개 업로드
     fun uploadImageList(images: Array<Image>) {
         for (image in images) {
             val uri = Uri.parse(image.uriString)

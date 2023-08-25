@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.databinding.FragmentProductListBinding
 import com.petpal.swimmer_seller.databinding.RowProductBinding
@@ -34,6 +37,12 @@ class ProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        productViewModel.run {
+            productList.observe(viewLifecycleOwner){
+                fragmentProductListBinding.recyclerViewProductList.adapter?.notifyDataSetChanged()
+            }
+        }
+
         fragmentProductListBinding.run {
             toolbarProductList.setNavigationOnClickListener {
                 findNavController().popBackStack()
@@ -44,12 +53,9 @@ class ProductListFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
             }
-
-            // 필터링, 정렬 드롭다운 초기화
-            val defaultFilter = resources.getStringArray(R.array.categoryMain)[0]
-            autoTextViewFilter.setText(defaultFilter)
-
         }
+
+        productViewModel.getAllProductBySellerUid(Firebase.auth.currentUser!!.uid)
     }
 
     inner class ProductRecyclerViewAdapter: Adapter<ProductRecyclerViewAdapter.ProductViewHolder>() {
@@ -61,8 +67,7 @@ class ProductListFragment : Fragment() {
             val textViewProductPrice = rowProductBinding.textViewProductPrice
 
             init {
-                // TODO 슬라이드하면 수정 버튼 표시 (일단 수정 기능x)
-
+                // TODO 슬라이드하면 수정 버튼 표시 (수정 기능 X)
             }
         }
 
@@ -88,7 +93,7 @@ class ProductListFragment : Fragment() {
             val category = product.category!!
 
             holder.textViewProductName.text = product.name
-            holder.textViewProductCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(", ")
+            holder.textViewProductCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
             holder.textViewProductHashTag.text = product.hashTag?.joinToString(" ") { "#$it" }
             holder.textViewProductPrice.text = "등록 가격 : ${product.price}원"
             holder.textViewProductRegDate.text = "등록일 : ${product.regDate}"
