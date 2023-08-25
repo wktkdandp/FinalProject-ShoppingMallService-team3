@@ -37,8 +37,9 @@ class UserRepository {
         }
     }
 
+    //current User의 uid를 key로 저장
     fun addSeller(seller: Seller, callback: (Task<Void>) -> Unit) {
-        sellerDatabase.push().setValue(seller).addOnCompleteListener(callback)
+        sellerDatabase.child(seller.sellerAuthUid).setValue(seller).addOnCompleteListener(callback)
     }
 
     fun sendPasswordResetEmail(email: String, callback: (Task<Void>) -> Unit) {

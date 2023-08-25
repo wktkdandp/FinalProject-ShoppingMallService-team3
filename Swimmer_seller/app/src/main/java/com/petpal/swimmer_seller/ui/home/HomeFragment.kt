@@ -88,8 +88,7 @@ class HomeFragment : Fragment() {
                 // 판매자 가이드 화면으로 이동
                 findNavController().navigate(R.id.action_item_home_to_item_guide)
             }
-
-            // 로그아웃 버튼이 안보여서 일단 주석처리해둘게요
+            // 홈 화면에 로그아웃 버튼 위젯이 안보여서 일단 주석처리 해둘게요
 //            buttonLogout.setOnClickListener {
 //                userViewModel.logOut()
 //                //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
