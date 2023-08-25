@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_mainFragment_to_loginFragment"
             app:destination="@id/LoginFragment" />
+        <action
+            android:id="@+id/action_MainFragment_to_item_home"
+            app:destination="@id/item_home" />
     </fragment>
 
     <fragment
@@ -24,10 +27,18 @@
 
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/RegisterFragment" />
+            app:destination="@id/RegisterFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_loginFragment_to_findInfoFragment"
-            app:destination="@id/FindInfoFragment" />
+            app:destination="@id/FindInfoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/MainFragment" />
@@ -38,6 +49,9 @@
         android:name="com.petpal.swimmer_customer.ui.register.RegisterFragment"
         android:label="register_fragment"
         tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_RegisterFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/DeliveryPointManageFragment"
@@ -45,6 +59,9 @@
         android:label="deliverypointmanage_fragment"
         tools:layout="@layout/fragment_delivery_point_manage">
 
+        <action
+            android:id="@+id/action_DeliveryPointManageFragment_to_item_mypage"
+            app:destination="@id/item_mypage" />
     </fragment>
     <fragment
         android:id="@+id/DetailAddressFragment"
@@ -88,7 +105,12 @@
 
         <action
             android:id="@+id/action_findInfoFragment_to_LoginFragment"
-            app:destination="@id/LoginFragment" />
+            app:destination="@id/LoginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+             />
     </fragment>
 
     <!-- Original fragments and actions from fragment_nav_graph.xml -->
