@@ -3,18 +3,26 @@ package com.petpal.swimmer_customer.ui.product
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.petpal.swimmer_customer.data.model.Ranking
+import androidx.lifecycle.map
+
+import com.petpal.swimmer_customer.data.model.Product
+import java.text.NumberFormat
+import java.util.Locale
 
 
 class ProductViewModel() : ViewModel() {
 
-    private val _productDetail: MutableLiveData<List<Ranking>> = MutableLiveData()
+    private val _productDetail: MutableLiveData<List<Product>> = MutableLiveData()
     private var _productDetailImage: MutableLiveData<String> = MutableLiveData()
     private var _rankingBrand: MutableLiveData<String> = MutableLiveData()
     private var _rankingTitle: MutableLiveData<String> = MutableLiveData()
-    private var _rankingPrice: MutableLiveData<String> = MutableLiveData()
+    private var _rankingPrice: MutableLiveData<Int> = MutableLiveData()
+    private var _bottomSheetItemCountTextView: MutableLiveData<Int> = MutableLiveData(1)
 
-    val productDetail: LiveData<List<Ranking>>
+    private var _sizePosition: MutableLiveData<Int> = MutableLiveData()
+    private var _colorPosition: MutableLiveData<Int> = MutableLiveData()
+    private val _isButtonEnabled: MutableLiveData<Boolean> = MutableLiveData()
+    val productDetail: LiveData<List<Product>>
         get() = _productDetail
 
     val productDetailImage: LiveData<String>
@@ -25,27 +33,62 @@ class ProductViewModel() : ViewModel() {
     val rankingTitle: LiveData<String>
         get() = _rankingTitle
 
-    val rankingPrice: LiveData<String>
-        get() = _rankingPrice
+    val rankingPrice: LiveData<String> = _rankingPrice.map {
 
-    fun setProductDetailRanking(exList: List<Ranking>) {
-        _productDetail.value = exList
+        val formattedPrice = NumberFormat.getNumberInstance(Locale.getDefault()).format(it)
+        "$formattedPrice 원"
+    }
+
+    val bottomSheetItemCountTextView: LiveData<Int>
+        get() = _bottomSheetItemCountTextView
+
+    val sizePosition: LiveData<Int>
+        get() = _sizePosition
+
+    val colorPosition: LiveData<Int>
+        get() = _colorPosition
+
+    val isButtonEnabled: LiveData<Boolean>
+        get() = _isButtonEnabled
+
+    fun setProductDetailRanking(productList: List<Product>) {
+        _productDetail.value = productList
     }
 
     fun productDetailImageUri(imageUrl: String) {
         _productDetailImage.value = imageUrl
     }
 
-    fun rankingText(brandText: String, titleText: String, priceText: String) {
+    fun rankingText(brandText: String, titleText: String, priceText: Int) {
         _rankingBrand.value = brandText
         _rankingTitle.value = titleText
         _rankingPrice.value = priceText
     }
 
+    fun bottomSheetItemCountTextViewPlus() {
+        _bottomSheetItemCountTextView.value = _bottomSheetItemCountTextView.value?.plus(1)
+    }
 
-//    // 상품 목록을 가져온다.
-//    fun getProductByIdx(productIdx:Long):LiveData<Product>{
-//
-//    }
+    fun bottomSheetItemCountTextViewMinus() {
+        _bottomSheetItemCountTextView.value = _bottomSheetItemCountTextView.value?.minus(1)
+    }
+
+    fun setSize(size: Int) {
+        _sizePosition.value = size
+        updateButtonState()
+    }
+
+    fun setColor(color: Int) {
+        _colorPosition.value = color
+        updateButtonState()
+    }
+
+
+    private fun updateButtonState() {
+        val isSizeZero = _sizePosition.value == 0
+        val isColorZero = _colorPosition.value == 0
+
+        _isButtonEnabled.value = !isSizeZero && !isColorZero
+    }
 
 }

@@ -134,6 +134,9 @@
     <string name="review_item_custom_info">맞춤 정보</string>
     <string name="review_item_selection_option">선택옵션</string>
     <string name="review_item_item_evaluation">상품평</string>
+    <string name="payment_button_bottom_sheet_spinner">옵션을 선택해주세요.</string>
+    <string name="payment_button_bottom_sheet_total_amount">총 금액 : </string>
+    <string name="payment_button_bottom_sheet_payment_button">바로 결제</string>
 
 
     <!--이 문자열 너무 길어서 맨 밑으로 빼주세요 -->
