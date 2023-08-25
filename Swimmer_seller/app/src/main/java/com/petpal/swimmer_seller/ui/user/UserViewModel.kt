@@ -218,7 +218,6 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
             if (it.result.exists()) {
                 for (snapShot in it.result.children) {
                     val email = snapShot.child("email").value as String
-                    val sellerAuthUid = snapShot.child("sellerAuthUid").value as String
                     val businessRegNumber = snapShot.child("businessRegNumber").value as String
                     val representName = snapShot.child("representName").value as String
                     val brandName = snapShot.child("brandName").value as String
