@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.petpal.swimmer_seller.data.model.Item
 import com.petpal.swimmer_seller.data.model.Order
 import com.petpal.swimmer_seller.data.model.getOrderState
 import com.petpal.swimmer_seller.databinding.FragmentOrderDetailBinding
@@ -25,7 +26,7 @@ class OrderDetailFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val fragmentOrderDetailBinding get() = _fragmentOrderDetailBinding!!
-    private lateinit var order: Order
+    private var orderIdx: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,11 +35,7 @@ class OrderDetailFragment : Fragment() {
         _fragmentOrderDetailBinding = FragmentOrderDetailBinding.inflate(layoutInflater)
 
         //argument로 넘어온 order 받아오기
-        order = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable("order", Order::class.java)!!
-        } else {
-            arguments?.getParcelable("order")!!
-        }
+        orderIdx = arguments?.getInt("orderIdx",-1)!!
 
         return fragmentOrderDetailBinding.root
     }
@@ -47,6 +44,7 @@ class OrderDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         orderViewModel =
             ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
+        orderViewModel.setOrderWithIdx(orderIdx)
 
         fragmentOrderDetailBinding.run {
             reyclerViewOrderProductList.run {
@@ -63,25 +61,43 @@ class OrderDetailFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
-            textViewOrderState2.text = getOrderState(order.state).str
-            textViewOrderUid.text = order.orderUid
-            textViewOrderDate.text = order.orderDate
-            //TODO: UserID 도 필요
-//            textViewOrderUserId.text = order.userUid
-            //TODO: UserID로 userContact도 필요
-//            textViewOrderUserContact.text = order.userContact
-            textViewOrderTotalCount.text = "${order.itemList.size}개"
-            textViewOrderTotalPrice.text = "${orderViewModel.calculateTotalPrice(order.itemList)}원"
-            //TODO: 수령인도 필요 or userId로 userName으로 대체
-//            textViewOrderReceiver.text = order.receiver
-//            textViewOrderReceiverContact.text = order.receiverContact
-            //TODO: Address 클래스로 변경 필요
-            textViewOrderShippingPostCode.text = order.address
-            textViewOrderShippingAddress1.text = order.address
-            textViewOrderShippingAddress2.text = order.address
-            textViewOrderShippingMessage.text = order.message
+
         }
 
+        orderViewModel.run {
+            order.observe(viewLifecycleOwner) {
+                fragmentOrderDetailBinding.run {
+                    textViewOrderState2.text = getOrderState(it.state).str
+                    textViewOrderUid.text = it.orderUid
+                    textViewOrderDate.text = it.orderDate
+                    //TODO: UserID 도 필요
+//            textViewOrderUserId.text = it.userUid
+                    //TODO: UserID로 userContact도 필요
+//            textViewOrderUserContact.text = it.userContact
+                    textViewOrderTotalCount.text = "${it.itemList.size}개"
+                    textViewOrderTotalPrice.text = "${calculateTotalPrice(it.itemList)}원"
+                    //TODO: 수령인도 필요 or userId로 userName으로 대체
+//            textViewOrderReceiver.text = it.receiver
+//            textViewOrderReceiverContact.text = order.receiverContact
+                    //TODO: Address 클래스로 변경 필요
+                    textViewOrderShippingPostCode.text = it.address
+                    textViewOrderShippingAddress1.text = it.address
+                    textViewOrderShippingAddress2.text = it.address
+                    textViewOrderShippingMessage.text = it.message
+                }
+            }
+        }
+
+    }
+
+    private fun calculateTotalPrice(itemList: List<Item>): Long {
+        var totalPrice = 0L
+
+        for (item in itemList) {
+            totalPrice += item.price * item.quantity
+        }
+
+        return totalPrice
     }
 
     inner class OrderItemRecyclerViewAdapter :
@@ -105,17 +121,19 @@ class OrderDetailFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return order.itemList.size
+            return orderViewModel.order.value!!.itemList.size
         }
 
         override fun onBindViewHolder(holder: OrderItemViewHolder, position: Int) {
-            holder.textViewOrderProductUid.text = order.itemList[position].productUid
-            holder.textViewOrderProductCount.text = "${order.itemList[position].quantity}개"
-            holder.textViewOrderProductName.text = order.itemList[position].name
-            holder.textViewOrderProductOption.text = "${order.itemList[position].color}, ${order.itemList[position].size}"
-            holder.textViewOrderProductPrice.text = "${order.itemList[position].price}원"
+            holder.textViewOrderProductUid.text = orderViewModel.order.value!!.itemList[position].productUid
+            holder.textViewOrderProductCount.text = "${orderViewModel.order.value!!.itemList[position].quantity}개"
+            holder.textViewOrderProductName.text = orderViewModel.order.value!!.itemList[position].name
+            holder.textViewOrderProductOption.text = "${orderViewModel.order.value!!.itemList[position].color}, ${orderViewModel.order.value!!.itemList[position].size}"
+            holder.textViewOrderProductPrice.text = "${orderViewModel.order.value!!.itemList[position].price}원"
 
         }
     }
+
+
 
 }

@@ -128,10 +128,11 @@ class OrderManageFragment : Fragment() {
                 rowOrderBinding.root.setOnClickListener {
                     //해당 주문 상세 페이지로 이동
                     //order객체 넘겨줌
+                    //TODO: 인덱스만 넘겨주기
                     val bundle = bundleOf()
-                    bundle.putParcelable(
-                        "order",
-                        orderViewModel.orderList.value!![adapterPosition]
+                    bundle.putInt(
+                        "orderIdx",
+                        adapterPosition
                     )
                     findNavController().navigate(R.id.action_item_manage_order_to_item_order_detail, bundle)
                 }

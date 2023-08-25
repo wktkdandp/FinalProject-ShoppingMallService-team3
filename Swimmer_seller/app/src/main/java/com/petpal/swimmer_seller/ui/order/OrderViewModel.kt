@@ -12,12 +12,15 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
     private val _orderList = MutableLiveData<List<Order>>()
     val orderList: LiveData<List<Order>> = _orderList
 
+    private val _order = MutableLiveData<Order>()
+    val order: LiveData<Order> = _order
+
     init {
         _orderList.value = mutableListOf()
     }
 
 
-    fun getOrderDetailByIdx(orderIdx:Long) {
+    fun getOrderDetailByIdx(orderIdx: Long) {
 
     }
 
@@ -28,13 +31,8 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         }
     }
 
-    fun calculateTotalPrice(itemList: List<Item>): Long {
-        var totalPrice = 0L
 
-        for (item in itemList) {
-            totalPrice += item.price * item.quantity
-        }
-
-        return totalPrice
+    fun setOrderWithIdx(orderIdx: Int){
+        _order.postValue(orderList.value!![orderIdx])
     }
 }
