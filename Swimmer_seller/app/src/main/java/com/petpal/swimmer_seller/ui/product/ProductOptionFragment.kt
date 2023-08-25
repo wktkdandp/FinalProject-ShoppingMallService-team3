@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -124,7 +125,7 @@ class ProductOptionFragment : Fragment() {
                 // 이미지 업로드
                 productViewModel.uploadImageList(imageArray)
 
-                Snackbar.make(requireView(), "상품이 등록되었습니다.", Snackbar.LENGTH_LONG)
+                Toast.makeText(context, "상품이 등록 되었습니다", Toast.LENGTH_LONG).show()
                 findNavController().popBackStack(R.id.item_home, false)
             }
         }

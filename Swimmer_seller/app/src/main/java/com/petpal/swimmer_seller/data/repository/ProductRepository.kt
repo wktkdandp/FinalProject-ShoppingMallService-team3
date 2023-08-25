@@ -71,14 +71,13 @@ class ProductRepository {
     }
 
     // 특정 파일명으로 이미지 업로드
-    fun uploadImage(uploadUri: Uri, fileName: String, callback: (Task<UploadTask.TaskSnapshot>) -> Unit) {
-        val imageRef = storage.reference.child(fileName)
+    fun uploadImage(uploadUri: Uri, storagePath: String, callback: (Task<UploadTask.TaskSnapshot>) -> Unit) {
+        val imageRef = storage.reference.child(storagePath)
         imageRef.putFile(uploadUri).addOnCompleteListener(callback)
     }
 
     // 특정 파일명의 이미지 다운로드
-    fun downloadImage(fileName: String, callback: (Task<Uri>) -> Unit) {
-        val imageRef = storage.reference.child(fileName)
-        imageRef.downloadUrl.addOnCompleteListener(callback)
+    fun downloadImage(storagePath: String, callback: (Task<Uri>) -> Unit) {
+        storage.reference.child(storagePath).downloadUrl.addOnCompleteListener(callback)
     }
 }

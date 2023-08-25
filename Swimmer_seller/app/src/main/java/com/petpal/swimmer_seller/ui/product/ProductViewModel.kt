@@ -1,9 +1,13 @@
 package com.petpal.swimmer_seller.ui.product
 
 import android.net.Uri
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bumptech.glide.Glide
+import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Image
 import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.data.repository.ProductRepository
@@ -104,6 +108,22 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
         for (image in images) {
             val uri = Uri.parse(image.uriString)
             productRepository.uploadImage(uri, image.fileName!!) {}
+        }
+    }
+
+    // Storage 이미지 ImageView에 매칭 (Glide 라이브러리)
+    fun loadAndDisplayImage(storagePath: String, imageView: ImageView) {
+        productRepository.downloadImage(storagePath){ task ->
+            if (task.isSuccessful) {
+                val imageUrl = task.result
+                Glide.with(imageView.context)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.loading_placeholder)
+                    .fitCenter()
+                    .into(imageView)
+            } else {
+                Toast.makeText(imageView.context, "서버로 부터 이미지를 가져오지 못했습니다", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

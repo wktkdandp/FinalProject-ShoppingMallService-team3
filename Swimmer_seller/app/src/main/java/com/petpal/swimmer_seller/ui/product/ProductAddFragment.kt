@@ -319,6 +319,7 @@ class ProductAddFragment : Fragment() {
         }
     }
     
+    // TODO 이미지 처리 Glide 라이브러리로 수정하기
     // 메인 이미지 갤러리 설정
     private fun mainImageGallerySetting(): ActivityResultLauncher<Intent>{
         val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {

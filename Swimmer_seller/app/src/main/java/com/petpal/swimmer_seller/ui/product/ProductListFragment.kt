@@ -1,5 +1,6 @@
 package com.petpal.swimmer_seller.ui.product
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -17,6 +19,8 @@ import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.databinding.FragmentProductListBinding
 import com.petpal.swimmer_seller.databinding.RowProductBinding
+import java.net.HttpURLConnection
+import java.net.URL
 
 class ProductListFragment : Fragment() {
     private lateinit var productViewModel: ProductViewModel
@@ -60,6 +64,7 @@ class ProductListFragment : Fragment() {
 
     inner class ProductRecyclerViewAdapter: Adapter<ProductRecyclerViewAdapter.ProductViewHolder>() {
         inner class ProductViewHolder(rowProductBinding: RowProductBinding): ViewHolder(rowProductBinding.root){
+            val imageViewProduct = rowProductBinding.imageViewProduct
             val textViewProductName = rowProductBinding.textViewProductName
             val textViewProductCategory = rowProductBinding.textViewCategory
             val textViewProductRegDate = rowProductBinding.textViewRegDate
@@ -91,6 +96,9 @@ class ProductListFragment : Fragment() {
         override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
             val product = productViewModel.productList.value?.get(position)!!
             val category = product.category!!
+
+            // 서버로 부터 이미지를 내려받아 ImageView에 표시
+            productViewModel.loadAndDisplayImage(product.mainImage?.get(0)!!, holder.imageViewProduct)
 
             holder.textViewProductName.text = product.name
             holder.textViewProductCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
