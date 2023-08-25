@@ -5,14 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.petpal.swimmer_seller.MainActivity
 import com.petpal.swimmer_seller.R
-import com.petpal.swimmer_seller.data.model.Order
 import com.petpal.swimmer_seller.data.repository.OrderRepository
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentHomeBinding
@@ -46,13 +43,12 @@ class HomeFragment : Fragment() {
             readyCount.observe(viewLifecycleOwner){
                 fragmentHomeBinding.textViewReadyCount.text = it.toString()
             }
-            deliveryCount.observe(viewLifecycleOwner){
-                fragmentHomeBinding.textViewDeliveryCount.text = it.toString()
+            processCount.observe(viewLifecycleOwner){
+                fragmentHomeBinding.textViewProcessCount.text = it.toString()
             }
             completeCount.observe(viewLifecycleOwner){
                 fragmentHomeBinding.textViewCompleteCount.text = it.toString()
             }
-
             cancelCount.observe(viewLifecycleOwner){
                 fragmentHomeBinding.textViewCancelCount.text = "${it}건"
             }
@@ -83,11 +79,17 @@ class HomeFragment : Fragment() {
                 // 판매자 가이드 화면으로 이동
                 findNavController().navigate(R.id.action_item_home_to_guideFragment)
             }
+            // 홈 화면에 로그아웃 버튼 위젯이 안보여서 일단 주석처리 해둘게요
+//            buttonLogout.setOnClickListener {
+//                userViewModel.logOut()
+//                //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
+//                findNavController().popBackStack(R.id.mainFragment, true)
+//                findNavController().navigate(R.id.loginFragment)
+//            }
         }
 
-        // TODO color, size 데이터 타입 등 orders 구조 통일되면 테스트하기
         // 로그인 판매자가 관련된 주문들 주문상태별로 개수 표시
-        // homeViewModel.getAllOrderCount(mainActivity.loginSellerUid)
+        homeViewModel.getOrderCountByState(mainActivity.loginSellerUid)
         
         // 로그인 판매자가 등록한 상품 개수 표시
         homeViewModel.getProductCount(mainActivity.loginSellerUid)
@@ -96,13 +98,3 @@ class HomeFragment : Fragment() {
     }
 }
 
-// 뷰모델 팩토리
-class HomeViewModelFactory(private val productRepository: ProductRepository, private val orderRepository: OrderRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return HomeViewModel(productRepository, orderRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

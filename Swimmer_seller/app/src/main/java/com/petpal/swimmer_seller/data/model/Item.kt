@@ -16,4 +16,3 @@ data class Item(
     var mainImage: String,
     var price: Long,
 ) : Parcelable
-
