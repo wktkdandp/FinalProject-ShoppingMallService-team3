@@ -18,6 +18,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentRegisterBinding
@@ -42,15 +44,23 @@ class RegisterFragment : Fragment() {
         fragmentRegisterBinding= FragmentRegisterBinding.inflate(layoutInflater)
         auth= FirebaseAuth.getInstance()
 
-        //체크박스 리스너 활성화
+        setupToolbar()
         privacy_Policy_Checkbox()
+        setupUI()
+        setupViewModelNav()
 
+
+        return fragmentRegisterBinding.root
+    }
+    private fun setupViewModelNav(){
         val factory = RegisterViewModelFactory(CustomerUserRepository())
         viewModel = ViewModelProvider(this, factory).get(RegisterViewModel::class.java)
 
         val navController = findNavController()
         NavigationUI.setupWithNavController(fragmentRegisterBinding.toolbarAddUser, navController)
-
+    }
+    private fun setupToolbar()
+    {
         //툴바
         fragmentRegisterBinding.toolbarAddUser.run{
             title = getString(R.string.title_signup)
@@ -59,9 +69,8 @@ class RegisterFragment : Fragment() {
                 findNavController().popBackStack()
             }
         }
-
-
-
+    }
+    private fun setupUI(){
         //회원가입 버튼
         fragmentRegisterBinding.buttonRegister.setOnClickListener {
             val email = fragmentRegisterBinding.textInputEditTextAddUserEmail.text.toString()
@@ -69,18 +78,17 @@ class RegisterFragment : Fragment() {
             val confirmPassword = fragmentRegisterBinding.textInputEditTextAddUserPasswordRepeat.text.toString()
             val Nickname =fragmentRegisterBinding.textInputEditTextAddUserNickname.text.toString()
             val PhoneNumber = fragmentRegisterBinding.textInputEditTextAddUserPhoneNumber.text.toString()
-            val swimExp=UserSwimExp()
+            val swimExp=userSwimExp()
+            val isChecked=fragmentRegisterBinding.checkboxPrivacyPolicy.isChecked
             //유효성 검사
-            if (!checkEmail(email) || !checkPassword(password, confirmPassword)|| !isCheckboxChecked()) {
-                return@setOnClickListener
-            }
+            if(!validateCheck(email,password,confirmPassword,Nickname,PhoneNumber,isChecked)) {return@setOnClickListener}
+
             if(!isEmailValid)
             {
                 fragmentRegisterBinding.textInputLayoutAddUserEmail.error = getString(R.string.error_check_id_duplication)
                 fragmentRegisterBinding.buttonAddUserEmailDuplicateCheck.requestFocus()
                 return@setOnClickListener
             }
-            //Log.d("koko", "Email: $email, Password: $password, Nickname: $Nickname, PhoneNumber: $PhoneNumber")
             viewModel.addUser(null,email,password,Nickname,PhoneNumber, swimExp)?.observe(viewLifecycleOwner, Observer { success ->
                 if (success!!) {
                     // 회원가입 성공
@@ -105,6 +113,14 @@ class RegisterFragment : Fragment() {
         //중복검사 버튼
         fragmentRegisterBinding.buttonAddUserEmailDuplicateCheck.setOnClickListener {
             val email = fragmentRegisterBinding.textInputEditTextAddUserEmail.text.toString()
+            if(viewModel.isEmailEmpty(email)){
+                showError(fragmentRegisterBinding.textInputLayoutAddUserEmail,fragmentRegisterBinding.textInputEditTextAddUserEmail,getString(R.string.error_email_required))
+                return@setOnClickListener
+            }
+            if(!viewModel.isValidEmailFormat(email)){
+                showError(fragmentRegisterBinding.textInputLayoutAddUserEmail,fragmentRegisterBinding.textInputEditTextAddUserEmail,getString(R.string.error_invalid_email_format))
+                return@setOnClickListener
+            }
             viewModel.checkEmailDuplicated(email).observe(viewLifecycleOwner, Observer { isDuplicate ->
                 if (isDuplicate) {
                     AlertDialog.Builder(requireContext())
@@ -127,62 +143,41 @@ class RegisterFragment : Fragment() {
                 }
             })
         }
-
-            return fragmentRegisterBinding.root
     }
-
-
-    //수영 경력
-    private fun UserSwimExp():String {
-        return when (fragmentRegisterBinding.swimExpGroup.checkedChipId) {
-            R.id.isDefaultDeliveryPoint -> getString(R.string.duration_less_than_1_year)
-            R.id.swimExp2 -> getString(R.string.duration_less_than_3_years)
-            R.id.swimExp3 -> getString(R.string.duration_less_than_5_years)
-            R.id.swimExp4 -> getString(R.string.duration_more_than_5_years)
-            else -> getString(R.string.duration_no_selection)
-        }
+    private fun showError(textInputLayout: TextInputLayout, textInputEditText: TextInputEditText, errorMessage: String) {
+        textInputLayout.error = errorMessage
+        Handler(Looper.getMainLooper()).postDelayed({
+            textInputLayout.error = ""
+            textInputEditText.text?.clear()
+            showKeyboard(textInputEditText)
+        }, 2000)
     }
-    private fun checkEmail(email: String): Boolean {
-        if (!email.contains("@")) {
-            fragmentRegisterBinding.textInputLayoutAddUserEmail.error = getString(R.string.error_invalid_email_format)
-            Handler(Looper.getMainLooper()).postDelayed({
-                fragmentRegisterBinding.textInputLayoutAddUserEmail.error = ""
-                fragmentRegisterBinding.textInputEditTextAddUserEmail.text?.clear()
-                showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserEmail)
-            }, 2000)
+    private fun validateCheck(email:String,password:String,passwordRepeat:String,nicknName:String,phoneNumber:String,isChecked:Boolean):Boolean{
+        if(viewModel.isEmailEmpty(email)){
+           showError(fragmentRegisterBinding.textInputLayoutAddUserEmail,fragmentRegisterBinding.textInputEditTextAddUserEmail,getString(R.string.error_email_required))
             return false
         }
-        return true
-    }
-
-    private fun checkPassword(password: String, confirmPassword: String): Boolean {
-        // 비밀번호의 길이 검사
-        if (password.length < 6) {
-            fragmentRegisterBinding.textInputLayoutAddUserPassword.error = getString(R.string.error_password_length)
-            Handler(Looper.getMainLooper()).postDelayed({
-                fragmentRegisterBinding.textInputLayoutAddUserPassword.error = ""
-                fragmentRegisterBinding.textInputEditTextAddUserPassword.text?.clear()
-                fragmentRegisterBinding.textInputEditTextAddUserPasswordRepeat.text?.clear()
-                showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserPassword)
-            }, 2000)
+        if(!viewModel.isValidEmailFormat(email)){
+            showError(fragmentRegisterBinding.textInputLayoutAddUserEmail,fragmentRegisterBinding.textInputEditTextAddUserEmail,getString(R.string.error_invalid_email_format))
             return false
         }
-        // 비밀번호 일치 검사
-        else if (password != confirmPassword) {
-            fragmentRegisterBinding.textInputLayoutAddUserPasswordRepeat.error = getString(R.string.error_passwords_not_match)
-            Handler(Looper.getMainLooper()).postDelayed({
-                fragmentRegisterBinding.textInputLayoutAddUserPasswordRepeat.error = ""
-                fragmentRegisterBinding.textInputEditTextAddUserPassword.text?.clear()
-                fragmentRegisterBinding.textInputEditTextAddUserPasswordRepeat.text?.clear()
-                showKeyboard(fragmentRegisterBinding.textInputEditTextAddUserPassword)
-            }, 2000)
+        if(!viewModel.isValidPassword(password)){
+            showError(fragmentRegisterBinding.textInputLayoutAddUserPassword,fragmentRegisterBinding.textInputEditTextAddUserPassword,getString(R.string.error_password_length))
             return false
         }
-        return true
-    }
-    //정보 동의 체크박스
-    private fun isCheckboxChecked(): Boolean {
-        if (!fragmentRegisterBinding.checkboxPrivacyPolicy.isChecked) {
+        if(!viewModel.isPasswordMatched(password,passwordRepeat)){
+            showError(fragmentRegisterBinding.textInputLayoutAddUserPasswordRepeat,fragmentRegisterBinding.textInputEditTextAddUserPasswordRepeat,getString(R.string.error_passwords_not_match))
+            return false
+        }
+        if(viewModel.isNicknameEmpty(nicknName)){
+            showError(fragmentRegisterBinding.textInputLayoutAddUserNickname,fragmentRegisterBinding.textInputEditTextAddUserNickname,getString(R.string.error_nickname_required))
+            return false
+        }
+        if(viewModel.isPhoneNumberEmpty(phoneNumber)){
+            showError(fragmentRegisterBinding.textInputLayoutAddUserPhoneNumber,fragmentRegisterBinding.textInputEditTextAddUserPhoneNumber,getString(R.string.error_phone_required))
+            return false
+        }
+        if(!viewModel.isConsentGiven(isChecked)){
             fragmentRegisterBinding.textViewInfoAgree.text = getString(R.string.error_consent_required)
             Handler(Looper.getMainLooper()).postDelayed({
                 fragmentRegisterBinding.textViewInfoAgree.text = ""
@@ -191,6 +186,17 @@ class RegisterFragment : Fragment() {
         }
         return true
     }
+    //수영 경력
+    private fun userSwimExp():String {
+        return when (fragmentRegisterBinding.swimExpGroup.checkedChipId) {
+            R.id.isDefaultDeliveryPoint -> getString(R.string.duration_less_than_1_year)
+            R.id.swimExp2 -> getString(R.string.duration_less_than_3_years)
+            R.id.swimExp3 -> getString(R.string.duration_less_than_5_years)
+            R.id.swimExp4 -> getString(R.string.duration_more_than_5_years)
+            else -> getString(R.string.duration_no_selection)
+        }
+    }
+
     //키보드 올리기
     private fun showKeyboard(view: View) {
         if (view.requestFocus()) {
@@ -232,8 +238,6 @@ class RegisterFragment : Fragment() {
             }
         }
     }
-
-
 }
 class RegisterViewModelFactory(private val repository: CustomerUserRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

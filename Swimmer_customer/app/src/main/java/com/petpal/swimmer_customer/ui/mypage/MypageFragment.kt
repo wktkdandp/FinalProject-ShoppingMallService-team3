@@ -42,7 +42,13 @@ class MypageFragment : Fragment() {
         val factory = MypageViewModelFactory(CustomerUserRepository())
         viewModel = ViewModelProvider(this, factory).get(MypageViewModel::class.java)
         val uid=FirebaseAuth.getInstance().currentUser?.uid
-
+        viewModel.getCurrentUser(uid!!).observe(viewLifecycleOwner, Observer {
+            if(it!=null){
+                fragmentMypageBinding.textViewNickname.text="닉네임 : "
+            }else{
+                fragmentMypageBinding.textViewNickname.text=getString(R.string.error_nickname_none)
+            }
+        })
         fragmentMypageBinding.toolbarMypage.run {
             title = getString(R.string.mypage_title)
             inflateMenu(R.menu.mypage_toolbar_menu)
@@ -60,7 +66,6 @@ class MypageFragment : Fragment() {
                 false
             }
         }
-
 
         val coupons = listOf("쿠폰","10% 할인쿠폰", " 5,000원 할인쿠폰", "무료 배송 쿠폰")
 
@@ -83,15 +88,15 @@ class MypageFragment : Fragment() {
             findNavController().navigate(R.id.CheckPasswordFragment)
         }
         //주문 조회로 이동
-        fragmentMypageBinding.buttonOrderComplete.setOnClickListener {
+        fragmentMypageBinding.textViewCompleteCount.setOnClickListener {
 
         }
         //주문 조회로 이동
-        fragmentMypageBinding.buttonShipping.setOnClickListener {
+        fragmentMypageBinding.textViewShippingCount.setOnClickListener {
 
         }
         //주문 조회로 이동
-        fragmentMypageBinding.buttonDeliveryCompleted.setOnClickListener {
+        fragmentMypageBinding.textViewDeliveryCompletedCount.setOnClickListener {
 
         }
 

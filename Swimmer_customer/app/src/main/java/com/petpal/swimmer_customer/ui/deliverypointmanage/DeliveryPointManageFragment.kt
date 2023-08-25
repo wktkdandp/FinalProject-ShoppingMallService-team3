@@ -108,6 +108,7 @@ class DeliveryPointManageFragment : Fragment() {
         val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
         if (currentUserUID != null) {
             viewModel.fetchAddressesForUser(currentUserUID)
+
         }
     }
     private fun setupViewModel(){
@@ -118,6 +119,14 @@ class DeliveryPointManageFragment : Fragment() {
         viewModel.addresses.observe(viewLifecycleOwner, Observer { addresses ->
             // RecyclerView 데이터 업데이트
             (fragmentDeliveryPointManageBinding.recyclerViewDeliveryPoint.adapter as RecyclerViewAdapter).submitAddresses(addresses)
+
+            //배송지 없음 공지
+            if (addresses.isEmpty()) {
+                fragmentDeliveryPointManageBinding.textViewNoDeliveryPoints.visibility = View.VISIBLE
+            } else {
+                fragmentDeliveryPointManageBinding.textViewNoDeliveryPoints.visibility = View.GONE
+            }
+
         })
 
         viewModel.deleteResult.observe(viewLifecycleOwner, Observer { result ->
@@ -172,7 +181,6 @@ class DeliveryPointManageFragment : Fragment() {
 
                     val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
                     if (currentUserUID != null) {
-                        // Call the ViewModel's delete function
                         addressToDelete.addressIdx?.let { it1 ->
                             viewModel.deleteAddressForUser(currentUserUID, it1)
                         }
