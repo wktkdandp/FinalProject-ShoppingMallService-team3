@@ -54,7 +54,7 @@ class ProductDetailFragment : Fragment() {
     val colorDataList = arrayOf(
         "색상을 선택해 주세요", "WHITE", "BLUE", "BLACK", "RED", "ORANGE"
     )
-
+    private var isAnimationPlaying = false
     // 네비게이션 args 값 가져오기
     val args: ProductDetailFragmentArgs by navArgs()
     var firebaseSize = ""
@@ -370,8 +370,19 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun updateFavoriteButtonState() {
-        val drawableRes = if (isFavorite) R.drawable.full_favorite_24 else R.drawable.favorite_24px
-        fragmentProductDetailBinding.favoriteButton.setImageResource(drawableRes)
+//        val drawableRes = if (isFavorite) R.drawable.full_favorite_24 else R.drawable.favorite_24px
+//        fragmentProductDetailBinding.favoriteButton.setImageResource(drawableRes)
+
+        fragmentProductDetailBinding.favoriteButton.setOnClickListener {
+            if (isAnimationPlaying) {
+                fragmentProductDetailBinding.favoriteButton.progress = 0.0f
+                isAnimationPlaying = false
+            } else {
+                fragmentProductDetailBinding.favoriteButton.playAnimation()
+                isAnimationPlaying = true
+            }
+        }
+
     }
 
     private fun productDetailTabLayoutViewPage2() {

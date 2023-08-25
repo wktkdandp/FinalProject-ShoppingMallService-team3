@@ -230,13 +230,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <ImageButton
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/favoriteButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:adjustViewBounds="true"
+                android:scaleType="fitXY"
                 android:background="#E8FFFFFF"
-                android:src="@drawable/favorite_24px"
+                app:lottie_rawRes="@raw/favorite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/paymentButton" />
