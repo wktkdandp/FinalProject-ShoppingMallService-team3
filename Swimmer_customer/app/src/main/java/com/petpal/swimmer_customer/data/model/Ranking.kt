@@ -1,6 +1,5 @@
 package com.petpal.swimmer_customer.data.model
 
-
 data class Ranking(
     val rankingIdx: Int,
     val rankingImage: String,
@@ -8,5 +7,5 @@ data class Ranking(
     val title: String,
     val price: String,
     val productDetailTabImage: String,
-    val productDetailItemList: List<ProductDetailModel>,
-    )
+
+)

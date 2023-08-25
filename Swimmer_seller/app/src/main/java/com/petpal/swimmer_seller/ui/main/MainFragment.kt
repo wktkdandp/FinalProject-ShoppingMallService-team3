@@ -30,10 +30,10 @@ class MainFragment : Fragment() {
 
         // 특정 화면에서 BottomNavigationBar 숨기기
         navController.addOnDestinationChangedListener { _: NavController, navDestination: NavDestination, _: Bundle? ->
-            if (navDestination.id == R.id.item_product_add || navDestination.id == R.id.item_manage_order || navDestination.id == R.id.productOptionFragment) {
-                fragmentMainBinding.bottomNavigation.visibility = View.GONE
-            } else {
+            if (navDestination.id == R.id.item_home || navDestination.id == R.id.item_menu || navDestination.id == R.id.item_mypage ) {
                 fragmentMainBinding.bottomNavigation.visibility = View.VISIBLE
+            } else {
+                fragmentMainBinding.bottomNavigation.visibility = View.GONE
             }
         }
 

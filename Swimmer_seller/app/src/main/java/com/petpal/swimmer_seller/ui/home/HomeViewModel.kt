@@ -1,3 +1,4 @@
+// HomeViewModel 없애서 전부 삭제 
 package com.petpal.swimmer_seller.ui.home
 
 import android.util.Log
@@ -5,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.petpal.swimmer_seller.data.model.Order
+import com.petpal.swimmer_seller.data.model.OrderState
 import com.petpal.swimmer_seller.data.repository.OrderRepository
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 import kotlin.math.log
@@ -64,6 +66,35 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
         orderRepository.getOrderBySellerUid(loginSellerUid){
             Log.d("haehyun", loginSellerOrderList.value?.joinToString(",")!!)
             _loginSellerOrderList.postValue(it)
+
+    fun getAllOrderCount(sellerUid: String) {
+        orderRepository.getAllOrder { task ->
+            val orderList = mutableListOf<Order>()
+            for (orderSnapshot in task.result.children) {
+                val order = orderSnapshot.getValue(Order::class.java)
+                if (order != null) {
+                    for (item in order.itemList) {
+                        if (item.sellerUid == sellerUid) {
+                            orderList.add(order)
+                            break
+                        }
+                    }
+                }
+            }
+
+            // 판매자에게 들어온 전체 주문 수
+            orderCount.value = orderList.count().toLong()
+
+            // 주문상태 주문 건 수
+            //TODO: str을 code로 바꾸기
+            paymentCount.value = orderList.count { it.state == OrderState.PAYMENT.code }.toLong()
+            readyCount.value = orderList.count { it.state == OrderState.READY.code}.toLong()
+            deliveryCount.value = orderList.count { it.state == OrderState.DELIVERY.code }.toLong()
+            completeCount.value = orderList.count { it.state == OrderState.COMPLETE.code }.toLong()
+
+            cancelCount.value = orderList.count { it.state == OrderState.CANCEL.code }.toLong()
+            exchangeCount.value = orderList.count { it.state == OrderState.EXCHANGE.code}.toLong()
+            refundCount.value = orderList.count { it.state == OrderState.REFUND.code }.toLong()
         }
     }
 
@@ -82,7 +113,7 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
         _refundCount.value = loginSellerOrderList.value?.count { it.state == OrderState.REFUND.code }?.toLong()
     }
 }
-
+        
 // 주문상태
 enum class OrderState(val code: Long, val str: String){
     PAYMENT(1, "결제완료"),
@@ -93,4 +124,3 @@ enum class OrderState(val code: Long, val str: String){
     EXCHANGE(6, "교환"),
     REFUND(7, "환불")
 }
-

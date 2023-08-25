@@ -242,4 +242,21 @@
     <string name="label_payment_completed">결제완료</string>
     <string name="no_order">이런! 주문이 없네요</string>
     <string name="prompt_delete">삭제</string>
+    <string name="order_detail_title">주문 상세 정보</string>
+    <string name="label_basic_order_info">주문기본정보</string>
+    <string name="label_order_uid">주문번호</string>
+    <string name="label_order_datetime">주문일시</string>
+    <string name="label_order_customer_uid">고객ID</string>
+    <string name="label_order_customer_contact">고객 연락처</string>
+    <string name="label_order_item_info">상품정보</string>
+    <string name="label_order_item_count">수량</string>
+    <string name="label_order_item_total_price">총 금액</string>
+    <string name="label_order_shipping_info">배송정보</string>
+    <string name="label_order_receiver">수령인</string>
+    <string name="label_order_receiver_contact">수령인 연락처</string>
+    <string name="label_order_shipping_address">배송지</string>
+    <string name="label_order_shipping_message">배송메세지</string>
+    <string name="label_shipping_await">배송준비</string>
+    <string name="label_shipping_continue">배송중</string>
+    <string name="label_shipping_completed">배송완료</string>
 </resources>
