@@ -90,6 +90,19 @@
         android:id="@+id/item_product_list"
         android:name="com.petpal.swimmer_seller.ui.product.ProductListFragment"
         android:label="fragment_product_list"
-        tools:layout="@layout/fragment_product_list"/>
+        tools:layout="@layout/fragment_product_list">
+        <action
+            android:id="@+id/action_item_product_list_to_item_product_detail"
+            app:destination="@id/item_product_detail" />
+    </fragment>
+    <fragment
+        android:id="@+id/item_product_detail"
+        android:name="com.petpal.swimmer_seller.ui.product.ProductDetailFragment"
+        android:label="fragment_product_detail"
+        tools:layout="@layout/fragment_product_detail" >
+        <argument
+            android:name="productUid"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

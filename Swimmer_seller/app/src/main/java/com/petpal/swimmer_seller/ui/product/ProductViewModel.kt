@@ -13,8 +13,8 @@ import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 
 class ProductViewModel(private val productRepository: ProductRepository) : ViewModel() {
-    private val _productList =  MutableLiveData<MutableList<Product>>()
-    val productList : LiveData<MutableList<Product>> = _productList
+    private val _productList =  MutableLiveData<List<Product>>()
+    val productList : LiveData<List<Product>> = _productList
 
     private val _productCount = MutableLiveData<Long>()
     val productCount: LiveData<Long> = _productCount
@@ -49,16 +49,16 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
 
     // 판매자가 등록한 상품 리스트 가져오기 (상품 목록용)
     fun getAllProductBySellerUid(sellerUid: String){
-        productRepository.getProductBySellerUid(sellerUid){
+        productRepository.getProductBySellerUid(sellerUid){ task ->
             val tempProductList = mutableListOf<Product>()
 
-            for (productSnapshot in it.result.children) {
+            for (productSnapshot in task.result.children) {
                 val product = productSnapshot.getValue(Product::class.java)
                 if (product != null) {
                     tempProductList.add(product)
                 }
             }
-            _productList.value = tempProductList
+            _productList.value = tempProductList.sortedByDescending { it.regDate }
         }
     }
 

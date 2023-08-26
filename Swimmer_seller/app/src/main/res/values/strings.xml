@@ -204,6 +204,7 @@
 
     <!-- 상품 목록 정렬 -->
     <string-array name="productSort">
+        <item>최신순</item>
         <item>등록순</item>
         <item>이름순</item>
         <item>가격순</item>

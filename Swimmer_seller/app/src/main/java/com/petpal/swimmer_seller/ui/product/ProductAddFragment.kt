@@ -261,7 +261,7 @@ class ProductAddFragment : Fragment() {
                     category,
                     mutableListOf<Review>(),
                     0L,
-                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()),
+                    SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.getDefault()).format(Date()),
                     brandName
                 )
 
