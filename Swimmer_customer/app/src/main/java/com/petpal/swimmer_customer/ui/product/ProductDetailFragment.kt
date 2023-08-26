@@ -22,6 +22,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.FirebaseDatabase
@@ -52,7 +54,7 @@ class ProductDetailFragment : Fragment() {
     val colorDataList = arrayOf(
         "색상을 선택해 주세요", "WHITE", "BLUE", "BLACK", "RED", "ORANGE"
     )
-
+    private var isAnimationPlaying = false
     // 네비게이션 args 값 가져오기
     val args: ProductDetailFragmentArgs by navArgs()
     var firebaseSize = ""
@@ -73,7 +75,8 @@ class ProductDetailFragment : Fragment() {
             favorite()
             initViewPager2()
 
-            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            val bottomNavigationView =
+                requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
             bottomNavigationView.visibility = View.GONE
 
             paymentButtonBottomSheet()
@@ -101,8 +104,9 @@ class ProductDetailFragment : Fragment() {
             }
 
             viewPagerAdapter.submitList(imageList)
+
             viewModel.rankingText(
-                productList[args.idx].category.mid,
+                productList[args.idx].brandName,
                 productList[args.idx].name,
                 productList[args.idx].price
             )
@@ -111,7 +115,9 @@ class ProductDetailFragment : Fragment() {
                 val chip = createChip(text)
                 hashTagChipGroup.addView(chip)
             }
-
+            scrollToFab.setOnClickListener {
+                productDetailScrollView.smoothScrollTo(0, 0)
+            }
 
         }
         return fragmentProductDetailBinding.root
@@ -364,8 +370,19 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun updateFavoriteButtonState() {
-        val drawableRes = if (isFavorite) R.drawable.full_favorite_24 else R.drawable.favorite_24px
-        fragmentProductDetailBinding.favoriteButton.setImageResource(drawableRes)
+//        val drawableRes = if (isFavorite) R.drawable.full_favorite_24 else R.drawable.favorite_24px
+//        fragmentProductDetailBinding.favoriteButton.setImageResource(drawableRes)
+
+        fragmentProductDetailBinding.favoriteButton.setOnClickListener {
+            if (isAnimationPlaying) {
+                fragmentProductDetailBinding.favoriteButton.progress = 0.0f
+                isAnimationPlaying = false
+            } else {
+                fragmentProductDetailBinding.favoriteButton.playAnimation()
+                isAnimationPlaying = true
+            }
+        }
+
     }
 
     private fun productDetailTabLayoutViewPage2() {
@@ -410,9 +427,20 @@ class ProductDetailFragment : Fragment() {
         chip.isClickable = false
         chip.isCheckable = false
         chip.backgroundTintList = null
-        chip.chipStrokeWidth = 0f
+
+        // 둥글게
+        val shapeAppearanceModel = ShapeAppearanceModel()
+            .toBuilder()
+            .setAllCorners(CornerFamily.ROUNDED, 50f)
+            .build()
+
+        chip.shapeAppearanceModel = shapeAppearanceModel
+
+        // 배경색
+        chip.setChipBackgroundColorResource(R.color.colorSecondary)
+        chip.setChipStrokeColorResource(R.color.colorSecondary)
+        chip.setTextColor(resources.getColor(R.color.white))
         return chip
     }
-
 
 }

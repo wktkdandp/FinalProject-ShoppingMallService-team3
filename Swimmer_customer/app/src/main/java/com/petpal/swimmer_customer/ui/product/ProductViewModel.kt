@@ -85,8 +85,8 @@ class ProductViewModel() : ViewModel() {
 
 
     private fun updateButtonState() {
-        val isSizeZero = _sizePosition.value == 0
-        val isColorZero = _colorPosition.value == 0
+        val isSizeZero = sizePosition.value == 0
+        val isColorZero = colorPosition.value == 0
 
         _isButtonEnabled.value = !isSizeZero && !isColorZero
     }

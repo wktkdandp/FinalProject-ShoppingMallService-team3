@@ -16,13 +16,16 @@
         tools:context=".ui.product.ProductDetailFragment">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/productDetailScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="70dp"
+                android:orientation="vertical">
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/productDetailViewPager2"
@@ -31,9 +34,8 @@
                     android:nestedScrollingEnabled="true"
                     android:orientation="horizontal" />
 
-            </FrameLayout>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -98,12 +100,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
                             android:text="@{vm.rankingBrand}"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
+                            android:textColor="@color/gray_8A"
+                            android:textSize="13sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="@id/viewPager2Container"
                             app:layout_constraintTop_toBottomOf="@id/viewPager2Container" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:backgroundTint="@color/gray_8A"
+                            android:background="@drawable/baseline_arrow_forward_ios_24"
+                            app:layout_constraintBottom_toBottomOf="@id/brandTextView"
+                            app:layout_constraintStart_toEndOf="@id/brandTextView"
+                            app:layout_constraintTop_toTopOf="@id/brandTextView" />
+
 
                         <TextView
                             android:id="@+id/itemTitleTextView"
@@ -155,10 +168,9 @@
 
                                 <com.google.android.material.chip.ChipGroup
                                     android:id="@+id/hashTagChipGroup"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:backgroundTint="@android:color/transparent">
-
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="35dp"
+                                    app:chipSpacingHorizontal="3dp">
 
                                 </com.google.android.material.chip.ChipGroup>
                             </LinearLayout>
@@ -198,6 +210,15 @@
                 app:tabRippleColor="@android:color/transparent" />
         </com.google.android.material.appbar.AppBarLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/scrollToFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="60dp"
+            android:src="@drawable/arrow_upward_24px" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/paymentLayout"
             android:layout_width="match_parent"
@@ -209,16 +230,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <ImageButton
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/favoriteButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:adjustViewBounds="true"
+                android:scaleType="fitXY"
                 android:background="#E8FFFFFF"
-                android:src="@drawable/favorite_24px"
-                app:layout_constraintTop_toTopOf="@id/paymentButton"
+                app:lottie_rawRes="@raw/favorite"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/paymentButton" />
 
             <Button
                 android:id="@+id/paymentButton"

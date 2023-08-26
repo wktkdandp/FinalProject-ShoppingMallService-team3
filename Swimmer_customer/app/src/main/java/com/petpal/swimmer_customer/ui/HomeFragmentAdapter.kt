@@ -21,13 +21,15 @@ class HomeFragmentAdapter(val context: Context, private val dataSet: List<Produc
 
     inner class ViewHolder(item: RankingItemBinding) : RecyclerView.ViewHolder(item.root) {
         var imageView: ImageView = item.rankingImageView
+        var brand: TextView = item.rankingBrand
         var title: TextView = item.rankingTitle
         var description: TextView = item.rankingDescription
 
         init {
             item.root.setOnClickListener {
-                Log.d("포지션",adapterPosition.toString())
-                val action = HomeFragmentDirections.actionItemHomeToItemDetailFragment(adapterPosition)
+                Log.d("포지션", adapterPosition.toString())
+                val action =
+                    HomeFragmentDirections.actionItemHomeToItemDetailFragment(adapterPosition)
                 item.root.findNavController().navigate(action)
             }
         }
@@ -35,7 +37,8 @@ class HomeFragmentAdapter(val context: Context, private val dataSet: List<Produc
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val rankingItemBinding = RankingItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val rankingItemBinding =
+            RankingItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val viewHolderClass = ViewHolder(rankingItemBinding)
 
         return viewHolderClass
@@ -46,14 +49,14 @@ class HomeFragmentAdapter(val context: Context, private val dataSet: List<Produc
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val imagePathList = mutableListOf<String>()
 
-// 이미지 경로들 추출 및 공백과 , 제거
-        val paths = dataSet[position].mainImage[position].toString().substring(1, dataSet[position].mainImage[position].toString().length - 1).split(",")
+        // 이미지 경로들 추출 및 공백과 , 제거
+        val paths = dataSet[position].mainImage[position].toString()
+            .substring(1, dataSet[position].mainImage[position].toString().length - 1).split(",")
 
         for (path in paths) {
             val cleanedPath = path.trim() // 좌우 공백 제거
             imagePathList.add(cleanedPath)
         }
-        Log.d("꼬부기",imagePathList.toString())
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
         val pathRef = storageRef.child(imagePathList[0].toString())
@@ -70,6 +73,7 @@ class HomeFragmentAdapter(val context: Context, private val dataSet: List<Produc
         val originalText = dataSet[position].name
         val formattedText = formatText(originalText, 6)
 
+        holder.brand.text = dataSet[position].brandName
         holder.title.text = formattedText
 
         val numberFormat = NumberFormat.getNumberInstance(Locale.US)
