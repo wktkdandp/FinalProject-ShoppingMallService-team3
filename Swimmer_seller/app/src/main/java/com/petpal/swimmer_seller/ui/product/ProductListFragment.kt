@@ -1,8 +1,6 @@
 package com.petpal.swimmer_seller.ui.product
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.databinding.FragmentProductListBinding
-import com.petpal.swimmer_seller.databinding.RowProductBinding
+import com.petpal.swimmer_seller.databinding.ItemProductListBinding
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -121,19 +119,19 @@ class ProductListFragment : Fragment() {
         // 필터링된 상품 리스트를 저장할 변수 (default : 전체, 최신순)
         private var filteredProductList = productList.sortedByDescending { it.regDate }
 
-        inner class ProductViewHolder(rowProductBinding: RowProductBinding): ViewHolder(rowProductBinding.root){
+        inner class ProductViewHolder(rowProductBinding: ItemProductListBinding): ViewHolder(rowProductBinding.root){
             // todo filteredProductList[adapterPosition].productUid 로 구할 수 있을지도
-            var productUid: String = ""
             val imageViewProduct = rowProductBinding.imageViewProduct
-            val textViewProductName = rowProductBinding.textViewProductName
-            val textViewProductCategory = rowProductBinding.textViewCategory
-            val textViewProductRegDate = rowProductBinding.textViewRegDate
-            val textViewProductHashTag = rowProductBinding.textViewProductHashTag
-            val textViewProductPrice = rowProductBinding.textViewProductPrice
+            val textViewName = rowProductBinding.textViewName
+            val textViewCategory = rowProductBinding.textViewCategory
+            val textViewRegDate = rowProductBinding.textViewRegDate
+            val textViewHashTag = rowProductBinding.textViewHashTag
+            val textViewPrice = rowProductBinding.textViewPrice
 
             init {
                 // 상품 상세 화면으로 이동
                 rowProductBinding.root.setOnClickListener {
+                    val productUid = filteredProductList[adapterPosition].productUid!!
                     val action = ProductListFragmentDirections.actionItemProductListToItemProductDetail(productUid)
                     findNavController().navigate(action)
                 }
@@ -141,7 +139,7 @@ class ProductListFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-            val rowProductBinding = RowProductBinding.inflate(layoutInflater)
+            val rowProductBinding = ItemProductListBinding.inflate(layoutInflater)
             rowProductBinding.root.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -158,18 +156,18 @@ class ProductListFragment : Fragment() {
             val product = filteredProductList[position]
             val category = product.category!!
             // 다음 화면으로 넘겨줄 uid
-            holder.productUid = product.productUid.toString()
+            // holder.productUid = product.productUid.toString()
 
             // 서버로 부터 이미지를 내려받아 ImageView에 표시
             productViewModel.loadAndDisplayImage(product.mainImage?.get(0)!!, holder.imageViewProduct)
 
-            holder.textViewProductName.text = product.name
+            holder.textViewName.text = product.name
             // 카테고리, 태그 분리 후 구분자 넣어서 결합
-            holder.textViewProductCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
-            holder.textViewProductHashTag.text = product.hashTag?.joinToString(" ") { "#$it" }
+            holder.textViewCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
+            holder.textViewHashTag.text = product.hashTag?.joinToString(" ") { "#$it" }
             // 가격 천의 자리에 쉼표 찍기
-            holder.textViewProductPrice.text = "${NumberFormat.getNumberInstance(Locale.getDefault()).format(product.price)}원"
-            holder.textViewProductRegDate.text = "${product.regDate}"
+            holder.textViewPrice.text = "${NumberFormat.getNumberInstance(Locale.getDefault()).format(product.price)}원"
+            holder.textViewRegDate.text = "${product.regDate}"
         }
 
         // RecyclerView 데이터 필터링

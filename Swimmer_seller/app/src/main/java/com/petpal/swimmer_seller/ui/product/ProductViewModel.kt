@@ -19,8 +19,8 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
     private val _productCount = MutableLiveData<Long>()
     val productCount: LiveData<Long> = _productCount
 
-    private val _currentProduct = MutableLiveData<Product>()
-    val currentProduct: LiveData<Product> = _currentProduct
+    private val _product = MutableLiveData<Product>()
+    val product: LiveData<Product> = _product
 
     private val _sizeList = MutableLiveData<MutableList<String>>()
     val sizeList: LiveData<MutableList<String>> = _sizeList
@@ -37,11 +37,11 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
 
     // 상품 정보 가져오기 (상품 상세, 수정용)
     fun getProduct(productUid: String){
-        productRepository.getProductByProductUid(productUid){
-            if (it.result.exists()) {
-                val product = it.result.getValue(Product::class.java)
+        productRepository.getProductByProductUid(productUid){ task ->
+            for (productSnapshot in task.result.children){
+                val product = productSnapshot.getValue(Product::class.java)
                 if (product != null) {
-                    _currentProduct.value = product!!
+                    _product.value = product!!
                 }
             }
         }
@@ -74,11 +74,11 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
         // 기존 리스트에 추가 후 중복 제거
         val newColorList = this.colorList.value
         newColorList?.addAll(colorList.filter { !newColorList.contains(it) })
-        _colorList.value = newColorList!!
+        _colorList.value = newColorList!!.sorted().toMutableList()
 
         val newSizeList = this.sizeList.value
         newSizeList?.addAll(sizeList.filter { !newSizeList.contains(it) })
-         _sizeList.value = newSizeList!!
+         _sizeList.value = newSizeList!!.sorted().toMutableList()
     }
 
     // RecyclerView에서 삭제 버튼을 누른 순번의 옵션 제거

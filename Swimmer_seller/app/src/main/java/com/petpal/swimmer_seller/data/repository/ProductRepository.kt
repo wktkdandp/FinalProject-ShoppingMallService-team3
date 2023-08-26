@@ -21,7 +21,7 @@ class ProductRepository {
 
     // 특정 상품 가져오기
     fun getProductByProductUid(productUid: String, callback: (Task<DataSnapshot>) -> Unit){
-        productsRef.child(productUid).get().addOnCompleteListener(callback)
+        productsRef.orderByChild("productUid").equalTo(productUid).get().addOnCompleteListener(callback)
     }
 
     // 특정 판매자가 등록한 상품 전체 가져오기

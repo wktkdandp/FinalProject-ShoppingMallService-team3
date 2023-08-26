@@ -7,7 +7,6 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,9 +32,8 @@ import com.petpal.swimmer_seller.data.model.Category
 import com.petpal.swimmer_seller.data.model.Image
 import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.data.model.Review
-import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentProductAddBinding
-import com.petpal.swimmer_seller.databinding.LayoutImageviewDeleteBinding
+import com.petpal.swimmer_seller.databinding.ItemImageviewDeleteBinding
 import com.petpal.swimmer_seller.ui.user.UserViewModel
 import com.petpal.swimmer_seller.ui.user.UserViewModelFactory
 import java.text.SimpleDateFormat
@@ -290,7 +288,7 @@ class ProductAddFragment : Fragment() {
             addHashTagList.addAll(inputHashTagList)
 
             for (inputHashTag in inputHashTagList) {
-                val chip = layoutInflater.inflate(R.layout.layout_chip_input, chipGroupHashTag, false) as Chip
+                val chip = layoutInflater.inflate(R.layout.item_chip_input, chipGroupHashTag, false) as Chip
                 chip.apply {
                     text = inputHashTag
                     setOnCloseIconClickListener {
@@ -364,7 +362,8 @@ class ProductAddFragment : Fragment() {
                     var bitmap: Bitmap? = null
 
                     // 이미지 카드뷰 추가
-                    val previewLinearLayout = layoutInflater.inflate(R.layout.layout_imageview_delete, fragmentProductAddBinding.linearDescriptionImage, false) as LinearLayout
+                    // TODO Glide 라이브러리 방식으로 바꾸기
+                    val previewLinearLayout = layoutInflater.inflate(R.layout.item_imageview_delete, fragmentProductAddBinding.linearDescriptionImage, false) as LinearLayout
                     val previewImageView = previewLinearLayout.findViewById<ImageView>(R.id.imageViewDelete)
                     val previewButton = previewLinearLayout.findViewById<Button>(R.id.buttonDelete)
                     previewButton.setOnClickListener {
@@ -404,10 +403,10 @@ class ProductAddFragment : Fragment() {
 
     // 메인 이미지 리사이클러뷰 어댑터
     inner class MainImageRecyclerViewAdapter: RecyclerView.Adapter<MainImageRecyclerViewAdapter.MainImageViewHolder>(){
-        inner class MainImageViewHolder(imageViewBinding: LayoutImageviewDeleteBinding):RecyclerView.ViewHolder(imageViewBinding.root) {
-            val imageViewMain: ImageView = imageViewBinding.imageViewDelete
-            val textViewIsMain : TextView = imageViewBinding.textViewIsMain
-            private val buttonDeleteMain: Button = imageViewBinding.buttonDelete
+        inner class MainImageViewHolder(itemImageviewDeleteBinding: ItemImageviewDeleteBinding):RecyclerView.ViewHolder(itemImageviewDeleteBinding.root) {
+            val imageViewMain: ImageView = itemImageviewDeleteBinding.imageViewDelete
+            val textViewIsMain : TextView = itemImageviewDeleteBinding.textViewIsMain
+            private val buttonDeleteMain: Button = itemImageviewDeleteBinding.buttonDelete
 
             init {
                 // 우측 상단 X버튼 클릭시 이미지 삭제
@@ -420,7 +419,7 @@ class ProductAddFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainImageViewHolder {
-            val imageViewBinding = LayoutImageviewDeleteBinding.inflate(layoutInflater)
+            val imageViewBinding = ItemImageviewDeleteBinding.inflate(layoutInflater)
             // imageViewBinding.root.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
             return MainImageViewHolder(imageViewBinding)
         }
