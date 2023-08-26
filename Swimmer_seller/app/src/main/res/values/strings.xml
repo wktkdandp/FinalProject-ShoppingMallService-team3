@@ -195,19 +195,10 @@
 
     <!-- 상품 목록 필터링 -->
     <string-array name="productFilter">
-        <item>전체</item>
         <item>여성</item>
         <item>남성</item>
         <item>아동</item>
         <item>용품</item>
-    </string-array>
-
-    <!-- 상품 목록 정렬 -->
-    <string-array name="productSort">
-        <item>최신순</item>
-        <item>등록순</item>
-        <item>이름순</item>
-        <item>가격순</item>
     </string-array>
 
     <string name="action_add_product">상품등록 하기</string>

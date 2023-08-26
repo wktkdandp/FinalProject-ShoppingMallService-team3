@@ -44,9 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:editable="false"
-                    android:inputType="none"
-                    android:text="전체"
-                    app:simpleItems="@array/productFilter" />
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -62,11 +60,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:editable="false"
-                    android:inputType="none"
-                    android:text="최신순"
-                    app:simpleItems="@array/productSort" />
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewProductEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="등록된 상품이 없습니다."
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/seed" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewProductList"

@@ -58,7 +58,7 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
                     tempProductList.add(product)
                 }
             }
-            _productList.value = tempProductList.sortedByDescending { it.regDate }
+            _productList.value = tempProductList
         }
     }
 
