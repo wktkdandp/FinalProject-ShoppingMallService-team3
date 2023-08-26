@@ -12,7 +12,7 @@
     <string name="item_shopping_cart">장바구니</string>
     <string name="paymentButton">구매하기</string>
     <string name="fragment_home_raking_text">랭킹</string>
-    <string name="review_tab_review_text">상품후기│</string>
+    <string name="review_tab_review_text">상품 후기│</string>
     <string name="review_tab_buyerRating">구매자 평점</string>
     <string name="review_tab_very_good">아주 좋아요</string>
     <string name="review_tab_like_it">맘에 들어요</string>

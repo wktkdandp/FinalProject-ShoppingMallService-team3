@@ -1,6 +1,7 @@
 package com.petpal.swimmer_customer.ui
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.firebase.database.FirebaseDatabase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.Category
-import com.petpal.swimmer_customer.data.model.HomeFragmentItemList
 import com.petpal.swimmer_customer.data.model.Product
+import com.petpal.swimmer_customer.data.model.ProductDetailModel
 import com.petpal.swimmer_customer.data.model.productList
 import com.petpal.swimmer_customer.databinding.FragmentHomeBinding
 import kotlinx.coroutines.CoroutineScope
@@ -21,30 +22,39 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import com.petpal.swimmer_customer.data.model.ProductDetailModel
-import com.petpal.swimmer_customer.ui.product.ProductDetailAdapter
-import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
-import com.petpal.swimmer_customer.ui.main.MainFragmentDirections
+import kotlin.math.abs
+import kotlin.math.max
 
 
 class HomeFragment : Fragment() {
 
     lateinit var fragmentHomeFragmentBinding: FragmentHomeBinding
-    private var categoryList: MutableList<Category> = mutableListOf()
     private lateinit var viewPagerAdapter: BannerViewPager2Adapter
     private lateinit var viewModel: HomeFragmentViewModel
+    var homeFragmentItemList: MutableList<ProductDetailModel> = mutableListOf()
 
+    private val MIN_SCALE = 0.85f // 뷰가 몇퍼센트로 줄어들 것인지
+    private val MIN_ALPHA = 0.5f // 어두워지는 정도
+
+    private val autoScrollHandler = Handler()
+    private var autoScrollRunnable: Runnable? = null
+    private val autoScrollInterval: Long = 3000 // 3초
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         fragmentHomeFragmentBinding = FragmentHomeBinding.inflate(inflater)
-        Log.d("uid",FirebaseAuth.getInstance().currentUser?.uid!!)
         viewModel = ViewModelProvider(this)[HomeFragmentViewModel::class.java]
-        viewModel.setProductDetail(HomeFragmentItemList)
+
+
+
+        for (i in 1..5) {
+            homeFragmentItemList.add(ProductDetailModel("bannerImage$i.jpg"))
+        }
+
+        Log.d("쵸파", homeFragmentItemList.toString())
+        viewModel.setProductDetail(homeFragmentItemList)
 
         firebase()
 
@@ -134,15 +144,43 @@ class HomeFragment : Fragment() {
 
     private fun initViewPager2() {
         fragmentHomeFragmentBinding.itemDetailViewPager2.apply {
-
-            viewPagerAdapter = BannerViewPager2Adapter()
+            viewPagerAdapter = BannerViewPager2Adapter(requireContext(), homeFragmentItemList)
             adapter = viewPagerAdapter
+            setPageTransformer(ZoomOutPageTransformer())
             fragmentHomeFragmentBinding.dotsIndicator.attachTo(this)
 
+            // 페이지 변경 콜백 등록
+            // registerOnPageChangeCallback :  ViewPager2의 페이지 변경 사항을 감지 메서드
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            })
-        }
+                override fun onPageSelected(position: Int) {
 
+                    // 페이지가 변경되면 이전의 autoScrollRunnable을 제거
+                    autoScrollHandler.removeCallbacks(autoScrollRunnable!!)
+
+                    val lastIndex = adapter?.itemCount?.minus(1)
+                    if (position == lastIndex) {
+                        // 마지막 페이지면 3초 후에 첫 번째 페이지로 이동
+                        autoScrollRunnable = Runnable {
+                            currentItem = 0
+                        }
+                        // 지정된 시간( autoScrollInterval(3초) )이  지난 후 currentItem 이동
+                        autoScrollHandler.postDelayed(autoScrollRunnable!!, autoScrollInterval)
+                    } else {
+                        // 마지막 페이지가 아니면 다음 페이지로 자동 이동
+                        autoScrollRunnable = Runnable {
+                            currentItem += 1
+                        }
+                        autoScrollHandler.postDelayed(autoScrollRunnable!!, autoScrollInterval)
+                    }
+                }
+            })
+
+            // 초기 페이지 변경 로직 실행
+            autoScrollRunnable = Runnable {
+                currentItem += 1
+            }
+            autoScrollHandler.postDelayed(autoScrollRunnable!!, autoScrollInterval)
+        }
     }
 
     private fun viewPage2Observe() {
@@ -169,6 +207,9 @@ class HomeFragment : Fragment() {
         productList.clear()
         val hashTagList: MutableList<String> = mutableListOf()
         val mainImageList: MutableList<String> = mutableListOf()
+        val colorList: MutableList<String> = mutableListOf()
+        val sizeList: MutableList<String> = mutableListOf()
+
         // firebase 객체를 생성한다.
         val database = FirebaseDatabase.getInstance()
         // TestData에 접근한다.
@@ -194,11 +235,15 @@ class HomeFragment : Fragment() {
             val productUid = a1.child("productUid").value
             val regDate = a1.child("regDate").value
             val sellerUid = a1.child("sellerUid").value
-            val infoImage = a1.child("infoImage").value
+            val brandName = a1.child("brandName").value
+            val color = a1.child("colorList").value
+            val size = a1.child("sizeList").value
 
 
             hashTagList.add(hashTag.toString())
             mainImageList.add(mainImage.toString())
+            colorList.add(color.toString())
+            sizeList.add(size.toString())
 
             productList.add(
                 Product(
@@ -218,9 +263,12 @@ class HomeFragment : Fragment() {
                     productUid.toString(),
                     regDate.toString(),
                     sellerUid.toString(),
-                    infoImage.toString()
+                    brandName.toString(),
+                    colorList,
+                    sizeList
                 )
             )
+            Log.d("루피", productList.toString())
         }
 
         return productList
@@ -234,10 +282,61 @@ class HomeFragment : Fragment() {
                 requireContext(),
                 productList2
             )
-            fragmentHomeFragmentBinding.homeMainRv.setAdapter( homeMainAdapter)
-            fragmentHomeFragmentBinding.homeMainRv.setLayoutManager(  GridLayoutManager(requireContext(), 3))
+            fragmentHomeFragmentBinding.homeMainRv.setAdapter(homeMainAdapter)
+            fragmentHomeFragmentBinding.homeMainRv.setLayoutManager(
+                GridLayoutManager(
+                    requireContext(),
+                    3
+                )
+            )
 
         }
+    }
+
+    inner class ZoomOutPageTransformer : ViewPager2.PageTransformer {
+        override fun transformPage(view: View, position: Float) {
+            view.apply {
+                val pageWidth = width
+                val pageHeight = height
+                when {
+                    position < -1 -> { // [-Infinity,-1)
+                        // This page is way off-screen to the left.
+                        alpha = 0f
+                    }
+
+                    position <= 1 -> { // [-1,1]
+                        // Modify the default slide transition to shrink the page as well
+                        val scaleFactor = max(MIN_SCALE, 1 - abs(position))
+                        val vertMargin = pageHeight * (1 - scaleFactor) / 2
+                        val horzMargin = pageWidth * (1 - scaleFactor) / 2
+                        translationX = if (position < 0) {
+                            horzMargin - vertMargin / 2
+                        } else {
+                            horzMargin + vertMargin / 2
+                        }
+
+                        // Scale the page down (between MIN_SCALE and 1)
+                        scaleX = scaleFactor
+                        scaleY = scaleFactor
+
+                        // Fade the page relative to its size.
+                        alpha = (MIN_ALPHA +
+                                (((scaleFactor - MIN_SCALE) / (1 - MIN_SCALE)) * (1 - MIN_ALPHA)))
+                    }
+
+                    else -> { // (1,+Infinity]
+                        // This page is way off-screen to the right.
+                        alpha = 0f
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        // 메모리 누수 방지를 위해..
+        autoScrollHandler.removeCallbacks(autoScrollRunnable!!)
+        super.onDestroyView()
     }
 
 }

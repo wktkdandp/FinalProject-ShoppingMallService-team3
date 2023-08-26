@@ -17,7 +17,9 @@ data class Product(
     val productUid: String,
     val regDate: String,
     val sellerUid: String,
-    val infoImage: String
+    val brandName: String,
+    val colorList: List<String>,
+    val sizeList: List<String>
 )
 
 data class Category(

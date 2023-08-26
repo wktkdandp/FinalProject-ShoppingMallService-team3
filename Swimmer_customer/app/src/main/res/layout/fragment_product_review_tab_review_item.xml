@@ -134,7 +134,7 @@
             android:layout_marginTop="15dp"
             android:maxLines="3"
             android:ellipsize="end"
-            android:text="가격이 저렴하고 신축성이 좋아요\n 좋은 수영복 득템해서 너무 좋아요sdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdssdsdsdssdsdsds"
+            android:text="가격이 저렴하고 신축성이 좋아요\n 좋은 수영복 득템해서 너무 좋아요!sdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdssdsdsdssdsdsds"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
