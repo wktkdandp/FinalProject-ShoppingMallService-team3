@@ -4,7 +4,7 @@
     style="@style/Widget.Material3.Chip.Assist.Elevated"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="여성용"
+    android:text="태그"
     android:textColor="@color/seed"
     app:chipCornerRadius="20dp"
     app:chipEndPadding="4dp"

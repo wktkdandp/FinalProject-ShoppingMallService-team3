@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.tabs.TabLayout
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.databinding.FragmentProductDetailBinding
 import com.petpal.swimmer_seller.databinding.ItemImageSliderBinding
@@ -43,43 +44,77 @@ class ProductDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         fragmentProductDetailBinding.run {
+            // Toolbar 백버튼
             toolbarProductDetail.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
 
-            viewPagerMainImage.run {
-//                adapter = ImageSliderAdapter()
+            // TabLayout 세팅
+            tabLayout.run {
+                val tabItemProductInfo: TabLayout.Tab = tabLayout.newTab()
+                tabItemProductInfo.text = "상품상세"
+                addTab(tabItemProductInfo)
+
+                val tabItemProductReview: TabLayout.Tab = tabLayout.newTab()
+                tabItemProductReview.text = "상품리뷰"
+                addTab(tabItemProductReview)
+
+                val tabItemProductQnA: TabLayout.Tab = tabLayout.newTab()
+                tabItemProductQnA.text = "상품QnA"
+                addTab(tabItemProductQnA)
+
+                addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+                    override fun onTabSelected(tab: TabLayout.Tab?) {
+
+                    }
+
+                    override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+                    }
+
+                    override fun onTabReselected(tab: TabLayout.Tab?) {
+
+                    }
+                })
             }
-            
-            buttonShare.setOnClickListener { 
-                // 공유하기
+
+            // 메인 이미지 ViewPager
+            viewPagerMainImage.run {
+                adapter = ImageSliderAdapter()
+                dotsIndicator.setViewPager2(viewPagerMainImage)
+                viewPagerMainImage.adapter?.notifyDataSetChanged()
+            }
+
+            fabProductDetail.setOnClickListener {
+                // TODO 화면 최상단으로 올리기
             }
         }
 
+        // Observer
         productViewModel.run {
             product.observe(viewLifecycleOwner){
                 fragmentProductDetailBinding.run {
-                    // 메인 이미지
-                    viewPagerMainImage.adapter?.notifyDataSetChanged()
+                    if (it?.category != null) {
+                        // 메인 이미지
+                        viewPagerMainImage.adapter?.notifyDataSetChanged()
 
-                    // 텍스트 정보
-                    val category = it.category!!
-                    textViewImageCount.text = " / ${it.mainImage?.size}"
-                    textViewImageIdx.text = "1"
-                    textViewProductCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
-                    textViewProductBarndName.text = it.brandName
-                    textViewProductName.text = it.name
-                    textViewProductPrice.text = "${NumberFormat.getNumberInstance(Locale.getDefault()).format(it.price)}원"
-                    // 해시태그 추가
-                    addHashTag(it.hashTag!!, chipGroupProductHashTag)
-
-
-                    
+                        // 텍스트 정보
+                        val category = it.category!!
+                        textViewImageCount.text = " / ${it.mainImage?.size}"
+                        textViewImageIdx.text = "1"
+                        textViewProductCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
+                        textViewProductBarndName.text = it.brandName
+                        textViewProductName.text = it.name
+                        textViewProductPrice.text = "${NumberFormat.getNumberInstance(Locale.getDefault()).format(it.price)}원"
+                        // 해시태그 추가
+                        addHashTag(it.hashTag!!, chipGroupProductHashTag)
+                    }
                 }
             }
         }
+
+
 
     }
 
@@ -99,6 +134,10 @@ class ProductDetailFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageSliderViewHolder {
             val binding = ItemImageSliderBinding.inflate(layoutInflater)
+            binding.root.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
             return ImageSliderViewHolder(binding)
         }
 

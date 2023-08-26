@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +9,8 @@
     android:orientation="vertical"
     tools:context=".ui.product.ProductDetailFragment" >
 
+
+    <!-- 백버튼 툴바 -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_product_detail"
         android:layout_width="match_parent"
@@ -17,105 +21,161 @@
         app:navigationIcon="@drawable/arrow_back_24px"
         app:navigationIconTint="@color/white"
         app:title="상품 상세"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white"
+        app:layout_collapseMode="pin"/>
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="match_parent" >
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPagerMainImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </androidx.viewpager2.widget.ViewPager2>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewImageIdx"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1" />
-
-            <TextView
-                android:id="@+id/textViewImageCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=" / 2"
-                android:textColor="@color/md_theme_dark_outline" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textViewProductCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="대분류 > 중분류 > 소분류"
-            android:textColor="@color/md_theme_light_outline" />
-
-        <TextView
-            android:id="@+id/textViewProductBarndName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="브랜드명" />
-
-        <TextView
-            android:id="@+id/textViewProductName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="상품명"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewProductPrice"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="가격"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonShare"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:padding="0dp"
-                app:icon="@drawable/ios_share_24px" />
-        </LinearLayout>
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupProductHashTag"
-            style="@style/Widget.Material3.ChipGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </com.google.android.material.chip.ChipGroup>
-
-        <View
-            android:id="@+id/divider5"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
-
-
-    </LinearLayout>
-    <TableLayout
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarProductMain"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </TableLayout>
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <!-- 상품 기본 정보 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- 상품 메인 이미지 -->
+                <FrameLayout
+                    android:id="@+id/frameLayoutProductMainImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/viewPagerMainImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"/>
+
+                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                        android:id="@+id/dotsIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        app:dotsColor="@color/md_theme_light_outline"
+                        app:selectedDotColor="@color/seed"
+                        app:dotsCornerRadius="8dp"
+                        app:dotsSize="8dp"
+                        app:dotsSpacing="4dp"
+                        app:dotsWidthFactor="2.5" />
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewImageIdx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1" />
+
+                    <TextView
+                        android:id="@+id/textViewImageCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=" / 2"
+                        android:textColor="@color/md_theme_dark_outline" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textViewProductCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="대분류 > 중분류 > 소분류"
+                    android:textColor="@color/md_theme_light_outline" />
+
+                <TextView
+                    android:id="@+id/textViewProductBarndName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="브랜드명" />
+
+                <TextView
+                    android:id="@+id/textViewProductName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="상품명"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewProductPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="가격"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonShare"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:padding="0dp"
+                        app:icon="@drawable/ios_share_24px"
+                        app:iconSize="24dp" />
+                </LinearLayout>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupProductHashTag"
+                    style="@style/Widget.Material3.ChipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.google.android.material.chip.ChipGroup>
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:layout_collapseMode="pin"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- 상품상세, 상품리뷰, 상품QnA -->
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabProductDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/arrow_upward_24px"
+        app:fabSize="auto" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </LinearLayout>

@@ -29,10 +29,11 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
     val colorList: LiveData<MutableList<String>> = _colorList
 
     init {
-        _productList.value = mutableListOf()
+        _productList.value = mutableListOf<Product>()
         _productCount.value = 0L
-        _sizeList.value = mutableListOf()
-        _colorList.value = mutableListOf()
+        _product.value = Product()
+        _sizeList.value = mutableListOf<String>()
+        _colorList.value = mutableListOf<String>()
     }
 
     // 상품 정보 가져오기 (상품 상세, 수정용)
