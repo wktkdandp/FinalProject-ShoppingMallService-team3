@@ -1,4 +1,4 @@
-package com.petpal.swimmer_customer.ui
+package com.petpal.swimmer_customer.ui.home
 
 import android.content.Context
 import android.util.Log
@@ -18,7 +18,7 @@ import com.petpal.swimmer_customer.data.model.ProductDetailModel
 
 class BannerViewPager2Adapter(
     var context: Context,
-    var homeFragmentItemList: MutableList<ProductDetailModel>
+    var homeFragmentItemList: List<ProductDetailModel>?
 ) : ListAdapter<ProductDetailModel, BannerViewPager2Adapter.ItemViewHolder>(
     differ
 ) {
@@ -44,12 +44,11 @@ class BannerViewPager2Adapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
 
         val imageView = holder.itemView.findViewById<ImageView>(R.id.productDetailImage)
-        val imagePath = homeFragmentItemList[position]
+        val imagePath = homeFragmentItemList!![position]
 
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
         val pathRef = storageRef.child("image/${imagePath.image}")
-        Log.d("여름", "image/$imagePath")
 
         pathRef.downloadUrl.addOnSuccessListener {
             Glide.with(context)
@@ -58,6 +57,11 @@ class BannerViewPager2Adapter(
                 .centerCrop()
                 .into(imageView)
         }
+    }
+
+    fun setItems(itemList: List<ProductDetailModel>) {
+        homeFragmentItemList = itemList // 데이터 업데이트
+        submitList(itemList) // 어댑터의 아이템 업데이트
     }
 
     companion object {
