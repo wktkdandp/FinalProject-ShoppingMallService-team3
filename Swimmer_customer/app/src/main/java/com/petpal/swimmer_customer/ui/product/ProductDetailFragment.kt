@@ -396,10 +396,12 @@ class ProductDetailFragment : Fragment() {
             viewPagerAdapter = ProductDetailAdapter(requireContext(), imageList)
             adapter = viewPagerAdapter
             fragmentProductDetailBinding.dotsIndicator.attachTo(this)
+
             val handler = Handler(Looper.getMainLooper())
             handler.postDelayed({
                 fragmentProductDetailBinding.veilLayout.unVeil()
-            }, 2000)
+            }, 1500)
+
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             })
         }

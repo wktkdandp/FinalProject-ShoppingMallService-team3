@@ -2,6 +2,7 @@ package com.petpal.swimmer_customer.ui.home
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.petpal.swimmer_customer.data.model.Product
 import com.petpal.swimmer_customer.databinding.FragmentHomeBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -31,12 +33,9 @@ class HomeFragment : Fragment() {
     private lateinit var viewPagerAdapter: BannerViewPager2Adapter
     private lateinit var viewModel: HomeFragmentViewModel
     private lateinit var homeMainAdapter: HomeFragmentAdapter
-    private val MIN_SCALE = 0.85f // 뷰가 몇퍼센트로 줄어들 것인지
-    private val MIN_ALPHA = 0.5f // 어두워지는 정도
-
     private val autoScrollHandler = Handler()
     private var autoScrollRunnable: Runnable? = null
-    private val autoScrollInterval: Long = 3000 // 3초
+    private val autoScrollInterval: Long = 4000
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,8 +63,6 @@ class HomeFragment : Fragment() {
 
         }
 
-
-
         return fragmentHomeFragmentBinding.root
     }
 
@@ -74,6 +71,9 @@ class HomeFragment : Fragment() {
             homeMainAdapter = HomeFragmentAdapter(requireContext(), emptyList())
             homeMainRv.setAdapter(homeMainAdapter)
             homeMainRv.setLayoutManager(GridLayoutManager(requireContext(), 3))
+            homeMainRv.addVeiledItems(7)
+            homeMainRv.veil()
+
         }
     }
 
@@ -122,6 +122,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewPager2() {
+        fragmentHomeFragmentBinding.veilLayout.veil()
+
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            fragmentHomeFragmentBinding.veilLayout.unVeil()
+        }, 2000)
+
         fragmentHomeFragmentBinding.itemDetailViewPager2.apply {
             viewPagerAdapter = BannerViewPager2Adapter(requireContext(), emptyList())
             adapter = viewPagerAdapter
@@ -130,8 +137,9 @@ class HomeFragment : Fragment() {
                 viewPagerAdapter.setItems(it)
             }
 
-            setPageTransformer(ZoomOutPageTransformer())
+
             fragmentHomeFragmentBinding.dotsIndicator.attachTo(this)
+            offscreenPageLimit = 1// 이미지를 미리 로딩하는 메서드
 
             // 페이지 변경 콜백 등록
             // registerOnPageChangeCallback :  ViewPager2의 페이지 변경 사항을 감지 메서드
@@ -179,9 +187,11 @@ class HomeFragment : Fragment() {
                 val data = viewModel.productListLiveData.value
                 if (data != null) {
                     updateUIWithData(data)
-
                 }
-                fragmentHomeFragmentBinding.homeMainRv.unVeil()
+                delay(2000) // 1.5초 대기
+                withContext(Dispatchers.Main) {
+                    fragmentHomeFragmentBinding.homeMainRv.unVeil()
+                }
             } catch (_: Exception) {
 
             }
@@ -203,52 +213,9 @@ class HomeFragment : Fragment() {
                     3
                 )
             )
-            addVeiledItems(7)
-            veil()
+
         }
     }
-
-    // viewPager2 애니메이션
-    inner class ZoomOutPageTransformer : ViewPager2.PageTransformer {
-        override fun transformPage(view: View, position: Float) {
-            view.apply {
-                val pageWidth = width
-                val pageHeight = height
-                when {
-                    position < -1 -> { // [-Infinity,-1)
-                        // This page is way off-screen to the left.
-                        alpha = 0f
-                    }
-
-                    position <= 1 -> { // [-1,1]
-                        // Modify the default slide transition to shrink the page as well
-                        val scaleFactor = max(MIN_SCALE, 1 - abs(position))
-                        val vertMargin = pageHeight * (1 - scaleFactor) / 2
-                        val horzMargin = pageWidth * (1 - scaleFactor) / 2
-                        translationX = if (position < 0) {
-                            horzMargin - vertMargin / 2
-                        } else {
-                            horzMargin + vertMargin / 2
-                        }
-
-                        // Scale the page down (between MIN_SCALE and 1)
-                        scaleX = scaleFactor
-                        scaleY = scaleFactor
-
-                        // Fade the page relative to its size.
-                        alpha = (MIN_ALPHA +
-                                (((scaleFactor - MIN_SCALE) / (1 - MIN_SCALE)) * (1 - MIN_ALPHA)))
-                    }
-
-                    else -> { // (1,+Infinity]
-                        // This page is way off-screen to the right.
-                        alpha = 0f
-                    }
-                }
-            }
-        }
-    }
-
     override fun onDestroyView() {
         // 메모리 누수 방지를 위해..
         autoScrollHandler.removeCallbacks(autoScrollRunnable!!)

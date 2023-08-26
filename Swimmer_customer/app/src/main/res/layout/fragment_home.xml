@@ -56,26 +56,39 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
-                            <androidx.viewpager2.widget.ViewPager2
-                                android:id="@+id/itemDetailViewPager2"
-                                android:orientation="horizontal"
+                            <com.skydoves.androidveil.VeilLayout
+                                android:id="@+id/veilLayout"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
+                                android:layout_height="match_parent"
+                                app:veilLayout_baseAlpha="0.6"
+                                app:veilLayout_baseColor="@color/gray_cc"
+                                app:veilLayout_dropOff="0.5"
+                                app:veilLayout_highlightAlpha="1.0"
+                                app:veilLayout_highlightColor="@color/white"
+                                app:veilLayout_radius="6dp"
+                                app:veilLayout_shimmerEnable="true"
+                                app:veilLayout_veiled="true">
 
-                            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                                android:id="@+id/dots_indicator"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom|center"
-                                android:layout_marginBottom="30dp"
-                                app:dotsColor="@color/white"
-                                app:dotsCornerRadius="8dp"
-                                app:dotsSize="8dp"
-                                app:dotsSpacing="4dp"
-                                app:dotsWidthFactor="2.5"
-                                app:progressMode="false"
-                                app:selectedDotColor="@color/colorSecondary" />
+                                <androidx.viewpager2.widget.ViewPager2
+                                    android:id="@+id/itemDetailViewPager2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal" />
 
+                                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                                    android:id="@+id/dots_indicator"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom|center"
+                                    android:layout_marginBottom="30dp"
+                                    app:dotsColor="@color/white"
+                                    app:dotsCornerRadius="8dp"
+                                    app:dotsSize="8dp"
+                                    app:dotsSpacing="4dp"
+                                    app:dotsWidthFactor="2.5"
+                                    app:progressMode="false"
+                                    app:selectedDotColor="@color/colorSecondary" />
+                            </com.skydoves.androidveil.VeilLayout>
                         </FrameLayout>
 
                         <com.google.android.material.tabs.TabLayout
