@@ -38,10 +38,7 @@ class MainFragment : Fragment() {
         }
 
         fragmentMainBinding.run {
-            // 로그아웃 버튼은 일단 Home 화면에 옮겨뒀습니다.
-
             bottomNavigation.setupWithNavController(navController)
-
         }
         return fragmentMainBinding.root
     }

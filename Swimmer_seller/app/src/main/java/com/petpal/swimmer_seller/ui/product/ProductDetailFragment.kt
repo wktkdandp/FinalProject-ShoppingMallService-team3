@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.databinding.FragmentProductDetailBinding
 import com.petpal.swimmer_seller.databinding.ItemImageSliderBinding
@@ -44,39 +45,14 @@ class ProductDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // TabLayout 세팅
+        tabLayoutViewPagerSetting()
+
         fragmentProductDetailBinding.run {
             // Toolbar 백버튼
             toolbarProductDetail.setNavigationOnClickListener {
                 findNavController().popBackStack()
-            }
-
-            // TabLayout 세팅
-            tabLayout.run {
-                val tabItemProductInfo: TabLayout.Tab = tabLayout.newTab()
-                tabItemProductInfo.text = "상품상세"
-                addTab(tabItemProductInfo)
-
-                val tabItemProductReview: TabLayout.Tab = tabLayout.newTab()
-                tabItemProductReview.text = "상품리뷰"
-                addTab(tabItemProductReview)
-
-                val tabItemProductQnA: TabLayout.Tab = tabLayout.newTab()
-                tabItemProductQnA.text = "상품QnA"
-                addTab(tabItemProductQnA)
-
-                addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
-                    override fun onTabSelected(tab: TabLayout.Tab?) {
-
-                    }
-
-                    override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-                    }
-
-                    override fun onTabReselected(tab: TabLayout.Tab?) {
-
-                    }
-                })
             }
 
             // 메인 이미지 ViewPager
@@ -88,7 +64,7 @@ class ProductDetailFragment : Fragment() {
 
             fabProductDetail.setOnClickListener {
                 // 스크롤 최상단으로 이동
-                nestedScrollView.smoothScrollTo(0, 0)
+                // nestedScrollView.smoothScrollTo(0, 0)
                 // AppBarLayout 열기
                 appbarProductMain.setExpanded(true)
             }
@@ -114,9 +90,43 @@ class ProductDetailFragment : Fragment() {
                 }
             }
         }
+    }
 
+    private fun tabLayoutViewPagerSetting(){
+        fragmentProductDetailBinding.run {
+            // ViewPager2 어댑터 등록
+            viewPagerContent.adapter = ProductDetailTabLayoutAdapter(this@ProductDetailFragment, productViewModel.product.value!!)
 
+            // TabItem 생성 추가
+            val tabName = arrayOf("상품상세", "상품후기 (0)", "상품 Q&A")
 
+            val tabItemProductInfo: TabLayout.Tab = tabLayout.newTab()
+            tabItemProductInfo.text = tabName[0]
+            tabLayout.addTab(tabItemProductInfo)
+
+            val tabItemProductReview: TabLayout.Tab = tabLayout.newTab()
+            tabItemProductReview.text = tabName[1]
+            tabLayout.addTab(tabItemProductReview)
+
+            val tabItemProductQnA: TabLayout.Tab = tabLayout.newTab()
+            tabItemProductQnA.text = tabName[2]
+            tabLayout.addTab(tabItemProductQnA)
+
+            // TabLayout, ViewPager2 연동
+            TabLayoutMediator(tabLayout, viewPagerContent){ tab: TabLayout.Tab, position: Int ->
+                tab.text = tabName[position]
+            }.attach()
+
+            // TabLayout 화면 전환 리스너
+            tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    fragmentProductDetailBinding.viewPagerContent.currentItem = tab!!.position
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) { }
+                override fun onTabReselected(tab: TabLayout.Tab?) { }
+            })
+        }
     }
 
     private fun addHashTag(hashTagList: List<String>, chipGroup: ChipGroup){

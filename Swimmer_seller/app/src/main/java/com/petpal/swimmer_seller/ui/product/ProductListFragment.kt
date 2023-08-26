@@ -120,7 +120,6 @@ class ProductListFragment : Fragment() {
         private var filteredProductList = productList.sortedByDescending { it.regDate }
 
         inner class ProductViewHolder(rowProductBinding: ItemProductListBinding): ViewHolder(rowProductBinding.root){
-            // todo filteredProductList[adapterPosition].productUid 로 구할 수 있을지도
             val imageViewProduct = rowProductBinding.imageViewProduct
             val textViewName = rowProductBinding.textViewName
             val textViewCategory = rowProductBinding.textViewCategory

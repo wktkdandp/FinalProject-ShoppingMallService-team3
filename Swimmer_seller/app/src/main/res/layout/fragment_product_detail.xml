@@ -10,7 +10,7 @@
 
     <!-- 백버튼 툴바 (무조건 고정) -->
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_product_detail"
+        android:id="@+id/toolbarProductDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -61,7 +61,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|center_horizontal"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="10dp"
                             app:dotsColor="@color/md_theme_light_outline"
                             app:dotsCornerRadius="8dp"
                             app:dotsSize="8dp"
@@ -98,7 +98,7 @@
                                 android:minWidth="0dp"
                                 android:minHeight="0dp"
                                 android:padding="0dp"
-                                app:icon="@drawable/ios_share_24px"
+                                app:icon="@drawable/share_24px"
                                 app:iconSize="24dp" />
                         </LinearLayout>
 
@@ -136,6 +136,9 @@
                         </com.google.android.material.chip.ChipGroup>
                     </LinearLayout>
 
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
                 </LinearLayout>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -152,11 +155,16 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/nested_scroll_view"
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <!-- 상품상세, 상품리뷰, 상품QnA -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPagerContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </androidx.core.widget.NestedScrollView>
 
@@ -167,7 +175,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:src="@drawable/arrow_upward_24px"
-            app:fabSize="auto" />
+            app:fabSize="mini"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>
