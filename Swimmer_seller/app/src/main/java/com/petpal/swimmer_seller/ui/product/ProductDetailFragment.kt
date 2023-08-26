@@ -87,7 +87,10 @@ class ProductDetailFragment : Fragment() {
             }
 
             fabProductDetail.setOnClickListener {
-                // TODO 화면 최상단으로 올리기
+                // 스크롤 최상단으로 이동
+                nestedScrollView.smoothScrollTo(0, 0)
+                // AppBarLayout 열기
+                appbarProductMain.setExpanded(true)
             }
         }
 
@@ -101,8 +104,6 @@ class ProductDetailFragment : Fragment() {
 
                         // 텍스트 정보
                         val category = it.category!!
-                        textViewImageCount.text = " / ${it.mainImage?.size}"
-                        textViewImageIdx.text = "1"
                         textViewProductCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
                         textViewProductBarndName.text = it.brandName
                         textViewProductName.text = it.name
