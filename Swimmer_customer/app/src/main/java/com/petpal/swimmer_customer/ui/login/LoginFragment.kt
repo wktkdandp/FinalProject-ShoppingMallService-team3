@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -26,6 +27,7 @@ import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import com.petpal.swimmer_customer.databinding.FragmentLoginBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
+import com.petpal.swimmer_customer.ui.main.MainFragment
 import com.petpal.swimmer_customer.util.AutoLoginUtil
 
 //로그인의 유효성검사를 실시하고 로그인 메서드 실행
@@ -44,8 +46,10 @@ class LoginFragment : Fragment() {
         mainActivity=activity as MainActivity
         fragmentLoginBinding = FragmentLoginBinding.inflate(layoutInflater)
 
+        val mainFragment = parentFragment?.parentFragment as? MainFragment
+        mainFragment?.fragmentMainBinding?.bottomNavigation?.visibility = View.GONE
+
         setupUI()
-        AutoLogin()
         setupViewModel()
 
         return fragmentLoginBinding.root
@@ -127,15 +131,15 @@ class LoginFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
     }
-    private fun AutoLogin(){
-        val isAutoLogin = AutoLoginUtil.getAutoLogin(requireContext())
-        val currentUser = FirebaseAuth.getInstance().currentUser
-
-        if (isAutoLogin && currentUser != null) {
-            // 이미 로그인된 사용자가 있으면 바로 메인으로
-            findNavController().navigate(R.id.item_home)
-        }
-    }
+//    private fun AutoLogin(){
+//        val isAutoLogin = AutoLoginUtil.getAutoLogin(requireContext())
+//        val currentUser = FirebaseAuth.getInstance().currentUser
+//
+//        if (isAutoLogin && currentUser != null) {
+//            // 이미 로그인된 사용자가 있으면 바로 메인으로
+//            findNavController().navigate(R.id.MainFragment)
+//        }
+//    }
     //키보드 올리기
         fun showKeyboard(view: View) {
         if (view.requestFocus()) {
@@ -147,8 +151,20 @@ class LoginFragment : Fragment() {
     private fun handleLoginResult(success: Boolean) {
         if (success) {
             // 로그인 성공
+
             Toast.makeText(context, getString(R.string.login_success), Toast.LENGTH_LONG).show()
-            findNavController().navigate(R.id.item_home)
+            //val action=LoginFragmentDirections.actionLoginFragmentToItemHome()
+            //fragmentMainBinding.bottomNavigation.selectedItemId = R.id.item_home
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.MainFragment, true)
+                .build()
+
+            val navController = findNavController()
+            val action=LoginFragmentDirections.actionLoginFragmentToItemHome()
+            navController.navigate(action)
+
+//            val action = LoginFragmentDirections.actionLoginFragmentToItemHome()
+//            findNavController().navigate(action,navOptions)
 
             val isAutoLoginChecked = fragmentLoginBinding.checkboxAutoLogin.isChecked
             AutoLoginUtil.setAutoLogin(requireContext(), isAutoLoginChecked)

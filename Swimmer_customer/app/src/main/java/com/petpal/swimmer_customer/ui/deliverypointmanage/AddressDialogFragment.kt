@@ -10,6 +10,7 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.petpal.swimmer_customer.R
@@ -35,6 +36,7 @@ class AddressDialogFragment : Fragment() {
     ): View? {
         fragmentAddressDialogBinding = FragmentAddressDialogBinding.inflate(layoutInflater)
 
+        setupToolbar()
         fragmentAddressDialogBinding.webViewAddress.settings.javaScriptEnabled = true
         fragmentAddressDialogBinding.webViewAddress.addJavascriptInterface(
             BridgeInterface(),
@@ -59,7 +61,19 @@ class AddressDialogFragment : Fragment() {
 
         return fragmentAddressDialogBinding.root
     }
-
+    private fun setupToolbar() {
+        fragmentAddressDialogBinding.toolbarAddressDialog.run {
+            title = getString(R.string.delivery_point_manage)
+            setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
+            setNavigationOnClickListener {
+                showToast(getString(R.string.delevery_point_cancel))
+                findNavController().popBackStack()
+            }
+        }
+    }
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
     fun navigateWithData(data: String) {
         val splitData = data.split(",")
         val bundle = Bundle()
@@ -76,8 +90,8 @@ class AddressDialogFragment : Fragment() {
             // 데이터 형식이 예상과 다를 경우의 처리
             return
         }
-
-        findNavController().navigate(R.id.DeliveryPointManageFragment, bundle)
+        val action=R.id.action_AddressDialogFragment_to_DetailAddressFragment
+        findNavController().navigate(action,bundle)
     }
 
     inner class BridgeInterface {

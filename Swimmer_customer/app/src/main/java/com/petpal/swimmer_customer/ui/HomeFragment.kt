@@ -19,6 +19,7 @@ import com.petpal.swimmer_customer.ui.product.ProductDetailAdapter
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
+import com.petpal.swimmer_customer.ui.main.MainFragment
 import com.petpal.swimmer_customer.ui.main.MainFragmentDirections
 
 
@@ -34,7 +35,10 @@ class HomeFragment : Fragment() {
     ): View? {
 
         fragmentHomeFragmentBinding = FragmentHomeBinding.inflate(inflater)
-        Log.d("uid",FirebaseAuth.getInstance().currentUser?.uid!!)
+
+        val mainFragment = parentFragment?.parentFragment as? MainFragment
+        mainFragment?.fragmentMainBinding?.bottomNavigation?.visibility = View.VISIBLE
+
         viewModel = ViewModelProvider(this)[HomeFragmentViewModel::class.java]
         viewModel.setProductDetail(HomeFragmentItemList)
 

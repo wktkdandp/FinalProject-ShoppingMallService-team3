@@ -122,12 +122,16 @@ class DetailAddressFragment : Fragment() {
     }
 
     private fun navigateToDeliveryPointManageFragment() {
-        findNavController().navigate(R.id.DeliveryPointManageFragment)
+//        val action=DetailAddressFragmentDirections.actionDetailAddressFragmentToDeliveryPointManageFragment()
+//        findNavController().navigate(action)
+        findNavController().popBackStack()
+        findNavController().popBackStack()
     }
 
     private fun cancelAction() {
-        showToast(getString(R.string.delevery_point_cancel))
-        navigateToDeliveryPointManageFragment()
+        findNavController().popBackStack()
+
+
     }
 
     private fun showKeyboard(view: View) {

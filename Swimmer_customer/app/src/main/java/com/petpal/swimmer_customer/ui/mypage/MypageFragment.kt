@@ -15,6 +15,7 @@ import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.R
@@ -107,20 +108,19 @@ class MypageFragment : Fragment() {
         }
         //로그아웃
         fragmentMypageBinding.buttonLogOut.setOnClickListener {
-           viewModel.signOut()
-            //자동 로그인을 꺼줘야 함
+            viewModel.signOut()
+            // 자동 로그인을 꺼줘야 함
             AutoLoginUtil.setAutoLogin(requireContext(), false)
             AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.title_notification))
                 .setMessage(getString(R.string.alert_message_logout_completed))
                 .setPositiveButton(getString(R.string.action_confirm)) { dialog, _ ->
-                    findNavController().navigate(R.id.action_item_mypage_to_LoginFragment)
+                    val action = MypageFragmentDirections.actionItemMypageToMainFragment()
+                    findNavController().navigate(action)
                     dialog.dismiss()
                 }
                 .show()
         }
-
-
         return fragmentMypageBinding.root
     }
 

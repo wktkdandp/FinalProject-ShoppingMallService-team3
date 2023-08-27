@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,14 +55,6 @@ class DeliveryPointManageFragment : Fragment() {
         return fragmentDeliveryPointManageBinding.root
     }
     private fun handleReceivedData() {
-        val address = arguments?.getString("address")
-        val postcode= arguments?.getString("postcode")
-        if(address!=null){
-            val bundle = Bundle()
-            bundle.putString("address", address)
-            bundle.putString("postcode",postcode)
-            findNavController().navigate(R.id.DetailAddressFragment, bundle)
-        }
 
         val argument = arguments?.getString("FromOrder")
         if (argument?.equals("FromOrder") == true) {
@@ -79,7 +73,9 @@ class DeliveryPointManageFragment : Fragment() {
             title = getString(R.string.delivery_point_manage)
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
             setNavigationOnClickListener {
-                findNavController().navigate(R.id.item_mypage)
+                val action =DeliveryPointManageFragmentDirections.actionDeliveryPointManageFragmentToItemMypage()
+                findNavController().navigate(action)
+
             }
         }
     }
@@ -94,7 +90,8 @@ class DeliveryPointManageFragment : Fragment() {
         fragmentDeliveryPointManageBinding.buttonFindAddress.setOnClickListener() {
             val status = NetworkStatus.getConnectivityStatus(requireContext())
             if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
-                findNavController().navigate(R.id.AddressDialogFragment)
+                val action = DeliveryPointManageFragmentDirections.actionDeliveryPointManageFragmentToAddressDialogFragment()
+                findNavController().navigate(action)
             } else {
                 Snackbar.make(
                     fragmentDeliveryPointManageBinding.root,
