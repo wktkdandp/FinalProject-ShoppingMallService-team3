@@ -2,8 +2,11 @@ package com.petpal.swimmer_seller.data.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.database.Exclude
+import com.google.firebase.database.IgnoreExtraProperties
 
 // 상품 클래스
+@IgnoreExtraProperties
 data class Product(
     var productUid: String? = null,
     var code: String? = null,
@@ -19,7 +22,8 @@ data class Product(
     var category: Category? = null,
     var reviewList: List<Review>? = listOf(),
     var orderCount: Long = 0L,
-    var regDate: String? = null
+    var regDate: String? = null,
+    var brandName: String? = null
 ):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -36,8 +40,30 @@ data class Product(
         parcel.readParcelable(Category::class.java.classLoader),
         parcel.createTypedArrayList(Review),
         parcel.readLong(),
+        parcel.readString(),
         parcel.readString()
     ) {
+        @Exclude
+        fun toMap() : Map<String, Any?>{
+            return mapOf(
+                "productUid" to productUid,
+                "code" to code,
+                "name" to name,
+                "price" to price,
+                "mainImage" to mainImage,
+                "description" to description,
+                "descriptionImage" to descriptionImage,
+                "sellerUid" to sellerUid,
+                "sizeList" to sizeList,
+                "colorList" to colorList,
+                "hashTag" to hashTag,
+                "category" to category,
+                "reviewList" to reviewList,
+                "orderCount" to orderCount,
+                "regDate" to regDate,
+                "brandName" to brandName
+            )
+        }
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -56,6 +82,7 @@ data class Product(
         parcel.writeTypedList(reviewList)
         parcel.writeLong(orderCount)
         parcel.writeString(regDate)
+        parcel.writeString(brandName)
     }
 
     override fun describeContents(): Int {
