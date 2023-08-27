@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Product
 import com.petpal.swimmer_seller.databinding.FragmentProductListBinding
 import com.petpal.swimmer_seller.databinding.ItemProductListBinding
@@ -26,9 +27,8 @@ class ProductListFragment : Fragment() {
 
     private val fragmentProductListBinding get() = _fragmentProductListBinding!!
 
-    // 드롭다운 데이터셋
-    private val filterArray = arrayOf("전체", "여성", "남성", "아동", "용품")
-    private val sortArray = arrayOf("최신순", "등록순", "이름순", "가격순")
+    lateinit var filterArray: Array<String>
+    private lateinit var sortArray: Array<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,25 +45,32 @@ class ProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 드롭다운 데이터셋
+        filterArray = resources.getStringArray(R.array.productFilter)
+        sortArray = resources.getStringArray(R.array.productSort)
+
         productViewModel.run {
             productList.observe(viewLifecycleOwner){
                 fragmentProductListBinding.run {
                     if (it.isEmpty()) {
                         textViewProductEmpty.visibility = View.VISIBLE
-                        recyclerViewProductList.visibility = View.GONE
                     } else {
                         textViewProductEmpty.visibility = View.GONE
-                        recyclerViewProductList.visibility = View.VISIBLE
 
-                        // productList 데이터가 변경되면 RecyclerView 기본 데이터 새로 세팅
+                        // productList 데이터가 변경되면 RecyclerView 베이스 데이터 새로 세팅
                         recyclerViewProductList.run {
                             adapter = ProductRecyclerViewAdapter(it)
                             layoutManager = LinearLayoutManager(requireContext())
                             addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
+
+                            // 필터링, 정렬 리스트 유지
+                            autoTextViewFilter.setSimpleItems(filterArray)
+                            autoTextViewSort.setSimpleItems(sortArray)
+
+                            // 상품 상세에서 백버튼으로 돌아올 때 필터링, 정렬 유지
+                            onFilterTextChanged()
+                            onSortTextChanged()
                         }
-                        // default : 전체, 최신순
-                        autoTextViewFilter.setText(filterArray[0], false)
-                        autoTextViewSort.setText(sortArray[0], false)
                     }
                 }
             }
@@ -82,11 +89,9 @@ class ProductListFragment : Fragment() {
 
             // 필터링
             autoTextViewFilter.run {
-                setSimpleItems(filterArray)
+                autoTextViewFilter.setSimpleItems(filterArray)
                 addTextChangedListener {
-                    val selectedFilterItem = autoTextViewFilter.text.toString()
-                    val recyclerViewAdapter = recyclerViewProductList.adapter as ProductRecyclerViewAdapter
-                    recyclerViewAdapter.filter(selectedFilterItem)
+                    onFilterTextChanged()
                     // 필터링으로 인해 바뀐 데이터 셋에 대해 기존 정렬 기준 다시 적용
                     onSortTextChanged()
                 }
@@ -94,11 +99,17 @@ class ProductListFragment : Fragment() {
 
             // 정렬
             autoTextViewSort.run {
-                setSimpleItems(sortArray)
-                addTextChangedListener {
-                    onSortTextChanged()
-                }
+                autoTextViewSort.setSimpleItems(sortArray)
+                addTextChangedListener { onSortTextChanged() }
             }
+        }
+    }
+
+    private fun onFilterTextChanged(){
+        fragmentProductListBinding.run {
+            val selectedFilterItem = autoTextViewFilter.text.toString()
+            val recyclerViewAdapter = recyclerViewProductList.adapter as ProductRecyclerViewAdapter
+            recyclerViewAdapter.filter(selectedFilterItem)
         }
     }
 
@@ -111,6 +122,7 @@ class ProductListFragment : Fragment() {
                 sortArray[1] -> { recyclerViewAdapter.sort("regDate", false) }
                 sortArray[2] -> { recyclerViewAdapter.sort("name", false) }
                 sortArray[3] -> { recyclerViewAdapter.sort("price", false) }
+                sortArray[4] -> { recyclerViewAdapter.sort("price", true) }
             }
         }
     }
@@ -119,7 +131,8 @@ class ProductListFragment : Fragment() {
         // 필터링된 상품 리스트를 저장할 변수 (default : 전체, 최신순)
         private var filteredProductList = productList.sortedByDescending { it.regDate }
 
-        inner class ProductViewHolder(rowProductBinding: ItemProductListBinding): ViewHolder(rowProductBinding.root){
+        inner class ProductViewHolder(rowProductBinding: ItemProductListBinding) :
+            ViewHolder(rowProductBinding.root) {
             val imageViewProduct = rowProductBinding.imageViewProduct
             val textViewName = rowProductBinding.textViewName
             val textViewCategory = rowProductBinding.textViewCategory
@@ -131,7 +144,10 @@ class ProductListFragment : Fragment() {
                 // 상품 상세 화면으로 이동
                 rowProductBinding.root.setOnClickListener {
                     val productUid = filteredProductList[adapterPosition].productUid!!
-                    val action = ProductListFragmentDirections.actionItemProductListToItemProductDetail(productUid)
+                    val action =
+                        ProductListFragmentDirections.actionItemProductListToItemProductDetail(
+                            productUid
+                        )
                     findNavController().navigate(action)
                 }
             }
@@ -158,20 +174,25 @@ class ProductListFragment : Fragment() {
             // holder.productUid = product.productUid.toString()
 
             // 서버로 부터 이미지를 내려받아 ImageView에 표시
-            productViewModel.loadAndDisplayImage(product.mainImage?.get(0)!!, holder.imageViewProduct)
+            productViewModel.loadAndDisplayImage(
+                product.mainImage?.get(0)!!,
+                holder.imageViewProduct
+            )
 
             holder.textViewName.text = product.name
             // 카테고리, 태그 분리 후 구분자 넣어서 결합
-            holder.textViewCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
+            holder.textViewCategory.text =
+                listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
             holder.textViewHashTag.text = product.hashTag?.joinToString(" ") { "#$it" }
             // 가격 천의 자리에 쉼표 찍기
-            holder.textViewPrice.text = "${NumberFormat.getNumberInstance(Locale.getDefault()).format(product.price)}원"
+            holder.textViewPrice.text =
+                "${NumberFormat.getNumberInstance(Locale.getDefault()).format(product.price)}원"
             holder.textViewRegDate.text = "${product.regDate}"
         }
 
         // RecyclerView 데이터 필터링
-        fun filter(category: String){
-            filteredProductList = if (category != "전체"){
+        fun filter(category: String) {
+            filteredProductList = if (category != "전체") {
                 productList.filter { it.category?.main == category }
             } else {
                 productList
@@ -180,7 +201,7 @@ class ProductListFragment : Fragment() {
         }
 
         // RecyclerView 데이터 정렬 (정렬 기준 키, 내림차순 여부)
-        fun sort(sortKey: String, isDescending: Boolean){
+        fun sort(sortKey: String, isDescending: Boolean) {
             filteredProductList = when (sortKey) {
                 "regDate" -> {
                     if (isDescending) {
@@ -189,9 +210,22 @@ class ProductListFragment : Fragment() {
                         filteredProductList.sortedBy { it.regDate }
                     }
                 }
-                "name" -> { filteredProductList.sortedBy { it.name } }
-                "price" -> { filteredProductList.sortedBy { it.price }}
-                else -> { filteredProductList }
+
+                "name" -> {
+                    filteredProductList.sortedBy { it.name }
+                }
+
+                "price" -> {
+                    if (isDescending) {
+                        filteredProductList.sortedByDescending { it.price }
+                    } else {
+                        filteredProductList.sortedBy { it.price }
+                    }
+                }
+
+                else -> {
+                    filteredProductList
+                }
             }
             notifyDataSetChanged()
         }

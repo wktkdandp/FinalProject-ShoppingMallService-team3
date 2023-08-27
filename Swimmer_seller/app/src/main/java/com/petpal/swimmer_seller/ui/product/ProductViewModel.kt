@@ -59,7 +59,7 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
                     tempProductList.add(product)
                 }
             }
-            _productList.value = tempProductList
+            _productList.value = tempProductList.sortedByDescending { it.regDate }  // 기존 최신순 정렬
         }
     }
 
