@@ -48,12 +48,10 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TabLayout 세팅
-        tabLayoutViewPagerSetting()
-
         fragmentProductDetailBinding.run {
             // Toolbar 백버튼
             toolbarProductDetail.setNavigationOnClickListener {
+                
                 findNavController().popBackStack()
             }
 
@@ -74,23 +72,26 @@ class ProductDetailFragment : Fragment() {
 
         // Observer
         productViewModel.run {
-            product.observe(viewLifecycleOwner){
+            product.observe(viewLifecycleOwner){ product ->
                 fragmentProductDetailBinding.run {
-                    if (it?.category != null) {
+                    if (product?.category != null) {
+                        // TabLayout 세팅
+                        tabLayoutViewPagerSetting()
+
                         // 메인 이미지
                         viewPagerMainImage.adapter?.notifyDataSetChanged()
 
                         // 텍스트 정보
-                        val category = it.category!!
+                        val category = product.category!!
                         textViewProductCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
-                        textViewProductBarndName.text = it.brandName
-                        textViewProductName.text = it.name
-                        textViewProductPrice.text = "${NumberFormat.getNumberInstance(Locale.getDefault()).format(it.price)}원"
+                        textViewProductBarndName.text = product.brandName
+                        textViewProductName.text = product.name
+                        textViewProductPrice.text = "${NumberFormat.getNumberInstance(Locale.getDefault()).format(product.price)}원"
                         // 해시태그 추가
-                        addHashTag(it.hashTag!!, chipGroupProductHashTag)
+                        addHashTag(product.hashTag!!, chipGroupProductHashTag)
                         // 색상, 사이즈 리스트
-                        val colorAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, it.colorList!!)
-                        val sizeAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, it.sizeList!!)
+                        val colorAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, product.colorList!!)
+                        val sizeAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, product.sizeList!!)
                         textViewProductColor.setAdapter(colorAdapter)
                         textViewProductSize.setAdapter(sizeAdapter)
                     }
@@ -127,7 +128,8 @@ class ProductDetailFragment : Fragment() {
             // TabLayout 화면 전환 리스너
             tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    fragmentProductDetailBinding.viewPagerContent.currentItem = tab!!.position
+                    nestedScrollView.scrollTo(0, 0)
+                    viewPagerContent.currentItem = tab!!.position
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) { }

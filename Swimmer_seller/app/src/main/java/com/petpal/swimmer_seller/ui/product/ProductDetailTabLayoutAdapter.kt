@@ -15,7 +15,7 @@ class ProductDetailTabLayoutAdapter(fragment: Fragment, val product: Product) : 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> ProductDetailTabFragment(product)
-            1 -> ProductReviewTabFragment()
+            1 -> ProductReviewTabFragment(product)
             2 -> ProductQnaTabFragment()
             else -> ProductDetailTabFragment(product)
         }
