@@ -76,7 +76,7 @@ dependencies {
     implementation("com.tbuonomo:dotsindicator:5.0")
 
     // splashscreen
-    implementation 'androidx.core:core-splashscreen:1.1.0-alpha01'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // firebase
     implementation 'com.google.firebase:firebase-storage:20.2.1'
