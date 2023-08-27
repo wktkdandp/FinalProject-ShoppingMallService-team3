@@ -84,12 +84,12 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.action_item_home_to_guideFragment)
             }
 
-            buttonLogout.setOnClickListener {
-                userViewModel.logOut()
-                //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
-                findNavController().popBackStack(R.id.mainFragment, true)
-                findNavController().navigate(R.id.loginFragment)
-            }
+//            buttonLogout.setOnClickListener {
+//                userViewModel.logOut()
+//                //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
+//                findNavController().popBackStack(R.id.mainFragment, true)
+//                findNavController().navigate(R.id.loginFragment)
+//            }
         }
 
         // TODO color, size 데이터 타입 등 orders 구조 통일되면 테스트하기

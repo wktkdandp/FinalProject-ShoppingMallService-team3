@@ -70,4 +70,7 @@ dependencies {
     implementation("com.google.firebase:firebase-functions-ktx")
     // Stoarage
     implementation 'com.google.firebase:firebase-storage:20.2.1'
+
+    //splashscreen
+    implementation 'androidx.core:core-splashscreen:1.0.0-alpha01'
 }
