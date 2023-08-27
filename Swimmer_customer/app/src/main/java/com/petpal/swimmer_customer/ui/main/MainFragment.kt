@@ -101,7 +101,7 @@ class MainFragment : Fragment() {
     }
     private fun AutoLogin(){
         val isAutoLogin = AutoLoginUtil.getAutoLogin(requireContext())
-        val currentUser = FirebaseAuth.getInstance().currentUser
+        //val currentUser = FirebaseAuth.getInstance().currentUser
 
         if (!isAutoLogin) {
             navController.navigate(R.id.LoginFragment)
