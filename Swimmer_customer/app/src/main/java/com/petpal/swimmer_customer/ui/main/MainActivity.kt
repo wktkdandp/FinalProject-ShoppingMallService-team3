@@ -15,7 +15,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var activityMainBinding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //installSplashScreen()
+
+        installSplashScreen()
+
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 

@@ -58,6 +58,7 @@
 
                             <androidx.viewpager2.widget.ViewPager2
                                 android:id="@+id/itemDetailViewPager2"
+                                android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
 
@@ -89,9 +90,9 @@
                             android:id="@+id/rankingTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/fragment_home_raking_text"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="20dp"
+                            android:text="@string/fragment_home_raking_text"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -107,17 +108,41 @@
                             app:layout_constraintTop_toBottomOf="@id/tabLayout" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/homeMainRv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                    <!--                    -->
+                    <com.skydoves.androidveil.VeilRecyclerFrameView
+                    android:id="@+id/homeMainRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:veilFrame_baseAlpha="0.6"
+                    app:veilFrame_baseColor="@color/gray_cc"
+                    app:veilFrame_highlightAlpha="1.0"
+                    app:veilFrame_highlightColor="@color/white"
+                    app:veilFrame_isItemWrapContentHeight="true"
+                    app:veilFrame_isItemWrapContentWidth="true"
+                    app:veilFrame_layout="@layout/item_profile"
+                    app:veilFrame_radius="8dp"
+                    app:veilFrame_shimmerEnable="true"
+                    app:veilFrame_veiled="true" />
 
                     <View
-                        android:background="@android:color/transparent"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp" />
+                        android:layout_height="100dp"
+                        android:background="@android:color/transparent" />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
+
+    <!--
+    app:veilFrame_layout="@layout/item_profile" // 베일링 대상 레이아웃을 만들기 위해 설정합니다.
+            app:veilFrame_veiled="true" // 처음에는 베일을 표시합니다.
+            app:veilFrame_shimmerEnable="true" // 쉬머 활성화 설정
+            app:veilFrame_baseColor="@android:color/holo_green_dark" // 반짝이는 기본 색상을 설정합니다.
+            app:veilFrame_highlightColor="@android:color/holo_green_light" // 반짝이는 하이라이트 색상을 설정합니다.
+            app:veilFrame_baseAlpha="0.6" // 쉬머 기본 알파 값 설정
+            app:veilFrame_highlightAlpha="1.0" // 반짝이는 하이라이트 알파 값 설정
+            app:veilFrame_radius="8dp" // 가려진 항목 전체의 모서리 반경을 설정합니다.
+            app:veilFrame_isItemWrapContentHeight="true" // 목록 항목의 높이를 설정합니다.
+            app:veilFrame_isItemWrapContentWidth="true" // 목록 항목의 너비를 설정합니다. Wrap_content />
+    -->

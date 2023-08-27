@@ -40,28 +40,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:padding="4dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardViewPayment"
                     style="@style/Widget.Material3.CardView.Elevated"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="10dp"
+                    tools:contentPadding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="15dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/textViewPaymentCount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="true"
                             android:gravity="center"
                             android:text="5"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -83,23 +86,24 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardViewReady"
                     style="@style/Widget.Material3.CardView.Elevated"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="10dp"
+                    tools:contentPadding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="15dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/textViewReadyCount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="true"
                             android:gravity="center"
                             android:text="5"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -119,23 +123,24 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardViewProgress"
                     style="@style/Widget.Material3.CardView.Elevated"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="10dp"
+                    tools:contentPadding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="15dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textViewDeliveryCount"
+                            android:id="@+id/textViewProcessCount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="true"
                             android:gravity="center"
                             android:text="5"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -155,22 +160,23 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardViewComplete"
                     style="@style/Widget.Material3.CardView.Elevated"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="10dp"
+                    tools:contentPadding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="15dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/textViewCompleteCount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="true"
                             android:gravity="center"
                             android:text="5"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -356,12 +362,12 @@
 
                         <ImageView
                             android:id="@+id/imageViewGuide"
-                            android:layout_width="200dp"
+                            android:layout_width="300dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="10dp"
                             android:layout_weight="1"
                             android:adjustViewBounds="true"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@drawable/seller_guide_image" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -380,7 +386,8 @@
                                 android:id="@+id/textViewGuideContent"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="SWIMMER Seller에 상품을 판매해보세요!"
+                                android:layout_marginTop="10dp"
+                                android:text="SWIMMER 앱에서 당신의 상품을 판매해보세요!"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                         </LinearLayout>
                     </LinearLayout>

@@ -12,7 +12,7 @@
     <string name="item_shopping_cart">장바구니</string>
     <string name="paymentButton">구매하기</string>
     <string name="fragment_home_raking_text">랭킹</string>
-    <string name="review_tab_review_text">상품후기│</string>
+    <string name="review_tab_review_text">상품 후기│</string>
     <string name="review_tab_buyerRating">구매자 평점</string>
     <string name="review_tab_very_good">아주 좋아요</string>
     <string name="review_tab_like_it">맘에 들어요</string>
@@ -139,6 +139,9 @@
     <string name="review_item_custom_info">맞춤 정보</string>
     <string name="review_item_selection_option">선택옵션</string>
     <string name="review_item_item_evaluation">상품평</string>
+    <string name="payment_button_bottom_sheet_spinner">옵션을 선택해주세요.</string>
+    <string name="payment_button_bottom_sheet_total_amount">총 금액 : </string>
+    <string name="payment_button_bottom_sheet_payment_button">바로 결제</string>
 
 
     <!--이 문자열 너무 길어서 맨 밑으로 빼주세요 -->

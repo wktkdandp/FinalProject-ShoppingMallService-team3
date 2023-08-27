@@ -2,7 +2,6 @@ package com.petpal.swimmer_seller.data.model
 
 data class Seller(
     val email:String,
-    val sellerAuthUid: String,
     val businessRegNumber:String,
     val representName: String,
     val brandName: String,

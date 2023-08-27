@@ -35,7 +35,7 @@ class HomeViewModel(private val productRepository: ProductRepository, private va
 
     // 로그인 판매자가 등록한 상품 건 수 가져오기
     fun getProductCount(sellerUid: String){
-        productRepository.getProductListBySellerIdx(sellerUid){
+        productRepository.getProductBySellerUid(sellerUid){
             productCount.value = it.result.childrenCount
         }
     }
