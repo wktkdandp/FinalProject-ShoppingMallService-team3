@@ -1,4 +1,4 @@
-package com.petpal.swimmer_customer.ui
+package com.petpal.swimmer_customer.ui.home
 
 import android.content.Context
 import android.util.Log
@@ -27,7 +27,6 @@ class HomeFragmentAdapter(val context: Context, private val dataSet: List<Produc
 
         init {
             item.root.setOnClickListener {
-                Log.d("포지션", adapterPosition.toString())
                 val action =
                     HomeFragmentDirections.actionItemHomeToItemDetailFragment(adapterPosition)
                 item.root.findNavController().navigate(action)
@@ -59,7 +58,7 @@ class HomeFragmentAdapter(val context: Context, private val dataSet: List<Produc
         }
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
-        val pathRef = storageRef.child(imagePathList[0].toString())
+        val pathRef = storageRef.child(imagePathList[0])
 
         pathRef.downloadUrl.addOnSuccessListener {
             Glide.with(context)

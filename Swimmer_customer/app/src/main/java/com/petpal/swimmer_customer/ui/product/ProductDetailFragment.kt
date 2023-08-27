@@ -13,9 +13,11 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -30,9 +32,12 @@ import com.google.firebase.database.FirebaseDatabase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.ItemsForCustomer
 import com.petpal.swimmer_customer.data.model.ProductDetailModel
-import com.petpal.swimmer_customer.data.model.productList
+
 
 import com.petpal.swimmer_customer.databinding.FragmentProductDetailBinding
+import com.petpal.swimmer_customer.ui.home.HomeFragmentAdapter
+import com.petpal.swimmer_customer.ui.home.HomeFragmentViewModel
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -42,19 +47,21 @@ class ProductDetailFragment : Fragment() {
     lateinit var fragmentProductDetailBinding: FragmentProductDetailBinding
     private var isFavorite = false
     private lateinit var viewModel: ProductViewModel
+    private lateinit var homeViewModel: HomeFragmentViewModel
     private lateinit var viewPagerAdapter: ProductDetailAdapter
     var bottomSheetSize = ""
     var bottomSheetColor = ""
     val imageList: MutableList<ProductDetailModel> = mutableListOf()
     val hashTagList: MutableList<String> = mutableListOf()
-    val sizeDataList = arrayOf(
-        "사이즈를 선택해 주세요", "XS", "S", "M", "L", "XL"
+    var sizeDataList = arrayOf(
+        "사이즈를 선택해 주세요"
     )
 
-    val colorDataList = arrayOf(
-        "색상을 선택해 주세요", "WHITE", "BLUE", "BLACK", "RED", "ORANGE"
+    var colorDataList = arrayOf(
+        "색상을 선택해 주세요"
     )
     private var isAnimationPlaying = false
+
     // 네비게이션 args 값 가져오기
     val args: ProductDetailFragmentArgs by navArgs()
     var firebaseSize = ""
@@ -65,52 +72,63 @@ class ProductDetailFragment : Fragment() {
     ): View? {
         fragmentProductDetailBinding = FragmentProductDetailBinding.inflate(inflater)
         viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+        homeViewModel = ViewModelProvider(this)[HomeFragmentViewModel::class.java]
         fragmentProductDetailBinding.vm = viewModel
         fragmentProductDetailBinding.lifecycleOwner = this
+        lifecycleScope.launch {
+            homeViewModel.fetchData()
+        }
+        homeViewModel.productListLiveData.observe(viewLifecycleOwner) { productList ->
+            viewModel.setProductDetailRanking(productList)
+        }
 
-        viewModel.setProductDetailRanking(productList)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            Navigation.findNavController(fragmentProductDetailBinding.root)
+                .navigate(R.id.action_itemDetailFragment_to_item_home)
+        }
 
         fragmentProductDetailBinding.run {
             productDetailToolbar()
             favorite()
             initViewPager2()
-
             val bottomNavigationView =
                 requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
             bottomNavigationView.visibility = View.GONE
 
             paymentButtonBottomSheet()
-            productDetailTabLayoutViewPage2()
-            productDetailViewPager2.isUserInputEnabled = false
 
-            val paths = productList[args.idx].mainImage[args.idx].substring(
-                1,
-                productList[args.idx].mainImage[args.idx].length - 1
-            ).split(",")
+            homeViewModel.productListLiveData.observe(viewLifecycleOwner) { productList ->
+                productDetailTabLayoutViewPage2()
+                productDetailViewPager2.isUserInputEnabled = false
+                val paths =
+                    productList[args.idx].mainImage[args.idx].substring(
+                        1,
+                        productList[args.idx].mainImage[args.idx].length - 1
+                    ).split(",")
 
-            for (path in paths) {
-                val cleanedPath = path.trim() // 좌우 공백 제거
-                imageList.add(ProductDetailModel(cleanedPath))
+                for (path in paths) {
+                    val cleanedPath = path.trim() // 좌우 공백 제거
+                    imageList.add(ProductDetailModel(cleanedPath))
+                }
+
+                val hashTagsPaths = productList[args.idx].hashTag[args.idx].substring(
+                    1,
+                    productList[args.idx].hashTag[args.idx].length - 1
+                ).split(",")
+
+                for (path in hashTagsPaths) {
+                    val cleanedPath = path.trim() // 좌우 공백 제거
+                    hashTagList.add(cleanedPath)
+                }
+
+                viewPagerAdapter.submitList(imageList)
+
+                viewModel.rankingText(
+                    productList[args.idx].brandName,
+                    productList[args.idx].name,
+                    productList[args.idx].price
+                )
             }
-
-            val hashTagsPaths = productList[args.idx].hashTag[args.idx].substring(
-                1,
-                productList[args.idx].hashTag[args.idx].length - 1
-            ).split(",")
-
-            for (path in hashTagsPaths) {
-                val cleanedPath = path.trim() // 좌우 공백 제거
-                hashTagList.add(cleanedPath)
-            }
-
-            viewPagerAdapter.submitList(imageList)
-
-            viewModel.rankingText(
-                productList[args.idx].brandName,
-                productList[args.idx].name,
-                productList[args.idx].price
-            )
-
             for (text in hashTagList) {
                 val chip = createChip(text)
                 hashTagChipGroup.addView(chip)
@@ -141,10 +159,8 @@ class ProductDetailFragment : Fragment() {
 
         val bottomSheetSizeSpinner =
             bottomSheetView.findViewById<Spinner>(R.id.bottomSheetSizeSpinner)
-
         val bottomSheetColorSpinner =
             bottomSheetView.findViewById<Spinner>(R.id.bottomSheetColorSpinner)
-
         val bottomSheetPaymentButton =
             bottomSheetView.findViewById<Button>(R.id.bottomSheetPaymentButton)
         var bottomSheetItemCount =
@@ -154,9 +170,24 @@ class ProductDetailFragment : Fragment() {
         val bottomSheetTotalAmountTextView =
             bottomSheetView.findViewById<TextView>(R.id.totalAmountTextView)
 
-        sizeSpinner(bottomSheetSizeSpinner, bottomSheetPaymentButton)
-        colorSpinner(bottomSheetColorSpinner, bottomSheetPaymentButton)
 
+        homeViewModel.productListLiveData.observe(viewLifecycleOwner) { productList ->
+            var sizeLists = productList[args.idx].sizeList[args.idx].substring(
+                1,
+                productList[args.idx].sizeList[args.idx].length - 1
+            ).split(",").map { it.trim() }
+
+            var colorLists = productList[args.idx].colorList[args.idx].substring(
+                1,
+                productList[args.idx].colorList[args.idx].length - 1
+            ).split(",").map { it.trim() }
+
+            sizeDataList += sizeLists
+            colorDataList += colorLists
+
+            sizeSpinner(bottomSheetSizeSpinner)
+            colorSpinner(bottomSheetColorSpinner)
+        }
         viewModel.isButtonEnabled.observe(viewLifecycleOwner) {
             bottomSheetPaymentButton.isEnabled = it
         }
@@ -178,33 +209,42 @@ class ProductDetailFragment : Fragment() {
                     bottomSheetTotalAmountTextView.text =
                         formatPrice(it[args.idx].price.times(count))
                 }
-                bottomSheetPaymentButton.isEnabled = count != 0
-
+                if(count==0){
+                    bottomSheetMinusButton.isClickable=false
+                    bottomSheetPaymentButton.isEnabled=false
+                }else{
+                    bottomSheetMinusButton.isClickable=true
+                }
             }
-
-
         }
 
         bottomSheetPaymentButton.setOnClickListener {
-
             // 데이터 가공
             var firebaseMainImage = ""
             val _longPrice: String = bottomSheetTotalAmountTextView.text.toString()
             val longPrice: Long = _longPrice.replace("[^\\d]".toRegex(), "").toLong()
+            homeViewModel.productListLiveData.observe(viewLifecycleOwner) { productList ->
+                val startIndex = productList[args.idx].mainImage[args.idx].indexOf("[image/")
+                val endIndex = productList[args.idx].mainImage[args.idx].indexOf("]", startIndex)
+                if (startIndex != -1 && endIndex != -1) {
+                    val extracted =
+                        productList[args.idx].mainImage[args.idx].substring(
+                            startIndex + 1,
+                            endIndex
+                        )
+                    firebaseMainImage = extracted.split(",")[0].trim()
 
-            val startIndex = productList[args.idx].mainImage[args.idx].indexOf("[image/")
-            val endIndex = productList[args.idx].mainImage[args.idx].indexOf("]", startIndex)
-            if (startIndex != -1 && endIndex != -1) {
-                val extracted =
-                    productList[args.idx].mainImage[args.idx].substring(startIndex + 1, endIndex)
-                firebaseMainImage = extracted.split(",")[0].trim()
-
+                }
             }
-
             // 데이터 대입
-            val productUid: String = productList[args.idx].productUid
-            val sellerUid: String = productList[args.idx].sellerUid
-            val name: String = productList[args.idx].name
+            var productUid = ""
+            var sellerUid = ""
+            var name = ""
+            homeViewModel.productListLiveData.observe(viewLifecycleOwner) { productList ->
+                productUid = productList[args.idx].productUid
+                sellerUid = productList[args.idx].sellerUid
+                name = productList[args.idx].name
+            }
             val mainImage: String = firebaseMainImage
             val price: Long = longPrice
 
@@ -231,18 +271,17 @@ class ProductDetailFragment : Fragment() {
             val DataRef = database.getReference("itemsForCustomer")
             DataRef.push().setValue(itemsForCustomer)
 
-            paymentButton.setOnClickListener {
-                Navigation.findNavController(fragmentProductDetailBinding.root)
-                    .navigate(R.id.action_itemDetailFragment_to_paymentFragment)
-            }
+
+            Navigation.findNavController(fragmentProductDetailBinding.root)
+                .navigate(R.id.action_itemDetailFragment_to_paymentFragment)
+
             bottomSheetDialog.dismiss()
         }
     }
 
 
     private fun sizeSpinner(
-        bottomSheetSpinner: Spinner?,
-        bottomSheetPaymentButton: Button
+        bottomSheetSpinner: Spinner?
     ) {
         bottomSheetSpinner?.run {
             val a1 = ArrayAdapter<String>(
@@ -279,8 +318,7 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun colorSpinner(
-        bottomSheetSpinner: Spinner?,
-        bottomSheetPaymentButton: Button
+        bottomSheetSpinner: Spinner?
     ) {
         bottomSheetSpinner?.run {
             val a1 = ArrayAdapter<String>(
@@ -303,7 +341,6 @@ class ProductDetailFragment : Fragment() {
                     id: Long
                 ) {
                     // 1번 아이템만 바로 결제 버튼 비활성화
-
 
                     firebaseColor = colorDataList[position]
                     bottomSheetColor = colorDataList[position]
@@ -359,20 +396,18 @@ class ProductDetailFragment : Fragment() {
             viewPagerAdapter = ProductDetailAdapter(requireContext(), imageList)
             adapter = viewPagerAdapter
             fragmentProductDetailBinding.dotsIndicator.attachTo(this)
+
             val handler = Handler(Looper.getMainLooper())
             handler.postDelayed({
                 fragmentProductDetailBinding.veilLayout.unVeil()
-            }, 2000)
+            }, 1500)
+
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             })
         }
-
     }
 
     private fun updateFavoriteButtonState() {
-//        val drawableRes = if (isFavorite) R.drawable.full_favorite_24 else R.drawable.favorite_24px
-//        fragmentProductDetailBinding.favoriteButton.setImageResource(drawableRes)
-
         fragmentProductDetailBinding.favoriteButton.setOnClickListener {
             if (isAnimationPlaying) {
                 fragmentProductDetailBinding.favoriteButton.progress = 0.0f
@@ -382,7 +417,6 @@ class ProductDetailFragment : Fragment() {
                 isAnimationPlaying = true
             }
         }
-
     }
 
     private fun productDetailTabLayoutViewPage2() {
