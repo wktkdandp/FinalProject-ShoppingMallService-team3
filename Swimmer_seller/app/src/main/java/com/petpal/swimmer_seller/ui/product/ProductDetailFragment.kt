@@ -1,11 +1,12 @@
 package com.petpal.swimmer_seller.ui.product
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,7 @@ import com.petpal.swimmer_seller.databinding.FragmentProductDetailBinding
 import com.petpal.swimmer_seller.databinding.ItemImageSliderBinding
 import java.text.NumberFormat
 import java.util.Locale
+
 
 class ProductDetailFragment : Fragment() {
     private lateinit var productViewModel: ProductViewModel
@@ -86,6 +88,11 @@ class ProductDetailFragment : Fragment() {
                         textViewProductPrice.text = "${NumberFormat.getNumberInstance(Locale.getDefault()).format(it.price)}원"
                         // 해시태그 추가
                         addHashTag(it.hashTag!!, chipGroupProductHashTag)
+                        // 색상, 사이즈 리스트
+                        val colorAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, it.colorList!!)
+                        val sizeAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, it.sizeList!!)
+                        textViewProductColor.setAdapter(colorAdapter)
+                        textViewProductSize.setAdapter(sizeAdapter)
                     }
                 }
             }

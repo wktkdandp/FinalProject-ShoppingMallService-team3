@@ -35,7 +35,8 @@ class ProductListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentProductListBinding = FragmentProductListBinding.inflate(inflater)
-        productViewModel = ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
+        productViewModel =
+            ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
 
         productViewModel.getAllProductBySellerUid(Firebase.auth.currentUser!!.uid)
 
@@ -50,7 +51,7 @@ class ProductListFragment : Fragment() {
         sortArray = resources.getStringArray(R.array.productSort)
 
         productViewModel.run {
-            productList.observe(viewLifecycleOwner){
+            productList.observe(viewLifecycleOwner) {
                 fragmentProductListBinding.run {
                     if (it.isEmpty()) {
                         textViewProductEmpty.visibility = View.VISIBLE
@@ -61,7 +62,12 @@ class ProductListFragment : Fragment() {
                         recyclerViewProductList.run {
                             adapter = ProductRecyclerViewAdapter(it)
                             layoutManager = LinearLayoutManager(requireContext())
-                            addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
+                            addItemDecoration(
+                                MaterialDividerItemDecoration(
+                                    context,
+                                    MaterialDividerItemDecoration.VERTICAL
+                                )
+                            )
 
                             // 필터링, 정렬 리스트 유지
                             autoTextViewFilter.setSimpleItems(filterArray)
@@ -84,7 +90,12 @@ class ProductListFragment : Fragment() {
             recyclerViewProductList.run {
                 adapter = ProductRecyclerViewAdapter(productViewModel.productList.value!!)
                 layoutManager = LinearLayoutManager(requireContext())
-                addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
+                addItemDecoration(
+                    MaterialDividerItemDecoration(
+                        context,
+                        MaterialDividerItemDecoration.VERTICAL
+                    )
+                )
             }
 
             // 필터링
@@ -105,7 +116,7 @@ class ProductListFragment : Fragment() {
         }
     }
 
-    private fun onFilterTextChanged(){
+    private fun onFilterTextChanged() {
         fragmentProductListBinding.run {
             val selectedFilterItem = autoTextViewFilter.text.toString()
             val recyclerViewAdapter = recyclerViewProductList.adapter as ProductRecyclerViewAdapter
@@ -113,21 +124,36 @@ class ProductListFragment : Fragment() {
         }
     }
 
-    private fun onSortTextChanged(){
+    private fun onSortTextChanged() {
         fragmentProductListBinding.run {
             val selectedSortItem = autoTextViewSort.text.toString()
             val recyclerViewAdapter = recyclerViewProductList.adapter as ProductRecyclerViewAdapter
-            when(selectedSortItem){
-                sortArray[0] -> { recyclerViewAdapter.sort("regDate", true) }
-                sortArray[1] -> { recyclerViewAdapter.sort("regDate", false) }
-                sortArray[2] -> { recyclerViewAdapter.sort("name", false) }
-                sortArray[3] -> { recyclerViewAdapter.sort("price", false) }
-                sortArray[4] -> { recyclerViewAdapter.sort("price", true) }
+            when (selectedSortItem) {
+                sortArray[0] -> {
+                    recyclerViewAdapter.sort("regDate", true)
+                }
+
+                sortArray[1] -> {
+                    recyclerViewAdapter.sort("regDate", false)
+                }
+
+                sortArray[2] -> {
+                    recyclerViewAdapter.sort("name", false)
+                }
+
+                sortArray[3] -> {
+                    recyclerViewAdapter.sort("price", false)
+                }
+
+                sortArray[4] -> {
+                    recyclerViewAdapter.sort("price", true)
+                }
             }
         }
     }
 
-    inner class ProductRecyclerViewAdapter(private var productList: List<Product>): Adapter<ProductRecyclerViewAdapter.ProductViewHolder>() {
+    inner class ProductRecyclerViewAdapter(private var productList: List<Product>) :
+        Adapter<ProductRecyclerViewAdapter.ProductViewHolder>() {
         // 필터링된 상품 리스트를 저장할 변수 (default : 전체, 최신순)
         private var filteredProductList = productList.sortedByDescending { it.regDate }
 
@@ -211,9 +237,7 @@ class ProductListFragment : Fragment() {
                     }
                 }
 
-                "name" -> {
-                    filteredProductList.sortedBy { it.name }
-                }
+                "name" -> { filteredProductList.sortedBy { it.name } }
 
                 "price" -> {
                     if (isDescending) {
@@ -223,9 +247,7 @@ class ProductListFragment : Fragment() {
                     }
                 }
 
-                else -> {
-                    filteredProductList
-                }
+                else -> { filteredProductList }
             }
             notifyDataSetChanged()
         }
