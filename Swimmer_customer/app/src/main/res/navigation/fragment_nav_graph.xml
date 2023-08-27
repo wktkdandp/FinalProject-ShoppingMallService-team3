@@ -5,7 +5,7 @@
     android:id="@+id/fragment_nav_graph"
     app:startDestination="@+id/LoginFragment">
 
-    <!-- Fragments and actions from nav_graph.xml -->
+
     <fragment
         android:id="@+id/MainFragment"
         android:name="com.petpal.swimmer_customer.ui.main.MainFragment"
@@ -106,7 +106,7 @@
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/item_home"
-        android:name="com.petpal.swimmer_customer.ui.HomeFragment"
+        android:name="com.petpal.swimmer_customer.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -133,6 +133,9 @@
         <action
             android:id="@+id/action_itemDetailFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
+        <action
+            android:id="@+id/action_itemDetailFragment_to_testActivity"
+            app:destination="@id/testActivity" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -168,5 +171,10 @@
             android:id="@+id/action_item_mypage_to_LoginFragment"
             app:destination="@id/LoginFragment" />
     </fragment>
+    <activity
+        android:id="@+id/testActivity"
+        android:name="com.petpal.swimmer_customer.testActivity"
+        android:label="activity_test"
+        tools:layout="@layout/activity_test" />
 
 </navigation>

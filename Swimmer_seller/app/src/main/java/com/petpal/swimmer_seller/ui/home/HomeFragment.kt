@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.MainActivity
 import com.petpal.swimmer_seller.R
+import com.petpal.swimmer_seller.data.model.Order
 import com.petpal.swimmer_seller.data.repository.OrderRepository
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentHomeBinding
+import com.petpal.swimmer_seller.ui.order.OrderState
 import com.petpal.swimmer_seller.ui.order.OrderViewModel
 import com.petpal.swimmer_seller.ui.order.OrderViewModelFactory
 import com.petpal.swimmer_seller.ui.product.ProductViewModel
@@ -50,26 +54,37 @@ class HomeFragment : Fragment() {
         }
 
         orderViewModel.run {
-            paymentCount.observe(viewLifecycleOwner){
-                fragmentHomeBinding.textViewPaymentCount.text = it.toString()
-            }
-            readyCount.observe(viewLifecycleOwner){
-                fragmentHomeBinding.textViewReadyCount.text = it.toString()
-            }
-            processCount.observe(viewLifecycleOwner){
-                fragmentHomeBinding.textViewProcessCount.text = it.toString()
-            }
-            completeCount.observe(viewLifecycleOwner){
-                fragmentHomeBinding.textViewCompleteCount.text = it.toString()
-            }
-            cancelCount.observe(viewLifecycleOwner){
-                fragmentHomeBinding.textViewCancelCount.text = "${it}건"
-            }
-            exchangeCount.observe(viewLifecycleOwner){
-                fragmentHomeBinding.textViewExchangeCount.text = "${it}건"
-            }
-            refundCount.observe(viewLifecycleOwner){
-                fragmentHomeBinding.textViewRefundCount.text = "${it}건"
+            orderList.observe(viewLifecycleOwner){
+                fragmentHomeBinding.run {
+                    // 주문 상태 건 수 표시
+                    textViewPaymentCount.text = it.filter {
+                        it.state == OrderState.PAYMENT.code
+                    }.size.toString()
+
+                    textViewReadyCount.text = it.filter {
+                        it.state == OrderState.READY.code
+                    }.size.toString()
+
+                    textViewProcessCount.text = it.filter {
+                        it.state == OrderState.PROCESS.code
+                    }.size.toString()
+
+                    textViewCompleteCount.text = it.filter {
+                        it.state == OrderState.COMPLETE.code
+                    }.size.toString()
+
+                    textViewExchangeCount.text = it.filter {
+                        it.state == OrderState.EXCHANGE.code
+                    }.size.toString()
+
+                    textViewCancelCount.text = it.filter {
+                        it.state == OrderState.CANCEL.code
+                    }.size.toString()
+
+                    textViewRefundCount.text = it.filter {
+                        it.state == OrderState.REFUND.code
+                    }.size.toString()
+                }
             }
         }
 
@@ -88,20 +103,13 @@ class HomeFragment : Fragment() {
                 // 판매자 가이드 화면으로 이동
                 findNavController().navigate(R.id.action_item_home_to_item_guide)
             }
-            // 홈 화면에 로그아웃 버튼 위젯이 안보여서 일단 주석처리 해둘게요
-//            buttonLogout.setOnClickListener {
-//                userViewModel.logOut()
-//                //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
-//                findNavController().popBackStack(R.id.mainFragment, true)
-//                findNavController().navigate(R.id.loginFragment)
-//            }
         }
 
         // 로그인 판매자가 관련된 주문들 건 수 표시
-        orderViewModel.getOrderCountByState(mainActivity.loginSellerUid)
+        orderViewModel.getOrderBySellerUid(Firebase.auth.currentUser!!.uid)
         
         // 로그인 판매자가 등록한 상품 개수 표시
-        productViewModel.getProductCount(mainActivity.loginSellerUid)
+        productViewModel.getProductCount(Firebase.auth.currentUser!!.uid)
 
         return fragmentHomeBinding.root
     }

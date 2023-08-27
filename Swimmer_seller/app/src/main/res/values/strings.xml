@@ -195,18 +195,22 @@
 
     <!-- 상품 목록 필터링 -->
     <string-array name="productFilter">
+        <item>전체</item>
         <item>여성</item>
         <item>남성</item>
         <item>아동</item>
         <item>용품</item>
     </string-array>
 
-    <!-- 상품 목록 정렬 -->
+    <!--상품 목록 정렬-->
     <string-array name="productSort">
-        <item>가격순</item>
-        <item>이름순</item>
+        <item>최신순</item>
         <item>등록순</item>
+        <item>이름순</item>
+        <item>가격 낮은순</item>
+        <item>가격 높은순</item>
     </string-array>
+
 
     <string name="action_add_product">상품등록 하기</string>
     <string name="prompt_product_count">등록된 상품이 0건 있습니다.</string>
@@ -274,6 +278,7 @@
     <string name="label_shipping_await">배송준비</string>
     <string name="label_shipping_continue">배송중</string>
     <string name="label_shipping_completed">배송완료</string>
+
     <string name="checkbox_info_usage">개인정보 수집이용에 동의합니다.</string>
 
     <string name="invalid_bus_reg_num">사업자 등록번호를 입력해주세요</string>

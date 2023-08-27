@@ -6,9 +6,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
 import com.petpal.swimmer_customer.R
-import com.petpal.swimmer_customer.data.model.productList
-import com.petpal.swimmer_customer.ui.product.ProductViewModel
-
 
 @BindingAdapter("productDetailImage")
 fun imageUri(imageView: ImageView, imageUrl: String?) {

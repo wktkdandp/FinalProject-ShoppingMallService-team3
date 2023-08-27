@@ -2,8 +2,6 @@ package com.petpal.swimmer_customer.data.model
 
 import com.google.firebase.database.PropertyName
 
-var productList = mutableListOf<Product>()
-
 data class Product(
     val category: Category,
     val code: String,

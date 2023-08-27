@@ -6,16 +6,16 @@ import android.os.Parcelable
 // 리뷰
 data class Review(
     var reviewUid: String? = null,
-    var sellerUid: String? = null,
+    var customerUid: String? = null,
     var height: Long? = null,
     var weight: Long? = null,
     var rating: Double = 0.0,
     var date: String? = null,
     var content: String? = null,
     var Image: String? = null,
-    var size: Long = 0L,
-    var color: Long = 0L
-):Parcelable {
+    var size: String? = null,
+    var color: String? = null
+): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
@@ -25,22 +25,22 @@ data class Review(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readLong(),
-        parcel.readLong()
+        parcel.readString(),
+        parcel.readString()
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(reviewUid)
-        parcel.writeString(sellerUid)
+        parcel.writeString(customerUid)
         parcel.writeValue(height)
         parcel.writeValue(weight)
         parcel.writeDouble(rating)
         parcel.writeString(date)
         parcel.writeString(content)
         parcel.writeString(Image)
-        parcel.writeLong(size)
-        parcel.writeLong(color)
+        parcel.writeString(size)
+        parcel.writeString(color)
     }
 
     override fun describeContents(): Int {

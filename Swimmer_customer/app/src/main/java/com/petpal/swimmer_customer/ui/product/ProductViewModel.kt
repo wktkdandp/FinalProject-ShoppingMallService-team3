@@ -1,10 +1,14 @@
 package com.petpal.swimmer_customer.ui.product
 
+import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.firebase.storage.FirebaseStorage
+import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.Product
 import java.text.NumberFormat
 import java.util.Locale
@@ -55,8 +59,20 @@ class ProductViewModel() : ViewModel() {
         _productDetail.value = productList
     }
 
-    fun productDetailImageUri(imageUrl: String) {
-        _productDetailImage.value = imageUrl
+    fun productDetailImageUri(imageView: ImageView, imageUrl: String) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val pathRef = storageRef.child(imageUrl!!)
+
+        pathRef.downloadUrl.addOnSuccessListener {
+            Glide.with(imageView.context)
+                .load(it)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .centerCrop()
+                .error(R.drawable.noimg)
+                .into(imageView)
+        }
     }
 
     fun rankingText(brandText: String, titleText: String, priceText: Int) {

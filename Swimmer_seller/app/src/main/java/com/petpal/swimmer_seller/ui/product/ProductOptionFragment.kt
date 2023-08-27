@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -14,14 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
-import com.google.android.material.snackbar.Snackbar
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Image
 import com.petpal.swimmer_seller.data.model.Product
-import com.petpal.swimmer_seller.data.repository.ProductRepository
+import com.petpal.swimmer_seller.databinding.FragmentProductOptionBottomSheetBinding
 import com.petpal.swimmer_seller.databinding.FragmentProductOptionBinding
-import com.petpal.swimmer_seller.databinding.LayoutBottomSheetOptionBinding
-import com.petpal.swimmer_seller.databinding.RowProductOptionBinding
+import com.petpal.swimmer_seller.databinding.ItemProductOptionBinding
 
 class ProductOptionFragment : Fragment() {
     private lateinit var productViewModel: ProductViewModel
@@ -82,8 +81,8 @@ class ProductOptionFragment : Fragment() {
 
             buttonShowBottomSheet.setOnClickListener {
                 // ModalBottomSheet에서 추가 버튼 클릭시 처리 리스너 등록
-                val modalBottomSheet = ModalBottomSheet()
-                modalBottomSheet.setOnOptionSelectionListener(object : ModalBottomSheet.OnOptionSelectedListener {
+                val modalBottomSheetProduct = ModalBottomSheetProduct()
+                modalBottomSheetProduct.setOnOptionSelectionListener(object : ModalBottomSheetProduct.OnOptionSelectedListener {
                     override fun onOptionSelected(colorList: List<String>, sizeList: List<String>) {
                         Log.d("product", colorList.joinToString(","))
                         Log.d("product", sizeList.joinToString(","))
@@ -93,7 +92,7 @@ class ProductOptionFragment : Fragment() {
                     }
                 })
 
-                modalBottomSheet.show(requireActivity().supportFragmentManager, modalBottomSheet.tag)
+                modalBottomSheetProduct.show(requireActivity().supportFragmentManager, modalBottomSheetProduct.tag)
             }
 
             recyclerViewColor.run {
@@ -111,19 +110,17 @@ class ProductOptionFragment : Fragment() {
             // 상품 등록
             buttonRegisterProduct.setOnClickListener {
                 progressBarOption.visibility = View.VISIBLE
-                // TODO product 객체 받아서 colorList, sizeList 세팅 후 DB 저장
 
+                // 전달받은 product 객체에 colorList, sizeList 정보 세팅
                 product.colorList = productViewModel.colorList.value
                 product.sizeList = productViewModel.sizeList.value
 
                 // 상품 정보 DB 저장
                 productViewModel.addProduct(product)
-
                 // 이미지 업로드
                 productViewModel.uploadImageList(imageArray)
 
-                Snackbar.make(fragmentProductOptionBinding.root, "상품이 등록되었습니다.", Snackbar.LENGTH_SHORT).show()
-                // 홈 화면 전환
+                Toast.makeText(context, "상품이 등록 되었습니다", Toast.LENGTH_LONG).show()
                 findNavController().popBackStack(R.id.item_home, false)
             }
         }
@@ -133,9 +130,9 @@ class ProductOptionFragment : Fragment() {
     // 선택한 색상, 사이즈 목록 표시
     // 색상 목록 RecyclerView Adapter
     inner class ColorRecyclerViewAdapter() : RecyclerView.Adapter<ColorRecyclerViewAdapter.ColorViewHolder>() {
-        inner class ColorViewHolder(rowOptionBinding:RowProductOptionBinding): RecyclerView.ViewHolder(rowOptionBinding.root){
-            val textViewOption = rowOptionBinding.textViewOption
-            val buttonDeleteOption = rowOptionBinding.buttonDeleteOption
+        inner class ColorViewHolder(itemProductOptionBinding:ItemProductOptionBinding): RecyclerView.ViewHolder(itemProductOptionBinding.root){
+            val textViewOption = itemProductOptionBinding.textViewOption
+            private val buttonDeleteOption = itemProductOptionBinding.buttonDeleteOption
 
             init {
                 buttonDeleteOption.setOnClickListener {
@@ -146,7 +143,7 @@ class ProductOptionFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {
-            val rowOptionBinding = RowProductOptionBinding.inflate(layoutInflater)
+            val rowOptionBinding = ItemProductOptionBinding.inflate(layoutInflater)
             val colorViewHolder = ColorViewHolder(rowOptionBinding)
             rowOptionBinding.root.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -166,7 +163,7 @@ class ProductOptionFragment : Fragment() {
 
     // 사이즈 목록 RecyclerView Adapter
     inner class SizeRecyclerViewAdapter() : RecyclerView.Adapter<SizeRecyclerViewAdapter.SizeViewHolder>() {
-        inner class SizeViewHolder(rowOptionBinding:RowProductOptionBinding): RecyclerView.ViewHolder(rowOptionBinding.root){
+        inner class SizeViewHolder(rowOptionBinding:ItemProductOptionBinding): RecyclerView.ViewHolder(rowOptionBinding.root){
             val textViewOption = rowOptionBinding.textViewOption
             val buttonDeleteOption = rowOptionBinding.buttonDeleteOption
             init {
@@ -178,7 +175,7 @@ class ProductOptionFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SizeViewHolder {
-            val rowOptionBinding = RowProductOptionBinding.inflate(layoutInflater)
+            val rowOptionBinding = ItemProductOptionBinding.inflate(layoutInflater)
             val sizeViewHolder = SizeViewHolder(rowOptionBinding)
             rowOptionBinding.root.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -198,8 +195,8 @@ class ProductOptionFragment : Fragment() {
 }
 
 // 색상, 사이즈 선택 Modal BottomSheet
-class ModalBottomSheet: BottomSheetDialogFragment(){
-    private lateinit var modalBottomSheetBinding: LayoutBottomSheetOptionBinding
+class ModalBottomSheetProduct: BottomSheetDialogFragment(){
+    private lateinit var modalBottomSheetBinding: FragmentProductOptionBottomSheetBinding
     private lateinit var listener : OnOptionSelectedListener
 
     fun setOnOptionSelectionListener(listener: OnOptionSelectedListener){
@@ -211,7 +208,7 @@ class ModalBottomSheet: BottomSheetDialogFragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        modalBottomSheetBinding = LayoutBottomSheetOptionBinding.inflate(inflater, container, false)
+        modalBottomSheetBinding = FragmentProductOptionBottomSheetBinding.inflate(inflater, container, false)
         return modalBottomSheetBinding.root
     }
 
@@ -244,7 +241,7 @@ class ModalBottomSheet: BottomSheetDialogFragment(){
         }
     }
 
-    // ModalBottomSheet 에서 입력된 데이터를 ParentFragment로 전달하기 위한 인터페이스
+    // ModalBottomSheetProduct 에서 입력된 데이터를 ParentFragment로 전달하기 위한 인터페이스
     interface OnOptionSelectedListener {
         fun onOptionSelected(colorList: List<String>, sizeList : List<String>)
     }
