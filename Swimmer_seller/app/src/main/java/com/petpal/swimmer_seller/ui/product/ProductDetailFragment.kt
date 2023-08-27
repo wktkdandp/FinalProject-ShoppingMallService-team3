@@ -29,6 +29,9 @@ class ProductDetailFragment : Fragment() {
 
     lateinit var productUid : String
 
+    // TabItem 생성 추가
+    var tabNameArray = arrayOf("상품상세", "상품후기 (0)", "상품 Q&A")
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -94,6 +97,8 @@ class ProductDetailFragment : Fragment() {
                         val sizeAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, product.sizeList!!)
                         textViewProductColor.setAdapter(colorAdapter)
                         textViewProductSize.setAdapter(sizeAdapter)
+                        // 리뷰 개수
+                        tabNameArray[1] = "상품후기 (${product.reviewList?.size})"
                     }
                 }
             }
@@ -105,24 +110,21 @@ class ProductDetailFragment : Fragment() {
             // ViewPager2 어댑터 등록
             viewPagerContent.adapter = ProductDetailTabLayoutAdapter(this@ProductDetailFragment, productViewModel.product.value!!)
 
-            // TabItem 생성 추가
-            val tabName = arrayOf("상품상세", "상품후기 (0)", "상품 Q&A")
-
             val tabItemProductInfo: TabLayout.Tab = tabLayout.newTab()
-            tabItemProductInfo.text = tabName[0]
+            tabItemProductInfo.text = tabNameArray[0]
             tabLayout.addTab(tabItemProductInfo)
 
             val tabItemProductReview: TabLayout.Tab = tabLayout.newTab()
-            tabItemProductReview.text = tabName[1]
+            tabItemProductReview.text = tabNameArray[1]
             tabLayout.addTab(tabItemProductReview)
 
             val tabItemProductQnA: TabLayout.Tab = tabLayout.newTab()
-            tabItemProductQnA.text = tabName[2]
+            tabItemProductQnA.text = tabNameArray[2]
             tabLayout.addTab(tabItemProductQnA)
 
             // TabLayout, ViewPager2 연동
             TabLayoutMediator(tabLayout, viewPagerContent){ tab: TabLayout.Tab, position: Int ->
-                tab.text = tabName[position]
+                tab.text = tabNameArray[position]
             }.attach()
 
             // TabLayout 화면 전환 리스너

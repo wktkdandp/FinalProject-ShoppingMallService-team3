@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="무게"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupReviewWeight"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            app:columnCount="3"
+            app:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip44kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="44kg 이하"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip45kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="45 ~ 49 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip50kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="50 ~ 54 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip55kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="55 ~ 59 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip60kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="60 ~ 64 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip65kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="65 ~ 69 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip70kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="70 ~ 74 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip75kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="75 ~ 79 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip80kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="80 ~ 84 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip85kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="85 ~ 89 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip90kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="90 ~ 94 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip95kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="95 ~ 99 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip100kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="100 ~ 104 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip105kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="105 ~ 109 kg"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip115kg"
+                style="@style/Widget.Material3.Chip.Filter.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="115 kg 이상"
+                android:textAlignment="center"
+                app:layout_columnWeight="1" />
+        </androidx.gridlayout.widget.GridLayout>
+
+    </com.google.android.material.chip.ChipGroup>
+
+
+</LinearLayout>

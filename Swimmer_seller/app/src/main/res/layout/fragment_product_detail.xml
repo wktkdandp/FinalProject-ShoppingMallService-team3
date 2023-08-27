@@ -45,6 +45,7 @@
                     android:orientation="vertical">
 
                     <!-- 상품 메인 이미지 -->
+
                     <FrameLayout
                         android:id="@+id/frameLayoutProductMainImage"
                         android:layout_width="match_parent"
@@ -197,7 +198,9 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerContent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                />
 
         </androidx.core.widget.NestedScrollView>
 
