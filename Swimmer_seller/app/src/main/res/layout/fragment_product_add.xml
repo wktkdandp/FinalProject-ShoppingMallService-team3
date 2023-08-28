@@ -87,7 +87,8 @@
                 android:hint="@string/prompt_product_name"
                 android:transitionGroup="true"
                 app:endIconMode="clear_text"
-                app:errorEnabled="false">
+                app:errorEnabled="false"
+                tools:transitionGroup="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputEditTextProductName"
@@ -104,7 +105,8 @@
                 android:layout_marginTop="10dp"
                 android:hint="@string/prompt_category_main"
                 android:transitionGroup="true"
-                app:errorEnabled="false">
+                app:errorEnabled="false"
+                tools:transitionGroup="true">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/dropdownCategoryMain"
@@ -123,7 +125,8 @@
                 android:enabled="false"
                 android:hint="@string/prompt_category_mid"
                 android:transitionGroup="true"
-                app:errorEnabled="false">
+                app:errorEnabled="false"
+                tools:transitionGroup="true">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/dropdownCategoryMid"
@@ -142,7 +145,8 @@
                 android:enabled="false"
                 android:hint="@string/prompt_category_sub"
                 android:transitionGroup="true"
-                app:errorEnabled="false">
+                app:errorEnabled="false"
+                tools:transitionGroup="true">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/dropdownCategorySub"
@@ -206,7 +210,8 @@
                 android:hint="@string/prompt_price"
                 android:transitionGroup="true"
                 app:endIconMode="clear_text"
-                app:errorEnabled="false">
+                app:errorEnabled="false"
+                tools:transitionGroup="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputEditTextPrice"
@@ -223,7 +228,8 @@
                 android:hint="@string/prompt_product_description"
                 android:transitionGroup="true"
                 app:endIconMode="clear_text"
-                app:errorEnabled="false">
+                app:errorEnabled="false"
+                tools:transitionGroup="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputEditTextDescription"
