@@ -20,13 +20,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.ItemsForCustomer
-import com.petpal.swimmer_customer.data.model.OrderByCustomer
+import com.petpal.swimmer_customer.data.model.Order
 import com.petpal.swimmer_customer.databinding.FragmentPaymentBinding
 import com.petpal.swimmer_customer.databinding.PaymentItemRowBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
 import com.petpal.swimmer_customer.ui.payment.repository.PaymentRepository
 import com.petpal.swimmer_customer.ui.payment.vm.PaymentViewModel
-import kotlinx.coroutines.selects.select
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -81,8 +80,8 @@ class PaymentFragment : Fragment() {
             }
 
             paymentFee.observe(mainActivity) {
-                fragmentPaymentBinding.paymentConfirmButton.text = "${it}원 결제하기"
-                fragmentPaymentBinding.paymentCheck.text = "총 상품 금액 : ${it}원"
+                fragmentPaymentBinding.paymentConfirmButton.text = "${paymentViewModel.formatPriceForCustomer(it.toInt())} 결제하기"
+                fragmentPaymentBinding.paymentCheck.text = "총 상품 금액 : ${paymentViewModel.formatPriceForCustomer(it.toInt())}"
                 totalFee = it
             }
 
@@ -118,7 +117,7 @@ class PaymentFragment : Fragment() {
                         id: Long
                     ) {
                         Log.d("!!", "$selectedItem")
-                        // 선택된 item -> OrderByCustomer.message 에 넣어주기
+                        // 선택된 item -> Order.message 에 넣어주기
                         spinnerSelect = selectedItem.toString()
                     }
 
@@ -156,10 +155,10 @@ class PaymentFragment : Fragment() {
                     val sdfUid = SimpleDateFormat("MMddhhmmss", Locale.getDefault())
                     val orderUid = sdfUid.format(Date(System.currentTimeMillis()))
 
-                    val order = OrderByCustomer(
-                        1, orderUid, orderDate, spinnerSelect, chipSelect,
-                        totalFee.toLong(), orderItemList, deliveryAddress!!, "test_coupon_item", 1000
-                    )
+                    val order = Order(1, orderUid, orderDate, spinnerSelect, chipSelect,
+                        //TODO: test_user_uid
+                        totalFee.toLong(), orderItemList, "test_address", "test_coupon_item", 1000, "test_user_uid")
+                    
                     PaymentRepository.sendOrderToSeller(order) {
 
                         it.addOnCanceledListener {

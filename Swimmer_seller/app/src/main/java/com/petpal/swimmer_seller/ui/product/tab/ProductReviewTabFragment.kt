@@ -33,7 +33,8 @@ class ProductReviewTabFragment(product: Product) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentProductReviewTabBinding = FragmentProductReviewTabBinding.inflate(inflater)
-        productViewModel = ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
+        productViewModel =
+            ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
         return fragmentProductReviewTabBinding.root
     }
 
@@ -46,7 +47,28 @@ class ProductReviewTabFragment(product: Product) : Fragment() {
 
         // 클릭한 Chip 버튼에 따라 BottomSheetDialog 표시
         fragmentProductReviewTabBinding.run {
+            val reviewCount = reviewList.count()
+            val countVeryGood = reviewList.count { it.rating == 5.0 }
+            val countLike = reviewList.count { it.rating >= 4.0 && it.rating < 5.0 }
+            val countSoso = reviewList.count { it.rating >= 3.0 && it.rating < 4.0 }
+            val countJustOk = reviewList.count { it.rating >= 2.0 && it.rating < 3.0 }
+            val countNotMuch = reviewList.count { it.rating >= 1.0 && it.rating < 2.0 }
+
+            textViewVeryGoodCount.text = countVeryGood.toString()
+            textViewLikeCount.text = countLike.toString()
+            textViewSosoCount.text = countSoso.toString()
+            textViewJuskOkCount.text = countJustOk.toString()
+            textViewNotMuchCount.text = countNotMuch.toString()
+
+            seekBarVeryGood.progress = ((countVeryGood / reviewCount.toDouble()) * 100).toInt()
+            seekBarLike.progress = ((countLike / reviewCount.toDouble()) * 100).toInt()
+            seekBarSoso.progress = ((countSoso / reviewCount.toDouble()) * 100).toInt()
+            seekBarJustOk.progress = ((countJustOk / reviewCount.toDouble()) * 100).toInt()
+            seekBarNotMuch.progress = ((countNotMuch / reviewCount.toDouble()) * 100).toInt()
+
             textViewReviewCount.text = "(${reviewList.size})"
+
+            textViewReviewAvg.text = reviewList.map { it.rating }.average().toString()
 
             chipStarRating.setOnClickListener {
                 showBottomSheet(R.layout.fragment_product_review_tab_bottom_sheet_star)
@@ -74,32 +96,36 @@ class ProductReviewTabFragment(product: Product) : Fragment() {
         }
     }
 
-    private fun setSampleData(){
+    private fun setSampleData() {
         // TODO 리뷰 기능 구현시 작성자 이름 대신 cutomerUid 값으로 데이터 읽기
-        reviewList.add(Review(
-            "1",
-            "사자",
-            180L,
-            90L,
-            4.0,
-            "2023.08.25",
-            "몸에 딱 맞아요. 잘 산 것 같습니다!",
-            "image/review_sample_image.jpg",
-            "XL",
-            "블랙"
-        ))
-        reviewList.add(Review(
-            "2",
-            "이멋사",
-            163L,
-            60L,
-            3.5,
-            "2023.08.25",
-            "품질이 최고입니다ㅎㅎ",
-            "image/review_sample_image2.jpg",
-            "M",
-            "그린"
-        ))
+        reviewList.add(
+            Review(
+                "1",
+                "사자",
+                180L,
+                90L,
+                4.0,
+                "2023.08.25",
+                "몸에 딱 맞아요. 잘 산 것 같습니다!",
+                "image/review_sample_image.jpg",
+                "XL",
+                "블랙"
+            )
+        )
+        reviewList.add(
+            Review(
+                "2",
+                "이멋사",
+                163L,
+                60L,
+                3.0,
+                "2023.08.25",
+                "품질이 최고입니다ㅎㅎ",
+                "image/review_sample_image2.jpg",
+                "M",
+                "그린"
+            )
+        )
     }
 
     // 리뷰 필터링 BottomSheet 표시
@@ -109,9 +135,11 @@ class ProductReviewTabFragment(product: Product) : Fragment() {
         bottomSheetDialog.show()
     }
 
-    inner class ReviewRecyclerViewAdapter: RecyclerView.Adapter<ReviewRecyclerViewAdapter.ReviewViewHolder>() {
-        inner class ReviewViewHolder(private val binding: FragmentProductReviewTabItemBinding): RecyclerView.ViewHolder(binding.root) {
-            fun bind(review: Review){
+    inner class ReviewRecyclerViewAdapter :
+        RecyclerView.Adapter<ReviewRecyclerViewAdapter.ReviewViewHolder>() {
+        inner class ReviewViewHolder(private val binding: FragmentProductReviewTabItemBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+            fun bind(review: Review) {
                 // TODO UserViewModel 사용해서 리뷰 작성자 uid로 고객 정보 얻기
                 binding.textViewReviewNickname.text = review.customerUid
                 binding.textViewReviewDate.text = review.date

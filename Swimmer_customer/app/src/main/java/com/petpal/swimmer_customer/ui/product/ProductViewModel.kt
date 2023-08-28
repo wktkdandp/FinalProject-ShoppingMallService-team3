@@ -70,6 +70,7 @@ class ProductViewModel() : ViewModel() {
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .centerCrop()
+                .override(420,1500)
                 .error(R.drawable.noimg)
                 .into(imageView)
         }

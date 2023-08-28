@@ -32,7 +32,7 @@ class BannerViewPager2Adapter(
         val inflater = LayoutInflater.from(parent.context)
         return ItemViewHolder(
             inflater.inflate(
-                R.layout.activity_product_detail_viewpage2,
+                R.layout.activity_home_viewpage2,
                 parent,
                 false
             )

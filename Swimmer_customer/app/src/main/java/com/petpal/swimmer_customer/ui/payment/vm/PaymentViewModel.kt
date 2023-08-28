@@ -4,6 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.petpal.swimmer_customer.data.model.ItemsForCustomer
 import com.petpal.swimmer_customer.ui.payment.repository.PaymentRepository
+import java.text.NumberFormat
+import java.util.Locale
+
 class PaymentViewModel: ViewModel() {
 
     var itemList = MutableLiveData<MutableList<ItemsForCustomer>>()
@@ -42,8 +45,13 @@ class PaymentViewModel: ViewModel() {
             // 추출된 정보 중 갯수와 가격으로 mutablelivedata 넣기
             for (i in itemList.value!!) {
                 tempCalculate +=  i.price * i.quantity
+
             }
             paymentFee.value = tempCalculate.toString()
         }
+    }
+    fun formatPriceForCustomer(price: Int): String {
+        val formattedPrice = NumberFormat.getNumberInstance(Locale.getDefault()).format(price)
+        return "${formattedPrice}원"
     }
 }

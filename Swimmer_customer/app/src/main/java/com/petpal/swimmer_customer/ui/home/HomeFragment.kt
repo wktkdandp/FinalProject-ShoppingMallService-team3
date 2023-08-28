@@ -3,7 +3,6 @@ package com.petpal.swimmer_customer.ui.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,19 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.google.firebase.database.FirebaseDatabase
 import com.petpal.swimmer_customer.R
-import com.petpal.swimmer_customer.data.model.Category
 import com.petpal.swimmer_customer.data.model.Product
 import com.petpal.swimmer_customer.databinding.FragmentHomeBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import kotlin.math.abs
-import kotlin.math.max
 
 
 class HomeFragment : Fragment() {

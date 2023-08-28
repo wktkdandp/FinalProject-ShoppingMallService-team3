@@ -1,6 +1,8 @@
 package com.petpal.swimmer_customer.ui.product
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.ProductDetailModel
+import com.skydoves.androidveil.VeilLayout
 
 
 class ProductDetailAdapter(private val context: Context, private val imagePaths: MutableList<ProductDetailModel>) :
@@ -20,12 +23,10 @@ class ProductDetailAdapter(private val context: Context, private val imagePaths:
         differ
     ) {
 
-    inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-
-
-    }
+    inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+
         val inflater = LayoutInflater.from(parent.context)
         return ItemViewHolder(
             inflater.inflate(
@@ -38,8 +39,14 @@ class ProductDetailAdapter(private val context: Context, private val imagePaths:
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
 
-        val ImageView = holder.itemView.findViewById<ImageView>(R.id.productDetailImage)
+        val imageView = holder.itemView.findViewById<ImageView>(R.id.productDetailImage)
         val imagePath = imagePaths[position]
+        val veilLayout =holder.itemView.findViewById<VeilLayout>(R.id.viewPager2VeilLayout)
+        veilLayout.veil()
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            veilLayout.unVeil()
+        }, 1500)
 
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
@@ -50,9 +57,8 @@ class ProductDetailAdapter(private val context: Context, private val imagePaths:
                 .load(it)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .centerCrop()
-                .into(ImageView)
+                .into(imageView)
         }
-
     }
 
     companion object {
