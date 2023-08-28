@@ -83,10 +83,7 @@ class ProductOptionFragment : Fragment() {
                 // ModalBottomSheet에서 추가 버튼 클릭시 처리 리스너 등록
                 val modalBottomSheetProduct = ModalBottomSheetProduct()
                 modalBottomSheetProduct.setOnOptionSelectionListener(object : ModalBottomSheetProduct.OnOptionSelectedListener {
-                    override fun onOptionSelected(colorList: List<String>, sizeList: List<String>) {
-                        Log.d("product", colorList.joinToString(","))
-                        Log.d("product", sizeList.joinToString(","))
-
+                    override fun onOptionSelected(colorList: List<Int>, sizeList: List<Int>) {
                         // 색상, 사이즈 리스트 저장
                         productViewModel.addColorAndSizeOption(colorList, sizeList)
                     }
@@ -112,8 +109,12 @@ class ProductOptionFragment : Fragment() {
                 progressBarOption.visibility = View.VISIBLE
 
                 // 전달받은 product 객체에 colorList, sizeList 정보 세팅
-                product.colorList = productViewModel.colorList.value
-                product.sizeList = productViewModel.sizeList.value
+                product.colorList = productViewModel.colorList.value?.map { input ->
+                    ProductColor.values().firstOrNull { it.code == input }?.str ?: ""
+                }
+                product.sizeList = productViewModel.sizeList.value?.map { input ->
+                    ProductSize.values().firstOrNull { it.code == input }?.str ?: ""
+                }
 
                 // 상품 정보 DB 저장
                 productViewModel.addProduct(product)
@@ -157,7 +158,8 @@ class ProductOptionFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
-            holder.textViewOption.text = productViewModel.colorList.value!![position]
+            val currentCode = productViewModel.colorList.value!![position]
+            holder.textViewOption.text = ProductColor.values().firstOrNull { it.code == currentCode }?.str
         }
     }
 
@@ -189,7 +191,8 @@ class ProductOptionFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: SizeViewHolder, position: Int) {
-            holder.textViewOption.text = productViewModel.sizeList.value!![position]
+            val currentCode: Int = productViewModel.sizeList.value!![position]
+            holder.textViewOption.text = ProductSize.values().firstOrNull { it.code == currentCode }?.str
         }
     }
 }
@@ -219,17 +222,17 @@ class ModalBottomSheetProduct: BottomSheetDialogFragment(){
         modalBottomSheetBinding.run {
             buttonAddOption.setOnClickListener {
                 // 체크된 색상 이름 추출
-                val checkedColorList: List<String> = chipGroupColor.children
+                val checkedColorList: List<Int> = chipGroupColor.children
                     .filterIsInstance<Chip>()
                     .filter { it.isChecked }
-                    .map { it.contentDescription.toString() }
+                    .map { it.contentDescription.toString().toInt() }
                     .toList()
 
                 // 체크된 사이즈 이름 추출
-                val checkedSizeList: List<String> = chipGroupSize.children
+                val checkedSizeList: List<Int> = chipGroupSize.children
                     .filterIsInstance<Chip>()
                     .filter { it.isChecked }
-                    .map { it.text.toString() }
+                    .map { it.contentDescription.toString().toInt() }
                     .toList()
 
                 // ProductOptionFragment에서 등록된 리스너 실행
@@ -243,7 +246,7 @@ class ModalBottomSheetProduct: BottomSheetDialogFragment(){
 
     // ModalBottomSheetProduct 에서 입력된 데이터를 ParentFragment로 전달하기 위한 인터페이스
     interface OnOptionSelectedListener {
-        fun onOptionSelected(colorList: List<String>, sizeList : List<String>)
+        fun onOptionSelected(colorList: List<Int>, sizeList : List<Int>)
     }
 }
 

@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="레드"
+                android:contentDescription="0"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="@android:color/holo_red_dark" />
 
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="오렌지"
+                android:contentDescription="1"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#FF5722" />
 
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="옐로우"
+                android:contentDescription="2"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="@android:color/holo_orange_light" />
 
@@ -64,97 +64,97 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="라이트그린"
+                android:contentDescription="3"
                 app:checkedIconEnabled="true"
-                app:chipBackgroundColor="@android:color/holo_green_light" />
+                app:chipBackgroundColor="#199A2A" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="그린"
+                android:contentDescription="4"
                 app:checkedIconEnabled="true"
-                app:chipBackgroundColor="#009688" />
+                app:chipBackgroundColor="#2BE0FF" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="스카이블루"
+                android:contentDescription="5"
                 app:checkedIconEnabled="true"
-                app:chipBackgroundColor="#68D4FF" />
+                app:chipBackgroundColor="#0075D3" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="블루"
+                android:contentDescription="6"
                 app:checkedIconEnabled="true"
-                app:chipBackgroundColor="#2196F3" />
+                app:chipBackgroundColor="#3F51B5" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="네이비"
+                android:contentDescription="7"
                 app:checkedIconEnabled="true"
-                app:chipBackgroundColor="#3F51B5" />
+                app:chipBackgroundColor="#673AB7" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="퍼플"
+                android:contentDescription="8"
                 app:checkedIconEnabled="true"
-                app:chipBackgroundColor="#673AB7" />
+                app:chipBackgroundColor="#EF79D2" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="핑크"
+                android:contentDescription="9"
                 app:checkedIconEnabled="true"
-                app:chipBackgroundColor="#EF79D2" />
+                app:chipBackgroundColor="#9F4D06" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip29"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:contentDescription="10"
+                app:checkedIconEnabled="true"
+                app:chipBackgroundColor="#E4B18E" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="아이보리"
+                android:contentDescription="11"
                 app:checkedIconEnabled="true"
-                app:chipBackgroundColor="#F4DBB3" />
+                app:chipBackgroundColor="#FFFFFF" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="브라운"
+                android:contentDescription="12"
                 app:checkedIconEnabled="true"
-                app:chipBackgroundColor="#B55726" />
+                app:chipBackgroundColor="#737373" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="화이트"
-                app:checkedIconEnabled="true"
-                app:chipBackgroundColor="#FFFFFF" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:contentDescription="블랙"
+                android:contentDescription="13"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#000000" />
 
@@ -182,6 +182,7 @@
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:text="XS"
+                android:contentDescription="0"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -190,6 +191,7 @@
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:text="S"
+                android:contentDescription="1"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -198,6 +200,7 @@
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:text="M"
+                android:contentDescription="2"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -206,6 +209,7 @@
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:text="L"
+                android:contentDescription="3"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -214,6 +218,7 @@
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:text="XL"
+                android:contentDescription="4"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -222,6 +227,7 @@
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:text="XXL"
+                android:contentDescription="5"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -230,6 +236,7 @@
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:text="FREE"
+                android:contentDescription="6"
                 app:checkedIconEnabled="true" />
 
         </com.google.android.material.chip.ChipGroup>
