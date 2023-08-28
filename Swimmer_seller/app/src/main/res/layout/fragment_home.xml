@@ -310,7 +310,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/prompt_product_count"
+                        android:text="@string/add_product_count"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <TextView
@@ -379,7 +379,7 @@
                                 android:id="@+id/textViewGuideTitle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="쉽게 따라하는 상품 등록"
+                                android:text="상품 등록 가이드"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                             <TextView

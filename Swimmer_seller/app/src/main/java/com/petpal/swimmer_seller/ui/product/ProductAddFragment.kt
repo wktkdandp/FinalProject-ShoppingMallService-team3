@@ -195,7 +195,7 @@ class ProductAddFragment : Fragment() {
                 // 최종 유효성 검사
                 if (mainImageList.size < 1) {
                     buttonAddMainImage.requestFocus()
-                    scrollView.scrollTo(0, buttonAddMainImage.top)
+                    scrollViewProductAdd.scrollTo(0, buttonAddMainImage.top)
                     Snackbar.make(fragmentProductAddBinding.root, "상품 이미지를 1개 이상 등록해 주세요", Snackbar.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
@@ -219,7 +219,7 @@ class ProductAddFragment : Fragment() {
                 }
                 if (descriptionImage == null) {
                     buttonAddDescImage.requestFocus()
-                    scrollView.scrollTo(0, buttonAddDescImage.bottom)
+                    scrollViewProductAdd.scrollTo(0, buttonAddDescImage.bottom)
                     Snackbar.make(fragmentProductAddBinding.root, "상품 설명 이미지를 등록해 주세요", Snackbar.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }

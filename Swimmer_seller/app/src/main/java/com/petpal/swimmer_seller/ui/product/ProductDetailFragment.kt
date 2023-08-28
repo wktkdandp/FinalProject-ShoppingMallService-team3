@@ -30,7 +30,7 @@ class ProductDetailFragment : Fragment() {
     lateinit var productUid : String
 
     // TabItem 생성 추가
-    var tabNameArray = arrayOf("상품상세", "상품후기 (0)", "상품 Q&A")
+    var tabNameArray = arrayOf("상품상세", "상품후기 (2)", "상품 Q&A")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,12 +78,6 @@ class ProductDetailFragment : Fragment() {
             product.observe(viewLifecycleOwner){ product ->
                 fragmentProductDetailBinding.run {
                     if (product?.category != null) {
-                        // TabLayout 세팅
-                        tabLayoutViewPagerSetting()
-
-                        // 메인 이미지
-                        viewPagerMainImage.adapter?.notifyDataSetChanged()
-
                         // 텍스트 정보
                         val category = product.category!!
                         textViewProductCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
@@ -98,7 +92,13 @@ class ProductDetailFragment : Fragment() {
                         textViewProductColor.setAdapter(colorAdapter)
                         textViewProductSize.setAdapter(sizeAdapter)
                         // 리뷰 개수
-                        tabNameArray[1] = "상품후기 (${product.reviewList?.size})"
+                        // tabNameArray[1] = "상품후기 (${product.reviewList?.size})"
+
+                        // TabLayout 세팅
+                        tabLayoutViewPagerSetting()
+
+                        // 메인 이미지
+                        viewPagerMainImage.adapter?.notifyDataSetChanged()
                     }
                 }
             }
