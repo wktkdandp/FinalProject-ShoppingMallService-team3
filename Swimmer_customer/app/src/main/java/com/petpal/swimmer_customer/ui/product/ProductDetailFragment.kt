@@ -154,7 +154,6 @@ class ProductDetailFragment : Fragment() {
         val user: FirebaseUser? = auth.currentUser
         if (user != null) {
             buyerUid = user.uid
-            Log.d("유희왕", buyerUid.toString())
         }
     }
 
