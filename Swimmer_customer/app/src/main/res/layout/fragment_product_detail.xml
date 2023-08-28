@@ -40,8 +40,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -49,139 +48,135 @@
                 app:contentScrim="@color/white"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="?attr/actionBarSize"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp">
 
-                        <FrameLayout
-                            android:id="@+id/viewPager2Container"
-                            android:layout_width="300dp"
-                            android:layout_height="300dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                    <FrameLayout
+                        android:id="@+id/viewPager2Container"
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        app:layout_constraintBottom_toTopOf="@+id/imageView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                            <androidx.viewpager2.widget.ViewPager2
-                                android:id="@+id/itemDetailViewPager2"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/itemDetailViewPager2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
 
-                            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                                android:id="@+id/dots_indicator"
+                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                            android:id="@+id/dots_indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:layout_marginBottom="30dp"
+                            app:dotsColor="@color/white"
+                            app:dotsCornerRadius="8dp"
+                            app:dotsSize="8dp"
+                            app:dotsSpacing="4dp"
+                            app:dotsWidthFactor="2.5"
+                            app:progressMode="false"
+                            app:selectedDotColor="@color/colorSecondary" />
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/brandTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@{vm.rankingBrand}"
+                        android:textColor="@color/gray_8A"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@id/viewPager2Container"
+                        app:layout_constraintTop_toBottomOf="@id/viewPager2Container" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/baseline_arrow_forward_ios_24"
+                        android:backgroundTint="@color/gray_8A"
+                        app:layout_constraintBottom_toBottomOf="@id/brandTextView"
+                        app:layout_constraintStart_toEndOf="@id/brandTextView"
+                        app:layout_constraintTop_toTopOf="@id/brandTextView" />
+
+
+                    <TextView
+                        android:id="@+id/itemTitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@{vm.rankingTitle}"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="@id/viewPager2Container"
+                        app:layout_constraintTop_toBottomOf="@id/brandTextView" />
+
+                    <TextView
+                        android:id="@+id/priceTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@{vm.rankingPrice}"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@id/viewPager2Container"
+                        app:layout_constraintTop_toBottomOf="@id/itemTitleTextView" />
+
+                    <ImageButton
+                        android:id="@+id/downloadImageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/download_24px"
+                        app:layout_constraintBottom_toBottomOf="@id/priceTextView"
+                        app:layout_constraintEnd_toEndOf="@id/viewPager2Container" />
+
+                    <HorizontalScrollView
+                        android:id="@+id/hashTagScrollView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:scrollbars="none"
+                        app:layout_constraintEnd_toEndOf="@id/downloadImageButton"
+                        app:layout_constraintStart_toStartOf="@id/priceTextView"
+                        app:layout_constraintTop_toBottomOf="@id/downloadImageButton">
+
+                        <LinearLayout
+                            android:id="@+id/hashTagLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/hashTagChipGroup"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="bottom|center"
-                                android:layout_marginBottom="30dp"
-                                app:dotsColor="@color/white"
-                                app:dotsCornerRadius="8dp"
-                                app:dotsSize="8dp"
-                                app:dotsSpacing="4dp"
-                                app:dotsWidthFactor="2.5"
-                                app:progressMode="false"
-                                app:selectedDotColor="@color/colorSecondary" />
+                                app:chipSpacingHorizontal="6dp">
 
-                        </FrameLayout>
+                            </com.google.android.material.chip.ChipGroup>
+                        </LinearLayout>
+                    </HorizontalScrollView>
 
-                        <TextView
-                            android:id="@+id/brandTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:text="@{vm.rankingBrand}"
-                            android:textColor="@color/gray_8A"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="@id/viewPager2Container"
-                            app:layout_constraintTop_toBottomOf="@id/viewPager2Container" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:backgroundTint="@color/gray_8A"
-                            android:background="@drawable/baseline_arrow_forward_ios_24"
-                            app:layout_constraintBottom_toBottomOf="@id/brandTextView"
-                            app:layout_constraintStart_toEndOf="@id/brandTextView"
-                            app:layout_constraintTop_toTopOf="@id/brandTextView" />
-
-
-                        <TextView
-                            android:id="@+id/itemTitleTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="@{vm.rankingTitle}"
-                            android:textColor="@color/black"
-                            android:textSize="15sp"
-                            app:layout_constraintStart_toStartOf="@id/viewPager2Container"
-                            app:layout_constraintTop_toBottomOf="@id/brandTextView" />
-
-                        <TextView
-                            android:id="@+id/priceTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="@{vm.rankingPrice}"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="@id/viewPager2Container"
-                            app:layout_constraintTop_toBottomOf="@id/itemTitleTextView" />
-
-                        <ImageButton
-                            android:id="@+id/downloadImageButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/download_24px"
-                            app:layout_constraintBottom_toBottomOf="@id/priceTextView"
-                            app:layout_constraintEnd_toEndOf="@id/viewPager2Container" />
-
-                        <HorizontalScrollView
-                            android:id="@+id/hashTagScrollView"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:scrollbars="none"
-                            app:layout_constraintEnd_toEndOf="@id/downloadImageButton"
-                            app:layout_constraintStart_toStartOf="@id/priceTextView"
-                            app:layout_constraintTop_toBottomOf="@id/downloadImageButton">
-
-                            <LinearLayout
-                                android:id="@+id/hashTagLayout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:orientation="horizontal"
-                                tools:layout_height="30dp">
-
-                                <com.google.android.material.chip.ChipGroup
-                                    android:id="@+id/hashTagChipGroup"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="35dp"
-                                    app:chipSpacingHorizontal="3dp">
-
-                                </com.google.android.material.chip.ChipGroup>
-                            </LinearLayout>
-                        </HorizontalScrollView>
-
-                        <View
-                            android:id="@+id/view2"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@android:color/black"
-                            app:layout_constraintTop_toBottomOf="@id/hashTagScrollView" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbarProductDetail"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:layout_marginBottom="6dp"
-                        android:background="@color/colorNeutral"
-                        android:theme="@style/HomeToolbarTheme"
-                        app:elevation="6dp"
-                        app:layout_collapseMode="pin" />
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbarProductDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_marginBottom="6dp"
+                    android:background="@color/colorNeutral"
+                    android:theme="@style/HomeToolbarTheme"
+                    app:elevation="6dp"
+                    app:layout_collapseMode="pin" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -209,7 +204,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="#E8FFFFFF"
+            android:background="#FFFFFF"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -221,17 +216,15 @@
                 android:layout_height="40dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:background="#E8FFFFFF"
-                app:lottie_rawRes="@raw/favorite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/paymentButton" />
+                app:layout_constraintTop_toTopOf="@id/paymentButton"
+                app:lottie_rawRes="@raw/favorite" />
 
             <Button
                 android:id="@+id/paymentButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorSecondary"
                 android:text="@string/paymentButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
