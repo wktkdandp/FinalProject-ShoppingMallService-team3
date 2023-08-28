@@ -160,8 +160,8 @@ class LoginFragment : Fragment() {
                 .build()
 
             val navController = findNavController()
-            val action=LoginFragmentDirections.actionLoginFragmentToItemHome()
-            navController.navigate(action)
+//            val action=LoginFragmentDirections.actionLoginFragmentToItemHome()
+            navController.navigate(R.id.action_LoginFragment_to_item_home)
 
 //            val action = LoginFragmentDirections.actionLoginFragmentToItemHome()
 //            findNavController().navigate(action,navOptions)
