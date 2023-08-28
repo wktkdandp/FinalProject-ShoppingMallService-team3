@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +34,8 @@ import com.petpal.swimmer_customer.databinding.FragmentMainBinding
 import com.petpal.swimmer_customer.databinding.ItemDeliveryPointBinding
 import com.petpal.swimmer_customer.util.NetworkStatus
 
+//배송지 목록을 리사이클러뷰로 띄우고 관리하는 배송지 관리 프래그먼트
+
 class DeliveryPointManageFragment : Fragment() {
 
     lateinit var fragmentDeliveryPointManageBinding: FragmentDeliveryPointManageBinding
@@ -41,18 +45,17 @@ class DeliveryPointManageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         fragmentDeliveryPointManageBinding = FragmentDeliveryPointManageBinding.inflate(layoutInflater)
-
-        val factory = DeliveryPointManageModelFactory(CustomerUserRepository())
-        viewModel = ViewModelProvider(this, factory).get(DeliveryPointManageViewModel::class.java)
         // 받아온 데이터 처리
-        val address = arguments?.getString("address")
-        val postcode= arguments?.getString("postcode")
-        if(address!=null){
-            val bundle = Bundle()
-            bundle.putString("address", address)
-            bundle.putString("postcode",postcode)
-            findNavController().navigate(R.id.DetailAddressFragment, bundle)
-        }
+        handleReceivedData()
+        setupViewModel()
+        setupRecyclerView()
+        setupFindAddressButton()
+        fetchUserAddresses()
+
+        return fragmentDeliveryPointManageBinding.root
+    }
+    private fun handleReceivedData() {
+
         val argument = arguments?.getString("FromOrder")
         if (argument?.equals("FromOrder") == true) {
             (fragmentDeliveryPointManageBinding.recyclerViewDeliveryPoint.adapter as RecyclerViewAdapter).setOnItemClickListener { selectedAddress ->
@@ -64,10 +67,63 @@ class DeliveryPointManageFragment : Fragment() {
                 findNavController().navigate(R.id.paymentFragment, bundle)
             }
         }
+    }
+    private fun setupToolbar() {
+        fragmentDeliveryPointManageBinding.toolbarDeliveryPointManage.run {
+            title = getString(R.string.delivery_point_manage)
+            setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
+            setNavigationOnClickListener {
+                val action =DeliveryPointManageFragmentDirections.actionDeliveryPointManageFragmentToItemMypage()
+                findNavController().navigate(action)
+
+            }
+        }
+    }
+    private fun setupRecyclerView() {
+        fragmentDeliveryPointManageBinding.recyclerViewDeliveryPoint.run {
+            adapter = RecyclerViewAdapter()
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+    private fun setupFindAddressButton() {
+        setupToolbar()
+        fragmentDeliveryPointManageBinding.buttonFindAddress.setOnClickListener() {
+            val status = NetworkStatus.getConnectivityStatus(requireContext())
+            if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
+                val action = DeliveryPointManageFragmentDirections.actionDeliveryPointManageFragmentToAddressDialogFragment()
+                findNavController().navigate(action)
+            } else {
+                Snackbar.make(
+                    fragmentDeliveryPointManageBinding.root,
+                    "인터넷 연결을 확인해주세요.",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+    private fun fetchUserAddresses() {
+        val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+        if (currentUserUID != null) {
+            viewModel.fetchAddressesForUser(currentUserUID)
+
+        }
+    }
+    private fun setupViewModel(){
+
+        val factory = DeliveryPointManageModelFactory(CustomerUserRepository())
+        viewModel = ViewModelProvider(this, factory).get(DeliveryPointManageViewModel::class.java)
 
         viewModel.addresses.observe(viewLifecycleOwner, Observer { addresses ->
             // RecyclerView 데이터 업데이트
             (fragmentDeliveryPointManageBinding.recyclerViewDeliveryPoint.adapter as RecyclerViewAdapter).submitAddresses(addresses)
+
+            //배송지 없음 공지
+            if (addresses.isEmpty()) {
+                fragmentDeliveryPointManageBinding.textViewNoDeliveryPoints.visibility = View.VISIBLE
+            } else {
+                fragmentDeliveryPointManageBinding.textViewNoDeliveryPoints.visibility = View.GONE
+            }
+
         })
 
         viewModel.deleteResult.observe(viewLifecycleOwner, Observer { result ->
@@ -82,57 +138,16 @@ class DeliveryPointManageFragment : Fragment() {
                 Snackbar.make(fragmentDeliveryPointManageBinding.root, "배송지 삭제에 실패하였습니다.", Snackbar.LENGTH_SHORT).show()
             }
         })
-
-        // 데이터 가져오기
-        val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
-        if (currentUserUID != null) {
-            viewModel.fetchAddressesForUser(currentUserUID)
-        }
-
-        fragmentDeliveryPointManageBinding.run{
-            recyclerViewDeliveryPoint.run{
-                adapter=RecyclerViewAdapter()
-                layoutManager=LinearLayoutManager(requireContext())
-            }
-        }
-
-
-
-
-        fragmentDeliveryPointManageBinding.toolbarDeliveryPointManage.run {
-            title = getString(R.string.delivery_point_manage)
-            setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
-            setNavigationOnClickListener {
-                findNavController().navigate(R.id.item_mypage)
-            }
-        }
-
-        fragmentDeliveryPointManageBinding.buttonFindAddress.setOnClickListener() {
-            val status = NetworkStatus.getConnectivityStatus(requireContext())
-            if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
-                findNavController().navigate(R.id.AddressDialogFragment)
-            } else {
-                Snackbar.make(
-                    fragmentDeliveryPointManageBinding.root,
-                    "인터넷 연결을 확인해주세요.",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-
-
-        return fragmentDeliveryPointManageBinding.root
     }
 
     inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolderClass>(){
         var addresses = listOf<Address>()
         var currentlyCheckedPosition= -1
         var onItemClickListener:((Address)->Unit)?=null
-    fun submitAddresses(newAddresses: List<Address>) {
-        addresses = newAddresses
-        notifyDataSetChanged()
-    }
+        fun submitAddresses(newAddresses: List<Address>) {
+            addresses = newAddresses
+            notifyDataSetChanged()
+        }
         @JvmName("setOnItemClickListenerFunction")
         fun setOnItemClickListener(listener: (Address) ->Unit){
             onItemClickListener=listener
@@ -163,7 +178,6 @@ class DeliveryPointManageFragment : Fragment() {
 
                     val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
                     if (currentUserUID != null) {
-                        // Call the ViewModel's delete function
                         addressToDelete.addressIdx?.let { it1 ->
                             viewModel.deleteAddressForUser(currentUserUID, it1)
                         }
@@ -199,7 +213,7 @@ class DeliveryPointManageFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-           return addresses.size
+            return addresses.size
 
         }
 
@@ -214,11 +228,11 @@ class DeliveryPointManageFragment : Fragment() {
     }
 }
 class DeliveryPointManageModelFactory(private val repository: CustomerUserRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DeliveryPointManageViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return DeliveryPointManageViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(DeliveryPointManageViewModel::class.java)) {
+                    @Suppress("UNCHECKED_CAST")
+                    return DeliveryPointManageViewModel(repository) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

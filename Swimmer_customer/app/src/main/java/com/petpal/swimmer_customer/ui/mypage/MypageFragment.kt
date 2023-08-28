@@ -15,6 +15,7 @@ import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.R
@@ -24,6 +25,9 @@ import com.petpal.swimmer_customer.ui.findinfo.FindInfoViewModel
 import com.petpal.swimmer_customer.ui.findinfo.FindInfoViewModelFactory
 import com.petpal.swimmer_customer.ui.login.LoginFragmentDirections
 import com.petpal.swimmer_customer.util.AutoLoginUtil
+
+//배송지 관리로 가는 마이페이지 프래그먼트
+//util의 AutoLoginUtil을 이용하여 로그아웃시, 자동로그인 비활성화
 
 
 class MypageFragment : Fragment() {
@@ -39,7 +43,13 @@ class MypageFragment : Fragment() {
         val factory = MypageViewModelFactory(CustomerUserRepository())
         viewModel = ViewModelProvider(this, factory).get(MypageViewModel::class.java)
         val uid=FirebaseAuth.getInstance().currentUser?.uid
-
+        viewModel.getCurrentUser(uid!!).observe(viewLifecycleOwner, Observer {
+            if(it!=null){
+                fragmentMypageBinding.textViewNickname.text="닉네임 : "
+            }else{
+                fragmentMypageBinding.textViewNickname.text=getString(R.string.error_nickname_none)
+            }
+        })
         fragmentMypageBinding.toolbarMypage.run {
             title = getString(R.string.mypage_title)
             inflateMenu(R.menu.mypage_toolbar_menu)
@@ -57,7 +67,6 @@ class MypageFragment : Fragment() {
                 false
             }
         }
-
 
         val coupons = listOf("쿠폰","10% 할인쿠폰", " 5,000원 할인쿠폰", "무료 배송 쿠폰")
 
@@ -80,15 +89,15 @@ class MypageFragment : Fragment() {
             findNavController().navigate(R.id.CheckPasswordFragment)
         }
         //주문 조회로 이동
-        fragmentMypageBinding.buttonOrderComplete.setOnClickListener {
+        fragmentMypageBinding.textViewCompleteCount.setOnClickListener {
 
         }
         //주문 조회로 이동
-        fragmentMypageBinding.buttonShipping.setOnClickListener {
+        fragmentMypageBinding.textViewShippingCount.setOnClickListener {
 
         }
         //주문 조회로 이동
-        fragmentMypageBinding.buttonDeliveryCompleted.setOnClickListener {
+        fragmentMypageBinding.textViewDeliveryCompletedCount.setOnClickListener {
 
         }
 
@@ -99,20 +108,19 @@ class MypageFragment : Fragment() {
         }
         //로그아웃
         fragmentMypageBinding.buttonLogOut.setOnClickListener {
-           viewModel.signOut()
-            //자동 로그인을 꺼줘야 함
+            viewModel.signOut()
+            // 자동 로그인을 꺼줘야 함
             AutoLoginUtil.setAutoLogin(requireContext(), false)
             AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.title_notification))
                 .setMessage(getString(R.string.alert_message_logout_completed))
                 .setPositiveButton(getString(R.string.action_confirm)) { dialog, _ ->
-                    findNavController().navigate(R.id.action_item_mypage_to_LoginFragment)
+                    val action = MypageFragmentDirections.actionItemMypageToMainFragment()
+                    findNavController().navigate(action)
                     dialog.dismiss()
                 }
                 .show()
         }
-
-
         return fragmentMypageBinding.root
     }
 

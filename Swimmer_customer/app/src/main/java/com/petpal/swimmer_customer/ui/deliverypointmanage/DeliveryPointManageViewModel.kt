@@ -2,11 +2,13 @@ package com.petpal.swimmer_customer.ui.deliverypointmanage
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.petpal.swimmer_customer.data.model.Address
 import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 
 class DeliveryPointManageViewModel(private val repository: CustomerUserRepository) : ViewModel() {
+
     // MutableLiveData to hold addresses
     private val _addresses = MutableLiveData<List<Address>>()
     val addresses: LiveData<List<Address>>

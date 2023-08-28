@@ -22,6 +22,8 @@ class MainFragment : Fragment() {
     ): View? {
         fragmentMainBinding = FragmentMainBinding.inflate(inflater)
 
+
+
         Log.d("user", "mainFragment onCreate")
 
         // navigation
