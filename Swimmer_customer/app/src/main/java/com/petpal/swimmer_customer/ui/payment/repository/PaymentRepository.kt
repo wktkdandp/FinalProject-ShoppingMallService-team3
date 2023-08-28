@@ -7,7 +7,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import com.petpal.swimmer_customer.data.model.OrderByCustomer
+import com.petpal.swimmer_customer.data.model.Order
 
 class PaymentRepository {
     companion object {
@@ -35,7 +35,7 @@ class PaymentRepository {
         }
 
         // customer -> seller 결제 완료 btn을 통해 주문 정보를 전송하는 메서드
-        fun sendOrderToSeller(order: OrderByCustomer, callback: (Task<Void>) -> Unit) {
+        fun sendOrderToSeller(order: Order, callback: (Task<Void>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val orderRef = database.getReference("orders")
 

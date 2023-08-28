@@ -272,6 +272,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_item_mypage_to_orderListFragment"
+            app:destination="@id/orderListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/orderListFragment"
+        android:name="com.petpal.swimmer_customer.ui.order.OrderListFragment"
+        android:label="fragment_order_list"
+        tools:layout="@layout/fragment_order_list" />
 
 </navigation>
