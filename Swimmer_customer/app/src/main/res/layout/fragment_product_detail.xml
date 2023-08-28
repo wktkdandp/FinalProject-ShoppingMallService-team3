@@ -8,6 +8,7 @@
         <variable
             name="vm"
             type="com.petpal.swimmer_customer.ui.product.ProductViewModel" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -37,7 +38,6 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,8 +48,6 @@
                 android:layout_height="wrap_content"
                 app:contentScrim="@color/white"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"

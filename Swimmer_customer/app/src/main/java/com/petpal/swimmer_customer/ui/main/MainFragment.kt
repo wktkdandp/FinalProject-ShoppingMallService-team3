@@ -14,11 +14,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentMainBinding
-<<<<<<< HEAD
-=======
-import com.petpal.swimmer_customer.ui.deliverypointmanage.DeliveryPointManageFragmentDirections
-import com.petpal.swimmer_customer.ui.mypage.MypageFragmentDirections
->>>>>>> 3c07d725558d138df795489e20755af17d88d23f
 import com.petpal.swimmer_customer.util.AutoLoginUtil
 
 class MainFragment : Fragment() {

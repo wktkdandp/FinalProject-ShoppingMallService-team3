@@ -117,7 +117,7 @@ class ProductDetailFragment : Fragment() {
                 ).split(",")
 
                 for (path in hashTagsPaths) {
-                    val cleanedPath = path.trim() // 좌우 공백 제거
+                    val cleanedPath = path.trim() // 좌우 공백 제거합니다.
                     hashTagList.add(cleanedPath)
                 }
 
@@ -128,11 +128,14 @@ class ProductDetailFragment : Fragment() {
                     productList[args.idx].name,
                     productList[args.idx].price
                 )
+
+                for (text in hashTagList) {
+                    val chip = createChip(text)
+                    hashTagChipGroup.addView(chip)
+                }
+
             }
-            for (text in hashTagList) {
-                val chip = createChip(text)
-                hashTagChipGroup.addView(chip)
-            }
+
             scrollToFab.setOnClickListener {
                 productDetailScrollView.smoothScrollTo(0, 0)
             }
