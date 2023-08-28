@@ -4,7 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarAddressDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/Toolbar_Swimmer_Customer" />
     <WebView
         android:id="@+id/webViewAddress"
         android:layout_width="match_parent"

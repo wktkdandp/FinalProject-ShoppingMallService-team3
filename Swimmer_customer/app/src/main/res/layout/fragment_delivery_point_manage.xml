@@ -23,7 +23,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDeliveryPoint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/textViewNoDeliveryPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="등록된 배송지가 없습니다"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:visibility="gone" />
 
 </LinearLayout>

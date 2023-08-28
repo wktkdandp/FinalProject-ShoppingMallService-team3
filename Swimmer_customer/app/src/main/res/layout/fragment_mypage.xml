@@ -36,7 +36,8 @@
                 android:id="@+id/imageViewProfilePhoto"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                app:srcCompat="@drawable/custom_ratingbar" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,7 +52,7 @@
                     android:layout_marginLeft="22dp"
                     android:layout_marginTop="30dp"
                     android:text="닉네임 : "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="bold" />
 
                 <Button
@@ -59,6 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="39dp"
                     android:layout_marginTop="20dp"
+                    android:clickable="false"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="start"
                     android:text="내 정보 수정"
@@ -78,30 +80,119 @@
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/buttonOrderComplete"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewOrderComplete"
+                style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="15dp"
-                android:layout_weight="1"
-                android:text="결제완료" />
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="15dp">
 
-            <Button
-                android:id="@+id/buttonShipping"
+                <TextView
+                    android:id="@+id/textViewCompleteCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/md_theme_dark_inversePrimary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewOrderComplete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="결제완료"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewShipping"
+                style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:text="배송중" />
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="15dp">
 
-            <Button
-                android:id="@+id/buttonDeliveryCompleted"
+                    <TextView
+                        android:id="@+id/textViewShippingCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/md_theme_dark_inversePrimary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewShipping"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:text="배송중"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewDeliveryCompletedCount"
+                style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:text="배송완료" />
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/textViewDeliveryCompletedCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/md_theme_dark_inversePrimary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewDeliveryCompleted"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:text="배송 완료"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
