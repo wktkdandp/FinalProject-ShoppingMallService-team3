@@ -15,7 +15,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentMainBinding
-import com.petpal.swimmer_customer.ui.HomeFragmentDirections
 import com.petpal.swimmer_customer.ui.deliverypointmanage.DeliveryPointManageFragmentDirections
 import com.petpal.swimmer_customer.ui.mypage.MypageFragmentDirections
 import com.petpal.swimmer_customer.util.AutoLoginUtil
