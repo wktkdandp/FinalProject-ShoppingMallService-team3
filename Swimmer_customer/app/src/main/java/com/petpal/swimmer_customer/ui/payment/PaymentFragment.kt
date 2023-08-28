@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.petpal.swimmer_customer.R
@@ -74,9 +75,23 @@ class PaymentFragment : Fragment() {
         }
         fragmentPaymentBinding.run {
 
-            // 배송지 선택 button
+            //배송지 선택 button
+            //배송지 관리 페이지 -> 배송지 선택-> 텍스트뷰 띄우기 구현을 했는데
+            //결제하기 버튼 클릭시 앱이 종료되서 테스트를 못해봤습니다.
             paymentDeliveryButton.setOnClickListener {
-                // 배송지 선택 api 적용
+                val bundle=Bundle()
+                bundle.putString("FromOrder","FromOrder")
+                findNavController().navigate(R.id.DeliveryPointManageFragment)
+            }
+            val name = arguments?.getString("name")
+            val address = arguments?.getString("address")
+            val phoneNumber = arguments?.getString("phoneNumber")
+            if(name!=null && address !=null && phoneNumber!= null){
+                paymentDeliveryPointLayout.visibility=View.VISIBLE
+                paymentDeliveryButton.visibility=View.GONE
+                paymentDeliveryPointName.text=name
+                paymentDeliveryPoinAddress.text=address
+                paymentDeliveryPointPhone.text=phoneNumber
             }
 
             // spinner
