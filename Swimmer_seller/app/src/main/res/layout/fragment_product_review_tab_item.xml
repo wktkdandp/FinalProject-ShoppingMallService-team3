@@ -32,6 +32,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:numStars="5"
+                android:progressTint="@android:color/holo_orange_light"
+                android:secondaryProgressTint="@android:color/holo_orange_dark"
                 android:stepSize="0.5" />
         </LinearLayout>
 
@@ -39,7 +41,7 @@
             android:id="@+id/textViewReviewDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="yy.MM.dd"
+            android:text="yyyy.MM.dd"
             android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/md_theme_dark_outline" />
