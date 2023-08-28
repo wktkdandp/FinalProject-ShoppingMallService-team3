@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:fillViewport="true">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
     <!-- 아이디 찾기 섹션 -->
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -16,115 +21,116 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/Toolbar_Swimmer_Customer" />
 
-    <LinearLayout
-        android:id="@+id/idFindLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutFindIdNickname"
+        <LinearLayout
+            android:id="@+id/idFindLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint=""
-            android:transitionGroup="true"
-            app:endIconMode="clear_text">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditFindIdNickname"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutFindIdNickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="닉네임을 입력해주세요"
-                android:inputType="text|textEmailAddress"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:errorEnabled="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint=""
+                android:transitionGroup="true"
+                app:endIconMode="clear_text">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutFindIdPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint=""
-            android:transitionGroup="true"
-            app:endIconMode="clear_text">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditFindIdNickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="닉네임을 입력해주세요"
+                    android:inputType="text|textEmailAddress"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:errorEnabled="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditFindIdPhone"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutFindIdPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="전화번호를 입력해주세요"
-                android:inputType="phone"
+                android:hint=""
+                android:transitionGroup="true"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditFindIdPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="전화번호를 입력해주세요"
+                    android:inputType="phone"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:errorEnabled="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/ButtonFindId"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="아이디 찾기"
+                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:errorEnabled="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textColor="#FFFFFF" />
 
-        <ImageView
-            android:id="@+id/doneImage"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="80dp"
-            app:srcCompat="@drawable/done_24px"
-            app:tint="@color/green" />
+            <ImageView
+                android:id="@+id/doneImage"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="80dp"
+                app:srcCompat="@drawable/done_24px"
+                app:tint="@color/green" />
 
-        <TextView
-            android:id="@+id/textViewFoundId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            <TextView
+                android:id="@+id/textViewFoundId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-        <TextView
-            android:id="@+id/textViewFoundId2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/textViewFoundId2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorPrimary" />
 
-        <Button
-            android:id="@+id/ButtonFindId"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="300dp"
-            android:layout_marginRight="20dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="아이디 찾기"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#FFFFFF" />
+            <Button
+                android:id="@+id/ButtonFindInfoToLogin"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="로그인하러 가기"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#FFFFFF" />
 
-        <Button
-            android:id="@+id/ButtonFindInfoToLogin"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="20dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="로그인하러 가기"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#FFFFFF" />
+            <Button
+                android:id="@+id/ButtonToFindPassword"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="비밀번호 찾으러 가기"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#FFFFFF" />
 
-        <Button
-            android:id="@+id/ButtonToFindPassword"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="비밀번호 찾으러 가기"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#FFFFFF" />
-
-    </LinearLayout>
+        </LinearLayout>
 
     <!-- 비밀번호 재설정 섹션 -->
     <LinearLayout
@@ -183,5 +189,5 @@
             android:textColor="#FFFFFF" />
 
     </LinearLayout>
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

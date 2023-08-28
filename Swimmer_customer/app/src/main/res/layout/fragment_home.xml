@@ -123,19 +123,19 @@
 
                     <!--                    -->
                     <com.skydoves.androidveil.VeilRecyclerFrameView
-                        android:id="@+id/homeMainRv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:veilFrame_baseAlpha="0.6"
-                        app:veilFrame_baseColor="@color/gray_cc"
-                        app:veilFrame_highlightAlpha="1.0"
-                        app:veilFrame_highlightColor="@color/white"
-                        app:veilFrame_isItemWrapContentHeight="true"
-                        app:veilFrame_isItemWrapContentWidth="true"
-                        app:veilFrame_layout="@layout/item_profile"
-                        app:veilFrame_radius="8dp"
-                        app:veilFrame_shimmerEnable="true"
-                        app:veilFrame_veiled="true" />
+                    android:id="@+id/homeMainRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:veilFrame_baseAlpha="0.6"
+                    app:veilFrame_baseColor="@color/gray_cc"
+                    app:veilFrame_highlightAlpha="1.0"
+                    app:veilFrame_highlightColor="@color/white"
+                    app:veilFrame_isItemWrapContentHeight="true"
+                    app:veilFrame_isItemWrapContentWidth="true"
+                    app:veilFrame_layout="@layout/item_profile"
+                    app:veilFrame_radius="8dp"
+                    app:veilFrame_shimmerEnable="true"
+                    app:veilFrame_veiled="true" />
 
                     <View
                         android:layout_width="match_parent"

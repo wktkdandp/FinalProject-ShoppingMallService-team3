@@ -5,16 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import com.petpal.swimmer_customer.data.model.Address
 import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 
-class DetailAddressViewModel(private val customerUserRepository: CustomerUserRepository) : ViewModel() {
-
-    private val userRepository = CustomerUserRepository()
+class DetailAddressViewModel(private val userRepository: CustomerUserRepository) : ViewModel() {
     val updateResult: MutableLiveData<Boolean?> = MutableLiveData()
 
-//    fun updateUserAddress(uid: String, address: Address) {
-//        userRepository.updateUserAddress(uid, address).observeForever { result ->
-//            updateResult.value = result
-//        }
-//    }
+    fun isValidName(name: String): Boolean {
+        return name.trim().isNotEmpty()
+    }
+
+    fun isValidDetailAddress(detailAddress: String): Boolean {
+        return detailAddress.trim().isNotEmpty()
+    }
+
+    fun isValidPhone(phone: String): Boolean {
+        return phone.isNotEmpty()
+    }
+
     fun addAddressForUser(uid: String, address: Address) {
         userRepository.addAddressForUser(uid, address).observeForever { result ->
             updateResult.value = result

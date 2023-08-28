@@ -9,14 +9,14 @@ import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 class LoginViewModel(private val customerUserRepository: CustomerUserRepository) : ViewModel() {
 
     fun signIn(email: String, password: String): LiveData<Boolean?>? {
-        if (!isValidEmail(email) || !isValidPassword(password)) {
-            return MutableLiveData<Boolean?>(null)
-        }
         return customerUserRepository.signInUser(email,password)
     }
 
-    fun isValidEmail(email: String): Boolean {
-        if(email.isEmpty()) return false
+    fun isEmailEmpty(email: String): Boolean {
+        return email.isEmpty()
+    }
+
+    fun isValidEmailFormat(email: String): Boolean {
         return email.contains("@")
     }
 
@@ -24,20 +24,5 @@ class LoginViewModel(private val customerUserRepository: CustomerUserRepository)
         return password.length >= 6 && password.isNotEmpty()
     }
 
-
-//    fun getUserByIdx(userIdx: String): LiveData<User?>? {
-//        return customerUserRepository.getUserByIdx(userIdx)
-//    }
-
-
-
-
-//    fun modifyUser(userIdx: String, email: String, password: String): LiveData<Boolean> {
-//        return customerUserRepository.modifyUser(userIdx,email,password)
-//    }
-
-//    fun deleteUser(userIdx: String): LiveData<Boolean?>? {
-//        return customerUserRepository.deleteUser(userIdx)
-//    }
 }
 
