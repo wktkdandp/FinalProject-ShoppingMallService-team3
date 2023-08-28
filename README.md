@@ -12,10 +12,10 @@
 ## 🔥 팀원 소개
 | Name       | Part        |Github|
 |------------|-------------|---|
-| [리더] <br/>최가연   | android ||
+| [리더] <br/>최가연   | android |[gayeon00](https://evachu.design)|
 | [부 리더] <br/>고진호 | android     ||
 | 이해현        | android     ||
-| 김진섭        | android     ||
-| 이지헌        | android     ||
+| 김진섭        | android     |)|
+| 이지헌        | android     |[|
 | 윤희서        | android     ||
 </br>
