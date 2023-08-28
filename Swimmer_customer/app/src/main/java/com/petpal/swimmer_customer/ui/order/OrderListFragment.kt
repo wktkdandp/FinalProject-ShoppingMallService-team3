@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.tabs.TabLayout
+import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.getOrderState
 import com.petpal.swimmer_customer.databinding.FragmentOrderListBinding
 import com.petpal.swimmer_customer.databinding.RowOrderBinding
@@ -137,6 +138,9 @@ class OrderListFragment : Fragment() {
             init {
                 rowOrderBinding.root.setOnClickListener {
                     //해당 주문상세로 넘어가기
+                    val bundle = Bundle()
+                    bundle.putInt("orderIdx", adapterPosition)
+                    findNavController().navigate(R.id.action_orderListFragment_to_orderDetailFragment, bundle)
                 }
             }
         }

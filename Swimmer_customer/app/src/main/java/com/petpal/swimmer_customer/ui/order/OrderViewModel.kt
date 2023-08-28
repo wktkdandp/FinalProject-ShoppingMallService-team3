@@ -38,4 +38,8 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
             _orderList.postValue(tmp)
         }
     }
+
+    fun setOrderWithIdx(orderIdx: Int){
+        _order.postValue(orderList.value!![orderIdx])
+    }
 }
