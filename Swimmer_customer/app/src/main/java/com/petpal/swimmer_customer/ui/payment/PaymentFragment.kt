@@ -80,8 +80,8 @@ class PaymentFragment : Fragment() {
             }
 
             paymentFee.observe(mainActivity) {
-                fragmentPaymentBinding.paymentConfirmButton.text = "${it}원 결제하기"
-                fragmentPaymentBinding.paymentCheck.text = "총 상품 금액 : ${it}원"
+                fragmentPaymentBinding.paymentConfirmButton.text = "${paymentViewModel.formatPriceForCustomer(it.toInt())} 결제하기"
+                fragmentPaymentBinding.paymentCheck.text = "총 상품 금액 : ${paymentViewModel.formatPriceForCustomer(it.toInt())}"
                 totalFee = it
             }
 

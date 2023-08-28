@@ -48,6 +48,9 @@ class CompleteFragment : Fragment() {
                 Navigation.findNavController(fragmentCompleteBinding.root)
                     .navigate(R.id.item_home)
             }
+            completeDetail.setOnClickListener {
+
+            }
         }
 
         return fragmentCompleteBinding.root
