@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
 import com.petpal.swimmer_customer.data.model.Product
 import com.petpal.swimmer_customer.databinding.RankingItemBinding
+import com.petpal.swimmer_customer.ui.home.HomeFragmentDirections
 import java.text.NumberFormat
 import java.util.Locale
 

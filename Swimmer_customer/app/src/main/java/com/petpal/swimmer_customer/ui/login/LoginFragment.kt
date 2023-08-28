@@ -67,7 +67,7 @@ class LoginFragment : Fragment() {
         //이메일 비었음
         if (viewModel.isEmailEmpty(email)) {
             showError(
-                fragmentLoginBinding.textInputLayoutAddUserEmail,
+                fragmentLoginBinding.textInputLayoutLoginEmail,
                 fragmentLoginBinding.textInputEditTextLoginEmail,
                 getString(R.string.error_email_required)
             )
@@ -76,7 +76,7 @@ class LoginFragment : Fragment() {
         //이메일 형식이 올바르지 않은 경우
         if (!viewModel.isValidEmailFormat(email)) {
             showError(
-                fragmentLoginBinding.textInputLayoutAddUserEmail,
+                fragmentLoginBinding.textInputLayoutLoginEmail,
                 fragmentLoginBinding.textInputEditTextLoginEmail,
                 getString(R.string.error_invalid_email_format)
             )
@@ -97,6 +97,7 @@ class LoginFragment : Fragment() {
         fragmentLoginBinding.ButtonLogin.setOnClickListener {
             val email = fragmentLoginBinding.textInputEditTextLoginEmail.text.toString()
             val password = fragmentLoginBinding.textInputEditTextLoginPassword.text.toString()
+
             //유효성 검사
             if(!validateCheck(email,password)) {return@setOnClickListener}
 
@@ -171,7 +172,7 @@ class LoginFragment : Fragment() {
         } else {
             // 로그인 실패
             Toast.makeText(context, getString(R.string.login_failure), Toast.LENGTH_LONG).show()
-            fragmentLoginBinding.textInputLayoutAddUserEmail.error = ""
+            fragmentLoginBinding.textInputLayoutLoginEmail.error = ""
             fragmentLoginBinding.textInputEditTextLoginEmail.text?.clear()
             fragmentLoginBinding.textInputEditTextLoginPassword.text?.clear()
         }
