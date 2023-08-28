@@ -22,18 +22,18 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
     private val _product = MutableLiveData<Product>()
     val product: LiveData<Product> = _product
 
-    private val _sizeList = MutableLiveData<MutableList<String>>()
-    val sizeList: LiveData<MutableList<String>> = _sizeList
+    private val _sizeList = MutableLiveData<MutableList<Int>>()
+    val sizeList: LiveData<MutableList<Int>> = _sizeList
 
-    private val _colorList = MutableLiveData<MutableList<String>>()
-    val colorList: LiveData<MutableList<String>> = _colorList
+    private val _colorList = MutableLiveData<MutableList<Int>>()
+    val colorList: LiveData<MutableList<Int>> = _colorList
 
     init {
         _productList.value = mutableListOf<Product>()
         _productCount.value = 0L
         _product.value = Product()
-        _sizeList.value = mutableListOf<String>()
-        _colorList.value = mutableListOf<String>()
+        _sizeList.value = mutableListOf<Int>()
+        _colorList.value = mutableListOf<Int>()
     }
 
     // 상품 정보 가져오기 (상품 상세, 수정용)
@@ -71,7 +71,7 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
     }
 
     // 색상, 사이즈 리스트 값 저장
-    fun addColorAndSizeOption(colorList: List<String>, sizeList: List<String>) {
+    fun addColorAndSizeOption(colorList: List<Int>, sizeList: List<Int>) {
         // 기존 리스트에 추가 후 중복 제거
         val newColorList = this.colorList.value
         newColorList?.addAll(colorList.filter { !newColorList.contains(it) })
@@ -129,3 +129,30 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
     }
 }
 
+// 데이터 지정 순서 정렬용
+enum class ProductColor(var code : Int, var str: String){
+    RED(0, "레드"),
+    ORANGE(1, "오렌지"),
+    YELLOW(2, "옐로우"),
+    GREEN(3, "그린"),
+    SKYBLUE(4, "스카이블루"),
+    BLUE(5, "블루"),
+    NAVY(6, "네이비"),
+    PURPLE(7, "퍼플"),
+    PINK(8, "핑크"),
+    BROWN(9, "브라운"),
+    IVORY(10, "아이보리"),
+    WHITE(11, "화이트"),
+    GRAY(12, "그레이"),
+    BLACK(13, "블랙")
+}
+
+enum class ProductSize(var code: Int, var str: String){
+    XS(0, "XS"),
+    S(1, "S"),
+    M(2, "M"),
+    L(3, "L"),
+    XL(4, "XL"),
+    XXL(5, "XXL"),
+    FREE(6, "FREE")
+}
