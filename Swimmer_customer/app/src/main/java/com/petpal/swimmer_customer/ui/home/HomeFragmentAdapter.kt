@@ -13,7 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
 import com.petpal.swimmer_customer.data.model.Product
 import com.petpal.swimmer_customer.databinding.RankingItemBinding
-import com.petpal.swimmer_customer.ui.HomeFragmentDirections
+import com.petpal.swimmer_customer.ui.home.HomeFragmentDirections
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -29,7 +29,6 @@ class HomeFragmentAdapter(val context: Context, private val dataSet: List<Produc
         init {
             item.root.setOnClickListener {
                 val action =
-                    //HomeFragmentDirections.actionItemHomeToItemDetailFragment(adapterPosition)
                     HomeFragmentDirections.actionItemHomeToItemDetailFragment(adapterPosition)
                 item.root.findNavController().navigate(action)
             }
