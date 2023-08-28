@@ -41,7 +41,6 @@ class PaymentFragment : Fragment() {
     var chipSelect: Long = 0
 
     // -R&D-
-    // state : 배송 상태 -> static으로 구분해주기
     // spinner, chipgroup, button -> mvvm 패턴을 위해 vm으로 메서드 이전 후 데이터 처리
     // 사용자로부터 값을 받지 못한 부분에 대한 error dialog 혹은 null 값 처리
 
