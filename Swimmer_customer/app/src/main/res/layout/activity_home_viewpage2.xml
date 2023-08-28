@@ -7,23 +7,9 @@
     android:background="@color/white"
     tools:layout_height="200dp">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <com.skydoves.androidveil.VeilLayout
-            android:id="@+id/viewPager2VeilLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:veilLayout_baseAlpha="0.6"
-            app:veilLayout_baseColor="@color/gray_cc"
-            app:veilLayout_dropOff="0.5"
-            app:veilLayout_highlightAlpha="1.0"
-            app:veilLayout_highlightColor="@color/white"
-            app:veilLayout_radius="6dp"
-            app:veilLayout_shimmerEnable="true"
-            app:veilLayout_veiled="true">
 
             <ImageView
                 android:id="@+id/productDetailImage"
@@ -35,8 +21,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        </com.skydoves.androidveil.VeilLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

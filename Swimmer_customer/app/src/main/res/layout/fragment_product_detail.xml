@@ -49,18 +49,7 @@
                 app:contentScrim="@color/white"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <com.skydoves.androidveil.VeilLayout
-                    android:id="@+id/veilLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:veilLayout_baseAlpha="0.6"
-                    app:veilLayout_baseColor="@color/gray_cc"
-                    app:veilLayout_dropOff="0.5"
-                    app:veilLayout_highlightAlpha="1.0"
-                    app:veilLayout_highlightColor="@color/white"
-                    app:veilLayout_radius="6dp"
-                    app:veilLayout_shimmerEnable="true"
-                    app:veilLayout_veiled="true">
+
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -195,8 +184,6 @@
                         android:theme="@style/HomeToolbarTheme"
                         app:elevation="6dp"
                         app:layout_collapseMode="pin" />
-
-                </com.skydoves.androidveil.VeilLayout>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
