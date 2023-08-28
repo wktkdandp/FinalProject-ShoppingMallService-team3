@@ -61,7 +61,7 @@ class PaymentFragment : Fragment() {
             paymentDeliveryButton.setOnClickListener {
                 val bundle=Bundle()
                 bundle.putString("FromOrder","FromOrder")
-                findNavController().navigate(R.id.DeliveryPointManageFragment)
+                findNavController().navigate(R.id.DeliveryPointManageFragment,bundle)
             }
             val name = arguments?.getString("name")
             val address = arguments?.getString("address")
