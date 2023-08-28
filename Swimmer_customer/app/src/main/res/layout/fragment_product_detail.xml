@@ -1,241 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.product.ProductDetailFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.core.widget.NestedScrollView
+    <data>
+
+        <variable
+            name="vm"
+            type="com.petpal.swimmer_customer.ui.product.ProductViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        tools:context=".ui.product.ProductDetailFragment">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/productDetailViewPager2"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/productDetailScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:nestedScrollingEnabled="true"
-            android:orientation="horizontal" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentScrim="@color/white"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="70dp"
+                android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/viewPager2Container"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/itemDetailViewPager2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                        android:id="@+id/dots_indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|center"
-                        android:layout_marginBottom="30dp"
-                        app:dotsColor="@color/white"
-                        app:dotsCornerRadius="8dp"
-                        app:dotsSize="16dp"
-                        app:dotsSpacing="4dp"
-                        app:dotsWidthFactor="2.5"
-                        app:progressMode="false"
-                        app:selectedDotColor="@color/colorSecondary" />
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/brandTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="브랜드명"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/viewPager2Container"
-                    app:layout_constraintTop_toBottomOf="@id/viewPager2Container" />
-
-                <TextView
-                    android:id="@+id/itemTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="상품명"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="@id/viewPager2Container"
-                    app:layout_constraintTop_toBottomOf="@id/brandTextView" />
-
-                <TextView
-                    android:id="@+id/priceTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="10,000원"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/viewPager2Container"
-                    app:layout_constraintTop_toBottomOf="@id/itemTitleTextView" />
-
-                <ImageButton
-                    android:id="@+id/downloadImageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/download_24px"
-                    app:layout_constraintBottom_toBottomOf="@id/priceTextView"
-                    app:layout_constraintEnd_toEndOf="@id/viewPager2Container" />
-
-                <HorizontalScrollView
-                    android:id="@+id/hashTagScrollView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    app:layout_constraintEnd_toEndOf="@id/downloadImageButton"
-                    app:layout_constraintStart_toStartOf="@id/priceTextView"
-                    app:layout_constraintTop_toBottomOf="@id/downloadImageButton">
-
-                    <LinearLayout
-                        android:id="@+id/hashTagLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        tools:layout_height="30dp">
-
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/hashTagChipGroup"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/hashTagChip1"
-                                style="@style/Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@android:color/transparent"
-                                android:text="#수영복" />
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_option2"
-                                style="@style/Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@android:color/transparent"
-                                android:text="#수영모" />
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_option3"
-                                style="@style/Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@android:color/transparent"
-                                android:text="#수영모" />
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_option4"
-                                style="@style/Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@android:color/transparent"
-                                android:text="#수영모" />
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_option5"
-                                style="@style/Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@android:color/transparent"
-                                android:text="#수영모" />
-
-                        </com.google.android.material.chip.ChipGroup>
-                    </LinearLayout>
-                </HorizontalScrollView>
-
-                <View
-                    android:id="@+id/view2"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/productDetailViewPager2"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@android:color/black"
-                    app:layout_constraintTop_toBottomOf="@id/hashTagScrollView" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="true"
+                    android:orientation="horizontal" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarProductDetail"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_marginBottom="6dp"
-                android:background="@color/colorNeutral"
-                android:theme="@style/HomeToolbarTheme"
-                app:elevation="6dp"
-                app:layout_collapseMode="pin" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/productDetailTabLayout"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            app:tabGravity="fill"
-            app:tabMode="scrollable"
-            app:tabRippleColor="@android:color/transparent" />
-    </com.google.android.material.appbar.AppBarLayout>
+            android:background="#FFFFFF">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/paymentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:background="#E8FFFFFF"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentScrim="@color/white"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-        <ImageButton
-            android:id="@+id/favoriteButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:background="#E8FFFFFF"
-            android:src="@drawable/favorite_24px"
-            app:layout_constraintStart_toStartOf="parent" />
+                <com.skydoves.androidveil.VeilLayout
+                    android:id="@+id/veilLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:veilLayout_baseAlpha="0.6"
+                    app:veilLayout_baseColor="@color/gray_cc"
+                    app:veilLayout_dropOff="0.5"
+                    app:veilLayout_highlightAlpha="1.0"
+                    app:veilLayout_highlightColor="@color/white"
+                    app:veilLayout_radius="6dp"
+                    app:veilLayout_shimmerEnable="true"
+                    app:veilLayout_veiled="true">
 
-        <Button
-            android:id="@+id/paymentButton"
-            android:layout_width="0dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <FrameLayout
+                            android:id="@+id/viewPager2Container"
+                            android:layout_width="300dp"
+                            android:layout_height="300dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.viewpager2.widget.ViewPager2
+                                android:id="@+id/itemDetailViewPager2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                                android:id="@+id/dots_indicator"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="30dp"
+                                app:dotsColor="@color/white"
+                                app:dotsCornerRadius="8dp"
+                                app:dotsSize="8dp"
+                                app:dotsSpacing="4dp"
+                                app:dotsWidthFactor="2.5"
+                                app:progressMode="false"
+                                app:selectedDotColor="@color/colorSecondary" />
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/brandTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="@{vm.rankingBrand}"
+                            android:textColor="@color/gray_8A"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="@id/viewPager2Container"
+                            app:layout_constraintTop_toBottomOf="@id/viewPager2Container" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:backgroundTint="@color/gray_8A"
+                            android:background="@drawable/baseline_arrow_forward_ios_24"
+                            app:layout_constraintBottom_toBottomOf="@id/brandTextView"
+                            app:layout_constraintStart_toEndOf="@id/brandTextView"
+                            app:layout_constraintTop_toTopOf="@id/brandTextView" />
+
+
+                        <TextView
+                            android:id="@+id/itemTitleTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@{vm.rankingTitle}"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            app:layout_constraintStart_toStartOf="@id/viewPager2Container"
+                            app:layout_constraintTop_toBottomOf="@id/brandTextView" />
+
+                        <TextView
+                            android:id="@+id/priceTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@{vm.rankingPrice}"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="@id/viewPager2Container"
+                            app:layout_constraintTop_toBottomOf="@id/itemTitleTextView" />
+
+                        <ImageButton
+                            android:id="@+id/downloadImageButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/download_24px"
+                            app:layout_constraintBottom_toBottomOf="@id/priceTextView"
+                            app:layout_constraintEnd_toEndOf="@id/viewPager2Container" />
+
+                        <HorizontalScrollView
+                            android:id="@+id/hashTagScrollView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="none"
+                            app:layout_constraintEnd_toEndOf="@id/downloadImageButton"
+                            app:layout_constraintStart_toStartOf="@id/priceTextView"
+                            app:layout_constraintTop_toBottomOf="@id/downloadImageButton">
+
+                            <LinearLayout
+                                android:id="@+id/hashTagLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                tools:layout_height="30dp">
+
+                                <com.google.android.material.chip.ChipGroup
+                                    android:id="@+id/hashTagChipGroup"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="35dp"
+                                    app:chipSpacingHorizontal="3dp">
+
+                                </com.google.android.material.chip.ChipGroup>
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
+                        <View
+                            android:id="@+id/view2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@android:color/black"
+                            app:layout_constraintTop_toBottomOf="@id/hashTagScrollView" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbarProductDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_marginBottom="6dp"
+                        android:background="@color/colorNeutral"
+                        android:theme="@style/HomeToolbarTheme"
+                        app:elevation="6dp"
+                        app:layout_collapseMode="pin" />
+
+                </com.skydoves.androidveil.VeilLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/productDetailTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                app:tabGravity="fill"
+                app:tabMode="scrollable"
+                app:tabRippleColor="@android:color/transparent" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/scrollToFab"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorSecondary"
-            android:text="@string/paymentButton"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="60dp"
+            android:src="@drawable/arrow_upward_24px" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/paymentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#E8FFFFFF"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/favoriteButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/favoriteButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:background="#E8FFFFFF"
+                app:lottie_rawRes="@raw/favorite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/paymentButton" />
+
+            <Button
+                android:id="@+id/paymentButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorSecondary"
+                android:text="@string/paymentButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/favoriteButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

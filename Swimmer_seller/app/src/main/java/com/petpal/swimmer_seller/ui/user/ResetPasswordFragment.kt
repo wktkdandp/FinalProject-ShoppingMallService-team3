@@ -9,11 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
 import com.petpal.swimmer_seller.databinding.FragmentResetPasswordBinding
 
 
@@ -63,7 +62,7 @@ class ResetPasswordFragment : Fragment() {
                 result.error?.let {
                     showSendEmailResult(it)
                 }
-                result.success?.let {
+                result.successInt?.let {
                     showSendEmailResult(it)
                 }
             }
@@ -102,10 +101,11 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun sendPasswordResetEmail(email: String) {
-        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        if(requireActivity().currentFocus!=null) {
-            imm.hideSoftInputFromWindow(requireActivity().currentFocus!!.windowToken,0)
+        if (requireActivity().currentFocus != null) {
+            imm.hideSoftInputFromWindow(requireActivity().currentFocus!!.windowToken, 0)
             requireActivity().currentFocus!!.clearFocus()
 
         }
@@ -113,7 +113,7 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun showSendEmailResult(i: Int) {
-        Snackbar.make(fragmentResetPasswordBinding.root, i, Snackbar.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), i, Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -1,14 +1,14 @@
-const {onCall, HttpsError} = require("firebase-functions/v2/https");
+const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-exports.searchUserByEmail = onCall(async (req) => {
+exports.searchUserByEmail = functions.https.onCall(async (req) => {
   const email = req.query.email;
 
   try {
     const userRecord = await admin.auth().getUserByEmail(email);
-    return {user: userRecord};
+    return {exists: true, uid: userRecord.uid};
   } catch (error) {
-    throw new HttpsError("user-not-found", error.message, error);
+    return {exists: false};
   }
 });

@@ -37,12 +37,23 @@
         <item name="android:fontFamily">@font/hsbombaram</item>
     </style>
 
+    <!-- 툴바의 테마로 사용할 테마 -->
+    <style name="Toolbar_Swimmer_Customer" parent="ThemeOverlay.Material3.Toolbar.Surface">
+        <item name="colorPrimary">@color/material_dynamic_tertiary99</item>
+    </style>
+
+
+    <!-- custom ratingBar -->
+    <style name="CustomRatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_ratingbar</item>
+    </style>
+
     <style name="Theme.Swimmer_customer" parent="Base.Theme.Swimmer_customer" />
 
     <!--    Splash Screen Theme-->
     <style name="AppTheme.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenBackground">#FFFFFF</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name="postSplashScreenTheme">@style/Theme.Swimmer_customer</item>
     </style>

@@ -3,13 +3,102 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_nav_graph"
-    app:startDestination="@id/item_home">
+    app:startDestination="@+id/LoginFragment">
 
+
+    <fragment
+        android:id="@+id/MainFragment"
+        android:name="com.petpal.swimmer_customer.ui.main.MainFragment"
+        android:label="main_Fragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/LoginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/LoginFragment"
+        android:name="com.petpal.swimmer_customer.ui.login.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/RegisterFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_findInfoFragment"
+            app:destination="@id/FindInfoFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/MainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/RegisterFragment"
+        android:name="com.petpal.swimmer_customer.ui.register.RegisterFragment"
+        android:label="register_fragment"
+        tools:layout="@layout/fragment_register">
+    </fragment>
+    <fragment
+        android:id="@+id/DeliveryPointManageFragment"
+        android:name="com.petpal.swimmer_customer.ui.deliverypointmanage.DeliveryPointManageFragment"
+        android:label="deliverypointmanage_fragment"
+        tools:layout="@layout/fragment_delivery_point_manage">
+
+    </fragment>
+    <fragment
+        android:id="@+id/DetailAddressFragment"
+        android:name="com.petpal.swimmer_customer.ui.detailAddress.DetailAddressFragment"
+        android:label="detailaddress_fragment"
+        tools:layout="@layout/fragment_detail_address">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/AddressDialogFragment"
+        android:name="com.petpal.swimmer_customer.ui.deliverypointmanage.AddressDialogFragment"
+        android:label="addressdialog_fragment"
+        tools:layout="@layout/fragment_address_dialog">
+
+    </fragment>
+    <fragment
+        android:id="@+id/MyreviewFragment"
+        android:name="com.petpal.swimmer_customer.ui.myreview.MyReviewFragment"
+        android:label="myreview_fragment"
+        tools:layout="@layout/fragment_my_review">
+    </fragment>
+    <fragment
+        android:id="@+id/CheckPasswordFragment"
+        android:name="com.petpal.swimmer_customer.ui.modifyinfo.CheckPasswordFragment"
+        android:label="checkpassword_fragment"
+        tools:layout="@layout/fragment_check_password">
+    </fragment>
+    <fragment
+        android:id="@+id/ModifyInfoFragment"
+        android:name="com.petpal.swimmer_customer.ui.modifyinfo.ModifyInfoFragment"
+        android:label="modifyinfo_fragment"
+        tools:layout="@layout/fragment_modify_info">
+    </fragment>
+
+    <fragment
+        android:id="@+id/FindInfoFragment"
+        android:name="com.petpal.swimmer_customer.ui.findinfo.FindInfoFragment"
+        android:label="findInfo_fragment"
+        tools:layout="@layout/fragment_find_info">
+
+        <action
+            android:id="@+id/action_findInfoFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
+    </fragment>
+
+    <!-- Original fragments and actions from fragment_nav_graph.xml -->
     <fragment
         android:id="@+id/item_category"
         android:name="com.petpal.swimmer_customer.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" />
+
+    <!-- ... Other fragments and actions ... -->
     <fragment
         android:id="@+id/item_favorite"
         android:name="com.petpal.swimmer_customer.FavoriteFragment"
@@ -17,31 +106,27 @@
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/item_home"
-        android:name="com.petpal.swimmer_customer.ui.HomeFragment"
+        android:name="com.petpal.swimmer_customer.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_item_home_to_itemDetailFragment"
-            app:destination="@id/itemDetailFragment"
-            app:popUpTo="@id/item_home" />
+            app:destination="@id/itemDetailFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/item_history"
         android:name="com.petpal.swimmer_customer.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
-    <fragment
-        android:id="@+id/item_mypage"
-        android:name="com.petpal.swimmer_customer.MypageFragment"
-        android:label="fragment_mypage"
-        tools:layout="@layout/fragment_mypage" />
 
     <fragment
         android:id="@+id/itemDetailFragment"
         android:name="com.petpal.swimmer_customer.ui.product.ProductDetailFragment"
         android:label="fragment_item_detail"
         tools:layout="@layout/fragment_product_detail" >
+        <action
+            android:id="@+id/action_itemDetailFragment_to_item_home"
+            app:destination="@id/item_home" />
         <argument
             android:name="idx"
             app:argType="integer" />
@@ -49,8 +134,8 @@
             android:id="@+id/action_itemDetailFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
         <action
-            android:id="@+id/action_itemDetailFragment_to_item_home"
-            app:destination="@id/item_home" />
+            android:id="@+id/action_itemDetailFragment_to_testActivity"
+            app:destination="@id/testActivity" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -59,6 +144,9 @@
         <action
             android:id="@+id/action_paymentFragment_to_completeFragment"
             app:destination="@id/completeFragment" />
+        <action
+            android:id="@+id/action_paymentFragment_to_itemDetailFragment"
+            app:destination="@id/itemDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/completeFragment"
@@ -68,4 +156,25 @@
             android:id="@+id/action_completeFragment_to_item_home"
             app:destination="@id/item_home" />
     </fragment>
+
+    <fragment
+        android:id="@+id/item_mypage"
+        android:name="com.petpal.swimmer_customer.ui.mypage.MypageFragment"
+        android:label="fragment_mypage"
+        tools:layout="@layout/fragment_mypage">
+        <action
+            android:id="@+id/action_item_mypage_to_DeliveryPointManageFragment"
+            app:destination="@id/DeliveryPointManageFragment" />
+
+
+        <action
+            android:id="@+id/action_item_mypage_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/testActivity"
+        android:name="com.petpal.swimmer_customer.testActivity"
+        android:label="activity_test"
+        tools:layout="@layout/activity_test" />
+
 </navigation>

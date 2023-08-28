@@ -6,30 +6,39 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import com.petpal.swimmer_seller.R
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.petpal.swimmer_seller.databinding.FragmentMainBinding
-import com.petpal.swimmer_seller.ui.user.UserViewModel
-import com.petpal.swimmer_seller.ui.user.UserViewModelFactory
 
 class MainFragment : Fragment() {
-    private lateinit var userViewModel: UserViewModel
-    lateinit var fragmentMainBinding: FragmentMainBinding
+    private lateinit var fragmentMainBinding: FragmentMainBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("user", "mainFragment onCreate")
-        userViewModel =
-            ViewModelProvider(this, UserViewModelFactory())[UserViewModel::class.java]
+        fragmentMainBinding = FragmentMainBinding.inflate(inflater)
 
-        fragmentMainBinding = FragmentMainBinding.inflate(layoutInflater)
-        fragmentMainBinding.button.setOnClickListener {
-            userViewModel.logOut()
-            //메인 프래그먼트는 제거하고 로그인 프래그먼트로 이동
-            findNavController().popBackStack(R.id.mainFragment, true)
-            findNavController().navigate(R.id.loginFragment)
+        Log.d("user", "mainFragment onCreate")
+
+        // navigation
+        val navHostFragment = childFragmentManager.findFragmentById(R.id.fragmentMainContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        // 특정 화면에서 BottomNavigationBar 숨기기
+        navController.addOnDestinationChangedListener { _: NavController, navDestination: NavDestination, _: Bundle? ->
+            if (navDestination.id == R.id.item_home || navDestination.id == R.id.item_menu || navDestination.id == R.id.item_mypage ) {
+                fragmentMainBinding.bottomNavigation.visibility = View.VISIBLE
+            } else {
+                fragmentMainBinding.bottomNavigation.visibility = View.GONE
+            }
+        }
+
+        fragmentMainBinding.run {
+            bottomNavigation.setupWithNavController(navController)
         }
         return fragmentMainBinding.root
     }
@@ -38,5 +47,4 @@ class MainFragment : Fragment() {
         super.onDestroy()
         Log.d("user", "mainFragment onDestroy")
     }
-
 }

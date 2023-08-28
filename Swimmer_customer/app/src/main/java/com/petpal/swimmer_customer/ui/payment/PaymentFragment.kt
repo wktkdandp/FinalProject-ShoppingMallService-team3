@@ -216,7 +216,6 @@ class PaymentFragment : Fragment() {
             holder.paymentItemName.text = paymentViewModel.itemList.value?.get(position)?.name.toString()
             holder.paymentItemPrice.text = "가격 : ${paymentViewModel.itemList.value?.get(position)?.price.toString()}"
 
-            // 현재 데이터셋 없으므로 1 고정
             holder.paymentItemQuantity.text = "수량 : ${paymentViewModel.itemList.value?.get(position)?.quantity.toString()}"
 
             // option -> color, size로 분할

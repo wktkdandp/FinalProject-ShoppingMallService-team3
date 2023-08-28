@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    style="@style/Widget.Material3.BottomSheet"
+    android:id="@+id/reviewTabChipStarRatingBottomSheet"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/review_tab_star_rating"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/veryGoodStar1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/veryGoodStar2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/veryGoodStar2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/veryGoodStar3"
+                app:layout_constraintStart_toEndOf="@id/veryGoodStar1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/veryGoodStar3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/veryGoodStar4"
+                app:layout_constraintStart_toEndOf="@id/veryGoodStar2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/veryGoodStar4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/veryGoodStar5"
+                app:layout_constraintStart_toEndOf="@id/veryGoodStar3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/veryGoodStar5"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/star_rate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/veryGoodStar4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/reviewTabVeryGoodButton"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="textEnd"
+                android:text="@string/review_tab_very_good"
+                android:textColor="@color/black" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/reviewTabLikeItStar1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabLikeItStar2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabLikeItStar2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabLikeItStar3"
+                app:layout_constraintStart_toEndOf="@id/reviewTabLikeItStar1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabLikeItStar3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabLikeItStar4"
+                app:layout_constraintStart_toEndOf="@id/reviewTabLikeItStar2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabLikeItStar4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabLikeItStar5"
+                app:layout_constraintStart_toEndOf="@id/reviewTabLikeItStar3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabLikeItStar5"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/empty_star_rate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/reviewTabLikeItStar4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/reviewTabLikeItButton"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="textEnd"
+                android:text="@string/review_tab_like_it"
+                android:textColor="@color/black" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/reviewTabSoSoStar1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabSoSoStar2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabSoSoStar2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabSoSoStar3"
+                app:layout_constraintStart_toEndOf="@id/reviewTabSoSoStar1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabSoSoStar3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabSoSoStar4"
+                app:layout_constraintStart_toEndOf="@id/reviewTabSoSoStar2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabSoSoStar4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/empty_star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabSoSoStar5"
+                app:layout_constraintStart_toEndOf="@id/reviewTabSoSoStar3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabSoSoStar5"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/empty_star_rate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/reviewTabSoSoStar4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/reviewTabSoSoButton"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="textEnd"
+                android:text="@string/review_tab_so_so"
+                android:textColor="@color/black" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/reviewTabJustOkayStar1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabJustOkayStar2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabJustOkayStar2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabJustOkayStar3"
+                app:layout_constraintStart_toEndOf="@id/reviewTabJustOkayStar1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabJustOkayStar3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/empty_star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabJustOkayStar4"
+                app:layout_constraintStart_toEndOf="@id/reviewTabJustOkayStar2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabJustOkayStar4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/empty_star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabJustOkayStar5"
+                app:layout_constraintStart_toEndOf="@id/reviewTabJustOkayStar3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabJustOkayStar5"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/empty_star_rate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/reviewTabJustOkayStar4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/reviewTabJustOkayButton"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="textEnd"
+                android:text="@string/review_tab_just_okay"
+                android:textColor="@color/black" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/reviewTabNotMuchStar1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabNotMuchStar2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabNotMuchStar2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/empty_star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabNotMuchStar3"
+                app:layout_constraintStart_toEndOf="@id/reviewTabNotMuchStar1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabNotMuchStar3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/empty_star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabNotMuchStar4"
+                app:layout_constraintStart_toEndOf="@id/reviewTabNotMuchStar2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabNotMuchStar4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/empty_star_rate"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/reviewTabNotMuchStar5"
+                app:layout_constraintStart_toEndOf="@id/reviewTabNotMuchStar3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/reviewTabNotMuchStar5"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/empty_star_rate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/reviewTabNotMuchStar4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/reviewTabNotMuchButton"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="textEnd"
+                android:text="@string/review_tab_not_much"
+                android:textColor="@color/black" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</LinearLayout>
