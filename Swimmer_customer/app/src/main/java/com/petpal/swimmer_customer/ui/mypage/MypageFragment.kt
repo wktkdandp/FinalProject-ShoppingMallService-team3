@@ -90,14 +90,17 @@ class MypageFragment : Fragment() {
         }
         //주문 조회로 이동
         fragmentMypageBinding.textViewCompleteCount.setOnClickListener {
+            findNavController().navigate(R.id.action_item_mypage_to_orderListFragment)
 
         }
         //주문 조회로 이동
         fragmentMypageBinding.textViewShippingCount.setOnClickListener {
+            findNavController().navigate(R.id.action_item_mypage_to_orderListFragment)
 
         }
         //주문 조회로 이동
         fragmentMypageBinding.textViewDeliveryCompletedCount.setOnClickListener {
+            findNavController().navigate(R.id.action_item_mypage_to_orderListFragment)
 
         }
 
