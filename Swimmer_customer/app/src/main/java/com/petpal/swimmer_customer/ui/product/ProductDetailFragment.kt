@@ -212,11 +212,11 @@ class ProductDetailFragment : Fragment() {
                     bottomSheetTotalAmountTextView.text =
                         formatPrice(it[args.idx].price.times(count))
                 }
-                if(count==0){
-                    bottomSheetMinusButton.isClickable=false
-                    bottomSheetPaymentButton.isEnabled=false
-                }else{
-                    bottomSheetMinusButton.isClickable=true
+                if (count == 0) {
+                    bottomSheetMinusButton.isClickable = false
+                    bottomSheetPaymentButton.isEnabled = false
+                } else {
+                    bottomSheetMinusButton.isClickable = true
                 }
             }
         }
@@ -473,6 +473,29 @@ class ProductDetailFragment : Fragment() {
         chip.setChipStrokeColorResource(R.color.colorSecondary)
         chip.setTextColor(resources.getColor(R.color.white))
         return chip
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        sizeDataList = emptyArray()
+        colorDataList = emptyArray()
+
+        sizeDataList = arrayOf(
+            "사이즈를 선택해 주세요"
+        )
+
+        colorDataList = arrayOf(
+            "색상을 선택해 주세요"
+        )
+        val bottomSheetView = layoutInflater.inflate(
+            R.layout.fragment_product_detail_payment_button_bottom_sheet,
+            null
+        )
+        var bottomSheetItemCount =
+            bottomSheetView.findViewById<TextView>(R.id.bottomSheetItemCountTextView)
+
+        bottomSheetItemCount.text = "0"
     }
 
 }
