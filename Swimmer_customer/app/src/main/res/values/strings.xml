@@ -143,6 +143,16 @@
     <string name="payment_button_bottom_sheet_total_amount">총 금액 : </string>
     <string name="payment_button_bottom_sheet_payment_button">바로 결제</string>
 
+    <!--spinner items -->
+    <string-array name="spinner_items">
+        <item>배송 메세지 선택</item>
+        <item>안전한 배송 부탁드립니다</item>
+        <item>부재 시 문자 부탁드립니다</item>
+        <item>집 앞에 배송 부탁드립니다</item>
+        <item>감사합니다</item>
+    </string-array>
+
+
 
     <!--이 문자열 너무 길어서 맨 밑으로 빼주세요 -->
     <string name="privacy_policy">

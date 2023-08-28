@@ -90,7 +90,8 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/paymentViewPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/paymentTab"
@@ -149,7 +150,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroup"
+                android:id="@+id/paymentChipGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -158,6 +159,7 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/paymentNaver"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
@@ -166,6 +168,7 @@
                     app:chipSpacingHorizontal="42dp" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/paymentKakao"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
@@ -174,6 +177,7 @@
                     app:chipSpacingHorizontal="42dp" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/paymentCard"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
@@ -182,6 +186,7 @@
                     app:chipSpacingHorizontal="42dp" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/paymentAccount"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
@@ -190,6 +195,7 @@
                     app:chipSpacingHorizontal="42dp" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/paymentMoblie"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
@@ -198,6 +204,7 @@
                     app:chipSpacingHorizontal="42dp" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/paymentCash"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
