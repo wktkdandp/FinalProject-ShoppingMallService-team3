@@ -101,6 +101,7 @@ class HomeFragment : Fragment() {
 
             linearGuide.setOnClickListener {
                 // 판매자 가이드 화면으로 이동
+
                 findNavController().navigate(R.id.action_item_home_to_item_guide)
             }
         }

@@ -18,14 +18,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import com.petpal.swimmer_customer.databinding.FragmentLoginBinding
 import com.petpal.swimmer_customer.ui.main.MainActivity
+import com.petpal.swimmer_customer.ui.main.MainFragment
 import com.petpal.swimmer_customer.util.AutoLoginUtil
 
+//로그인의 유효성검사를 실시하고 로그인 메서드 실행
+//util의 AutoLoginUtil을 이용하여 자동 로그인 처리
 
 class LoginFragment : Fragment() {
     lateinit var fragmentLoginBinding: FragmentLoginBinding
@@ -40,45 +46,65 @@ class LoginFragment : Fragment() {
         mainActivity=activity as MainActivity
         fragmentLoginBinding = FragmentLoginBinding.inflate(layoutInflater)
 
-        val isAutoLogin = AutoLoginUtil.getAutoLogin(requireContext())
-        val currentUser = FirebaseAuth.getInstance().currentUser
+        val mainFragment = parentFragment?.parentFragment as? MainFragment
+        mainFragment?.fragmentMainBinding?.bottomNavigation?.visibility = View.GONE
 
-        if (isAutoLogin && currentUser != null) {
-            // 이미 로그인된 사용자가 있으면 바로 메인으로
+        setupUI()
+        setupViewModel()
 
-            findNavController().navigate(R.id.item_home)
-            return fragmentLoginBinding.root
+        return fragmentLoginBinding.root
+    }
+
+    private fun showError(textInputLayout: TextInputLayout, textInputEditText: TextInputEditText, errorMessage: String) {
+        textInputLayout.error = errorMessage
+        Handler(Looper.getMainLooper()).postDelayed({
+            textInputLayout.error = ""
+            textInputEditText.text?.clear()
+            showKeyboard(textInputEditText)
+        }, 2000)
+    }
+    private fun validateCheck(email:String,password:String):Boolean {
+        //이메일 비었음
+        if (viewModel.isEmailEmpty(email)) {
+            showError(
+                fragmentLoginBinding.textInputLayoutAddUserEmail,
+                fragmentLoginBinding.textInputEditTextLoginEmail,
+                getString(R.string.error_email_required)
+            )
+            return false
         }
+        //이메일 형식이 올바르지 않은 경우
+        if (!viewModel.isValidEmailFormat(email)) {
+            showError(
+                fragmentLoginBinding.textInputLayoutAddUserEmail,
+                fragmentLoginBinding.textInputEditTextLoginEmail,
+                getString(R.string.error_invalid_email_format)
+            )
+            return false
+        }
+        //비밀번호 유효성 검사
+        if (!viewModel.isValidPassword(password)) {
+            showError(
+                fragmentLoginBinding.textInputLayoutLoginPassword,
+                fragmentLoginBinding.textInputEditTextLoginPassword,
+                getString(R.string.error_password_length)
+            )
+            return false
+        }
+        return true
+    }
+    private fun setupUI(){
+        fragmentLoginBinding.ButtonLogin.setOnClickListener {
+            val email = fragmentLoginBinding.textInputEditTextLoginEmail.text.toString()
+            val password = fragmentLoginBinding.textInputEditTextLoginPassword.text.toString()
+            //유효성 검사
+            if(!validateCheck(email,password)) {return@setOnClickListener}
 
-            val factory = LoginViewModelFactory(CustomerUserRepository())
-            viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
-
-            //로그인 눌렀을 때
-            fragmentLoginBinding.ButtonLogin.setOnClickListener {
-                val email = fragmentLoginBinding.textInputEditTextLoginEmail.text.toString()
-                val password = fragmentLoginBinding.textInputEditTextLoginPassword.text.toString()
-
-                //유효성 검사 false -> 리스너 종료
-                if (!checkEmail(email) || !checkPassword(password)) {
-                return@setOnClickListener
-            }
             viewModel.signIn(email, password)?.observe(viewLifecycleOwner, Observer { success ->
                 handleLoginResult(success == true)
 
             })
         }
-
-//        fragmentLoginBinding.checkboxAutoLogin.setOnTouchListener { v, event ->
-//            if(event.action==MotionEvent.ACTION_UP && !fragmentLoginBinding.checkboxAutoLogin.isChecked)
-//            {
-//                showConsentDialog()
-//                true
-//            }else{
-//                false
-//            }
-//        }
-
-
         fragmentLoginBinding.ButtonRegister.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             findNavController().navigate(action)
@@ -98,44 +124,23 @@ class LoginFragment : Fragment() {
         fragmentLoginBinding.ButtonKakaoLogin.setOnClickListener {
 
         }
-        return fragmentLoginBinding.root
-    }
 
-    //이메일 유효성검사
-    private fun checkEmail(email: String): Boolean {
+    }
+    private fun setupViewModel(){
+        val factory = LoginViewModelFactory(CustomerUserRepository())
+        viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
-        if(email.isEmpty()){
-            fragmentLoginBinding.textInputLayoutAddUserEmail.error = getString(R.string.error_email_required)
-            Handler(Looper.getMainLooper()).postDelayed({
-                fragmentLoginBinding.textInputLayoutAddUserEmail.error = ""
-                fragmentLoginBinding.textInputEditTextLoginEmail.text?.clear()
-                showKeyboard(fragmentLoginBinding.textInputEditTextLoginEmail)
-            }, 2000)
-            return false
-        }else if (!email.contains("@")) {
-            fragmentLoginBinding.textInputLayoutAddUserEmail.error = getString(R.string.error_invalid_email_format)
-            Handler(Looper.getMainLooper()).postDelayed({
-                fragmentLoginBinding.textInputLayoutAddUserEmail.error = ""
-                fragmentLoginBinding.textInputEditTextLoginEmail.text?.clear()
-                showKeyboard(fragmentLoginBinding.textInputEditTextLoginEmail)
-            }, 2000)
-            return false
-        }
-        return true
     }
-    //비밀번호 유효성 검사
-    private fun checkPassword(password: String): Boolean {
-   if (password.length < 6 || password.isEmpty()) {
-            fragmentLoginBinding.textInputLayoutLoginPassword.error = getString(R.string.error_password_length)
-            Handler(Looper.getMainLooper()).postDelayed({
-                fragmentLoginBinding.textInputLayoutLoginPassword.error = ""
-                fragmentLoginBinding.textInputEditTextLoginPassword.text?.clear()
-            }, 2000)
-            return false
-        }
-        return true
-    }
-        //키보드 올리기
+//    private fun AutoLogin(){
+//        val isAutoLogin = AutoLoginUtil.getAutoLogin(requireContext())
+//        val currentUser = FirebaseAuth.getInstance().currentUser
+//
+//        if (isAutoLogin && currentUser != null) {
+//            // 이미 로그인된 사용자가 있으면 바로 메인으로
+//            findNavController().navigate(R.id.MainFragment)
+//        }
+//    }
+    //키보드 올리기
         fun showKeyboard(view: View) {
         if (view.requestFocus()) {
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -146,8 +151,20 @@ class LoginFragment : Fragment() {
     private fun handleLoginResult(success: Boolean) {
         if (success) {
             // 로그인 성공
+
             Toast.makeText(context, getString(R.string.login_success), Toast.LENGTH_LONG).show()
-            findNavController().navigate(R.id.item_home)
+            //val action=LoginFragmentDirections.actionLoginFragmentToItemHome()
+            //fragmentMainBinding.bottomNavigation.selectedItemId = R.id.item_home
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.MainFragment, true)
+                .build()
+
+            val navController = findNavController()
+//            val action=LoginFragmentDirections.actionLoginFragmentToItemHome()
+            navController.navigate(R.id.action_LoginFragment_to_item_home)
+
+//            val action = LoginFragmentDirections.actionLoginFragmentToItemHome()
+//            findNavController().navigate(action,navOptions)
 
             val isAutoLoginChecked = fragmentLoginBinding.checkboxAutoLogin.isChecked
             AutoLoginUtil.setAutoLogin(requireContext(), isAutoLoginChecked)

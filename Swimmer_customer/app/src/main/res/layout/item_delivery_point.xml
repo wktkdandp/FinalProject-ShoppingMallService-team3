@@ -38,7 +38,7 @@
                 android:text="기본 배송지"
                 android:textAlignment="center"
                 android:visibility="gone" />
-
+ㄱ
         </LinearLayout>
 
         <LinearLayout

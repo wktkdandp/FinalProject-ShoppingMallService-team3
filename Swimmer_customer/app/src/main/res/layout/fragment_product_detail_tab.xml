@@ -28,6 +28,6 @@
                 android:scaleType="fitCenter" />
 
         </ScrollView>
-
     </LinearLayout>
+
 </layout>
