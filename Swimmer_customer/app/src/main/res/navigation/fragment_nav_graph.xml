@@ -177,7 +177,7 @@
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/item_home"
-        android:name="com.petpal.swimmer_customer.ui.HomeFragment"
+        android:name="com.petpal.swimmer_customer.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
