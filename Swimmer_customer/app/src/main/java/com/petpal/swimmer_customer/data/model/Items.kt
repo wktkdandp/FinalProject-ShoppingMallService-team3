@@ -15,6 +15,7 @@ data class OrderByCustomer(
     // code? 에 넘겨줄 값이 없어서 일단 삭제
     // date + random 알파벳 3자리
     var orderUid: String,
+    var userUid: String,
 
     // 보낼 수 있는 데이터
     var orderDate: String,

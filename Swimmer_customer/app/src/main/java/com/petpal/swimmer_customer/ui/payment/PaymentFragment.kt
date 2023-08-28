@@ -139,8 +139,9 @@ class PaymentFragment : Fragment() {
 
                     val sdfUid = SimpleDateFormat("MMddhhmmss", Locale.getDefault())
                     val orderUid = sdfUid.format(Date(System.currentTimeMillis()))
+                    val userUid = "test_user_uid"
 
-                    val order = OrderByCustomer(1, orderUid, orderDate, spinnerSelect, chipSelect,
+                    val order = OrderByCustomer(1, orderUid, userUid, orderDate, spinnerSelect, chipSelect,
                         totalFee.toLong(), orderItemList, "test_address", "test_coupon_item", 1000)
                     PaymentRepository.sendOrderToSeller(order) {
 
