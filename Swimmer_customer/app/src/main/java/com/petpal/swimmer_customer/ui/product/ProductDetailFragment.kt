@@ -28,6 +28,8 @@ import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.ItemsForCustomer
@@ -61,11 +63,13 @@ class ProductDetailFragment : Fragment() {
         "색상을 선택해 주세요"
     )
     private var isAnimationPlaying = false
+    private lateinit var auth: FirebaseAuth
 
     // 네비게이션 args 값 가져오기
     val args: ProductDetailFragmentArgs by navArgs()
     var firebaseSize = ""
     var firebaseColor = ""
+    private lateinit var buyerUid: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -139,9 +143,19 @@ class ProductDetailFragment : Fragment() {
             scrollToFab.setOnClickListener {
                 productDetailScrollView.smoothScrollTo(0, 0)
             }
-
         }
+        auth = FirebaseAuth.getInstance()
+        getAndUseUid()
+
         return fragmentProductDetailBinding.root
+    }
+
+    private fun getAndUseUid() {
+        val user: FirebaseUser? = auth.currentUser
+        if (user != null) {
+            buyerUid = user.uid
+            Log.d("유희왕", buyerUid.toString())
+        }
     }
 
     private fun FragmentProductDetailBinding.paymentButtonBottomSheet() {
@@ -264,7 +278,8 @@ class ProductDetailFragment : Fragment() {
                 price,
                 quantity,
                 size,
-                color
+                color,
+                buyerUid
             )
 
             // firebase 객체를 생성한다.
