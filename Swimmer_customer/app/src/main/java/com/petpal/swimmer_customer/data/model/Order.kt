@@ -1,10 +1,7 @@
 package com.petpal.swimmer_customer.data.model
 
-import android.location.Address
 
-
-
-data class OrderByCustomer(
+data class Order(
     // 주문 완료 상태로 전송
     // Long -> String 변경
     var state: Long,
@@ -30,4 +27,5 @@ data class OrderByCustomer(
     var address: String,
     var couponUid: String,
     var usePoint: Long,
+    var userUid: String,
 )
