@@ -44,7 +44,6 @@ class PaymentViewModel: ViewModel() {
                 val quantity = i.child("quantity").value as Long
                 val size = i.child("size").value as String
                 val color = i.child("color").value as String
-                val buyerUid = i.child("buyerUid").value as String
 
                 val itemModel = ItemsForCustomer(productUid, sellerUid, name, mainImage, price, quantity, size, color,buyerUid)
 
