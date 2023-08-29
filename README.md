@@ -57,8 +57,8 @@
 - 랭킹, 초심자, 신상품, 이벤트 탭이 있다. (현재 랭킹탭만 구현)
 - 판매자가 등록한 상품들이 보여진다.
 
-<img src=image.png width="300" height="600">
-<img src=image-1.png width="300" height="600">
+<img src=image.png width="300" height="600" ><img src=image-1.png width="300" height="600">
+
 
 2. 상품 상세 화면
 - 상품 이미지 가로 스크롤로 탐색
