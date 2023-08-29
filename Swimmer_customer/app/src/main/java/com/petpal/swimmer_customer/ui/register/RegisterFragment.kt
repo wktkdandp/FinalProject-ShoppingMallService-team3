@@ -53,6 +53,7 @@ class RegisterFragment : Fragment() {
 
         return fragmentRegisterBinding.root
     }
+    //백버튼 제어
     private fun handleBackPress() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -153,6 +154,7 @@ class RegisterFragment : Fragment() {
             })
         }
     }
+    //에러 표시
     private fun showError(textInputLayout: TextInputLayout, textInputEditText: TextInputEditText, errorMessage: String) {
         textInputLayout.error = errorMessage
         Handler(Looper.getMainLooper()).postDelayed({
@@ -161,6 +163,7 @@ class RegisterFragment : Fragment() {
             showKeyboard(textInputEditText)
         }, 2000)
     }
+    //유효성 검사
     private fun validateCheck(email:String,password:String,passwordRepeat:String,nicknName:String,phoneNumber:String,isChecked:Boolean):Boolean{
         if(viewModel.isEmailEmpty(email)){
            showError(fragmentRegisterBinding.textInputLayoutAddUserEmail,fragmentRegisterBinding.textInputEditTextAddUserEmail,getString(R.string.error_email_required))
@@ -213,6 +216,7 @@ class RegisterFragment : Fragment() {
             imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
     }
+    //개인정보 동의 다이얼로그
     private fun showCustomDialog() {
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.custom_consent_dialog, null)
 
