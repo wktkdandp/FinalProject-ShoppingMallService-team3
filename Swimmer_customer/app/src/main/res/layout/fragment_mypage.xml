@@ -20,6 +20,11 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/Toolbar_Swimmer_Customer" />
 
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dividerColor="@color/black"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -36,7 +41,7 @@
                     android:id="@+id/imageViewProfilePhoto"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    app:srcCompat="@drawable/custom_ratingbar" />
+                    app:srcCompat="@drawable/broken_image_24px" />
 
                 <LinearLayout
                     android:layout_width="0dp"

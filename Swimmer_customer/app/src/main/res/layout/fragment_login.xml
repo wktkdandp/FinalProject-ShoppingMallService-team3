@@ -21,13 +21,12 @@
         android:textSize="40sp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutAddUserEmail"
+        android:id="@+id/textInputLayoutLoginEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="50dp"
         android:layout_marginRight="20dp"
-        android:hint=""
         android:transitionGroup="true"
         app:endIconMode="clear_text">
 
@@ -36,7 +35,7 @@
             android:id="@+id/textInputEditTextLoginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="abc@example.com"
+            android:hint="아이디를 입력해주세요"
             android:inputType="text|textEmailAddress"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -46,20 +45,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:hint=""
         android:transitionGroup="true"
         app:endIconMode="password_toggle">
 
         <com.google.android.material.textfield.TextInputEditText
-            app:errorEnabled="true"
             android:id="@+id/textInputEditTextLoginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="비밀번호를 입력해주세요"
             android:inputType="text|textPassword"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:errorEnabled="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
@@ -94,6 +93,7 @@
             android:id="@+id/ButtonRegister"
             android:layout_width="wrap_content"
             android:layout_height="39dp"
+            android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:text="회원가입"
             android:textColor="@color/colorPrimary" />
@@ -102,17 +102,18 @@
             android:id="@+id/ButtonFindId"
             android:layout_width="wrap_content"
             android:layout_height="39dp"
+            android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
             android:text="아이디 찾기"
+            android:textAlignment="textEnd"
             android:textColor="#000000" />
 
         <Button
             android:id="@+id/ButtonResetPassword"
             android:layout_width="wrap_content"
             android:layout_height="39dp"
+            android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
             android:text="비밀번호 찾기"
             android:textColor="#000000" />
     </LinearLayout>
@@ -140,7 +141,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_weight="0.2"
             android:text="또는"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textSize="12sp" />
 

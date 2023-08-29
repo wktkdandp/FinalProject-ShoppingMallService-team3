@@ -36,7 +36,6 @@ import com.petpal.swimmer_customer.util.AutoLoginUtil
 class LoginFragment : Fragment() {
     lateinit var fragmentLoginBinding: FragmentLoginBinding
     lateinit var viewModel: LoginViewModel
-    //lateinit var auth: FirebaseAuth
     lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
@@ -67,7 +66,7 @@ class LoginFragment : Fragment() {
         //이메일 비었음
         if (viewModel.isEmailEmpty(email)) {
             showError(
-                fragmentLoginBinding.textInputLayoutAddUserEmail,
+                fragmentLoginBinding.textInputLayoutLoginEmail,
                 fragmentLoginBinding.textInputEditTextLoginEmail,
                 getString(R.string.error_email_required)
             )
@@ -76,7 +75,7 @@ class LoginFragment : Fragment() {
         //이메일 형식이 올바르지 않은 경우
         if (!viewModel.isValidEmailFormat(email)) {
             showError(
-                fragmentLoginBinding.textInputLayoutAddUserEmail,
+                fragmentLoginBinding.textInputLayoutLoginEmail,
                 fragmentLoginBinding.textInputEditTextLoginEmail,
                 getString(R.string.error_invalid_email_format)
             )
@@ -97,6 +96,7 @@ class LoginFragment : Fragment() {
         fragmentLoginBinding.ButtonLogin.setOnClickListener {
             val email = fragmentLoginBinding.textInputEditTextLoginEmail.text.toString()
             val password = fragmentLoginBinding.textInputEditTextLoginPassword.text.toString()
+
             //유효성 검사
             if(!validateCheck(email,password)) {return@setOnClickListener}
 
@@ -124,22 +124,12 @@ class LoginFragment : Fragment() {
         fragmentLoginBinding.ButtonKakaoLogin.setOnClickListener {
 
         }
-
     }
     private fun setupViewModel(){
         val factory = LoginViewModelFactory(CustomerUserRepository())
         viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
     }
-//    private fun AutoLogin(){
-//        val isAutoLogin = AutoLoginUtil.getAutoLogin(requireContext())
-//        val currentUser = FirebaseAuth.getInstance().currentUser
-//
-//        if (isAutoLogin && currentUser != null) {
-//            // 이미 로그인된 사용자가 있으면 바로 메인으로
-//            findNavController().navigate(R.id.MainFragment)
-//        }
-//    }
     //키보드 올리기
         fun showKeyboard(view: View) {
         if (view.requestFocus()) {
@@ -151,27 +141,16 @@ class LoginFragment : Fragment() {
     private fun handleLoginResult(success: Boolean) {
         if (success) {
             // 로그인 성공
-
             Toast.makeText(context, getString(R.string.login_success), Toast.LENGTH_LONG).show()
-            //val action=LoginFragmentDirections.actionLoginFragmentToItemHome()
-            //fragmentMainBinding.bottomNavigation.selectedItemId = R.id.item_home
-            val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.MainFragment, true)
-                .build()
-
             val navController = findNavController()
-//            val action=LoginFragmentDirections.actionLoginFragmentToItemHome()
+
             navController.navigate(R.id.action_LoginFragment_to_item_home)
-
-//            val action = LoginFragmentDirections.actionLoginFragmentToItemHome()
-//            findNavController().navigate(action,navOptions)
-
             val isAutoLoginChecked = fragmentLoginBinding.checkboxAutoLogin.isChecked
             AutoLoginUtil.setAutoLogin(requireContext(), isAutoLoginChecked)
         } else {
             // 로그인 실패
             Toast.makeText(context, getString(R.string.login_failure), Toast.LENGTH_LONG).show()
-            fragmentLoginBinding.textInputLayoutAddUserEmail.error = ""
+            fragmentLoginBinding.textInputLayoutLoginEmail.error = ""
             fragmentLoginBinding.textInputEditTextLoginEmail.text?.clear()
             fragmentLoginBinding.textInputEditTextLoginPassword.text?.clear()
         }
