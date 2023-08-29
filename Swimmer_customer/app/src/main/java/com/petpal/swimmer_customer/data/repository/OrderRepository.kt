@@ -36,7 +36,8 @@ class OrderRepository {
                                 //TODO Long으로 바꾸기
                                 item["size"] as String,
                                 //TODO Long으로 바꾸기
-                                item["color"] as String
+                                item["color"] as String,
+                                item["buyerUid"] as String
                             )
                         }
 

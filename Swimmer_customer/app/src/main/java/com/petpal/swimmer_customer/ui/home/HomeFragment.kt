@@ -129,7 +129,7 @@ class HomeFragment : Fragment() {
 
 
             fragmentHomeFragmentBinding.dotsIndicator.attachTo(this)
-            offscreenPageLimit = 1// 이미지를 미리 로딩하는 메서드
+            offscreenPageLimit = 5// 이미지를 미리 로딩하는 메서드
 
             // 페이지 변경 콜백 등록
             // registerOnPageChangeCallback :  ViewPager2의 페이지 변경 사항을 감지 메서드
