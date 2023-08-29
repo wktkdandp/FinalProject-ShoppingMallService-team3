@@ -71,8 +71,7 @@
   - 옵션 선택시 선택 상품명, 수량, 가격 표시
   - 총 수량, 총 금액 표시
 
-<img src=img_12.png width="300" height="600">
-<img src=img_13.png width="300" height="600">
+<img src=img_12.png width="300" height="600"><img src=img_13.png width="300" height="600">
 
 3. 주문 화면
 - 배송지 선택하기 버튼을 누르면 배송지 목록이 뜨고, 배송지 추가도 가능하다. 목록 중 하나를 선택하면 배송지로 선택된다.
@@ -82,8 +81,7 @@
 - 결제하기 버튼(총 금액 함께 보여주기)
 
 
-<img src=image-2.png width="300" height="600">
-<img src=image-3.png width="300" height="600">
+<img src=image-2.png width="300" height="600"><img src=image-3.png width="300" height="600">
 
 
 4. 주문 완료
@@ -108,13 +106,11 @@
 
 
 
-<img src=img_18.png width="300" height="600">
-<img src=img_20.png width="300" height="600">
+<img src=img_18.png width="300" height="600"><img src=img_20.png width="300" height="600">
 
 3. 상품 등록 옵션
 - 옵션 추가를 클릭하면 색상과 사이즈를 추가할 수 있다.
 - 상품 등록 버튼을 누르면 Snackbar를 띄워 상품 등록이 완료됐다고 알려준다.
 
 
-<img src=img_23.png width="300" height="600">
-<img src=img_26.png width="300" height="600">
+<img src=img_23.png width="300" height="600"><img src=img_26.png width="300" height="600">
