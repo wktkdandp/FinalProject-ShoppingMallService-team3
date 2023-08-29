@@ -35,6 +35,4 @@ data class User(
     var reviewIdxList: List<Long>? = null,
     var orderIdxList: List<Long>? = null,
     var inquiryIdxList: List<Long>? = null
-) {
-
-}
+)

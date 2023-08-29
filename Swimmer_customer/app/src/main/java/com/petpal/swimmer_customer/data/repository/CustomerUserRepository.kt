@@ -357,5 +357,36 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
 
         return result
     }
+    fun ModifyUserInfo(user: User): LiveData<Boolean?> {
+        val resultLiveData = MutableLiveData<Boolean?>()
+        val currentUser = mAuth.currentUser
+
+        if (currentUser != null) {
+            val uid = currentUser.uid
+
+            // 업데이트할 사용자 정보 필드들을 맵 형태로 생성
+            val updatedUserInfoMap = mutableMapOf<String, Any?>()
+            updatedUserInfoMap["swimExp"] = user.swimExp
+            updatedUserInfoMap["nickName"] = user.nickName
+            updatedUserInfoMap["phoneNumber"] = user.phoneNumber
+
+            // 데이터베이스에서 현재 사용자의 정보 노드에 업데이트
+            mDatabase.child(uid).updateChildren(updatedUserInfoMap)
+                .addOnCompleteListener { updateTask: Task<Void?> ->
+                    if (updateTask.isSuccessful) {
+                        resultLiveData.value = true
+                    } else {
+                        resultLiveData.value = false
+                    }
+                }
+        } else {
+            resultLiveData.value = false
+        }
+
+        return resultLiveData
+    }
+    fun withdrawal(){
+       // FirebaseAuth.getInstance().
+    }
 
 }

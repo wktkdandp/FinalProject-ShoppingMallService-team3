@@ -189,7 +189,7 @@ class RegisterFragment : Fragment() {
     //수영 경력
     private fun userSwimExp():String {
         return when (fragmentRegisterBinding.swimExpGroup.checkedChipId) {
-            R.id.isDefaultDeliveryPoint -> getString(R.string.duration_less_than_1_year)
+            R.id.swimExp1-> getString(R.string.duration_less_than_1_year)
             R.id.swimExp2 -> getString(R.string.duration_less_than_3_years)
             R.id.swimExp3 -> getString(R.string.duration_less_than_5_years)
             R.id.swimExp4 -> getString(R.string.duration_more_than_5_years)

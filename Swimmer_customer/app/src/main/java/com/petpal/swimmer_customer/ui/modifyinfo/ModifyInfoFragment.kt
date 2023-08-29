@@ -1,11 +1,15 @@
 package com.petpal.swimmer_customer.ui.modifyinfo
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -36,6 +40,33 @@ class ModifyInfoFragment : Fragment() {
         fragmentModifyInfoBinding.buttonModifyPassword.setOnClickListener {
             val currentPassword=fragmentModifyInfoBinding.textInputEditTextCurrentPassword.text.toString()
             val newPassword=fragmentModifyInfoBinding.textInputEditTextNewPassword.text.toString()
+
+            if(!viewModel.isValidPassword(currentPassword)){
+                fragmentModifyInfoBinding.textInputLayoutCurrentPassword.error=getString(R.string.error_password_length)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    fragmentModifyInfoBinding.textInputLayoutCurrentPassword.error = ""
+                    fragmentModifyInfoBinding.textInputEditTextCurrentPassword.text?.clear()
+                }, 2000)
+
+                return@setOnClickListener
+            }
+            if(!viewModel.isValidPassword(newPassword)){
+                fragmentModifyInfoBinding.textInputLayoutNewPassword.error=getString(R.string.error_password_length)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    fragmentModifyInfoBinding.textInputLayoutNewPassword.error = ""
+                    fragmentModifyInfoBinding.textInputEditTextNewPassword.text?.clear()
+                }, 2000)
+                return@setOnClickListener
+            }
+            if(currentPassword == newPassword){
+                fragmentModifyInfoBinding.textInputLayoutNewPassword.error=getString(R.string.duplicate_password)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    fragmentModifyInfoBinding.textInputLayoutNewPassword.error = ""
+                    fragmentModifyInfoBinding.textInputEditTextNewPassword.text?.clear()
+                }, 2000)
+                return@setOnClickListener
+            }
+
             viewModel.modifyPassword(currentPassword,newPassword).observe(viewLifecycleOwner, Observer { success ->
                 if (success == true) {
                     AlertDialog.Builder(requireContext())
@@ -57,6 +88,56 @@ class ModifyInfoFragment : Fragment() {
             })
 
         }
+        fragmentModifyInfoBinding.buttonModifySwimExp.setOnClickListener {
+            val newSwimExp = NewSwimExp()
+            viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer { currentUser ->
+                currentUser?.let {
+                    it.swimExp = newSwimExp
+                    viewModel.ModifyUserInfo(it).observe(viewLifecycleOwner, Observer { updateSuccess ->
+                        if (updateSuccess == true) {
+                            showToast("수영 경력이 수정되었습니다.")
+                        } else {
+                            showToast("수영 경력 수정에 실패했습니다.")
+                        }
+                    })
+                }
+            })
+        }
+        fragmentModifyInfoBinding.buttonModifyNickname.setOnClickListener {
+            val newNickname=fragmentModifyInfoBinding.textInputEditTextNewNickname.text.toString()
+            viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer { currentUser ->
+                currentUser?.let {
+                    it.nickName = newNickname
+                    viewModel.ModifyUserInfo(it).observe(viewLifecycleOwner, Observer { updateSuccess ->
+                        if (updateSuccess == true) {
+                            showToast("닉네임이 수정되었습니다.")
+                            hideKeyboard(requireContext(),fragmentModifyInfoBinding.textInputEditTextNewNickname)
+                        } else {
+                            showToast("닉네임 수정에 실패했습니다.")
+                            hideKeyboard(requireContext(),fragmentModifyInfoBinding.textInputEditTextNewNickname)
+                        }
+                    })
+                }
+            })
+        }
+        fragmentModifyInfoBinding.buttonModifyPhone.setOnClickListener {
+            val newPhoneNumber=fragmentModifyInfoBinding.textInputEditTextNewNickPhone.text.toString()
+            viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer { currentUser->
+                currentUser?.let{
+                    it.phoneNumber=newPhoneNumber
+                    viewModel.ModifyUserInfo(it).observe(viewLifecycleOwner, Observer {updateSuccess ->
+                        if (updateSuccess == true) {
+                            showToast("휴대폰 번호가 수정되었습니다.")
+                            hideKeyboard(requireContext(),fragmentModifyInfoBinding.textInputEditTextNewNickPhone)
+                        } else {
+                            showToast("휴대폰 번호 수정에 실패했습니다.")
+                            hideKeyboard(requireContext(),fragmentModifyInfoBinding.textInputEditTextNewNickPhone)
+                        }
+                    })
+                }
+
+            })
+        }
 
 
         return fragmentModifyInfoBinding.root
@@ -69,6 +150,22 @@ class ModifyInfoFragment : Fragment() {
                 findNavController().popBackStack()
             }
         }
+    }
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+    private fun NewSwimExp():String {
+        return when (fragmentModifyInfoBinding.newSwimExpGroup.checkedChipId) {
+            R.id.newSwimExp1-> getString(R.string.duration_less_than_1_year)
+            R.id.newSwimExp2 -> getString(R.string.duration_less_than_3_years)
+            R.id.newSwimExp3 -> getString(R.string.duration_less_than_5_years)
+            R.id.newSwimExp4 -> getString(R.string.duration_more_than_5_years)
+            else -> getString(R.string.duration_no_selection)
+        }
+    }
+    fun hideKeyboard(context: Context, view: View) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
 
