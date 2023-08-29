@@ -27,7 +27,7 @@
 - 기획, 디자인, 설계 : 23년 8월 10일 ~ 23년 8월 16일
 - 구현 : 23년 8월 17일 ~
 
-![img.png](img.png)
+<img src=img.png width="600" height="300">
 
 ## 🔨 기술 스택
 - 개발 IDE : Android Studio
@@ -38,15 +38,16 @@
 ## 📱 서비스 흐름 구조도
 
 ### 소비자용 서비스 구조도 
-![img_1.png](img_1.png)
-![img_2.png](img_2.png)
-![img_3.png](img_3.png)
+<img src=img_1.png width="600" height="300">
+<img src=img_2.png width="600" height="300">
+<img src=img_3.png width="600" height="300">
 
 ### 판매자용 서비스 구조도
-![img_4.png](img_4.png)
-![img_5.png](img_5.png)
-![img_6.png](img_6.png)
-![img_7.png](img_7.png)
+<img src=img_4.png width="600" height="300">
+<img src=img_5.png width="600" height="300">
+<img src=img_6.png width="600" height="300">
+<img src=img_7.png width="600" height="300">
+
 
 ## 🎮 주요 기능 설명
 ### ⭐소비자용 서비스⭐
@@ -56,8 +57,8 @@
 - 랭킹, 초심자, 신상품, 이벤트 탭이 있다. (현재 랭킹탭만 구현)
 - 판매자가 등록한 상품들이 보여진다.
 
-![Alt text](image.png)
-![Alt text](image-1.png)
+<img src=image.png width="300" height="600">
+<img src=image-1.png width="300" height="600">
 
 2. 상품 상세 화면
 - 상품 이미지 가로 스크롤로 탐색
@@ -70,9 +71,8 @@
   - 옵션 선택시 선택 상품명, 수량, 가격 표시
   - 총 수량, 총 금액 표시
 
-
-![img_12.png](img_12.png)
-![img_13.png](img_13.png)
+<img src=img_12.png width="300" height="600">
+<img src=img_13.png width="300" height="600">
 
 3. 주문 화면
 - 배송지 선택하기 버튼을 누르면 배송지 목록이 뜨고, 배송지 추가도 가능하다. 목록 중 하나를 선택하면 배송지로 선택된다.
@@ -81,14 +81,16 @@
 - 주문 상품 목록 표시 (상품명, 사이즈 , 색상, 가격 , 수량)
 - 결제하기 버튼(총 금액 함께 보여주기)
 
-![Alt text](image-2.png)
-![Alt text](image-3.png)
+
+<img src=image-2.png width="300" height="600">
+<img src=image-3.png width="300" height="600">
+
 
 4. 주문 완료
 - “주문이 완료되었습니다.” 텍스트가 표시된다.
 - 3초 뒤 홈 화면으로 이동합니다.
 
-![img_16.png](img_16.png)
+<img src=img_16.png width="300" height="600">
 
 ### ⭐판매자용 서비스⭐
 
@@ -96,7 +98,8 @@
 - 결제 완료, 배송 준비, 배송중, 배송 완료가 한눈에 보인다.
 - 상품 등록 버튼을 누르면 상품을 등록할 수 있다.
 
-![img_17.png](img_17.png)
+
+<img src=img_17.png width="300" height="600">
 
 2. 상품 등록
 - 상품 이미지를 최대 5개 등록할 수 있다.
@@ -104,12 +107,14 @@
 - 해시태그 선택 시 사용자 맞춤 추천 서비스에 이용된다.
 
 
-![img_18.png](img_18.png)
-![img_20.png](img_20.png)
+
+<img src=img_18.png width="300" height="600">
+<img src=img_20.png width="300" height="600">
 
 3. 상품 등록 옵션
 - 옵션 추가를 클릭하면 색상과 사이즈를 추가할 수 있다.
 - 상품 등록 버튼을 누르면 Snackbar를 띄워 상품 등록이 완료됐다고 알려준다.
 
-![img_23.png](img_23.png)
-![img_26.png](img_26.png)
+
+<img src=img_23.png width="300" height="600">
+<img src=img_26.png width="300" height="600">
