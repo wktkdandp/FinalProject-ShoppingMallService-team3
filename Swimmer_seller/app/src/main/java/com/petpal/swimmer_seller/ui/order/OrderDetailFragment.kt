@@ -135,16 +135,17 @@ class OrderDetailFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: OrderItemViewHolder, position: Int) {
+            val item = orderViewModel.order.value!!.itemList[position]
             holder.textViewOrderProductUid.text =
-                orderViewModel.order.value!!.itemList[position].productUid
+                item.productUid
             holder.textViewOrderProductCount.text =
-                "${orderViewModel.order.value!!.itemList[position].quantity}개"
+                "${item.quantity}개"
             holder.textViewOrderProductName.text =
-                orderViewModel.order.value!!.itemList[position].name
+                item.name
             holder.textViewOrderProductOption.text =
-                "${orderViewModel.order.value!!.itemList[position].color}, ${orderViewModel.order.value!!.itemList[position].size}"
+                "${item.color}, ${item.size}"
             holder.textViewOrderProductPrice.text =
-                "${orderViewModel.order.value!!.itemList[position].price}원"
+                "${item.price}원"
 
         }
     }

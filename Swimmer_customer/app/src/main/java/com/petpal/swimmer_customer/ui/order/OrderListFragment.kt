@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.getOrderState
 import com.petpal.swimmer_customer.databinding.FragmentOrderListBinding
@@ -44,26 +46,26 @@ class OrderListFragment : Fragment() {
                     when (tab.position) {
                         0 -> {
                             orderViewModel.getOrderByUserUid(
-                                "test_user_uid"
+                                Firebase.auth.currentUser!!.uid
 //            Firebase.auth.currentUser!!.uid
                             )
                         }
 
                         1 -> {
-                            orderViewModel.getOrderByState("test_user_uid", 1)
+                            orderViewModel.getOrderByState(Firebase.auth.currentUser!!.uid, 1)
 
                         }
 
                         2 -> {
-                            orderViewModel.getOrderByState("test_user_uid", 3)
+                            orderViewModel.getOrderByState(Firebase.auth.currentUser!!.uid, 3)
                         }
 
                         3 -> {
-                            orderViewModel.getOrderByState("test_user_uid", 4)
+                            orderViewModel.getOrderByState(Firebase.auth.currentUser!!.uid, 4)
                         }
 
                         4 -> {
-                            orderViewModel.getOrderByState("test_user_uid", 5, 6, 7)
+                            orderViewModel.getOrderByState(Firebase.auth.currentUser!!.uid, 5, 6, 7)
                         }
                     }
                 }
@@ -87,7 +89,7 @@ class OrderListFragment : Fragment() {
 
         //이 판매자가 올린 상품에 대한 주문 목록만 세팅하기
         orderViewModel.getOrderByUserUid(
-            "test_user_uid"
+            Firebase.auth.currentUser!!.uid
 //            Firebase.auth.currentUser!!.uid
         )
 

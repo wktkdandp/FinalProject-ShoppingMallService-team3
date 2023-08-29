@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.petpal.swimmer_customer.data.model.Order
 import com.petpal.swimmer_customer.data.model.OrderState
 import com.petpal.swimmer_customer.data.model.getOrderState
+import com.petpal.swimmer_customer.data.model.getPaymentMethod
 import com.petpal.swimmer_customer.databinding.FragmentOrderDetailBinding
 import com.petpal.swimmer_customer.databinding.RowOrderDetailBinding
 
@@ -42,33 +44,39 @@ class OrderDetailFragment : Fragment() {
             arguments?.get("order") as Order
         }
 
+        orderViewModel =
+            ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
+        Log.d("orderViewModel", orderViewModel.toString())
+        orderViewModel.setOrder(orderData)
+
 
         return fragmentOrderDetailBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        orderViewModel =
-            ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
-        Log.d("orderViewModel", orderViewModel.toString())
-        orderViewModel.setOrder(orderData)
+
 
         orderViewModel.run {
+            customer.observe(viewLifecycleOwner) {
+                fragmentOrderDetailBinding.run {
+                    textViewOrderDetailReceiverName.text = it.name
+                    textViewOrderDetailReceiverContact.text = it.contact
+                }
+            }
             order.observe(viewLifecycleOwner) {
                 //textView들 바뀜
                 fragmentOrderDetailBinding.textViewOrderDetailState.text =
                     getOrderState(it.state).str
                 fragmentOrderDetailBinding.textViewOrderDetailNum.text = it.orderUid
                 fragmentOrderDetailBinding.textViewOrderDetailDate.text = it.orderDate
-                //TODO: 일단 id박아주기
-                fragmentOrderDetailBinding.textViewOrderDetailReceiverName.text = it.userUid
-                fragmentOrderDetailBinding.textViewOrderDetailReceiverContact.text = it.userUid
+
                 fragmentOrderDetailBinding.textViewOrderAddress.text = it.address
                 fragmentOrderDetailBinding.textViewOrderDetailMessage.text = it.message
 
                 fragmentOrderDetailBinding.textViewOrderDetailPrice.text = it.totalPrice.toString()
-                //TODO: 적절한 paymethod로 text넣어주기
-                fragmentOrderDetailBinding.textViewOrderDetailPayment.text = it.payMethod.toString()
+                fragmentOrderDetailBinding.textViewOrderDetailPayment.text =
+                    getPaymentMethod(it.payMethod).str
                 fragmentOrderDetailBinding.textViewOrderDetailPaid.text = it.totalPrice.toString()
 
                 when (getOrderState(it.state)) {
@@ -77,11 +85,13 @@ class OrderDetailFragment : Fragment() {
                         fragmentOrderDetailBinding.buttonChange.visibility = View.GONE
                         fragmentOrderDetailBinding.buttonReturn.visibility = View.GONE
                     }
+
                     OrderState.READY, OrderState.DELIVERY, OrderState.COMPLETE -> {
                         fragmentOrderDetailBinding.buttonCancel.visibility = View.GONE
                         fragmentOrderDetailBinding.buttonChange.visibility = View.VISIBLE
                         fragmentOrderDetailBinding.buttonReturn.visibility = View.VISIBLE
                     }
+
                     OrderState.CANCEL, OrderState.EXCHANGE, OrderState.REFUND -> {
                         fragmentOrderDetailBinding.buttonCancel.visibility = View.GONE
                         fragmentOrderDetailBinding.buttonChange.visibility = View.GONE
@@ -132,12 +142,25 @@ class OrderDetailFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            //TODO: 이미지 넣어주기
-//            holder.image.setImageBitmap(orderViewModel.order.value!!.itemList[position].mainImage)
-            holder.itemName.text = orderViewModel.order.value!!.itemList[position].name
+            val item = orderViewModel.order.value!!.itemList[position]
+
+            // 이미지 데이터 가져와서 이미지뷰에 표시
+            orderViewModel.fetchImageDataForRecyclerView(item.mainImage,
+                onSuccess = { uri ->
+                    Glide.with(holder.itemView)
+                        .load(uri)
+                        .centerCrop()
+                        .into(holder.image)
+                },
+                onError = { exception ->
+                    // 에러 처리
+                }
+            )
+//            holder.image.setImageBitmap(item.mainImage)
+            holder.itemName.text = item.name
             holder.itemOption.text =
-                "${orderViewModel.order.value!!.itemList[position].color}, ${orderViewModel.order.value!!.itemList[position].size}"
-            holder.itemCount.text = "${orderViewModel.order.value!!.itemList[position].quantity}개"
+                "${item.color}, ${item.size}"
+            holder.itemCount.text = "${item.quantity}개"
         }
     }
 
