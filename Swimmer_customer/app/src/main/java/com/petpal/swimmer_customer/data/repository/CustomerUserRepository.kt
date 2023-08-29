@@ -25,13 +25,14 @@ import com.petpal.swimmer_customer.util.AutoLoginUtil
 class CustomerUserRepository : UserRepository {
     private val mAuth: FirebaseAuth
     private val mDatabase: DatabaseReference
-    private val mStorage:StorageReference
+    private val mStorage: StorageReference
 
     init {
         mAuth = FirebaseAuth.getInstance()
         mDatabase = FirebaseDatabase.getInstance().getReference("users")
         mStorage = FirebaseStorage.getInstance().getReference("profile_images")
     }
+
     //회원가입+db에 저장하는 메서드
     override fun addUser(user: User?): LiveData<Boolean?>? {
         val resultLiveData = MutableLiveData<Boolean?>()
@@ -45,7 +46,7 @@ class CustomerUserRepository : UserRepository {
                     if (firebaseUser != null) {
                         //비밀번호는 db에 올리지 않는다.
                         user.password = null
-                        user.uid=firebaseUser.uid
+                        user.uid = firebaseUser.uid
                         mDatabase.child((firebaseUser.uid).toString())
                             .setValue(user)
                             .addOnCompleteListener { dbTask: Task<Void?> ->
@@ -67,23 +68,25 @@ class CustomerUserRepository : UserRepository {
         return resultLiveData
     }
 
-fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
-    val resultLiveData = MutableLiveData<Boolean?>()
-    val addressRef = mDatabase.child(uid).child("address").push() // Generates a unique key for the new address
+    //배송지 추가하는 메서드
+    override fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
+        val resultLiveData = MutableLiveData<Boolean?>()
+        //받아온 주소를 address의 랜덤값으로 저장
+        val addressRef = mDatabase.child(uid).child("address").push()
+        address.addressIdx = addressRef.key
 
-    address.addressIdx = addressRef.key // Set the generated key as the addressIdx for the Address object
-
-    addressRef.setValue(address)
-        .addOnCompleteListener { task: Task<Void?> ->
-            if (task.isSuccessful) {
-                resultLiveData.setValue(true)
-            } else {
-                resultLiveData.setValue(false)
+        addressRef.setValue(address)
+            .addOnCompleteListener { task: Task<Void?> ->
+                if (task.isSuccessful) {
+                    resultLiveData.setValue(true)
+                } else {
+                    resultLiveData.setValue(false)
+                }
             }
-        }
-    return resultLiveData
-}
-    fun getAllAddressesForUser(uid: String): LiveData<List<Address>> {
+        return resultLiveData
+    }
+    //해당 uid의 address를 모두 가져오는 메서드
+    override fun getAllAddressesForUser(uid: String): LiveData<List<Address>> {
         val addressesLiveData = MutableLiveData<List<Address>>()
         val dbRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("address")
 
@@ -104,6 +107,7 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
 
         return addressesLiveData
     }
+
     //배송지 삭제
     fun deleteAddressForUser(uid: String, addressIdx: String): LiveData<Boolean?> {
         val resultLiveData = MutableLiveData<Boolean?>()
@@ -136,12 +140,11 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
     }
 
 
-
     //이메일 중복체크
     override fun checkEmailDuplicated(email: String?): LiveData<Boolean> {
 
         val emailExists = MutableLiveData<Boolean>()
-        Log.d("targetEmail",email!!)
+        Log.d("targetEmail", email!!)
         //받아온 이메일과 user의 자식 노드들의 email 속성을 검사
         mDatabase.orderByChild("email").equalTo(email)
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -158,12 +161,6 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
                 }
             })
         return emailExists
-    }
-    override fun deleteUser(userIdx: String?): LiveData<Boolean?>? {
-        val result = MutableLiveData<Boolean?>()
-        mDatabase.child(userIdx!!).removeValue()
-            .addOnCompleteListener { task: Task<Void?> -> result.setValue(task.isSuccessful) }
-        return result
     }
 
     //이메일 찾기 메서드
@@ -228,10 +225,10 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
             })
         return resultLiveData
     }
+
+
     //현재 사용자를 얻어오는 메서드
-
-
-    fun getCurrentUser(): LiveData<User?>? {
+    override fun getCurrentUser(): LiveData<User?>? {
         val result = MutableLiveData<User?>()
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -255,7 +252,9 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
             })
         return result
     }
-    fun verifyPassword(password: String): LiveData<Boolean> {
+
+    //마이페이지 진입을 위한 비밀번호 검사 메서드
+    override fun verifyPassword(password: String): LiveData<Boolean> {
         val result = MutableLiveData<Boolean>()
         val currentUser = mAuth.currentUser
 
@@ -270,7 +269,8 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
 
         return result
     }
-    fun uploadImageToFirebase(uid: String, uri: Uri): LiveData<Boolean> {
+    //프로필 사진 업로드 메서드
+    override fun uploadImageToFirebase(uid: String, uri: Uri): LiveData<Boolean> {
         val result = MutableLiveData<Boolean>()
         val storageRef = mStorage.child(uid)
         storageRef.putFile(uri)
@@ -282,8 +282,8 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
             }
         return result
     }
-
-    fun loadProfileImage(uid: String): LiveData<Uri?> {
+    //마이페이지 진입 시, 프로필 사진 출력을 위한 메서드
+    override fun loadProfileImage(uid: String): LiveData<Uri?> {
         val result = MutableLiveData<Uri?>()
         val storageRef = mStorage.child(uid)
         storageRef.downloadUrl.addOnSuccessListener { uri ->
@@ -293,17 +293,20 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
         }
         return result
     }
+
     //로그아웃 메서드
-    fun signOut() {
+    override fun signOut() {
         //firebase auth의 로그아웃 메서드
         FirebaseAuth.getInstance().signOut()
     }
+
     //자동 로그인 설정
-    fun setAutoLogin(context: Context, value: Boolean) {
+    override fun setAutoLogin(context: Context, value: Boolean) {
         AutoLoginUtil.setAutoLogin(context, value)
     }
-    //비밀번호 변경
-    fun modifyPassword(currentPassword: String, newPassword: String): LiveData<Boolean?> {
+
+    //비밀번호 변경 메서드
+    override fun modifyPassword(currentPassword: String, newPassword: String): LiveData<Boolean?> {
         val result = MutableLiveData<Boolean?>()
         val currentUser = mAuth.currentUser
 
@@ -316,7 +319,10 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
                         result.value = true
                     }
                 } else {
-                    Log.e("ModifyPassword", "Reauthentication failed: ${reauthTask.exception?.message}")
+                    Log.e(
+                        "ModifyPassword",
+                        "Reauthentication failed: ${reauthTask.exception?.message}"
+                    )
                     result.value = false
                 }
             }
@@ -326,7 +332,8 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
 
         return result
     }
-    fun ModifyUserInfo(user: User): LiveData<Boolean?> {
+    //사용자 정보 업데이트 메서드 (수영 경력,닉네임,핸드폰 번호)
+    override fun ModifyUserInfo(user: User): LiveData<Boolean?> {
         val resultLiveData = MutableLiveData<Boolean?>()
         val currentUser = mAuth.currentUser
 
@@ -350,7 +357,8 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
 
         return resultLiveData
     }
-    fun withdrawalUser(): LiveData<Boolean?> {
+    //회원탈퇴 메서드
+    override fun withdrawalUser(): LiveData<Boolean?> {
         val resultLiveData = MutableLiveData<Boolean>()
 
         val user = mAuth.currentUser

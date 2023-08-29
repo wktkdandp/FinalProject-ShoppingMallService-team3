@@ -6,14 +6,20 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.Product
+import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import com.petpal.swimmer_customer.databinding.FragmentHomeBinding
+import com.petpal.swimmer_customer.util.AutoLoginUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -30,6 +36,7 @@ class HomeFragment : Fragment() {
     private val autoScrollHandler = Handler()
     private var autoScrollRunnable: Runnable? = null
     private val autoScrollInterval: Long = 4000
+    private var lastBackPressedTime: Long = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,10 +60,28 @@ class HomeFragment : Fragment() {
             toolbar()
             initViewPager2()
             viewPage2Observe()
-
+            handleBackPress()
         }
 
         return fragmentHomeFragmentBinding.root
+    }
+
+
+
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - lastBackPressedTime < 2000) {
+                    AutoLoginUtil.setAutoLogin(requireContext(),false)
+                    FirebaseAuth.getInstance().signOut()
+                    requireActivity().finish()
+                } else {
+                    Toast.makeText(context, "뒤로가기 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                    lastBackPressedTime = System.currentTimeMillis()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private fun FragmentHomeBinding.recyclerView() {

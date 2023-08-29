@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -34,8 +35,18 @@ class ModifyInfoFragment : Fragment() {
         toolbarSetup()
         observerSetup()
         clickListenerSetup()
+        handleBackPress()
 
         return binding.root
+    }
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private fun viewModelSetup() {
@@ -49,6 +60,7 @@ class ModifyInfoFragment : Fragment() {
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
             setNavigationOnClickListener {
                 findNavController().popBackStack()
+                findNavController().popBackStack()
             }
         }
     }
@@ -57,7 +69,6 @@ class ModifyInfoFragment : Fragment() {
         viewModel.withdrawalUserResult.observe(viewLifecycleOwner, Observer { isSuccess ->
             handleWithdrawalResult(isSuccess)
         })
-
     }
 
     private fun clickListenerSetup() {

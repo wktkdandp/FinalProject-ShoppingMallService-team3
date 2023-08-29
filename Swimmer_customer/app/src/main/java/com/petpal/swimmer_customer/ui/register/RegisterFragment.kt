@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -48,9 +49,17 @@ class RegisterFragment : Fragment() {
         privacy_Policy_Checkbox()
         setupUI()
         setupViewModelNav()
-
+        handleBackPress()
 
         return fragmentRegisterBinding.root
+    }
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
     private fun setupViewModelNav(){
         val factory = RegisterViewModelFactory(CustomerUserRepository())

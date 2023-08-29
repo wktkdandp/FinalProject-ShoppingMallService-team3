@@ -16,6 +16,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.lifecycle.Observer
@@ -59,8 +60,19 @@ class MypageFragment : Fragment() {
         setupToolbar()
         setupCouponSpinner()
         setupClickListeners()
+        handleBackPress()
         return fragmentMypageBinding.root
     }
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val action=MypageFragmentDirections.actionItemMypageToItemHome()
+                findNavController().navigate(action)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
 
     private fun setupViewModel() {
         val factory = MypageViewModelFactory(CustomerUserRepository())
