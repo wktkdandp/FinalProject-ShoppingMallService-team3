@@ -16,6 +16,7 @@ data class Order(
     // code? 에 넘겨줄 값이 없어서 일단 삭제
     // date + random 알파벳 3자리
     var orderUid: String,
+    var userUid: String,
 
     // 보낼 수 있는 데이터
     var orderDate: String,
@@ -30,6 +31,5 @@ data class Order(
     // address에서 오류 발생
     var address: String,
     var couponUid: String,
-    var usePoint: Long,
-    var userUid: String,
-):Parcelable
+    var usePoint: Long
+):Parcelabl

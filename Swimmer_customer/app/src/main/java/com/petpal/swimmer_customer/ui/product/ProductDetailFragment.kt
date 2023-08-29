@@ -28,6 +28,8 @@ import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.ItemsForCustomer
@@ -43,6 +45,9 @@ import java.util.Locale
 
 
 class ProductDetailFragment : Fragment() {
+
+    // 삭제하기
+    private lateinit var auth: FirebaseAuth
 
     lateinit var fragmentProductDetailBinding: FragmentProductDetailBinding
     private var isFavorite = false
@@ -66,6 +71,8 @@ class ProductDetailFragment : Fragment() {
     val args: ProductDetailFragmentArgs by navArgs()
     var firebaseSize = ""
     var firebaseColor = ""
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -264,7 +271,8 @@ class ProductDetailFragment : Fragment() {
                 price,
                 quantity,
                 size,
-                color
+                color,
+                "SdegCXorcdWsR4EU6OYH3CmvZAQ2"
             )
 
             // firebase 객체를 생성한다.

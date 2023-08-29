@@ -4,6 +4,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -16,7 +17,7 @@ class PaymentRepository {
             val database = FirebaseDatabase.getInstance()
             val itemCodeRef = database.getReference("itemsForCustomer")
 
-            itemCodeRef.orderByChild("productUid").get().addOnCompleteListener(callback)
+            itemCodeRef.orderByChild("buyerUid").get().addOnCompleteListener(callback)
         }
 
         // 이미지 firebaseStore를 통해 가져오기
