@@ -20,7 +20,6 @@ import com.petpal.swimmer_seller.databinding.ItemImageSliderBinding
 import java.text.NumberFormat
 import java.util.Locale
 
-
 class ProductDetailFragment : Fragment() {
     private lateinit var productViewModel: ProductViewModel
     
@@ -67,7 +66,7 @@ class ProductDetailFragment : Fragment() {
 
             fabProductDetail.setOnClickListener {
                 // 스크롤 최상단으로 이동
-                // nestedScrollView.smoothScrollTo(0, 0)
+                // nestedScrollViewProductDetail.smoothScrollTo(0, 0)
                 // AppBarLayout 열기
                 appbarProductMain.setExpanded(true)
             }
@@ -130,7 +129,7 @@ class ProductDetailFragment : Fragment() {
             // TabLayout 화면 전환 리스너
             tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    nestedScrollView.scrollTo(0, 0)
+                    nestedScrollViewContent.scrollTo(0, 0)
                     viewPagerContent.currentItem = tab!!.position
                 }
 

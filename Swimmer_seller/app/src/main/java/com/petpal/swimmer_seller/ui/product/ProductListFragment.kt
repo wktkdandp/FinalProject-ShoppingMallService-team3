@@ -86,6 +86,11 @@ class ProductListFragment : Fragment() {
             toolbarProductList.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
+            
+            fabProductList.setOnClickListener {
+                // RecyclerView 0번째 항목으로 이동
+                recyclerViewProductList.smoothScrollToPosition(0)
+            }
 
             recyclerViewProductList.run {
                 adapter = ProductRecyclerViewAdapter(productViewModel.productList.value!!)

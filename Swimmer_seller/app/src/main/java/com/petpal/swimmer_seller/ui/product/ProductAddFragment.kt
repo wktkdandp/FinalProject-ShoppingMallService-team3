@@ -46,16 +46,17 @@ class ProductAddFragment : Fragment() {
 
     private var _fragmentProductAddBinding: FragmentProductAddBinding? = null
     private val fragmentProductAddBinding get() = _fragmentProductAddBinding!!
-
     lateinit var mainActivity: MainActivity
 
     // 대표 이미지 최대 5개, 설명 이미지 1개
     private var mainImageList = mutableListOf<Pair<Image, Bitmap>>()
     private var descriptionImage: Image? = null
 
+    // 메인이미지, 상세이미지용 갤러리 실행 설정
     lateinit var mainGalleryLauncher: ActivityResultLauncher<Intent>
-    lateinit var descGalleryLauncher: ActivityResultLauncher<Intent>
+    lateinit var descriptionGalleryLauncher: ActivityResultLauncher<Intent>
 
+    // 화면에 추가된 태그 목록
     private val addHashTagList = mutableListOf<String>()
 
     override fun onCreateView(
@@ -72,10 +73,12 @@ class ProductAddFragment : Fragment() {
 
         productViewModel = ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
         userViewModel = ViewModelProvider(this, UserViewModelFactory())[UserViewModel::class.java]
+
+        // 로그인 판매자의 브랜드명 가져오기 목적
         userViewModel.getCurrentSellerInfo()
 
         mainGalleryLauncher = mainImageGallerySetting()
-        descGalleryLauncher = descriptionImageGallerySetting()
+        descriptionGalleryLauncher = descriptionImageGallerySetting()
 
         addHashTagList.clear()
 
@@ -188,7 +191,7 @@ class ProductAddFragment : Fragment() {
                     type = "image/*"
                     putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/*"))
                 }
-                descGalleryLauncher.launch(galleryIntent)
+                descriptionGalleryLauncher.launch(galleryIntent)
             }
 
             buttonNext.setOnClickListener {
@@ -277,28 +280,30 @@ class ProductAddFragment : Fragment() {
 
     private fun addHashTag() {
         fragmentProductAddBinding.run {
-            // 입력 문자열 태그로 분리, 중복 태그 & 이미 chip 생성된 태그 제외
-            val inputHashTagList = textInputEditTextHashTag.text.toString()
-                .split(",")
-                .map(String::trim)
-                .distinct()
-                .filter { !addHashTagList.contains(it) }
+            // 태그는 최대 10개까지 등록 가능
+            if(addHashTagList.size >= 10){
+                // 입력 문자열 태그로 분리, 중복 태그 & 이미 chip 생성된 태그 제외
+                val inputHashTagList = textInputEditTextHashTag.text.toString()
+                    .split(",")
+                    .map(String::trim)
+                    .distinct()
+                    .filter { !addHashTagList.contains(it) }
 
-            // 추가된 태그 저장
-            addHashTagList.addAll(inputHashTagList)
+                // 추가된 태그 저장
+                addHashTagList.addAll(inputHashTagList)
 
-            for (inputHashTag in inputHashTagList) {
-                val chip = layoutInflater.inflate(R.layout.item_chip_input, chipGroupHashTag, false) as Chip
-                chip.apply {
-                    text = inputHashTag
-                    setOnCloseIconClickListener {
-                        chipGroupHashTag.removeView(it)
-                        addHashTagList.remove(inputHashTag)
+                for (inputHashTag in inputHashTagList) {
+                    val chip = layoutInflater.inflate(R.layout.item_chip_input, chipGroupHashTag, false) as Chip
+                    chip.apply {
+                        text = inputHashTag
+                        setOnCloseIconClickListener {
+                            chipGroupHashTag.removeView(it)
+                            addHashTagList.remove(inputHashTag)
+                        }
                     }
+                    chipGroupHashTag.addView(chip)
                 }
-                chipGroupHashTag.addView(chip)
             }
-
             textInputEditTextHashTag.setText("")
         }
     }
