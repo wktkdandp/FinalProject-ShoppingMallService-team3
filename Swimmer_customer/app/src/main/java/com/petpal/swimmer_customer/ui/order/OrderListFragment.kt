@@ -143,9 +143,7 @@ class OrderListFragment : Fragment() {
                 rowOrderBinding.root.setOnClickListener {
                     //해당 주문상세로 넘어가기
                     val bundle = Bundle()
-                    bundle.putParcelable("order",
-                        orderViewModel.orderList.value?.get(adapterPosition)
-                    )
+                    bundle.putParcelable("order", orderViewModel.orderList.value?.get(adapterPosition))
                     findNavController().navigate(R.id.action_orderListFragment_to_orderDetailFragment, bundle)
                 }
             }

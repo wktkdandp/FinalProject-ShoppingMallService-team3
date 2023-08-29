@@ -28,6 +28,7 @@ class BannerViewPager2Adapter(
     differ
 ) {
     inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {}
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ItemViewHolder(
@@ -39,13 +40,10 @@ class BannerViewPager2Adapter(
         )
     }
 
-
-
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
 
         val imageView = holder.itemView.findViewById<ImageView>(R.id.productDetailImage)
         val imagePath = homeFragmentItemList!![position]
-
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
         val pathRef = storageRef.child("image/${imagePath.image}")
@@ -66,6 +64,7 @@ class BannerViewPager2Adapter(
         homeFragmentItemList = itemList // 데이터 업데이트
         submitList(itemList) // 어댑터의 아이템 업데이트
     }
+
     companion object {
         val differ = object : DiffUtil.ItemCallback<ProductDetailModel>() {
             override fun areItemsTheSame(
@@ -81,7 +80,6 @@ class BannerViewPager2Adapter(
             ): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 }

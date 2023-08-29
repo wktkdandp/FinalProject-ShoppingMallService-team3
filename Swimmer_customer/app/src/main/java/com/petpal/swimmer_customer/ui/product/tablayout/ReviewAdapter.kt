@@ -17,7 +17,6 @@ class ReviewAdapter(val context: Context, private var dataSet: MutableList<Revie
 
     inner class ViewHolder(item: FragmentProductReviewTabReviewItemBinding) :
         RecyclerView.ViewHolder(item.root) {
-
         val height: TextView = item.reviewHeightTextView
         val weight: TextView = item.reviewWeightTextView
         val rating: RatingBar = item.reviewCustomRatingBar
@@ -26,9 +25,7 @@ class ReviewAdapter(val context: Context, private var dataSet: MutableList<Revie
         val image: ImageView = item.reviewImageView
         val size: TextView = item.reviewSizeTextView
         val color: TextView = item.reviewColorTextView
-
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val reviewItemBinding = FragmentProductReviewTabReviewItemBinding.inflate(
@@ -56,7 +53,5 @@ class ReviewAdapter(val context: Context, private var dataSet: MutableList<Revie
         holder.content.text = dataSet[position].content.toString()
         holder.size.text = "사이즈 : ${dataSet[position].size.toString()} , "
         holder.color.text = "색상 : ${dataSet[position].color.toString()}"
-
     }
-
 }
