@@ -101,8 +101,7 @@ class ProductAddFragment : Fragment() {
                 validateEditText(it.toString(), textInputLayoutCategoryMain, "대분류를 선택해 주세요")
                 textInputLayoutCategoryMid.isEnabled = true
 
-                // 선택한 대분류에 따라 중분류 다르게 표시, 대분류 먼저 선택해야 중분류 선택 활성화. 다시 공백 선택할 경우
-                // 소분류는 아직 비활성화
+                // 선택한 대분류에 따라 중분류 다르게 표시, 대분류 먼저 선택해야 중분류 선택 활성화. 소분류는 아직 비활성화
                 when (it.toString()) {
                     getString(R.string.female) -> dropdownCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid1))
                     getString(R.string.male) -> dropdownCategoryMid.setSimpleItems(resources.getStringArray(R.array.categoryMid2))
@@ -116,7 +115,6 @@ class ProductAddFragment : Fragment() {
                 // 선택한 중분류에 따라 소분류 다르게 표시
                 val categoryMain = dropdownCategoryMain.text.toString()
                 val categoryMid = it.toString()
-
                 textInputLayoutCategorySub.isEnabled = true
 
                 when (categoryMain) {
