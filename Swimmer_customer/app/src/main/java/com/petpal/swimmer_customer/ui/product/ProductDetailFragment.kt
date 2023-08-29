@@ -46,8 +46,6 @@ import java.util.Locale
 
 class ProductDetailFragment : Fragment() {
 
-    // 삭제하기
-    private lateinit var auth: FirebaseAuth
 
     lateinit var fragmentProductDetailBinding: FragmentProductDetailBinding
     private var isFavorite = false
@@ -72,11 +70,9 @@ class ProductDetailFragment : Fragment() {
     val args: ProductDetailFragmentArgs by navArgs()
     var firebaseSize = ""
     var firebaseColor = ""
-<<<<<<< HEAD
-    private lateinit var buyerUid: String
-=======
 
->>>>>>> daf6d6de9ba4413404d2fe548a399fb818da0ebc
+    private lateinit var buyerUid: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -286,12 +282,9 @@ class ProductDetailFragment : Fragment() {
                 quantity,
                 size,
                 color,
-<<<<<<< HEAD
                 buyerUid
-=======
-                "SdegCXorcdWsR4EU6OYH3CmvZAQ2"
->>>>>>> daf6d6de9ba4413404d2fe548a399fb818da0ebc
             )
+
 
             // firebase 객체를 생성한다.
             val database = FirebaseDatabase.getInstance()
