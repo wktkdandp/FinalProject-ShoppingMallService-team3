@@ -40,7 +40,6 @@ class HomeFragmentAdapter(val context: Context, private val dataSet: List<Produc
         val rankingItemBinding =
             RankingItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val viewHolderClass = ViewHolder(rankingItemBinding)
-
         return viewHolderClass
     }
 
@@ -72,10 +71,8 @@ class HomeFragmentAdapter(val context: Context, private val dataSet: List<Produc
 
         val originalText = dataSet[position].name
         val formattedText = formatText(originalText, 6)
-
         holder.brand.text = dataSet[position].brandName
         holder.title.text = formattedText
-
         val numberFormat = NumberFormat.getNumberInstance(Locale.US)
         val formattedValues = numberFormat.format(dataSet[position].price)
         holder.description.text = "$formattedValues 원"

@@ -31,6 +31,7 @@ import com.petpal.swimmer_customer.databinding.FragmentMypageBinding
 import com.petpal.swimmer_customer.ui.findinfo.FindInfoViewModel
 import com.petpal.swimmer_customer.ui.findinfo.FindInfoViewModelFactory
 import com.petpal.swimmer_customer.ui.login.LoginFragmentDirections
+import com.petpal.swimmer_customer.ui.mypage.MypageFragmentDirections.Companion.actionItemMypageToOrderListFragment
 import com.petpal.swimmer_customer.util.AutoLoginUtil
 import com.squareup.picasso.Picasso
 
@@ -120,6 +121,10 @@ class MypageFragment : Fragment() {
         fragmentMypageBinding.buttonDeliveryPointManage.setOnClickListener { navigateToDeliveryPointManageFragment() }
         fragmentMypageBinding.imageViewProfilePhoto.setOnClickListener { openGallery() }
         fragmentMypageBinding.buttonLogOut.setOnClickListener { handleLogOut() }
+        //cardView 클릭이벤트 추가
+        fragmentMypageBinding.cardViewShipping.setOnClickListener { navigateToOrderListFragment() }
+        fragmentMypageBinding.cardViewOrderComplete.setOnClickListener { navigateToOrderListFragment() }
+        fragmentMypageBinding.cardViewDeliveryCompletedCount.setOnClickListener { navigateToOrderListFragment() }
     }
 
     private fun navigateToCheckPasswordFragment() {
@@ -129,6 +134,11 @@ class MypageFragment : Fragment() {
 
     private fun navigateToDeliveryPointManageFragment() {
         val action = MypageFragmentDirections.actionItemMypageToDeliveryPointManageFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToOrderListFragment() {
+        val action = MypageFragmentDirections.actionItemMypageToOrderListFragment()
         findNavController().navigate(action)
     }
 

@@ -332,7 +332,7 @@
     </fragment>
     <fragment
         android:id="@+id/orderDetailFragment"
-        android:name="com.petpal.swimmer_customer.OrderDetailFragment"
+        android:name="com.petpal.swimmer_customer.ui.order.OrderDetailFragment"
         android:label="fragment_order_detail"
         tools:layout="@layout/fragment_order_detail" >
         <argument
