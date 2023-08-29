@@ -13,6 +13,7 @@ class PaymentViewModel: ViewModel() {
 
     var itemList = MutableLiveData<MutableList<ItemsForCustomer>>()
     var paymentFee = MutableLiveData<String>()
+    var uid = MutableLiveData<String>()
     lateinit var firebaseAuth: FirebaseAuth
 
 
@@ -62,5 +63,11 @@ class PaymentViewModel: ViewModel() {
     fun formatPriceForCustomer(price: Int): String {
         val formattedPrice = NumberFormat.getNumberInstance(Locale.getDefault()).format(price)
         return "${formattedPrice}원"
+    }
+    fun getCustomerUid() {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val tempUid = firebaseAuth.uid!!
+
+        uid.value = tempUid
     }
 }

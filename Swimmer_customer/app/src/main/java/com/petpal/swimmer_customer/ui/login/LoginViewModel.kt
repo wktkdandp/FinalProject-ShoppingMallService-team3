@@ -1,5 +1,6 @@
 package com.petpal.swimmer_customer.ui.login
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,7 @@ class LoginViewModel(private val customerUserRepository: CustomerUserRepository)
     fun isValidPassword(password: String): Boolean {
         return password.length >= 6 && password.isNotEmpty()
     }
+
 
 }
 

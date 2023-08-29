@@ -100,6 +100,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_DeliveryPointManageFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/DetailAddressFragment"
@@ -140,6 +147,13 @@
         android:id="@+id/CheckPasswordFragment"
         android:name="com.petpal.swimmer_customer.ui.modifyinfo.CheckPasswordFragment"
         tools:layout="@layout/fragment_check_password">
+        <action
+            android:id="@+id/action_CheckPasswordFragment_to_ModifyInfoFragment"
+            app:destination="@id/ModifyInfoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/ModifyInfoFragment"
@@ -182,7 +196,11 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_item_home_to_itemDetailFragment"
-            app:destination="@id/itemDetailFragment" />
+            app:destination="@id/itemDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_item_home_to_item_mypage"
             app:destination="@id/item_mypage"
@@ -205,7 +223,11 @@
         tools:layout="@layout/fragment_product_detail" >
         <action
             android:id="@+id/action_itemDetailFragment_to_item_home"
-            app:destination="@id/item_home" />
+            app:destination="@id/item_home"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <argument
             android:name="idx"
             app:argType="integer" />
@@ -222,11 +244,19 @@
         android:name="com.petpal.swimmer_customer.ui.payment.PaymentFragment"
         android:label="PaymentFragment" >
         <action
+            android:id="@+id/action_paymentFragment_to_DeliveryPointManageFragment"
+            app:destination="@id/DeliveryPointManageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
             android:id="@+id/action_paymentFragment_to_completeFragment"
             app:destination="@id/completeFragment" />
         <action
             android:id="@+id/action_paymentFragment_to_itemDetailFragment"
             app:destination="@id/itemDetailFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/completeFragment"
@@ -272,6 +302,37 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+
+            android:id="@+id/action_item_mypage_to_CheckPasswordFragment"
+            app:destination="@id/CheckPasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_item_mypage_to_orderListFragment"
+            app:destination="@id/orderListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderListFragment"
+        android:name="com.petpal.swimmer_customer.ui.order.OrderListFragment"
+        android:label="fragment_order_list"
+        tools:layout="@layout/fragment_order_list" >
+        <action
+            android:id="@+id/action_orderListFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.petpal.swimmer_customer.OrderDetailFragment"
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_order_detail" >
+        <argument
+            android:name="orderIdx"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 
 </navigation>

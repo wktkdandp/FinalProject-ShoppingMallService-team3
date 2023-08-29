@@ -2,6 +2,7 @@ package com.petpal.swimmer_customer.ui.deliverypointmanage
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.core.Context
+//import com.google.firebase.database.core.Context
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.Address
 import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
@@ -46,14 +48,16 @@ class DeliveryPointManageFragment : Fragment() {
     ): View? {
         fragmentDeliveryPointManageBinding = FragmentDeliveryPointManageBinding.inflate(layoutInflater)
         // 받아온 데이터 처리
-        handleReceivedData()
         setupViewModel()
         setupRecyclerView()
+        handleReceivedData()
         setupFindAddressButton()
         fetchUserAddresses()
 
         return fragmentDeliveryPointManageBinding.root
     }
+
+
     private fun handleReceivedData() {
 
         val argument = arguments?.getString("FromOrder")
@@ -64,7 +68,8 @@ class DeliveryPointManageFragment : Fragment() {
                     putString("address", selectedAddress.address)
                     putString("phoneNumber", selectedAddress.phoneNumber)
                 }
-                findNavController().navigate(R.id.paymentFragment, bundle)
+
+                findNavController().navigate(R.id.action_DeliveryPointManageFragment_to_paymentFragment, bundle)
             }
         }
     }
@@ -73,9 +78,13 @@ class DeliveryPointManageFragment : Fragment() {
             title = getString(R.string.delivery_point_manage)
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
             setNavigationOnClickListener {
-                val action =DeliveryPointManageFragmentDirections.actionDeliveryPointManageFragmentToItemMypage()
-                findNavController().navigate(action)
-
+                val argument = arguments?.getString("FromOrder")
+                if (argument?.equals("FromOrder") == true) {
+                    findNavController().popBackStack()
+                }else {
+                    val action = DeliveryPointManageFragmentDirections.actionDeliveryPointManageFragmentToItemMypage()
+                    findNavController().navigate(action)
+                }
             }
         }
     }
@@ -108,6 +117,7 @@ class DeliveryPointManageFragment : Fragment() {
 
         }
     }
+
     private fun setupViewModel(){
 
         val factory = DeliveryPointManageModelFactory(CustomerUserRepository())
@@ -156,26 +166,27 @@ class DeliveryPointManageFragment : Fragment() {
 
 
             val textViewAddressName: TextView
-            val textViewIsDefaultDeliveryPoint:TextView
             val textViewAddress: TextView
-            val checkboxDefaultDeliveryPoint: CheckBox
             val textViewAddressPhone: TextView
             val buttonDeleteDeliveryPoint: Button
+
+
 
             init{
                 textViewAddressName=rowBinding.textViewAddressName
                 textViewAddress=rowBinding.textViewAddress
-                textViewIsDefaultDeliveryPoint=rowBinding.textViewIsDefaultDeliveryPoint
-                checkboxDefaultDeliveryPoint=rowBinding.checkboxDefaultDeliveryPoint
                 textViewAddressPhone=rowBinding.textViewAddressPhone
                 buttonDeleteDeliveryPoint=rowBinding.ButtonDeleteDeliveryPoint
+
+
+
+
                 rowBinding.root.setOnClickListener {
                     onItemClickListener?.invoke(addresses[adapterPosition])
                 }
                 buttonDeleteDeliveryPoint.setOnClickListener {
 
                     val addressToDelete = addresses[adapterPosition]
-
                     val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
                     if (currentUserUID != null) {
                         addressToDelete.addressIdx?.let { it1 ->
@@ -183,17 +194,7 @@ class DeliveryPointManageFragment : Fragment() {
                         }
                     }
                 }
-                checkboxDefaultDeliveryPoint.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        if (currentlyCheckedPosition != adapterPosition) {
-                            notifyItemChanged(currentlyCheckedPosition)
-                            currentlyCheckedPosition = adapterPosition
-                        }
-                    } else if (currentlyCheckedPosition == adapterPosition) {
-                        currentlyCheckedPosition = -1
-                    }
-                    textViewIsDefaultDeliveryPoint.visibility = if (isChecked) View.VISIBLE else View.GONE
-                }
+                //checkboxDefaultDeliveryPoint.setOnCheckedChangeListener(checkboxListener)
             }
 
         }
@@ -217,22 +218,30 @@ class DeliveryPointManageFragment : Fragment() {
 
         }
 
-        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
             val currentAddress = addresses[position]
+
             holder.textViewAddress.text = currentAddress.address
             holder.textViewAddressName.text = currentAddress.name
-            holder.textViewAddressPhone.text = getString(R.string.delivery_phone_is)+currentAddress.phoneNumber
-            holder.checkboxDefaultDeliveryPoint.isChecked = position == currentlyCheckedPosition
+            holder.textViewAddressPhone.text = getString(R.string.delivery_phone_is) + currentAddress.phoneNumber
+
+            val argument = arguments?.getString("FromOrder")
+            if (argument?.equals("FromOrder") == true) {
+                holder.buttonDeleteDeliveryPoint.visibility = View.GONE // 숨기기
+            }else{
+                holder.buttonDeleteDeliveryPoint.visibility = View.VISIBLE // 숨기기
+            }
+
+
         }
     }
 }
 class DeliveryPointManageModelFactory(private val repository: CustomerUserRepository) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                if (modelClass.isAssignableFrom(DeliveryPointManageViewModel::class.java)) {
-                    @Suppress("UNCHECKED_CAST")
-                    return DeliveryPointManageViewModel(repository) as T
-                }
-                throw IllegalArgumentException("Unknown ViewModel class")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DeliveryPointManageViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return DeliveryPointManageViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
