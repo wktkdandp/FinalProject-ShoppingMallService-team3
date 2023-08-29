@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_seller.MainActivity
 import com.petpal.swimmer_seller.R
 import com.petpal.swimmer_seller.data.model.Category
@@ -253,7 +255,7 @@ class ProductAddFragment : Fragment() {
                     mainImageList.map { it.first.fileName.toString() },
                     textInputEditTextDescription.text.toString(),
                     descriptionImage!!.fileName,
-                    mainActivity.loginSellerUid,
+                    Firebase.auth.currentUser?.uid,
                     null,
                     null,
                     addHashTagList,
