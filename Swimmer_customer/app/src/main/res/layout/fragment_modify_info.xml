@@ -33,8 +33,9 @@
             android:id="@+id/textViewModifySwimExp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="수영 경력"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,7 +46,7 @@
                 android:id="@+id/newSwimExpGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 app:singleSelection="true">
 
                 <!-- Chips can be declared here, or added dynamically. -->
@@ -89,11 +90,11 @@
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:gravity="center"
                 android:text="수정"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
 
@@ -101,28 +102,25 @@
 
     </LinearLayout>
 
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:dividerColor="@color/black"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
 
         <TextView
             android:id="@+id/textViewNewNickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:text="닉네임 : "
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textSize="14sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutNewNickname"
             android:layout_width="233dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:transitionGroup="true"
             app:endIconMode="clear_text">
 
@@ -132,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:hint="새 닉네임을 입력해주세요"
                 android:inputType="text|textPersonName"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textSize="14sp"
                 app:errorEnabled="true" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -142,42 +140,34 @@
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
             android:backgroundTint="@color/colorPrimary"
             android:gravity="center"
             android:text="수정"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
     </LinearLayout>
 
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        app:dividerColor="@color/black" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
 
         <TextView
             android:id="@+id/textViewNewPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+
             android:text="휴대폰 번호 : "
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textSize="14sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutNewNickPhone"
             android:layout_width="195dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:transitionGroup="true"
             app:endIconMode="clear_text">
 
@@ -187,57 +177,52 @@
                 android:layout_height="wrap_content"
                 android:hint="새 번호를 입력해주세요."
                 android:inputType="text|textPersonName"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textSize="14sp"
                 app:errorEnabled="true" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/buttonModifyPhone"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
             android:backgroundTint="@color/colorPrimary"
             android:gravity="center"
             android:text="수정"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
     </LinearLayout>
 
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        app:dividerColor="@color/black" />
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
 
 
-    <LinearLayout
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
 
 
         <TextView
             android:id="@+id/textViewModifyPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
             android:text="비밀번호 변경"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutCurrentPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
             android:transitionGroup="true"
+            android:layout_marginTop="8dp"
             app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -246,7 +231,7 @@
                 android:layout_height="wrap_content"
                 android:hint="현재 비밀번호를 입력해주세요"
                 android:inputType="text|textPassword"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textSize="14sp"
                 app:errorEnabled="true" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -255,10 +240,8 @@
             android:id="@+id/textInputLayoutNewPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
             android:transitionGroup="true"
+            android:layout_marginTop="8dp"
             app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -267,49 +250,41 @@
                 android:layout_height="wrap_content"
                 android:hint="새 비밀번호를 입력해주세요"
                 android:inputType="text|textPassword"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textSize="14sp"
                 app:errorEnabled="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <Button
-            android:id="@+id/buttonModifyPassword"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="20dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="비밀번호 변경"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#FFFFFF" />
+            <Button
+                android:id="@+id/buttonModifyPassword"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="비밀번호 변경"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:dividerColor="@color/black" />
 
     </LinearLayout>
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:dividerColor="@color/black" />
+            android:layout_marginTop="10dp" />
+
 
         <Button
             android:id="@+id/buttonWithdrawal"
             style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="회원탈퇴"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
