@@ -2,6 +2,7 @@ package com.petpal.swimmer_seller.ui.order
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,16 +27,20 @@ class OrderDetailFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val fragmentOrderDetailBinding get() = _fragmentOrderDetailBinding!!
-    private var orderIdx: Int = -1
+    private lateinit var order: Order
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _fragmentOrderDetailBinding = FragmentOrderDetailBinding.inflate(layoutInflater)
 
         //argument로 넘어온 order 받아오기
-        orderIdx = arguments?.getInt("orderIdx",-1)!!
+        order = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable("order", Order::class.java)!!
+        }else {
+            arguments?.get("order") as Order
+        }
 
         return fragmentOrderDetailBinding.root
     }
@@ -44,7 +49,8 @@ class OrderDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         orderViewModel =
             ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
-        orderViewModel.setOrderWithIdx(orderIdx)
+        Log.d("orderViewModel", orderViewModel.toString())
+        orderViewModel.setOrder(order)
 
         fragmentOrderDetailBinding.run {
             reyclerViewOrderProductList.run {
@@ -71,7 +77,7 @@ class OrderDetailFragment : Fragment() {
                     textViewOrderUid.text = it.orderUid
                     textViewOrderDate.text = it.orderDate
                     //TODO: UserID 도 필요
-//            textViewOrderUserId.text = it.userUid
+            textViewOrderUserId.text = it.userUid
                     //TODO: UserID로 userContact도 필요
 //            textViewOrderUserContact.text = it.userContact
                     textViewOrderTotalCount.text = "${it.itemList.size}개"
@@ -80,9 +86,7 @@ class OrderDetailFragment : Fragment() {
 //            textViewOrderReceiver.text = it.receiver
 //            textViewOrderReceiverContact.text = order.receiverContact
                     //TODO: Address 클래스로 변경 필요
-                    textViewOrderShippingPostCode.text = it.address
                     textViewOrderShippingAddress1.text = it.address
-                    textViewOrderShippingAddress2.text = it.address
                     textViewOrderShippingMessage.text = it.message
                 }
             }
@@ -125,15 +129,19 @@ class OrderDetailFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: OrderItemViewHolder, position: Int) {
-            holder.textViewOrderProductUid.text = orderViewModel.order.value!!.itemList[position].productUid
-            holder.textViewOrderProductCount.text = "${orderViewModel.order.value!!.itemList[position].quantity}개"
-            holder.textViewOrderProductName.text = orderViewModel.order.value!!.itemList[position].name
-            holder.textViewOrderProductOption.text = "${orderViewModel.order.value!!.itemList[position].color}, ${orderViewModel.order.value!!.itemList[position].size}"
-            holder.textViewOrderProductPrice.text = "${orderViewModel.order.value!!.itemList[position].price}원"
+            holder.textViewOrderProductUid.text =
+                orderViewModel.order.value!!.itemList[position].productUid
+            holder.textViewOrderProductCount.text =
+                "${orderViewModel.order.value!!.itemList[position].quantity}개"
+            holder.textViewOrderProductName.text =
+                orderViewModel.order.value!!.itemList[position].name
+            holder.textViewOrderProductOption.text =
+                "${orderViewModel.order.value!!.itemList[position].color}, ${orderViewModel.order.value!!.itemList[position].size}"
+            holder.textViewOrderProductPrice.text =
+                "${orderViewModel.order.value!!.itemList[position].price}원"
 
         }
     }
-
 
 
 }
