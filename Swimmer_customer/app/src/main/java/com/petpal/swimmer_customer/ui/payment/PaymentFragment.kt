@@ -16,6 +16,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.ItemsForCustomer
 import com.petpal.swimmer_customer.data.model.Order
@@ -157,7 +159,7 @@ class PaymentFragment : Fragment() {
                     val sdfUid = SimpleDateFormat("MMddhhmmss", Locale.getDefault())
                     val orderUid = sdfUid.format(Date(System.currentTimeMillis()))
 
-                    val order = Order(1, orderUid, customerUid, orderDate, spinnerSelect, chipSelect,
+                    val order = Order(1, orderUid, Firebase.auth.currentUser?.uid!!, orderDate, spinnerSelect, chipSelect,
                         totalFee.toLong(), orderItemList, paymentDeliveryPoinAddress.text.toString(), "test_coupon_item", 1000)
 
                     PaymentRepository.sendOrderToSeller(order) {

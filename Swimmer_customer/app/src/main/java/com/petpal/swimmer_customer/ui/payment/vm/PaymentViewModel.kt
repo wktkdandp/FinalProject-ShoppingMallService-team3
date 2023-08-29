@@ -29,7 +29,7 @@ class PaymentViewModel: ViewModel() {
         // 아이템 정보 추출
         PaymentRepository.getCartItems {
             for (i in it.result.children) {
-                val buyerUid = i.child("buyerUid").value as String
+                val buyerUid = i.child("buyerUid").value as String?
 
                 if (buyerUid == firebaseAuth.uid.toString()) {
                     val productUid = i.child("productUid").value as String
@@ -45,7 +45,7 @@ class PaymentViewModel: ViewModel() {
                 val size = i.child("size").value as String
                 val color = i.child("color").value as String
 
-                val itemModel = ItemsForCustomer(productUid, sellerUid, name, mainImage, price, quantity, size, color,buyerUid)
+                val itemModel = ItemsForCustomer(productUid, sellerUid, name, mainImage, price, quantity, size, color, buyerUid)
 
 
                     tempList1.add(itemModel)
