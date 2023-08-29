@@ -42,16 +42,18 @@ class OrderDetailFragment : Fragment() {
             arguments?.get("order") as Order
         }
 
-        return fragmentOrderDetailBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         orderViewModel =
             ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
         Log.d("orderViewModel", orderViewModel.toString())
         orderViewModel.setOrder(order)
         orderViewModel.getCustomerByUid(order.userUid)
+
+        return fragmentOrderDetailBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
 
         fragmentOrderDetailBinding.run {
             reyclerViewOrderProductList.run {
