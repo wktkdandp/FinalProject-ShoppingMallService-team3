@@ -20,5 +20,90 @@
         android:layout_height="wrap_content"
         app:dividerColor="@color/black"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:dividerColor="@color/black" />
+
+        <TextView
+            android:id="@+id/textViewModifyPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="비밀번호 변경"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutCurrentPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:transitionGroup="true"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextCurrentPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="현재 비밀번호를 입력해주세요"
+                android:inputType="text|textPassword"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:errorEnabled="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:transitionGroup="true"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextNewPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="새 비밀번호를 입력해주세요"
+                android:inputType="text|textPassword"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:errorEnabled="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/buttonModifyPassword"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="비밀번호 변경"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FFFFFF" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:dividerColor="@color/black" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

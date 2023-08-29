@@ -329,9 +329,33 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
         //firebase auth의 로그아웃 메서드
         FirebaseAuth.getInstance().signOut()
     }
-
+    //자동 로그인 설정
     fun setAutoLogin(context: Context, value: Boolean) {
         AutoLoginUtil.setAutoLogin(context, value)
+    }
+    //비밀번호 변경
+    fun modifyPassword(currentPassword: String, newPassword: String): LiveData<Boolean?> {
+        val result = MutableLiveData<Boolean?>()
+        val currentUser = mAuth.currentUser
+
+        if (currentUser != null) {
+            // 현재 비밀번호를 검증하기 위해 Credential 객체를 생성
+            val credential = EmailAuthProvider.getCredential(currentUser.email!!, currentPassword)
+            currentUser.reauthenticate(credential).addOnCompleteListener { reauthTask ->
+                if (reauthTask.isSuccessful) {
+                    currentUser.updatePassword(newPassword).addOnCompleteListener { updateTask ->
+                        result.value = true
+                    }
+                } else {
+                    Log.e("ModifyPassword", "Reauthentication failed: ${reauthTask.exception?.message}")
+                    result.value = false
+                }
+            }
+        } else {
+            result.value = false
+        }
+
+        return result
     }
 
 }

@@ -159,6 +159,13 @@
         android:id="@+id/ModifyInfoFragment"
         android:name="com.petpal.swimmer_customer.ui.modifyinfo.ModifyInfoFragment"
         tools:layout="@layout/fragment_modify_info">
+        <action
+            android:id="@+id/action_ModifyInfoFragment_to_MainFragment"
+            app:destination="@id/MainFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment

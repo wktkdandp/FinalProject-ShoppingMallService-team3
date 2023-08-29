@@ -55,6 +55,9 @@
     <string name="signup_success">회원가입에 성공했습니다. 로그인해주세요.</string>
     <string name="signup_failure">회원가입에 실패했습니다.</string>
     <string name="error_email_already_exists">이미 존재하는 이메일입니다.</string>
+    <string name="password_modify_success">비밀번호가 변경되었습니다.</string>
+    <string name="modifypassword_relogin">안전한 서비스 이용을 위해 다시 로그인해 주시기 바랍니다.</string>
+    <string name="password_modify_failure">비밀번호 변경에 실패하였습니다.</string>
     <string name="message_email_available">이메일을 사용할 수 있습니다.</string>
     <string name="duration_less_than_1_year">1년 이하</string>
     <string name="duration_less_than_3_years">3년 이하</string>
@@ -62,6 +65,7 @@
     <string name="duration_more_than_5_years">5년 이상</string>
     <string name="duration_no_selection">선택안함</string>
     <string name="mypage_title">마이 페이지</string>
+    <string name="modifyinfo_title">개인정보 수정</string>
     <string name="check_passswordpage_title">비밀번호 확인</string>
     <string name="alert_message_login_required">로그인이 필요한 서비스입니다.</string>
     <string name="alert_message_logout_completed">로그아웃 완료되었습니다.</string>
