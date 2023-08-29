@@ -100,30 +100,14 @@ class ProductReviewTabFragment(product: Product) : Fragment() {
         // TODO 리뷰 기능 구현시 작성자 이름 대신 cutomerUid 값으로 데이터 읽기
         reviewList.add(
             Review(
-                "1",
-                "사자",
-                180L,
-                90L,
-                4.0,
-                "2023.08.25",
-                "몸에 딱 맞아요. 잘 산 것 같습니다!",
-                "image/review_sample_image.jpg",
-                "XL",
-                "블랙"
+                "1", "사자", 180L, 90L, 4.0, "2023.08.25",
+                "몸에 딱 맞아요. 잘 산 것 같습니다!", "image/review_sample_image.jpg", "XL", "블랙"
             )
         )
         reviewList.add(
             Review(
-                "2",
-                "이멋사",
-                163L,
-                60L,
-                3.0,
-                "2023.08.25",
-                "품질이 최고입니다ㅎㅎ",
-                "image/review_sample_image2.jpg",
-                "M",
-                "그린"
+                "2", "이멋사", 163L, 60L, 3.0, "2023.08.25",
+                "품질이 최고입니다ㅎㅎ", "image/review_sample_image2.jpg", "M", "그린"
             )
         )
     }

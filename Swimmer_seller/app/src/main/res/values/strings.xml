@@ -58,9 +58,77 @@
     <string name="send_email_succeed">"비밀번호 재설정 이메일이 전송되었습니다."</string>
     <string name="send_email_failed">"오류가 발생했습니다. 다시 시도해주세요."</string>
 
-
     <string name="user_cannot_found">"가입되어있지 않은 이메일입니다."</string>
     <string name="contact_phone_cannot_found">"가입되어있지 않은 연락처입니다."</string>
+
+    <!-- Strings related to menu -->
+    <string name="product_manage_subheader_title">상품 관리</string>
+    <string name="add_product_title">상품 등록</string>
+    <string name="view_modify_product_title">상품 조회/수정</string>
+    <string name="manage_order_ship_title">주문/배송 관리</string>
+    <string name="cs_subheader_title">CS</string>
+    <string name="manage_notice_title">공지 관리</string>
+    <string name="manage_inquiry_title">문의 관리</string>
+    <string name="setting_title">설정</string>
+    <string name="menu_title">메뉴</string>
+    <string name="mypage_title">마이페이지</string>
+
+    <!-- Strings related to mypage -->
+    <string name="label_edit_password">비밀번호 수정</string>
+    <string name="label_payment_completed">결제완료</string>
+    <string name="no_order">이런! 주문이 없네요</string>
+    <string name="prompt_delete">삭제</string>
+    <string name="order_detail_title">주문 상세 정보</string>
+    <string name="label_basic_order_info">주문기본정보</string>
+    <string name="label_order_uid">주문번호</string>
+    <string name="label_order_datetime">주문일시</string>
+    <string name="label_order_customer_uid">고객ID</string>
+    <string name="label_order_customer_contact">고객 연락처</string>
+    <string name="label_order_item_info">상품정보</string>
+    <string name="label_order_item_count">수량</string>
+    <string name="label_order_item_total_price">총 금액</string>
+    <string name="label_order_shipping_info">배송정보</string>
+    <string name="label_order_receiver">수령인</string>
+    <string name="label_order_receiver_contact">수령인 연락처</string>
+    <string name="label_order_shipping_address">배송지</string>
+    <string name="label_order_shipping_message">배송메세지</string>
+    <string name="label_shipping_await">배송준비</string>
+    <string name="label_shipping_continue">배송중</string>
+    <string name="label_shipping_completed">배송완료</string>
+
+    <string name="checkbox_info_usage">개인정보 수집이용에 동의합니다.</string>
+
+    <string name="invalid_bus_reg_num">사업자 등록번호를 입력해주세요</string>
+    <string name="invalid_represent_name">대표자명을 입력해주세요</string>
+    <string name="invalid_brand_name">브랜드명을 입력해주세요</string>
+    <string name="invalid_description">브랜드 설명을 입력해주세요</string>
+    <string name="invalid_address">사업장 주소를 입력해주세요</string>
+    <string name="invalid_brand_phone_num">사업장 연락처를 입력해주세요</string>
+    <string name="invalid_bank_name">거래은행을 입력해주세요</string>
+    <string name="invalid_account_num">계좌번호를 입력해주세요</string>
+    <string name="invalid_contact_name">담당자명을 입력해주세요</string>
+    <string name="invalid_contact_phone_num">담당자 연락처를 입력해주세요</string>
+    <string name="invalid_contact_email">담당자 이메일을 입력해주세요</string>
+    <string name="invalid_consent_agree">개인정보 수집이용에 동의해주세요</string>
+
+    <!-- Strings related to home -->
+    <string name="home_product_add_button">상품 등록하기</string>
+    <string name="home_product_count">등록된 상품이 0건 있습니다.</string>
+    <string name="home_product_text">판매 상품을 등록해주세요.</string>
+    <string name="home_order_title">주문/배송</string>
+    <string name="label_order_cancel">주문 취소</string>
+    <string name="label_order_exchange">교환 신청</string>
+    <string name="label_order_refund">환불 신청</string>
+    <string name="_5">5</string>
+    <string name="default_order_count">5건</string>
+    <string name="seller_guide_title">판매자 가이드</string>
+    <string name="seller_guide_subject">상품 등록 가이드</string>
+    <string name="seller_guide_content">SWIMMER 앱에서 당신의 상품을 판매해보세요!</string>
+
+    <string name="guide_add_product">SWIMMER 쇼핑몰에서 판매할 상품을 등록할 수 있습니다. 아래와 같이 항목에 해당하는 상품 정보를 기입 해주세요.</string>
+    <string name="guide_add_option">상품에 대해 색상, 사이즈 옵션을 추가할 수 있습니다.</string>
+    <string name="guide_product_list">등록한 상품 목록을 확인할 수 있습니다.</string>
+    <string name="guide_product_detail">상품의 상세 정보와 판매자 앱에서 보일 화면의 미리보기를 확인할 수 있습니다.</string>
 
     <!-- 대분류 -->
     <string-array name="categoryMain">
@@ -211,13 +279,9 @@
         <item>가격 높은순</item>
     </string-array>
 
-
-    <string name="action_add_product">상품등록 하기</string>
-    <string name="prompt_product_count">등록된 상품이 0건 있습니다.</string>
-    <string name="prompt_add_product">판매 상품을 등록해주세요.</string>
-    <string name="prompt_add_product_title">상품 등록</string>
-    <string name="prompt_main_image">상품 이미지 (최대 5개)</string>
-    <string name="prompt_main_image_count">0/5</string>
+    <string name="home_product_add_title">상품 등록</string>
+    <string name="main_image_title">상품 이미지 (최대 5개)</string>
+    <string name="main_image_count">0/5</string>
     <string name="prompt_product_name">상품명</string>
     <string name="prompt_category_main">대분류</string>
     <string name="prompt_category_mid">중분류</string>
@@ -226,7 +290,7 @@
     <string name="prompt_price">가격</string>
     <string name="prompt_product_description">상품 설명</string>
     <string name="prompt_description_image">상품 설명 이미지 (1개)</string>
-    <string name="prompt_description_image_count">0/1</string>
+    <string name="label_description_image_count">0/1</string>
     <string name="action_cancel">취소</string>
     <string name="action_register">등록</string>
     <string name="female">여성</string>
@@ -243,56 +307,102 @@
     <string name="bag">가방</string>
     <string name="water_toy">물놀이용품</string>
     <string name="prompt_hashtag">해시태그</string>
-    <string name="test_guide1">[상품 등록] 에서 상품의 정보를 입력하고 등록할 수 있습니다.</string>
-    <string name="test_guide2">[상품 조회] 에서 상품 목록을 확인할 수 있습니다.</string>
-    <string name="test_guide3">[상품 조회] 에서 각 상품을 클릭하면 [상품 상세] 로 이동합니다.</string>
     <string name="button_delete_image">이미지 삭제 버튼</string>
-    <string name="product_manage_subheader_title">상품 관리</string>
-    <string name="add_product_title">상품 등록</string>
-    <string name="view_modify_product_title">상품 조회/수정</string>
-    <string name="manage_order_ship_title">주문/배송 관리</string>
-    <string name="cs_subheader_title">CS</string>
-    <string name="manage_notice_title">공지 관리</string>
-    <string name="manage_inquiry_title">문의 관리</string>
-    <string name="setting_title">설정</string>
-    <string name="menu_title">메뉴</string>
-    <string name="mypage_title">마이페이지</string>
-    <string name="label_edit_password">비밀번호 수정</string>
-    <string name="label_payment_completed">결제완료</string>
-    <string name="no_order">이런! 주문이 없네요</string>
-    <string name="prompt_delete">삭제</string>
-    <string name="order_detail_title">주문 상세 정보</string>
-    <string name="label_basic_order_info">주문기본정보</string>
-    <string name="label_order_uid">주문번호</string>
-    <string name="label_order_datetime">주문일시</string>
-    <string name="label_order_customer_uid">고객ID</string>
-    <string name="label_order_customer_contact">고객 연락처</string>
-    <string name="label_order_item_info">상품정보</string>
-    <string name="label_order_item_count">수량</string>
-    <string name="label_order_item_total_price">총 금액</string>
-    <string name="label_order_shipping_info">배송정보</string>
-    <string name="label_order_receiver">수령인</string>
-    <string name="label_order_receiver_contact">수령인 연락처</string>
-    <string name="label_order_shipping_address">배송지</string>
-    <string name="label_order_shipping_message">배송메세지</string>
-    <string name="label_shipping_await">배송준비</string>
-    <string name="label_shipping_continue">배송중</string>
-    <string name="label_shipping_completed">배송완료</string>
+    <string name="action_add">추가</string>
 
-    <string name="checkbox_info_usage">개인정보 수집이용에 동의합니다.</string>
+    <!-- Strings related to product option -->
+    <string name="action_add_option">옵션 추가</string>
+    <string name="message_add_option">옵션 추가로 색상, 사이즈 옵션을 추가 해주세요.</string>
+    <string name="label_color">색상</string>
+    <string name="label_size">사이즈</string>
+    <string name="action_product_add">상품 등록</string>
+    <string name="title_select_color">색상 선택</string>
+    <string name="_0">0</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="_10">10</string>
+    <string name="_11">11</string>
+    <string name="_12">12</string>
+    <string name="_13">13</string>
+    <string name="title_select_size">사이즈 선택</string>
+    <string name="size_xs">XS</string>
+    <string name="size_s">S</string>
+    <string name="size_m">M</string>
+    <string name="size_l">L</string>
+    <string name="size_xl">XL</string>
+    <string name="size_xxl">XXL</string>
+    <string name="size_free">FREE</string>
 
-    <string name="invalid_bus_reg_num">사업자 등록번호를 입력해주세요</string>
-    <string name="invalid_represent_name">대표자명을 입력해주세요</string>
-    <string name="invalid_brand_name">브랜드명을 입력해주세요</string>
-    <string name="invalid_description">브랜드 설명을 입력해주세요</string>
-    <string name="invalid_address">사업장 주소를 입력해주세요</string>
-    <string name="invalid_brand_phone_num">사업장 연락처를 입력해주세요</string>
-    <string name="invalid_bank_name">거래은행을 입력해주세요</string>
-    <string name="invalid_account_num">계좌번호를 입력해주세요</string>
-    <string name="invalid_contact_name">담당자명을 입력해주세요</string>
-    <string name="invalid_contact_phone_num">담당자 연락처를 입력해주세요</string>
-    <string name="invalid_contact_email">담당자 이메일을 입력해주세요</string>
-    <string name="invalid_consent_agree">개인정보 수집이용에 동의해주세요</string>
+    <!-- Strings related to manage product -->
+    <string name="title_product_list">등록 상품 목록</string>
+    <string name="label_filter_all">전체</string>
+    <string name="label_sort_latest">최신순</string>
+    <string name="message_no_product">등록된 상품이 없습니다.</string>
+    <string name="label_brand_name">브랜드명</string>
+    <string name="label_category_tree"><![CDATA[대분류 > 중분류 > 소분류]]></string>
+
+    <!-- Strings related to product detail -->
+    <string name="label_product_name">상품명</string>
+    <string name="label_product_price">가격</string>
+    <string name="label_product_color">색상</string>
+    <string name="label_product_size">사이즈</string>
+    <string name="title_product_review">상품후기 |</string>
+    <string name="title_product_review_count">(0)</string>
+    <string name="label_customer_rating">구매자 평점</string>
+    <string name="label_review_very_good">아주 좋아요</string>
+    <string name="label_review_like">맘에 들어요</string>
+    <string name="label_review_soso">보통이에요</string>
+    <string name="label_review_just_ok">그냥 그래요</string>
+    <string name="label_review_not_much">별로에요</string>
+    <string name="label_rating">평점</string>
+    <string name="label_height">키</string>
+    <string name="label_weight">체중</string>
+    <string name="label_default_size">평소사이즈</string>
+    <string name="height_144cm_under">144cm 이하</string>
+    <string name="height_145_149cm">145 ~ 149cm</string>
+    <string name="height_150_154cm">150 ~ 154cm</string>
+    <string name="height_155_159cm">155 ~ 159cm</string>
+    <string name="height_160_164cm">160 ~ 164cm</string>
+    <string name="height_165_169cm">165 ~ 169cm</string>
+    <string name="height_170_174cm">170 ~ 174cm</string>
+    <string name="height_175_179cm">175 ~ 179cm</string>
+    <string name="height_180_184cm">180 ~ 184cm</string>
+    <string name="height_185_189cm">185 ~ 189cm</string>
+    <string name="height_190cm_over">190cm 이상</string>
+    <string name="size_4xs">4XS</string>
+    <string name="size_3xs">3XS</string>
+    <string name="size_2xs">2XS</string>
+    <string name="size_3xl">3XL</string>
+    <string name="weight_44kg">44kg 이하</string>
+    <string name="weight_45_49_kg">45 ~ 49 kg</string>
+    <string name="weight_50_54_kg">50 ~ 54 kg</string>
+    <string name="weight_55_59_kg">55 ~ 59 kg</string>
+    <string name="weight_60_64_kg">60 ~ 64 kg</string>
+    <string name="weight_65_69_kg">65 ~ 69 kg</string>
+    <string name="weight_70_74_kg">70 ~ 74 kg</string>
+    <string name="weight_75_79_kg">75 ~ 79 kg</string>
+    <string name="weight_80_84_kg">80 ~ 84 kg</string>
+    <string name="weight_85_89_kg">85 ~ 89 kg</string>
+    <string name="weight_90_94_kg">90 ~ 94 kg</string>
+    <string name="weight_95_99_kg">95 ~ 99 kg</string>
+    <string name="weight_100_104_kg">100 ~ 104 kg</string>
+    <string name="weight_105_109_kg">105 ~ 109 kg</string>
+    <string name="weight_115_kg">115 kg 이상</string>
+    <string name="label_writer">작성자</string>
+    <string name="hint_date_format">yyyy.MM.dd</string>
+    <string name="label_custom_info">맞춤 정보</string>
+    <string name="hint_custom_info">000cm · 00kg</string>
+    <string name="label_select_option">선택 옵션</string>
+    <string name="hint_select_option">Color [Size]</string>
+    <string name="hint_review_content">리뷰 코멘트입니다.</string>
+    <string name="title_qna"><![CDATA[Q&A 화면]]></string>
+
 
     <!--이 문자열 너무 길어서 맨 밑으로 빼주세요 -->
     <string name="privacy_policy">
