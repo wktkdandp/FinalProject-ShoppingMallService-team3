@@ -38,7 +38,7 @@ class OrderDetailFragment : Fragment() {
         //argument로 넘어온 order 받아오기
         order = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable("order", Order::class.java)!!
-        }else {
+        } else {
             arguments?.get("order") as Order
         }
 
@@ -51,6 +51,7 @@ class OrderDetailFragment : Fragment() {
             ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
         Log.d("orderViewModel", orderViewModel.toString())
         orderViewModel.setOrder(order)
+        orderViewModel.getCustomerByUid(order.userUid)
 
         fragmentOrderDetailBinding.run {
             reyclerViewOrderProductList.run {
@@ -71,21 +72,24 @@ class OrderDetailFragment : Fragment() {
         }
 
         orderViewModel.run {
+            customer.observe(viewLifecycleOwner) {
+                fragmentOrderDetailBinding.run {
+                    textViewOrderUserContact.text = it.contact
+                    textViewOrderReceiver.text = it.name
+                    textViewOrderReceiverContact.text = it.contact
+                    textViewOrderUserId.text =it.email
+                }
+            }
+
             order.observe(viewLifecycleOwner) {
                 fragmentOrderDetailBinding.run {
                     textViewOrderState2.text = getOrderState(it.state).str
                     textViewOrderUid.text = it.orderUid
                     textViewOrderDate.text = it.orderDate
-                    //TODO: UserID 도 필요
-            textViewOrderUserId.text = it.userUid
-                    //TODO: UserID로 userContact도 필요
-//            textViewOrderUserContact.text = it.userContact
+
                     textViewOrderTotalCount.text = "${it.itemList.size}개"
                     textViewOrderTotalPrice.text = "${calculateTotalPrice(it.itemList)}원"
-                    //TODO: 수령인도 필요 or userId로 userName으로 대체
-//            textViewOrderReceiver.text = it.receiver
-//            textViewOrderReceiverContact.text = order.receiverContact
-                    //TODO: Address 클래스로 변경 필요
+
                     textViewOrderShippingAddress1.text = it.address
                     textViewOrderShippingMessage.text = it.message
                 }
