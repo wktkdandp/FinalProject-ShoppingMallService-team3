@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -93,14 +94,15 @@ class MainFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AutoLogin()
+        autoLogin()
     }
-    private fun AutoLogin(){
+    private fun autoLogin(){
         val isAutoLogin = AutoLoginUtil.getAutoLogin(requireContext())
-        //val currentUser = FirebaseAuth.getInstance().currentUser
 
         if (!isAutoLogin) {
             navController.navigate(R.id.LoginFragment)
+        }else{
+            Toast.makeText(context, getString(R.string.auto_login_success), Toast.LENGTH_SHORT).show()
         }
     }
 }
