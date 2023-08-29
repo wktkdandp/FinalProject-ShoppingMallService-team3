@@ -37,6 +37,23 @@ class ModifyInfoFragment : Fragment() {
 
         setupToolbar()
 
+        viewModel.withdrawalUserResult.observe(viewLifecycleOwner, Observer { isSuccess ->
+            if (isSuccess==true) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle(getString(R.string.title_notification))
+                    .setMessage(getString(R.string.withdrawal_success))
+                    .setPositiveButton(getString(R.string.action_confirm)) { dialog, _ ->
+                        val action = ModifyInfoFragmentDirections.actionModifyInfoFragmentToMainFragment()
+                        findNavController().navigate(action)
+                    }
+                    .show()
+            } else {
+                // 실패 메시지 표시
+                showToast("Account deletion failed")
+            }
+        })
+
+
         fragmentModifyInfoBinding.buttonModifyPassword.setOnClickListener {
             val currentPassword=fragmentModifyInfoBinding.textInputEditTextCurrentPassword.text.toString()
             val newPassword=fragmentModifyInfoBinding.textInputEditTextNewPassword.text.toString()
@@ -137,6 +154,9 @@ class ModifyInfoFragment : Fragment() {
                 }
 
             })
+        }
+        fragmentModifyInfoBinding.buttonWithdrawal.setOnClickListener {
+            viewModel.withdrawalUser()
         }
 
 

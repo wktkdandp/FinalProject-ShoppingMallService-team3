@@ -3,6 +3,8 @@ package com.petpal.swimmer_customer.data.repository
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
@@ -385,8 +387,23 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
 
         return resultLiveData
     }
-    fun withdrawal(){
-       // FirebaseAuth.getInstance().
+    fun withdrawalUser(): LiveData<Boolean?> {
+        val resultLiveData = MutableLiveData<Boolean>()
+
+        val user = mAuth.currentUser
+        val userUid = user?.uid
+
+        user?.delete()?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                mDatabase.child(userUid!!).removeValue().addOnCompleteListener { dbTask ->
+                    resultLiveData.value = dbTask.isSuccessful
+                }
+            } else {
+                resultLiveData.value = false
+            }
+        }
+
+        return resultLiveData
     }
 
 }

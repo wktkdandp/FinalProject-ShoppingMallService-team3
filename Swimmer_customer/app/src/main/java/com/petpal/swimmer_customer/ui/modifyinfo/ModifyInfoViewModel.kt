@@ -10,6 +10,7 @@ import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 import kotlinx.coroutines.launch
 
 class ModifyInfoViewModel(private val repository: CustomerUserRepository) : ViewModel() {
+    val withdrawalUserResult: MutableLiveData<Boolean?> = MutableLiveData()
 
     fun modifyPassword(currentPassword: String, newPassword: String): LiveData<Boolean?> {
         return repository.modifyPassword(currentPassword, newPassword)
@@ -28,5 +29,12 @@ class ModifyInfoViewModel(private val repository: CustomerUserRepository) : View
     }
     fun ModifyUserInfo(user: User): LiveData<Boolean?> {
         return repository.ModifyUserInfo(user)
+    }
+    fun withdrawalUser() {
+        viewModelScope.launch {
+            repository.withdrawalUser().observeForever { result ->
+                withdrawalUserResult.postValue(result)
+            }
+        }
     }
 }
