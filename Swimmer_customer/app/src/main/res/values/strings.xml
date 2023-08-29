@@ -37,6 +37,7 @@
     <string name="resetpassword">resetPassword</string>
     <string name="login_success">로그인 성공</string>
     <string name="login_role_error">사용자용 계정이 아닌 계정으로는 로그인할 수 없습니다.</string>
+    <string name="role_customer">사용자</string>
     <string name="auto_login_success">자동 로그인 성공</string>
     <string name="login_failure">로그인 실패 이메일 또는 비밀번호를 확인해주세요.</string>
     <string name="key_generic">key</string>

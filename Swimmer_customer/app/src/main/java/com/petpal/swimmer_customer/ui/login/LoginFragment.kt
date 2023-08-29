@@ -144,10 +144,10 @@ class LoginFragment : Fragment() {
         if (success) {
             // 로그인 성공
             viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer {
-                if(!it?.role.equals("사용자")){
+                if(!it?.role.equals(getString(R.string.role_customer))){
                     Toast.makeText(context, getString(R.string.login_role_error), Toast.LENGTH_LONG).show()
                     FirebaseAuth.getInstance().signOut()
-                } else {
+                }else {
                     Toast.makeText(context, getString(R.string.login_success), Toast.LENGTH_LONG).show()
                     val navController = findNavController()
                     navController.navigate(R.id.action_LoginFragment_to_item_home)
