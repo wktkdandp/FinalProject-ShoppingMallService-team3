@@ -22,8 +22,14 @@ class GuideFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fragmentGuideBinding.toolbarGuide.setNavigationOnClickListener {
-            findNavController().popBackStack()
+        fragmentGuideBinding.run {
+            toolbarGuide.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            fabGuide.setOnClickListener {
+                scrollViewGuide.smoothScrollTo(0, 0)
+            }
         }
     }
 }

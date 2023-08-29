@@ -26,7 +26,6 @@ class ProductDetailAdapter(private val context: Context, private val imagePaths:
     inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-
         val inflater = LayoutInflater.from(parent.context)
         return ItemViewHolder(
             inflater.inflate(
@@ -38,7 +37,6 @@ class ProductDetailAdapter(private val context: Context, private val imagePaths:
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-
         val imageView = holder.itemView.findViewById<ImageView>(R.id.productDetailImage)
         val imagePath = imagePaths[position]
         val veilLayout =holder.itemView.findViewById<VeilLayout>(R.id.viewPager2VeilLayout)
@@ -62,7 +60,6 @@ class ProductDetailAdapter(private val context: Context, private val imagePaths:
     }
 
     companion object {
-
         val differ = object : DiffUtil.ItemCallback<ProductDetailModel>() {
             override fun areItemsTheSame(
                 oldItem: ProductDetailModel,
@@ -77,7 +74,6 @@ class ProductDetailAdapter(private val context: Context, private val imagePaths:
             ): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 }

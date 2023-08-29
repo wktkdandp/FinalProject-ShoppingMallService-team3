@@ -22,14 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="색상 선택"
+            android:text="@string/title_select_color"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="오렌지"
             app:chipSpacingVertical="0dp">
 
             <com.google.android.material.chip.Chip
@@ -37,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="0"
+                android:contentDescription="@string/_0"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="@android:color/holo_red_dark" />
 
@@ -46,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="1"
+                android:contentDescription="@string/_1"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#FF5722" />
 
@@ -55,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="2"
+                android:contentDescription="@string/_2"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="@android:color/holo_orange_light" />
 
@@ -64,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="3"
+                android:contentDescription="@string/_3"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#199A2A" />
 
@@ -73,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="4"
+                android:contentDescription="@string/_4"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#2BE0FF" />
 
@@ -82,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="5"
+                android:contentDescription="@string/_5"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#0075D3" />
 
@@ -91,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="6"
+                android:contentDescription="@string/_6"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#3F51B5" />
 
@@ -100,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="7"
+                android:contentDescription="@string/_7"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#673AB7" />
 
@@ -109,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="8"
+                android:contentDescription="@string/_8"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#EF79D2" />
 
@@ -118,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="9"
+                android:contentDescription="@string/_9"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#9F4D06" />
 
@@ -127,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="10"
+                android:contentDescription="@string/_10"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#E4B18E" />
 
@@ -136,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="11"
+                android:contentDescription="@string/_11"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#FFFFFF" />
 
@@ -145,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="12"
+                android:contentDescription="@string/_12"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#737373" />
 
@@ -154,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:contentDescription="13"
+                android:contentDescription="@string/_13"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="#000000" />
 
@@ -166,7 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:text="사이즈 선택"
+            android:text="@string/title_select_size"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <com.google.android.material.chip.ChipGroup
@@ -181,8 +180,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="XS"
-                android:contentDescription="0"
+                android:text="@string/size_xs"
+                android:contentDescription="@string/_0"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -190,8 +189,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="S"
-                android:contentDescription="1"
+                android:text="@string/size_s"
+                android:contentDescription="@string/_1"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -199,8 +198,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="M"
-                android:contentDescription="2"
+                android:text="@string/size_m"
+                android:contentDescription="@string/_2"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -208,8 +207,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="L"
-                android:contentDescription="3"
+                android:text="@string/size_l"
+                android:contentDescription="@string/_3"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -217,8 +216,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="XL"
-                android:contentDescription="4"
+                android:text="@string/size_xl"
+                android:contentDescription="@string/_4"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -226,8 +225,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="XXL"
-                android:contentDescription="5"
+                android:text="@string/size_xxl"
+                android:contentDescription="@string/_5"
                 app:checkedIconEnabled="true" />
 
             <com.google.android.material.chip.Chip
@@ -235,8 +234,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
-                android:text="FREE"
-                android:contentDescription="6"
+                android:text="@string/size_free"
+                android:contentDescription="@string/_6"
                 app:checkedIconEnabled="true" />
 
         </com.google.android.material.chip.ChipGroup>
@@ -246,9 +245,9 @@
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_marginTop="5dp"
-            android:text="추가"
+            android:text="@string/action_add"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold" />
     </LinearLayout>

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,6 +56,12 @@ class ProductOptionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         fragmentProductOptionBinding.run {
+            toolbarOption.run {
+                setNavigationOnClickListener {
+                    findNavController().popBackStack()
+                }
+            }
+
             productViewModel.run {
                 // 추가된 색상, 사이즈 옵션이 없을 경우 안내 문구 표시
                 colorList.observe(viewLifecycleOwner){

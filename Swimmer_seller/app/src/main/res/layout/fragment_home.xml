@@ -32,7 +32,7 @@
                 style="@style/Widget.Material3.CheckedTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="주문/배송"
+                android:text="@string/home_order_title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="bold" />
 
@@ -66,7 +66,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="5"
+                            android:text="@string/_5"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="@color/md_theme_dark_inversePrimary"
                             android:textStyle="bold" />
@@ -76,7 +76,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="결제완료"
+                            android:text="@string/label_payment_completed"
                             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                     </LinearLayout>
 
@@ -105,7 +105,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="5"
+                            android:text="@string/_5"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="@color/md_theme_dark_inversePrimary"
                             android:textStyle="bold" />
@@ -115,7 +115,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="배송준비"
+                            android:text="@string/label_shipping_await"
                             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -142,7 +142,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="5"
+                            android:text="@string/_5"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="@color/md_theme_dark_inversePrimary"
                             android:textStyle="bold" />
@@ -152,7 +152,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="배송중"
+                            android:text="@string/label_shipping_continue"
                             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -178,7 +178,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="5"
+                            android:text="@string/_5"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="@color/md_theme_dark_inversePrimary"
                             android:textStyle="bold" />
@@ -188,7 +188,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="배송완료"
+                            android:text="@string/label_shipping_completed"
                             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -215,18 +215,17 @@
 
                         <TextView
                             android:id="@+id/textView19"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:clickable="true"
-                            android:text="주문 취소"
+                            android:text="@string/label_order_cancel"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <TextView
                             android:id="@+id/textViewCancelCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5건"
+                            android:text="@string/default_order_count"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/md_theme_dark_inversePrimary"
                             android:textStyle="bold" />
@@ -239,18 +238,17 @@
 
                         <TextView
                             android:id="@+id/textView20"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:clickable="true"
-                            android:text="교환 신청"
+                            android:text="@string/label_order_exchange"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <TextView
                             android:id="@+id/textViewExchangeCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5건"
+                            android:text="@string/default_order_count"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/md_theme_dark_inversePrimary"
                             android:textStyle="bold" />
@@ -263,18 +261,17 @@
 
                         <TextView
                             android:id="@+id/textView21"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:clickable="true"
-                            android:text="환불 신청"
+                            android:text="@string/label_order_refund"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <TextView
                             android:id="@+id/textViewRefundCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5건"
+                            android:text="@string/default_order_count"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/md_theme_dark_inversePrimary"
                             android:textStyle="bold" />
@@ -300,7 +297,7 @@
                         style="@style/Widget.Material3.CheckedTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/prompt_add_product_title"
+                        android:text="@string/home_product_add_title"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textStyle="bold" />
 
@@ -310,7 +307,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/prompt_product_count"
+                        android:text="@string/home_product_count"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <TextView
@@ -318,7 +315,7 @@
                         style="@style/Widget.Material3.CheckedTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/prompt_add_product"
+                        android:text="@string/home_product_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <com.google.android.material.button.MaterialButton
@@ -326,7 +323,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/action_add_product" />
+                        android:text="@string/home_product_add_button" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -349,7 +346,7 @@
                         style="@style/Widget.Material3.CheckedTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="판매자 가이드"
+                        android:text="@string/seller_guide_title"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textStyle="bold" />
 
@@ -379,7 +376,7 @@
                                 android:id="@+id/textViewGuideTitle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="쉽게 따라하는 상품 등록"
+                                android:text="@string/seller_guide_subject"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                             <TextView
@@ -387,7 +384,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="SWIMMER 앱에서 당신의 상품을 판매해보세요!"
+                                android:text="@string/seller_guide_content"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                         </LinearLayout>
                     </LinearLayout>
