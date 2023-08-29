@@ -258,7 +258,11 @@
             app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_paymentFragment_to_completeFragment"
-            app:destination="@id/completeFragment" />
+            app:destination="@id/completeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_paymentFragment_to_itemDetailFragment"
             app:destination="@id/itemDetailFragment" />
@@ -270,7 +274,11 @@
         android:label="CompleteFragment" >
         <action
             android:id="@+id/action_completeFragment_to_item_home"
-            app:destination="@id/item_home" />
+            app:destination="@id/item_home"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment

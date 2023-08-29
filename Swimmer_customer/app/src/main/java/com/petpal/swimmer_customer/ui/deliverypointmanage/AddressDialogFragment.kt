@@ -11,6 +11,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.petpal.swimmer_customer.R
@@ -37,6 +38,7 @@ class AddressDialogFragment : Fragment() {
         fragmentAddressDialogBinding = FragmentAddressDialogBinding.inflate(layoutInflater)
 
         setupToolbar()
+        handleBackPress()
         fragmentAddressDialogBinding.webViewAddress.settings.javaScriptEnabled = true
         fragmentAddressDialogBinding.webViewAddress.addJavascriptInterface(
             BridgeInterface(),
@@ -60,6 +62,14 @@ class AddressDialogFragment : Fragment() {
         fragmentAddressDialogBinding.webViewAddress.loadUrl(mainUrl)
 
         return fragmentAddressDialogBinding.root
+    }
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
     private fun setupToolbar() {
         fragmentAddressDialogBinding.toolbarAddressDialog.run {

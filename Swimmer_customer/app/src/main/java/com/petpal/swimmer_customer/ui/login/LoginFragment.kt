@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintSet.Motion
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -37,7 +38,7 @@ class LoginFragment : Fragment() {
     lateinit var fragmentLoginBinding: FragmentLoginBinding
     lateinit var viewModel: LoginViewModel
     lateinit var mainActivity: MainActivity
-
+    private var lastBackPressedTime: Long = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,10 +51,23 @@ class LoginFragment : Fragment() {
 
         setupUI()
         setupViewModel()
+        handleBackPress()
 
         return fragmentLoginBinding.root
     }
-
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - lastBackPressedTime < 2000) {
+                    requireActivity().finish()
+                } else {
+                    Toast.makeText(context, "뒤로가기 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                    lastBackPressedTime = System.currentTimeMillis()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
     private fun showError(textInputLayout: TextInputLayout, textInputEditText: TextInputEditText, errorMessage: String) {
         textInputLayout.error = errorMessage
         Handler(Looper.getMainLooper()).postDelayed({
@@ -142,7 +156,9 @@ class LoginFragment : Fragment() {
     //로그인 메서드 관리
     private fun handleLoginResult(success: Boolean) {
         if (success) {
-            // 로그인 성공
+            // 로그인 성공하면 현재 유저 받아와서 role이 사용자인지 검사
+            // 사용자가 아니면 토스트로 에러 띄우고 로그아웃
+            // 사용자라면 원래 로직대로 토스트 띄우고 홈화면으로 이동
             viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer {
                 if(!it?.role.equals(getString(R.string.role_customer))){
                     Toast.makeText(context, getString(R.string.login_role_error), Toast.LENGTH_LONG).show()
@@ -164,6 +180,7 @@ class LoginFragment : Fragment() {
             fragmentLoginBinding.textInputEditTextLoginPassword.text?.clear()
         }
     }
+
 
 }
 

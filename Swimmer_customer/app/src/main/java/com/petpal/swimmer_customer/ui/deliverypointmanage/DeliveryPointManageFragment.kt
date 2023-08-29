@@ -14,6 +14,7 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -53,7 +54,7 @@ class DeliveryPointManageFragment : Fragment() {
         handleReceivedData()
         setupFindAddressButton()
         fetchUserAddresses()
-
+        handleBackPress()
         return fragmentDeliveryPointManageBinding.root
     }
 
@@ -72,6 +73,20 @@ class DeliveryPointManageFragment : Fragment() {
                 findNavController().navigate(R.id.action_DeliveryPointManageFragment_to_paymentFragment, bundle)
             }
         }
+    }
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val argument = arguments?.getString("FromOrder")
+                if (argument?.equals("FromOrder") == true) {
+                    findNavController().popBackStack()
+                }else {
+                    val action = DeliveryPointManageFragmentDirections.actionDeliveryPointManageFragmentToItemMypage()
+                    findNavController().navigate(action)
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
     private fun setupToolbar() {
         fragmentDeliveryPointManageBinding.toolbarDeliveryPointManage.run {
