@@ -30,7 +30,9 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.ItemsForCustomer
 import com.petpal.swimmer_customer.data.model.ProductDetailModel
@@ -282,7 +284,7 @@ class ProductDetailFragment : Fragment() {
                 quantity,
                 size,
                 color,
-                buyerUid
+                Firebase.auth.uid!!
             )
 
 
