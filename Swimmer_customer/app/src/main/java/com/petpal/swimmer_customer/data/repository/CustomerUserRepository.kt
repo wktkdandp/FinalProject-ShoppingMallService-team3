@@ -3,6 +3,8 @@ package com.petpal.swimmer_customer.data.repository
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
@@ -157,39 +159,6 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
             })
         return emailExists
     }
-    //    @Override
-    //    public LiveData<Boolean> modifyUser(String userIdx, String email, String password) {
-    //        MutableLiveData<Boolean> result = new MutableLiveData<>();
-    //
-    //        //serIdx에 해당하는 사용자의 정보를 가져옴
-    //        mDatabase.child(userIdx).addListenerForSingleValueEvent(new ValueEventListener() {
-    //            @Override
-    //            public void onDataChange(DataSnapshot dataSnapshot) {
-    //                User user = dataSnapshot.getValue(User.class);
-    //                if (user != null) {
-    //                    // 가져온 사용자 정보를 수정
-    //                    user.setEmail(email);
-    //                    user.setPassword(password);
-    //
-    //                    // 수정된 사용자 정보를 데이터베이스에 저장
-    //                    mDatabase.child(userIdx).setValue(user).addOnCompleteListener(task -> {
-    //                        result.setValue(task.isSuccessful());
-    //                    });
-    //                } else {
-    //                    result.setValue(false); // userIdx에 일치하는 사용자 정보가 없음
-    //                }
-    //            }
-    //
-    //            @Override
-    //            public void onCancelled(DatabaseError databaseError) {
-    //                result.setValue(false);
-    //            }
-    //        });
-    //
-    //        return result;
-    //    }
-
-    //유저 삭제
     override fun deleteUser(userIdx: String?): LiveData<Boolean?>? {
         val result = MutableLiveData<Boolean?>()
         mDatabase.child(userIdx!!).removeValue()
@@ -329,9 +298,75 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
         //firebase auth의 로그아웃 메서드
         FirebaseAuth.getInstance().signOut()
     }
-
+    //자동 로그인 설정
     fun setAutoLogin(context: Context, value: Boolean) {
         AutoLoginUtil.setAutoLogin(context, value)
+    }
+    //비밀번호 변경
+    fun modifyPassword(currentPassword: String, newPassword: String): LiveData<Boolean?> {
+        val result = MutableLiveData<Boolean?>()
+        val currentUser = mAuth.currentUser
+
+        if (currentUser != null) {
+            // 현재 비밀번호를 검증하기 위해 Credential 객체를 생성
+            val credential = EmailAuthProvider.getCredential(currentUser.email!!, currentPassword)
+            currentUser.reauthenticate(credential).addOnCompleteListener { reauthTask ->
+                if (reauthTask.isSuccessful) {
+                    currentUser.updatePassword(newPassword).addOnCompleteListener { updateTask ->
+                        result.value = true
+                    }
+                } else {
+                    Log.e("ModifyPassword", "Reauthentication failed: ${reauthTask.exception?.message}")
+                    result.value = false
+                }
+            }
+        } else {
+            result.value = false
+        }
+
+        return result
+    }
+    fun ModifyUserInfo(user: User): LiveData<Boolean?> {
+        val resultLiveData = MutableLiveData<Boolean?>()
+        val currentUser = mAuth.currentUser
+
+        if (currentUser != null) {
+            val uid = currentUser.uid
+
+            // 업데이트할 사용자 정보 필드들을 맵 형태로 생성
+            val updatedUserInfoMap = mutableMapOf<String, Any?>()
+            updatedUserInfoMap["swimExp"] = user.swimExp
+            updatedUserInfoMap["nickName"] = user.nickName
+            updatedUserInfoMap["phoneNumber"] = user.phoneNumber
+
+            // 데이터베이스에서 현재 사용자의 정보 노드에 업데이트
+            mDatabase.child(uid).updateChildren(updatedUserInfoMap)
+                .addOnCompleteListener { updateTask: Task<Void?> ->
+                    resultLiveData.value = updateTask.isSuccessful
+                }
+        } else {
+            resultLiveData.value = false
+        }
+
+        return resultLiveData
+    }
+    fun withdrawalUser(): LiveData<Boolean?> {
+        val resultLiveData = MutableLiveData<Boolean>()
+
+        val user = mAuth.currentUser
+        val userUid = user?.uid
+
+        user?.delete()?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                mDatabase.child(userUid!!).removeValue().addOnCompleteListener { dbTask ->
+                    resultLiveData.value = dbTask.isSuccessful
+                }
+            } else {
+                resultLiveData.value = false
+            }
+        }
+
+        return resultLiveData
     }
 
 }
