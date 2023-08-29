@@ -1,5 +1,8 @@
 package com.petpal.swimmer_customer.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 data class ItemsForCustomer (
     // String 으로 test 진행 후 static 처리로 long 타입 변환 예정
     val productUid: String, // 제품 uid
