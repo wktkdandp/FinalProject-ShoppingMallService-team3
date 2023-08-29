@@ -100,6 +100,7 @@ class LoginFragment : Fragment() {
             //유효성 검사
             if(!validateCheck(email,password)) {return@setOnClickListener}
 
+
             viewModel.signIn(email, password)?.observe(viewLifecycleOwner, Observer { success ->
                 handleLoginResult(success == true)
 
@@ -129,6 +130,7 @@ class LoginFragment : Fragment() {
         val factory = LoginViewModelFactory(CustomerUserRepository())
         viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
+
     }
     //키보드 올리기
         fun showKeyboard(view: View) {
@@ -141,12 +143,19 @@ class LoginFragment : Fragment() {
     private fun handleLoginResult(success: Boolean) {
         if (success) {
             // 로그인 성공
-            Toast.makeText(context, getString(R.string.login_success), Toast.LENGTH_LONG).show()
-            val navController = findNavController()
+            viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer {
+                if(!it?.role.equals(getString(R.string.role_customer))){
+                    Toast.makeText(context, getString(R.string.login_role_error), Toast.LENGTH_LONG).show()
+                    FirebaseAuth.getInstance().signOut()
+                }else {
+                    Toast.makeText(context, getString(R.string.login_success), Toast.LENGTH_LONG).show()
+                    val navController = findNavController()
+                    navController.navigate(R.id.action_LoginFragment_to_item_home)
+                    val isAutoLoginChecked = fragmentLoginBinding.checkboxAutoLogin.isChecked
+                    AutoLoginUtil.setAutoLogin(requireContext(), isAutoLoginChecked)
+                }
+            })
 
-            navController.navigate(R.id.action_LoginFragment_to_item_home)
-            val isAutoLoginChecked = fragmentLoginBinding.checkboxAutoLogin.isChecked
-            AutoLoginUtil.setAutoLogin(requireContext(), isAutoLoginChecked)
         } else {
             // 로그인 실패
             Toast.makeText(context, getString(R.string.login_failure), Toast.LENGTH_LONG).show()

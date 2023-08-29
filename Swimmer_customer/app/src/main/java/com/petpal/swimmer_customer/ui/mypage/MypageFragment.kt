@@ -72,7 +72,7 @@ class MypageFragment : Fragment() {
             if (uri != null) {
                 Picasso.get().load(uri).into(fragmentMypageBinding.imageViewProfilePhoto)
             } else {
-                showToast(getString(R.string.profile_failure))
+                //showToast(getString(R.string.profile_failure))
             }
         })
     }
@@ -80,7 +80,7 @@ class MypageFragment : Fragment() {
     private fun setupNickname() {
         viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer {
             fragmentMypageBinding.textViewNickname.text = it?.let {
-                "닉네임 : ${it.nickName}"
+                "${it.nickName}님 안녕하세요!"
             } ?: getString(R.string.error_nickname_none)
         })
     }
@@ -208,23 +208,15 @@ class MypageFragment : Fragment() {
             viewModel.uploadImageToFirebase(selectedImageUri!!).observe(viewLifecycleOwner, Observer { success ->
                 if (success) {
                     fragmentMypageBinding.imageViewProfilePhoto.setImageURI(selectedImageUri)
-                    Toast.makeText(context, getString(R.string.profile_success), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, getString(R.string.profile_success), Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, getString(R.string.profile_failure), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, getString(R.string.profile_failure), Toast.LENGTH_SHORT).show()
                 }
             })
         }
     }
 
-    private fun initProfileImage() {
-        viewModel.loadProfileImage().observe(viewLifecycleOwner, Observer { uri ->
-            if (uri != null) {
-                Picasso.get().load(uri).into(fragmentMypageBinding.imageViewProfilePhoto)
-            } else {
-                Toast.makeText(context, getString(R.string.profile_failure), Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
+
 
 
 }

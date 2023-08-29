@@ -10,8 +10,8 @@ import com.petpal.swimmer_customer.data.repository.CustomerUserRepository
 
 class RegisterViewModel(private val customerUserRepository: CustomerUserRepository) : ViewModel() {
 
-    fun addUser(uid: String?, email: String?, password:String?, nickName: String?, phoneNumber: String?, swimExp: String?): LiveData<Boolean?>? {
-        val user = User(uid = uid, email = email, password = password, nickName = nickName, phoneNumber = phoneNumber, swimExp = swimExp)
+    fun addUser(role:String?,uid: String?, email: String?, password:String?, nickName: String?, phoneNumber: String?, swimExp: String?): LiveData<Boolean?>? {
+        val user = User(role =role,uid = uid, email = email, password = password, nickName = nickName, phoneNumber = phoneNumber, swimExp = swimExp)
         return customerUserRepository.addUser(user)
     }
 

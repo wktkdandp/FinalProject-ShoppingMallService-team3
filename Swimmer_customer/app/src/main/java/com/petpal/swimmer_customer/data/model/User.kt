@@ -19,6 +19,7 @@ data class Item(
 )
 
 data class User(
+    var role:String? =null,
     var uid: String? = null,
     var email: String? = null,
     var nickName: String? = null,
@@ -35,6 +36,4 @@ data class User(
     var reviewIdxList: List<Long>? = null,
     var orderIdxList: List<Long>? = null,
     var inquiryIdxList: List<Long>? = null
-) {
-
-}
+)

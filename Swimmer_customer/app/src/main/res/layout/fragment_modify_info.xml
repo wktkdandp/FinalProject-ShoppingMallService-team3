@@ -1,24 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.modifyinfo.ModifyInfoFragment">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarModifyInfo"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/Toolbar_Swimmer_Customer" />
+        android:orientation="vertical"
+        tools:context=".ui.modifyinfo.ModifyInfoFragment">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarModifyInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/Toolbar_Swimmer_Customer" />
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:dividerColor="@color/black"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewModifySwimExp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="수영 경력"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/newSwimExpGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:singleSelection="true">
+
+                <!-- Chips can be declared here, or added dynamically. -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/newSwimExp1"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1년 이하"
+                    android:textSize="10sp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/newSwimExp2"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3년 이하"
+                    android:textSize="10sp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/newSwimExp3"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5년 이하"
+                    android:textSize="10sp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/newSwimExp4"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5년 이상"
+                    android:textSize="10sp" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <Button
+                android:id="@+id/buttonModifySwimExp"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:gravity="center"
+                android:text="수정"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/textViewNewNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="닉네임 : "
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textSize="14sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutNewNickname"
+            android:layout_width="233dp"
+            android:layout_height="wrap_content"
+            android:transitionGroup="true"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextNewNickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="새 닉네임을 입력해주세요"
+                android:inputType="text|textPersonName"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textSize="14sp"
+                app:errorEnabled="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/buttonModifyNickname"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:gravity="center"
+            android:text="수정"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/textViewNewPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="휴대폰 번호 : "
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textSize="14sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutNewNickPhone"
+            android:layout_width="202dp"
+            android:layout_height="wrap_content"
+            android:transitionGroup="true"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextNewNickPhone"
+                android:layout_width="202dp"
+                android:layout_height="wrap_content"
+                android:hint="새 번호를 입력해주세요."
+                android:inputType="text|textPersonName"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textSize="14sp"
+                app:errorEnabled="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/buttonModifyPhone"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:gravity="center"
+            android:text="수정"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/textViewModifyPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="비밀번호 변경"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutCurrentPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:transitionGroup="true"
+            android:layout_marginTop="8dp"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextCurrentPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="현재 비밀번호를 입력해주세요"
+                android:inputType="text|textPassword"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textSize="14sp"
+                app:errorEnabled="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:transitionGroup="true"
+            android:layout_marginTop="8dp"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextNewPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="새 비밀번호를 입력해주세요"
+                android:inputType="text|textPassword"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textSize="14sp"
+                app:errorEnabled="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/buttonModifyPassword"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="비밀번호 변경"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+
+    </LinearLayout>
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+
+        <Button
+            android:id="@+id/buttonWithdrawal"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="회원탈퇴"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
 
 </LinearLayout>
+</ScrollView>
