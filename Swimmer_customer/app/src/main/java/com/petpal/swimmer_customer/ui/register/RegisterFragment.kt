@@ -89,7 +89,7 @@ class RegisterFragment : Fragment() {
                 fragmentRegisterBinding.buttonAddUserEmailDuplicateCheck.requestFocus()
                 return@setOnClickListener
             }
-            viewModel.addUser(null,email,password,Nickname,PhoneNumber, swimExp)?.observe(viewLifecycleOwner, Observer { success ->
+            viewModel.addUser("사용자",null,email,password,Nickname,PhoneNumber, swimExp)?.observe(viewLifecycleOwner, Observer { success ->
                 if (success!!) {
                     // 회원가입 성공
                     findNavController().popBackStack()

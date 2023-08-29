@@ -5,7 +5,6 @@
     android:id="@+id/fragment_nav_graph"
     app:startDestination="@+id/item_home">
 
-    <!-- Fragments and actions from nav_graph.xml -->
     <fragment
         android:id="@+id/MainFragment"
         android:name="com.petpal.swimmer_customer.ui.main.MainFragment"

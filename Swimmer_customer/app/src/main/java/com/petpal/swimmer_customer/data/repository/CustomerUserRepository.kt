@@ -159,39 +159,6 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
             })
         return emailExists
     }
-    //    @Override
-    //    public LiveData<Boolean> modifyUser(String userIdx, String email, String password) {
-    //        MutableLiveData<Boolean> result = new MutableLiveData<>();
-    //
-    //        //serIdx에 해당하는 사용자의 정보를 가져옴
-    //        mDatabase.child(userIdx).addListenerForSingleValueEvent(new ValueEventListener() {
-    //            @Override
-    //            public void onDataChange(DataSnapshot dataSnapshot) {
-    //                User user = dataSnapshot.getValue(User.class);
-    //                if (user != null) {
-    //                    // 가져온 사용자 정보를 수정
-    //                    user.setEmail(email);
-    //                    user.setPassword(password);
-    //
-    //                    // 수정된 사용자 정보를 데이터베이스에 저장
-    //                    mDatabase.child(userIdx).setValue(user).addOnCompleteListener(task -> {
-    //                        result.setValue(task.isSuccessful());
-    //                    });
-    //                } else {
-    //                    result.setValue(false); // userIdx에 일치하는 사용자 정보가 없음
-    //                }
-    //            }
-    //
-    //            @Override
-    //            public void onCancelled(DatabaseError databaseError) {
-    //                result.setValue(false);
-    //            }
-    //        });
-    //
-    //        return result;
-    //    }
-
-    //유저 삭제
     override fun deleteUser(userIdx: String?): LiveData<Boolean?>? {
         val result = MutableLiveData<Boolean?>()
         mDatabase.child(userIdx!!).removeValue()
@@ -375,11 +342,7 @@ fun addAddressForUser(uid: String, address: Address): LiveData<Boolean?> {
             // 데이터베이스에서 현재 사용자의 정보 노드에 업데이트
             mDatabase.child(uid).updateChildren(updatedUserInfoMap)
                 .addOnCompleteListener { updateTask: Task<Void?> ->
-                    if (updateTask.isSuccessful) {
-                        resultLiveData.value = true
-                    } else {
-                        resultLiveData.value = false
-                    }
+                    resultLiveData.value = updateTask.isSuccessful
                 }
         } else {
             resultLiveData.value = false

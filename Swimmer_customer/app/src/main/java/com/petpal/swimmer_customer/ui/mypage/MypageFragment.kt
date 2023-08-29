@@ -79,7 +79,7 @@ class MypageFragment : Fragment() {
     private fun setupNickname() {
         viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer {
             fragmentMypageBinding.textViewNickname.text = it?.let {
-                "닉네임 : ${it.nickName}"
+                "${it.nickName}님 안녕하세요!"
             } ?: getString(R.string.error_nickname_none)
         })
     }

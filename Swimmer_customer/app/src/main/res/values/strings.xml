@@ -36,6 +36,7 @@
     <string name="findid">findId </string>
     <string name="resetpassword">resetPassword</string>
     <string name="login_success">로그인 성공</string>
+    <string name="login_role_error">사용자용 계정이 아닌 계정으로는 로그인할 수 없습니다.</string>
     <string name="auto_login_success">자동 로그인 성공</string>
     <string name="login_failure">로그인 실패 이메일 또는 비밀번호를 확인해주세요.</string>
     <string name="key_generic">key</string>
@@ -48,6 +49,7 @@
     <string name="title_notification">알림</string>
     <string name="message_password_reset_email_sent">비밀번호 재전송 이메일을 발송했습니다.</string>
     <string name="action_confirm">확인</string>
+    <string name="withdrawal_user_failure">회원탈퇴에 실패하였습니다. 인터넷 연결을 확인해주세요.</string>
     <string name="error_password_reset_failed">비밀번호 재설정 실패했습니다.</string>
     <string name="error_nickname_required">닉네임을 입력해주세요.</string>
     <string name="error_phone_required">전화번호를 입력해주세요.</string>
