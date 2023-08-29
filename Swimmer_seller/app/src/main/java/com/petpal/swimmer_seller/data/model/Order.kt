@@ -16,6 +16,7 @@ data class Order(
     var couponUid: String,
     var usePoint: Long,
     var payMethod: Long,
-    var totalPrice: Long
+    var totalPrice: Long,
+    var userUid: String
 ) : Parcelable
 

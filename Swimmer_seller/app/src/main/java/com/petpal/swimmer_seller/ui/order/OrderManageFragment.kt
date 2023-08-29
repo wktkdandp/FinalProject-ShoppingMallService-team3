@@ -37,6 +37,7 @@ class OrderManageFragment : Fragment() {
         _fragmentOrderManageBinding = FragmentOrderManageBinding.inflate(layoutInflater)
         orderViewModel =
             ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
+        Log.d("orderViewModel", orderViewModel.toString())
 
         //이 판매자가 올린 상품에 대한 주문 목록만 세팅하기
         orderViewModel.getOrderBySellerUid(Firebase.auth.currentUser!!.uid)
@@ -128,11 +129,10 @@ class OrderManageFragment : Fragment() {
                 rowOrderBinding.root.setOnClickListener {
                     //해당 주문 상세 페이지로 이동
                     //order객체 넘겨줌
-                    //TODO: 인덱스만 넘겨주기
                     val bundle = bundleOf()
-                    bundle.putInt(
-                        "orderIdx",
-                        adapterPosition
+                    bundle.putParcelable(
+                        "order",
+                        orderViewModel.orderList.value?.get(adapterPosition)
                     )
                     findNavController().navigate(R.id.action_item_manage_order_to_item_order_detail, bundle)
                 }

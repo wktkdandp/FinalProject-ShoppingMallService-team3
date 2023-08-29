@@ -60,7 +60,8 @@ class OrderRepository {
                             orderData["couponUid"] as String,
                             orderData["usePoint"] as Long,
                             orderData["payMethod"] as Long,
-                            orderData["totalPrice"] as Long
+                            orderData["totalPrice"] as Long,
+                            orderData["userUid"] as String,
                         )
                         Log.d("order myOrder", order.toString())
                         orders.add(order)
