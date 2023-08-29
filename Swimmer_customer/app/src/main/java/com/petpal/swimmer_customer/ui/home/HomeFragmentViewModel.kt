@@ -3,11 +3,10 @@ package com.petpal.swimmer_customer.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.petpal.swimmer_customer.data.model.Product
 import com.petpal.swimmer_customer.data.model.ProductDetailModel
 import com.petpal.swimmer_customer.ui.home.repository.HomeRepository
-import kotlinx.coroutines.launch
+
 
 
 class HomeFragmentViewModel  : ViewModel() {

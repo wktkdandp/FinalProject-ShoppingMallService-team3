@@ -24,11 +24,9 @@ class ProductReviewTabFragment : Fragment() {
     ): View? {
         fragmentProductReviewTabBinding = FragmentProductReviewTabBinding.inflate(inflater)
         fragmentProductReviewTabBinding.run {
-
             recycerlviewExData()
             bottomSheet()
             recyclerView()
-
         }
 
         return fragmentProductReviewTabBinding.root
@@ -125,8 +123,6 @@ class ProductReviewTabFragment : Fragment() {
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
     }
-
-
 }
 
 

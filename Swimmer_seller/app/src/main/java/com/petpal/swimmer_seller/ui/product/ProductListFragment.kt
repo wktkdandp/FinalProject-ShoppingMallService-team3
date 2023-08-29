@@ -40,6 +40,16 @@ class ProductListFragment : Fragment() {
 
         productViewModel.getAllProductBySellerUid(Firebase.auth.currentUser!!.uid)
 
+        fragmentProductListBinding.run {
+            if (productViewModel.productList.value!!.isEmpty()) {
+                linearLayoutNoProduct.visibility = View.VISIBLE
+                recyclerViewProductList.visibility = View.GONE
+            } else {
+                linearLayoutNoProduct.visibility = View.GONE
+                recyclerViewProductList.visibility = View.VISIBLE
+            }
+        }
+
         return fragmentProductListBinding.root
     }
 
@@ -53,10 +63,13 @@ class ProductListFragment : Fragment() {
         productViewModel.run {
             productList.observe(viewLifecycleOwner) {
                 fragmentProductListBinding.run {
+                    progressBarProductList.visibility = View.GONE
                     if (it.isEmpty()) {
-                        textViewProductEmpty.visibility = View.VISIBLE
+                        linearLayoutNoProduct.visibility = View.VISIBLE
+                        recyclerViewProductList.visibility = View.GONE
                     } else {
-                        textViewProductEmpty.visibility = View.GONE
+                        linearLayoutNoProduct.visibility = View.GONE
+                        recyclerViewProductList.visibility = View.VISIBLE
 
                         // productList 데이터가 변경되면 RecyclerView 베이스 데이터 새로 세팅
                         recyclerViewProductList.run {
@@ -85,6 +98,11 @@ class ProductListFragment : Fragment() {
         fragmentProductListBinding.run {
             toolbarProductList.setNavigationOnClickListener {
                 findNavController().popBackStack()
+            }
+            
+            fabProductList.setOnClickListener {
+                // RecyclerView 0번째 항목으로 이동
+                recyclerViewProductList.smoothScrollToPosition(0)
             }
 
             recyclerViewProductList.run {

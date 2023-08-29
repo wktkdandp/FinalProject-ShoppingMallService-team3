@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="체중"
+        android:text="@string/label_weight"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -34,7 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="44kg 이하"
+                android:text="@string/weight_44kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -44,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="45 ~ 49 kg"
+                android:text="@string/weight_45_49_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -54,7 +54,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="50 ~ 54 kg"
+                android:text="@string/weight_50_54_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -64,7 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="55 ~ 59 kg"
+                android:text="@string/weight_55_59_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -74,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="60 ~ 64 kg"
+                android:text="@string/weight_60_64_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -84,7 +84,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="65 ~ 69 kg"
+                android:text="@string/weight_65_69_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -94,7 +94,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="70 ~ 74 kg"
+                android:text="@string/weight_70_74_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -104,7 +104,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="75 ~ 79 kg"
+                android:text="@string/weight_75_79_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -114,7 +114,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="80 ~ 84 kg"
+                android:text="@string/weight_80_84_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -124,7 +124,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="85 ~ 89 kg"
+                android:text="@string/weight_85_89_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -134,7 +134,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="90 ~ 94 kg"
+                android:text="@string/weight_90_94_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -144,7 +144,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="95 ~ 99 kg"
+                android:text="@string/weight_95_99_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -154,7 +154,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="100 ~ 104 kg"
+                android:text="@string/weight_100_104_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -164,7 +164,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="105 ~ 109 kg"
+                android:text="@string/weight_105_109_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -174,7 +174,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="115 kg 이상"
+                android:text="@string/weight_115_kg"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
         </androidx.gridlayout.widget.GridLayout>

@@ -32,4 +32,4 @@ data class Order(
     var address: String,
     var couponUid: String,
     var usePoint: Long
-):Parcelabl
+) : Parcelable

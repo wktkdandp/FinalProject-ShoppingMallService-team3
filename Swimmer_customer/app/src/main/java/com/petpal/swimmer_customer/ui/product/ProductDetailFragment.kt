@@ -46,8 +46,6 @@ import java.util.Locale
 
 class ProductDetailFragment : Fragment() {
 
-    // 삭제하기
-    private lateinit var auth: FirebaseAuth
 
     lateinit var fragmentProductDetailBinding: FragmentProductDetailBinding
     private var isFavorite = false
@@ -66,11 +64,14 @@ class ProductDetailFragment : Fragment() {
         "색상을 선택해 주세요"
     )
     private var isAnimationPlaying = false
+    private lateinit var auth: FirebaseAuth
 
     // 네비게이션 args 값 가져오기
     val args: ProductDetailFragmentArgs by navArgs()
     var firebaseSize = ""
     var firebaseColor = ""
+
+    private lateinit var buyerUid: String
 
 
     override fun onCreateView(
@@ -146,9 +147,18 @@ class ProductDetailFragment : Fragment() {
             scrollToFab.setOnClickListener {
                 productDetailScrollView.smoothScrollTo(0, 0)
             }
-
         }
+        auth = FirebaseAuth.getInstance()
+        getAndUseUid()
+
         return fragmentProductDetailBinding.root
+    }
+
+    private fun getAndUseUid() {
+        val user: FirebaseUser? = auth.currentUser
+        if (user != null) {
+            buyerUid = user.uid
+        }
     }
 
     private fun FragmentProductDetailBinding.paymentButtonBottomSheet() {
@@ -219,11 +229,11 @@ class ProductDetailFragment : Fragment() {
                     bottomSheetTotalAmountTextView.text =
                         formatPrice(it[args.idx].price.times(count))
                 }
-                if(count==0){
-                    bottomSheetMinusButton.isClickable=false
-                    bottomSheetPaymentButton.isEnabled=false
-                }else{
-                    bottomSheetMinusButton.isClickable=true
+                if (count == 0) {
+                    bottomSheetMinusButton.isClickable = false
+                    bottomSheetPaymentButton.isEnabled = false
+                } else {
+                    bottomSheetMinusButton.isClickable = true
                 }
             }
         }
@@ -272,8 +282,9 @@ class ProductDetailFragment : Fragment() {
                 quantity,
                 size,
                 color,
-                "SdegCXorcdWsR4EU6OYH3CmvZAQ2"
+                buyerUid
             )
+
 
             // firebase 객체를 생성한다.
             val database = FirebaseDatabase.getInstance()
@@ -320,10 +331,7 @@ class ProductDetailFragment : Fragment() {
 
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
     }
@@ -351,18 +359,14 @@ class ProductDetailFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    // 1번 아이템만 바로 결제 버튼 비활성화
-
+                    // 1번 아이템만 선택 시 바로 결제 버튼 비활성화
                     firebaseColor = colorDataList[position]
                     bottomSheetColor = colorDataList[position]
                     viewModel.setColor(position)
 
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
     }
@@ -483,4 +487,26 @@ class ProductDetailFragment : Fragment() {
         return chip
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        sizeDataList = emptyArray()
+        colorDataList = emptyArray()
+
+        sizeDataList = arrayOf(
+            "사이즈를 선택해 주세요"
+        )
+
+        colorDataList = arrayOf(
+            "색상을 선택해 주세요"
+        )
+        val bottomSheetView = layoutInflater.inflate(
+            R.layout.fragment_product_detail_payment_button_bottom_sheet,
+            null
+        )
+        var bottomSheetItemCount =
+            bottomSheetView.findViewById<TextView>(R.id.bottomSheetItemCountTextView)
+
+        bottomSheetItemCount.text = "0"
+    }
 }
