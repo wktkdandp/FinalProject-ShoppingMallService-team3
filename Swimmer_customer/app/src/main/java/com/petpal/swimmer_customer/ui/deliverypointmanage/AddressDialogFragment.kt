@@ -63,7 +63,7 @@ class AddressDialogFragment : Fragment() {
     }
     private fun setupToolbar() {
         fragmentAddressDialogBinding.toolbarAddressDialog.run {
-            title = getString(R.string.delivery_point_manage)
+            title = getString(R.string.delivery_point_search)
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
             setNavigationOnClickListener {
                 showToast(getString(R.string.delevery_point_cancel))

@@ -1,6 +1,10 @@
 package com.petpal.swimmer_customer.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 data class Order(
     // 주문 완료 상태로 전송
     // Long -> String 변경
@@ -12,6 +16,7 @@ data class Order(
     // code? 에 넘겨줄 값이 없어서 일단 삭제
     // date + random 알파벳 3자리
     var orderUid: String,
+    var userUid: String,
 
     // 보낼 수 있는 데이터
     var orderDate: String,
@@ -26,6 +31,5 @@ data class Order(
     // address에서 오류 발생
     var address: String,
     var couponUid: String,
-    var usePoint: Long,
-    var userUid: String,
-)
+    var usePoint: Long
+):Parcelabl

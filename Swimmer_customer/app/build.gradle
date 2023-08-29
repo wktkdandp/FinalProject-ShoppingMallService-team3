@@ -99,4 +99,10 @@ dependencies {
     // lifecycle
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
 
+    //image
+    implementation 'com.google.firebase:firebase-storage:19.2.2'
+    implementation 'com.google.firebase:firebase-core:19.0.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    apply plugin: 'com.google.gms.google-services'
+
 }

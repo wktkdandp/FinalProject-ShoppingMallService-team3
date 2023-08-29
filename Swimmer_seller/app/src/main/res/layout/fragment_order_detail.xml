@@ -275,31 +275,12 @@
                     android:layout_weight="3"
                     android:text="@string/label_order_shipping_address" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textViewOrderShippingAddress1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textViewOrderShippingPostCode"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="우편번호" />
-
-                    <TextView
-                        android:id="@+id/textViewOrderShippingAddress1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="기본주소" />
-
-                    <TextView
-                        android:id="@+id/textViewOrderShippingAddress2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="상세주소" />
-
-                </LinearLayout>
+                    android:text="기본주소" />
 
 
             </LinearLayout>

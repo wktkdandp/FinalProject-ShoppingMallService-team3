@@ -22,7 +22,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             app:errorEnabled="true"
-            android:id="@+id/textInputEditTextLoginEmail"
+            android:id="@+id/textInputEditTextCheckPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="abc@example.com"

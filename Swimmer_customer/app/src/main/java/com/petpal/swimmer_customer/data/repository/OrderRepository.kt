@@ -36,13 +36,19 @@ class OrderRepository {
                                 //TODO Long으로 바꾸기
                                 item["size"] as String,
                                 //TODO Long으로 바꾸기
-                                item["color"] as String
+                                item["color"] as String,
+
+                                // 사용자 uid 정보 추가 8.29
+                                item["buyerUid"] as String
                             )
                         }
 
                         val order = Order(
                             orderData["state"] as Long,
                             orderSnapshot.key as String,
+
+                            // 주문자 uid 정보 추가 8.29
+                            orderData["userUid"] as String,
                             orderData["orderDate"] as String,
                             orderData["message"] as String,
                             orderData["payMethod"] as Long,
@@ -52,7 +58,6 @@ class OrderRepository {
                             orderData["address"] as String,
                             orderData["couponUid"] as String,
                             orderData["usePoint"] as Long,
-                            orderData["userUid"] as String
                         )
 
                         orders.add(order)

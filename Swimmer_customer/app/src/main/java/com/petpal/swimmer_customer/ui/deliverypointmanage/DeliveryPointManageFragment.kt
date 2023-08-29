@@ -69,7 +69,7 @@ class DeliveryPointManageFragment : Fragment() {
                     putString("phoneNumber", selectedAddress.phoneNumber)
                 }
 
-                findNavController().navigate(R.id.paymentFragment, bundle)
+                findNavController().navigate(R.id.action_DeliveryPointManageFragment_to_paymentFragment, bundle)
             }
         }
     }

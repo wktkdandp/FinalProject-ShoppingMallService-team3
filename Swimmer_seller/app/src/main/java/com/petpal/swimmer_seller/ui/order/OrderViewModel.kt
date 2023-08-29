@@ -33,6 +33,10 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
     fun setOrderWithIdx(orderIdx: Int){
         _order.postValue(orderList.value!![orderIdx])
     }
+
+    fun setOrder(order: Order){
+        _order.postValue(order)
+    }
 }
 
 // 주문상태 코드

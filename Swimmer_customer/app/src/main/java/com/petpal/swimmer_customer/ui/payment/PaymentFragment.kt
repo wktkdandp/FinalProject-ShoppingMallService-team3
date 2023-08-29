@@ -1,6 +1,5 @@
 package com.petpal.swimmer_customer.ui.payment
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,7 +13,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
@@ -42,6 +40,7 @@ class PaymentFragment : Fragment() {
 
     // mvvm 패턴으로 변경 시 vm으로 이동 시킬 변수들
     lateinit var totalFee: String
+    lateinit var customerUid: String
     private lateinit var orderItemList: MutableList<ItemsForCustomer>
     lateinit var spinnerSelect: String
     var chipSelect: Long = 0
@@ -69,8 +68,8 @@ class PaymentFragment : Fragment() {
         fragmentPaymentBinding = FragmentPaymentBinding.inflate(inflater)
         mainActivity = activity as MainActivity
         paymentViewModel = ViewModelProvider(mainActivity)[PaymentViewModel::class.java]
-            //기본 배송지 있으면 표시
-            //setDefaultAddressToTextView()
+        //기본 배송지 있으면 표시
+        //setDefaultAddressToTextView()
 
         paymentViewModel.run {
 
@@ -85,6 +84,10 @@ class PaymentFragment : Fragment() {
                 totalFee = it
             }
 
+            uid.observe(mainActivity) {
+                customerUid = it
+            }
+
         }
         fragmentPaymentBinding.run {
 
@@ -94,7 +97,8 @@ class PaymentFragment : Fragment() {
             paymentDeliveryButton.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putString("FromOrder", "FromOrder")
-                findNavController().navigate(R.id.DeliveryPointManageFragment, bundle)
+                //val action=PaymentFragmentDirections.actionPaymentFragmentToDeliveryPointManageFragment()
+                findNavController().navigate(R.id.action_paymentFragment_to_DeliveryPointManageFragment, bundle)
             }
 
 
@@ -115,7 +119,6 @@ class PaymentFragment : Fragment() {
                         position: Int,
                         id: Long
                     ) {
-                        Log.d("!!", "$selectedItem")
                         // 선택된 item -> Order.message 에 넣어주기
                         spinnerSelect = selectedItem.toString()
                     }
@@ -154,10 +157,9 @@ class PaymentFragment : Fragment() {
                     val sdfUid = SimpleDateFormat("MMddhhmmss", Locale.getDefault())
                     val orderUid = sdfUid.format(Date(System.currentTimeMillis()))
 
-                    val order = Order(1, orderUid, orderDate, spinnerSelect, chipSelect,
-                        //TODO: test_user_uid
-                        totalFee.toLong(), orderItemList, "test_address", "test_coupon_item", 1000, "test_user_uid")
-                    
+                    val order = Order(1, orderUid, customerUid, orderDate, spinnerSelect, chipSelect,
+                        totalFee.toLong(), orderItemList, paymentDeliveryPoinAddress.text.toString(), "test_coupon_item", 1000)
+
                     PaymentRepository.sendOrderToSeller(order) {
 
                         it.addOnCanceledListener {
@@ -176,6 +178,7 @@ class PaymentFragment : Fragment() {
 
             // repos -> vm -> item 목록 받기
             paymentViewModel.getItemAndCalculatePrice()
+            paymentViewModel.getCustomerUid()
 
             // 상품 정보 viewPager2
             paymentViewPager.apply {
@@ -268,9 +271,9 @@ class PaymentFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-         deliveryName = arguments?.getString("name")
-         deliveryAddress = arguments?.getString("address")
-         deliveryPhoneNumber= arguments?.getString("phoneNumber")
+        deliveryName = arguments?.getString("name")
+        deliveryAddress = arguments?.getString("address")
+        deliveryPhoneNumber= arguments?.getString("phoneNumber")
         if (deliveryName != null && deliveryAddress != null && deliveryPhoneNumber != null) {
             fragmentPaymentBinding.paymentDeliveryPointName.visibility=View.VISIBLE
             fragmentPaymentBinding.paymentDeliveryPoinAddress.visibility=View.VISIBLE
