@@ -46,7 +46,6 @@ class HomeFragment : Fragment() {
             fragmentHomeFragmentBinding.homeMainRv.setAdapter(homeMainAdapter)
         }
 
-
         fragmentHomeFragmentBinding.run {
             fetchDataFromFirebase()
             tablayout()
@@ -67,7 +66,6 @@ class HomeFragment : Fragment() {
             homeMainRv.setLayoutManager(GridLayoutManager(requireContext(), 3))
             homeMainRv.addVeiledItems(7)
             homeMainRv.veil()
-
         }
     }
 
@@ -98,7 +96,6 @@ class HomeFragment : Fragment() {
         toolbarHomeMain.run {
             title = "SWIMMER"
             inflateMenu(R.menu.home_toolbar_menu)
-
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.item_search -> {
@@ -117,7 +114,6 @@ class HomeFragment : Fragment() {
 
     private fun initViewPager2() {
         fragmentHomeFragmentBinding.veilLayout.veil()
-
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({
             fragmentHomeFragmentBinding.veilLayout.unVeil()
@@ -193,9 +189,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateUIWithData(productList2: List<Product>) {
-
         fragmentHomeFragmentBinding.homeMainRv.run {
-
             val homeMainAdapter = HomeFragmentAdapter(
                 requireContext(),
                 productList2
@@ -207,9 +201,9 @@ class HomeFragment : Fragment() {
                     3
                 )
             )
-
         }
     }
+
     override fun onDestroyView() {
         // 메모리 누수 방지를 위해..
         autoScrollHandler.removeCallbacks(autoScrollRunnable!!)

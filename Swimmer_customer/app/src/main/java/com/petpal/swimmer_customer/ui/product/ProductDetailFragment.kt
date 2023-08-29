@@ -70,6 +70,7 @@ class ProductDetailFragment : Fragment() {
     var firebaseSize = ""
     var firebaseColor = ""
     private lateinit var buyerUid: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -326,10 +327,7 @@ class ProductDetailFragment : Fragment() {
 
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
     }
@@ -357,18 +355,14 @@ class ProductDetailFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    // 1번 아이템만 바로 결제 버튼 비활성화
-
+                    // 1번 아이템만 선택 시 바로 결제 버튼 비활성화
                     firebaseColor = colorDataList[position]
                     bottomSheetColor = colorDataList[position]
                     viewModel.setColor(position)
 
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
     }
@@ -511,5 +505,4 @@ class ProductDetailFragment : Fragment() {
 
         bottomSheetItemCount.text = "0"
     }
-
 }
