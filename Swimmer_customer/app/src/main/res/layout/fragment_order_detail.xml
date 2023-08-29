@@ -20,35 +20,41 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textViewOrderDetailState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="배송완료" />
+                android:text="배송완료"
+                android:textColor="#F06292"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textViewOrderDetailNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="주문번호 : " />
 
             <TextView
                 android:id="@+id/textViewOrderDetailDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="날짜" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewOrderDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:nestedScrollingEnabled="false" />
 
             <LinearLayout
@@ -74,9 +80,18 @@
 
             </LinearLayout>
 
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="?android:attr/listDivider"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -91,37 +106,51 @@
                     android:id="@+id/textViewOrderDetailReceiverName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:text="수령인 : 홍길동" />
 
                 <TextView
                     android:id="@+id/textViewOrderDetailReceiverContact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:text="연락처 : 010-1111-2222" />
 
                 <TextView
                     android:id="@+id/textViewOrderAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:text="배송지 : xx동" />
 
                 <TextView
                     android:id="@+id/textViewOrderDetailMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:text="전달 메세지 : 안전하게 배송해주세요" />
             </LinearLayout>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/gray_cc"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:text="결제정보"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="bold" />
@@ -130,18 +159,21 @@
                     android:id="@+id/textViewOrderDetailPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:text="상품금액 : 10000원" />
 
                 <TextView
                     android:id="@+id/textViewOrderDetailPayment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:text="카드번호 : 0011-xxxx-xxxx" />
 
                 <TextView
                     android:id="@+id/textViewOrderDetailPaid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:layout_marginTop="20dp"
                     android:text="총 결제비용 : 20000원" />
             </LinearLayout>
