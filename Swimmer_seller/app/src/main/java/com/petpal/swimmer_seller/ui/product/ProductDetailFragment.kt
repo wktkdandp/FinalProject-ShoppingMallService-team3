@@ -20,7 +20,6 @@ import com.petpal.swimmer_seller.databinding.ItemImageSliderBinding
 import java.text.NumberFormat
 import java.util.Locale
 
-
 class ProductDetailFragment : Fragment() {
     private lateinit var productViewModel: ProductViewModel
     
@@ -30,7 +29,7 @@ class ProductDetailFragment : Fragment() {
     lateinit var productUid : String
 
     // TabItem 생성 추가
-    var tabNameArray = arrayOf("상품상세", "상품후기 (0)", "상품 Q&A")
+    var tabNameArray = arrayOf("상품상세", "상품후기 (2)", "상품 Q&A")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +66,7 @@ class ProductDetailFragment : Fragment() {
 
             fabProductDetail.setOnClickListener {
                 // 스크롤 최상단으로 이동
-                // nestedScrollView.smoothScrollTo(0, 0)
+                // nestedScrollViewProductDetail.smoothScrollTo(0, 0)
                 // AppBarLayout 열기
                 appbarProductMain.setExpanded(true)
             }
@@ -78,12 +77,6 @@ class ProductDetailFragment : Fragment() {
             product.observe(viewLifecycleOwner){ product ->
                 fragmentProductDetailBinding.run {
                     if (product?.category != null) {
-                        // TabLayout 세팅
-                        tabLayoutViewPagerSetting()
-
-                        // 메인 이미지
-                        viewPagerMainImage.adapter?.notifyDataSetChanged()
-
                         // 텍스트 정보
                         val category = product.category!!
                         textViewProductCategory.text = listOfNotNull(category.main, category.mid, category.sub).joinToString(" > ")
@@ -98,7 +91,13 @@ class ProductDetailFragment : Fragment() {
                         textViewProductColor.setAdapter(colorAdapter)
                         textViewProductSize.setAdapter(sizeAdapter)
                         // 리뷰 개수
-                        tabNameArray[1] = "상품후기 (${product.reviewList?.size})"
+                        // tabNameArray[1] = "상품후기 (${product.reviewList?.size})"
+
+                        // TabLayout 세팅
+                        tabLayoutViewPagerSetting()
+
+                        // 메인 이미지
+                        viewPagerMainImage.adapter?.notifyDataSetChanged()
                     }
                 }
             }
@@ -130,7 +129,7 @@ class ProductDetailFragment : Fragment() {
             // TabLayout 화면 전환 리스너
             tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    nestedScrollView.scrollTo(0, 0)
+                    nestedScrollViewContent.scrollTo(0, 0)
                     viewPagerContent.currentItem = tab!!.position
                 }
 
