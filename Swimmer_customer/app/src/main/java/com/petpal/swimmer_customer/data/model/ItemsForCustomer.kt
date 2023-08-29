@@ -12,4 +12,6 @@ data class ItemsForCustomer (
     val quantity: Long, // 제품 수량 -> 상세 페이지에서 결정 후 전송
     val size: String, // 제품 사이즈 -> 상세 페이지에서 결정 후 전송
     val color: String, // 제품 색상 -> 상세 페이지에서 결정 후 전송
+
+    val buyerUid: String
 )

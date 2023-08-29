@@ -2,6 +2,8 @@ package com.petpal.swimmer_customer.ui.payment.vm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.petpal.swimmer_customer.data.model.ItemsForCustomer
 import com.petpal.swimmer_customer.ui.payment.repository.PaymentRepository
 import java.text.NumberFormat
@@ -11,6 +13,8 @@ class PaymentViewModel: ViewModel() {
 
     var itemList = MutableLiveData<MutableList<ItemsForCustomer>>()
     var paymentFee = MutableLiveData<String>()
+    lateinit var firebaseAuth: FirebaseAuth
+
 
     init {
         itemList.value = mutableListOf()
@@ -19,25 +23,30 @@ class PaymentViewModel: ViewModel() {
     fun getItemAndCalculatePrice() {
         val tempList1 = mutableListOf<ItemsForCustomer>()
         var tempCalculate: Long = 0
+        firebaseAuth = FirebaseAuth.getInstance()
 
         // 아이템 정보 추출
         PaymentRepository.getCartItems {
             for (i in it.result.children) {
-                val productUid = i.child("productUid").value as String
-                val sellerUid = i.child("sellerUid").value as String
-                val name = i.child("name").value as String
-                val mainImage = i.child("mainImage").value as String
-                val price = i.child("price").value as Long
+                val buyerUid = i.child("buyerUid").value as String
 
-                // 수량, 사이즈, 컬러는 data 생성된 후에 추가 테스트 진행 예정
-                // dummy data 입력 완료
-                val quantity = i.child("quantity").value as Long
-                val size = i.child("size").value as String
-                val color = i.child("color").value as String
+                if (buyerUid == firebaseAuth.uid.toString()) {
+                    val productUid = i.child("productUid").value as String
+                    val sellerUid = i.child("sellerUid").value as String
+                    val name = i.child("name").value as String
+                    val mainImage = i.child("mainImage").value as String
+                    val price = i.child("price").value as Long
 
-                val itemModel = ItemsForCustomer(productUid, sellerUid, name, mainImage, price, quantity, size, color)
+                    // 수량, 사이즈, 컬러는 data 생성된 후에 추가 테스트 진행 예정
+                    // dummy data 입력 완료
+                    val quantity = i.child("quantity").value as Long
+                    val size = i.child("size").value as String
+                    val color = i.child("color").value as String
 
-                tempList1.add(itemModel)
+                    val itemModel = ItemsForCustomer(productUid, sellerUid, name, mainImage, price, quantity, size, color, buyerUid)
+
+                    tempList1.add(itemModel)
+                }
             }
 
             itemList.value = tempList1

@@ -16,7 +16,7 @@ class PaymentRepository {
             val database = FirebaseDatabase.getInstance()
             val itemCodeRef = database.getReference("itemsForCustomer")
 
-            itemCodeRef.orderByChild("productUid").get().addOnCompleteListener(callback)
+            itemCodeRef.orderByChild("buyerUid").get().addOnCompleteListener(callback)
         }
 
         // 이미지 firebaseStore를 통해 가져오기
