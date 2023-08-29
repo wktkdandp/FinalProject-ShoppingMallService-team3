@@ -1,6 +1,7 @@
 package com.petpal.swimmer_customer.ui.order
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,10 @@ class OrderListFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         _fragmentOrderListBinding = FragmentOrderListBinding.inflate(layoutInflater)
+        orderViewModel =
+            ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
+        Log.d("orderViewMode", orderViewModel.toString())
+
         fragmentOrderListBinding.run {
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
@@ -78,8 +83,7 @@ class OrderListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        orderViewModel =
-            ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
+
 
         //이 판매자가 올린 상품에 대한 주문 목록만 세팅하기
         orderViewModel.getOrderByUserUid(
@@ -139,7 +143,9 @@ class OrderListFragment : Fragment() {
                 rowOrderBinding.root.setOnClickListener {
                     //해당 주문상세로 넘어가기
                     val bundle = Bundle()
-                    bundle.putInt("orderIdx", adapterPosition)
+                    bundle.putParcelable("order",
+                        orderViewModel.orderList.value?.get(adapterPosition)
+                    )
                     findNavController().navigate(R.id.action_orderListFragment_to_orderDetailFragment, bundle)
                 }
             }

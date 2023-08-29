@@ -1,6 +1,10 @@
 package com.petpal.swimmer_customer.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 data class Order(
     // 주문 완료 상태로 전송
     // Long -> String 변경
@@ -28,4 +32,4 @@ data class Order(
     var couponUid: String,
     var usePoint: Long,
     var userUid: String,
-)
+):Parcelable

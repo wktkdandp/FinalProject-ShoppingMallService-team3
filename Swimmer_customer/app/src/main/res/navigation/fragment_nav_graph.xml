@@ -291,9 +291,8 @@
         android:label="fragment_order_detail"
         tools:layout="@layout/fragment_order_detail" >
         <argument
-            android:name="orderIdx"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:name="order"
+            app:argType="com.petpal.swimmer_customer.data.model.Order" />
     </fragment>
 
 </navigation>
