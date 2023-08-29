@@ -25,7 +25,7 @@
                 android:id="@+id/textViewReviewNickname"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="작성자"
+                android:text="@string/label_writer"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textStyle="bold" />
 
@@ -45,7 +45,7 @@
             android:id="@+id/textViewReviewDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="yyyy.MM.dd"
+            android:text="@string/hint_date_format"
             android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/md_theme_dark_outline" />
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="맞춤 정보"
+            android:text="@string/label_custom_info"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="000cm · 00kg"
+            android:text="@string/hint_custom_info"
             android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     </LinearLayout>
@@ -93,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="선택 옵션"
+            android:text="@string/label_select_option"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
@@ -101,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Color [Size]"
+            android:text="@string/hint_select_option"
             android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     </LinearLayout>
@@ -111,7 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="리뷰 코멘트입니다."
+        android:text="@string/hint_review_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 </LinearLayout>

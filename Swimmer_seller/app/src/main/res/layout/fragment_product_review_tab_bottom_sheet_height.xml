@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="키"
+        android:text="@string/label_height"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -34,7 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="144cm 이하"
+                android:text="@string/height_144cm_under"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -44,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="145 ~ 149cm"
+                android:text="@string/height_145_149cm"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -54,7 +54,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="150 ~ 154cm"
+                android:text="@string/height_150_154cm"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -64,7 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="155 ~ 159cm"
+                android:text="@string/height_155_159cm"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -74,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="160 ~ 164cm"
+                android:text="@string/height_160_164cm"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -84,7 +84,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="165 ~ 169cm"
+                android:text="@string/height_165_169cm"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -94,7 +94,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="170 ~ 174cm"
+                android:text="@string/height_170_174cm"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -104,7 +104,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="175 ~ 179cm"
+                android:text="@string/height_175_179cm"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -114,7 +114,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="180 ~ 184cm"
+                android:text="@string/height_180_184cm"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -124,7 +124,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="185 ~ 189cm"
+                android:text="@string/height_185_189cm"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
 
@@ -134,7 +134,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="190cm 이상"
+                android:text="@string/height_190cm_over"
                 android:textAlignment="center"
                 app:layout_columnWeight="1" />
         </androidx.gridlayout.widget.GridLayout>

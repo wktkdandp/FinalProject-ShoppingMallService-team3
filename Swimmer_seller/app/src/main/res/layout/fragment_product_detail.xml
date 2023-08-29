@@ -88,7 +88,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="브랜드명" />
+                                android:text="@string/label_brand_name" />
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/buttonShare"
@@ -106,7 +106,7 @@
                             android:id="@+id/textViewProductCategory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="대분류 > 중분류 > 소분류"
+                            android:text="@string/label_category_tree"
                             android:textColor="@color/md_theme_light_outline" />
 
                         <TextView
@@ -114,7 +114,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="상품명"
+                            android:text="@string/label_product_name"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <TextView
@@ -122,7 +122,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="가격"
+                            android:text="@string/label_product_price"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="bold" />
 
@@ -149,7 +149,7 @@
                                 android:inputType="none"
                                 android:paddingTop="0dp"
                                 android:paddingBottom="0dp"
-                                android:text="색상" />
+                                android:text="@string/label_product_color" />
                         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -166,7 +166,7 @@
                                 android:inputType="none"
                                 android:paddingTop="0dp"
                                 android:paddingBottom="0dp"
-                                android:text="사이즈" />
+                                android:text="@string/label_product_size" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 

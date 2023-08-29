@@ -279,7 +279,7 @@ class ProductAddFragment : Fragment() {
     private fun addHashTag() {
         fragmentProductAddBinding.run {
             // 태그는 최대 10개까지 등록 가능
-            if(addHashTagList.size >= 10){
+            if(addHashTagList.size < 10){
                 // 입력 문자열 태그로 분리, 중복 태그 & 이미 chip 생성된 태그 제외
                 val inputHashTagList = textInputEditTextHashTag.text.toString()
                     .split(",")

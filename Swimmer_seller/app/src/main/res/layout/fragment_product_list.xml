@@ -20,7 +20,7 @@
             android:theme="?attr/actionBarTheme"
             app:navigationIcon="@drawable/arrow_back_24px"
             app:navigationIconTint="@color/white"
-            app:title="등록 상품 목록"
+            app:title="@string/title_product_list"
             app:titleTextColor="@color/white" />
 
         <LinearLayout
@@ -50,7 +50,7 @@
                         android:editable="false"
                         android:inputType="none"
                         android:padding="10dp"
-                        android:text="전체"
+                        android:text="@string/label_filter_all"
                         app:simpleItems="@array/productFilter" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,21 +69,47 @@
                         android:editable="false"
                         android:inputType="none"
                         android:padding="10dp"
-                        android:text="최신순"
+                        android:text="@string/label_sort_latest"
                         app:simpleItems="@array/productSort" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textViewProductEmpty"
+            <view
+                android:id="@+id/progressBarProductList"
+                class="com.google.android.material.progressindicator.CircularProgressIndicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="등록된 상품이 없습니다."
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/seed" />
+                android:indeterminate="true"
+                android:indeterminateBehavior="cycle"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_no_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/package_2_48px"
+                    app:tint="@color/seed" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/message_no_product"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/seed" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewProductList"

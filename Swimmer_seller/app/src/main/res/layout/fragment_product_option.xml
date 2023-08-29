@@ -43,7 +43,7 @@
                 style="@style/Widget.Material3.Button.IconButton.Outlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="옵션 추가"
+                android:text="@string/action_add_option"
                 app:icon="@drawable/add_24px"
                 app:iconGravity="start" />
 
@@ -52,14 +52,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="옵션 추가로 색상, 사이즈 옵션을 추가 해주세요."
+                android:text="@string/message_add_option"
                 android:textAlignment="center"
                 android:textColor="@color/seed" />
 
             <LinearLayout
                 android:id="@+id/linearLayoutOption"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:padding="10dp">
@@ -76,7 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="색상"
+                        android:text="@string/label_color"
                         android:textAlignment="center" />
 
                     <View
@@ -102,7 +102,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="사이즈"
+                        android:text="@string/label_size"
                         android:textAlignment="center" />
 
                     <View
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="상품 등록" />
+                android:text="@string/action_product_add" />
 
         </LinearLayout>
     </LinearLayout>
