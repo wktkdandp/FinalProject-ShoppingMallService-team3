@@ -5,72 +5,69 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:theme="@style/Theme.Swimmer_customer"
-    tools:context=".PaymentFragment">
+    tools:context=".ui.payment.PaymentFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarPayment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/md_theme_light_background"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        tools:theme="@style/HomeToolbarTheme" />
+        android:theme="?attr/actionBarTheme" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="6dp">
 
             <TextView
                 android:id="@+id/paymentDeliveryHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:text="배송지"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
                 android:theme="@style/Theme.Swimmer_customer" />
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/paymentDeliveryPointLayout"
+                style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_layout"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:contentPadding="12dp">
 
-                <TextView
-                    android:id="@+id/paymentDeliveryPointName"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:visibility="gone" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/paymentDeliveryPoinAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:visibility="gone" />
+                    <TextView
+                        android:id="@+id/paymentDeliveryPointName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                <TextView
-                    android:id="@+id/paymentDeliveryPointPhone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:text="휴대폰 번호 : "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:visibility="gone" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/paymentDeliveryPoinAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                    <TextView
+                        android:id="@+id/paymentDeliveryPointPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="휴대폰 번호 : "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <Button
                 android:id="@+id/paymentDeliveryButton"
@@ -78,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
                 android:text="배송지 선택하기"
                 app:icon="@drawable/gesture_select_24px" />
 
@@ -87,29 +84,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:textAlignment="center" />
+                android:textAlignment="textStart" />
 
             <TextView
                 android:id="@+id/paymentOrderHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
                 android:text="주문 상품"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="?attr/textAppearanceTitleLarge" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/paymentViewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginTop="8dp" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/paymentTab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
                 app:tabBackground="@drawable/dot_indicator"
                 app:tabGravity="center"
                 app:tabIndicatorGravity="center"
@@ -119,53 +114,53 @@
                 android:id="@+id/paymentPriceHolder4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
                 android:text="쿠폰 할인"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="?attr/textAppearanceTitleLarge" />
 
             <TextView
                 android:id="@+id/paymentPriceHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
                 android:text="결제 내역"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="?attr/textAppearanceTitleLarge" />
 
             <TextView
                 android:id="@+id/paymentCheck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
+                android:layout_marginTop="8dp"
                 android:text="상품 금액 : " />
 
             <TextView
                 android:id="@+id/paymentDelivery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
+                android:layout_marginTop="8dp"
                 android:text="배송비 : " />
 
             <TextView
                 android:id="@+id/paymentDiscount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
                 android:text="할인 내역 : " />
 
             <TextView
                 android:id="@+id/paymentPayHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
                 android:text="결제 방식"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="?attr/textAppearanceTitleLarge" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/paymentChipGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="36dp"
+                android:layout_marginTop="8dp"
                 app:selectionRequired="true"
                 app:singleSelection="true">
 
@@ -231,7 +226,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
                 android:text="Holder"
                 app:icon="@drawable/credit_score_24px" />
 

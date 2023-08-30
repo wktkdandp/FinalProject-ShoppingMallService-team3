@@ -287,9 +287,7 @@ class PaymentFragment : Fragment() {
         deliveryAddress = arguments?.getString("address")
         deliveryPhoneNumber= arguments?.getString("phoneNumber")
         if (deliveryName != null && deliveryAddress != null && deliveryPhoneNumber != null) {
-            fragmentPaymentBinding.paymentDeliveryPointName.visibility=View.VISIBLE
-            fragmentPaymentBinding.paymentDeliveryPoinAddress.visibility=View.VISIBLE
-            fragmentPaymentBinding.paymentDeliveryPointPhone.visibility=View.VISIBLE
+            fragmentPaymentBinding.paymentDeliveryPointLayout.visibility=View.VISIBLE
             fragmentPaymentBinding.paymentDeliveryButton.visibility = View.GONE
             fragmentPaymentBinding.paymentDeliveryPointName.text ="이름 : "+ deliveryName
             fragmentPaymentBinding.paymentDeliveryPoinAddress.text = deliveryAddress

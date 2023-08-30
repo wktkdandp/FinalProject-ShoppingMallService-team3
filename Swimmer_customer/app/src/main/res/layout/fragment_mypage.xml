@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -20,16 +20,13 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/Toolbar_Swimmer_Customer" />
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:dividerColor="@color/black"/>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingStart="16dp"
+            android:paddingTop="6dp"
             android:paddingEnd="16dp">
 
             <com.google.android.material.card.MaterialCardView
@@ -81,7 +78,6 @@
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
@@ -103,11 +99,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:contentPadding="12dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -115,7 +113,6 @@
                             android:id="@+id/textViewCompleteCount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="true"
                             android:gravity="center"
                             android:text="5"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -125,8 +122,7 @@
                         <TextView
                             android:id="@+id/textViewOrderComplete"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:clickable="true"
+                            android:layout_height="wrap_content"
                             android:focusable="true"
                             android:gravity="center"
                             android:text="결제완료"
@@ -142,11 +138,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:contentPadding="12dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -154,7 +152,6 @@
                             android:id="@+id/textViewShippingCount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="true"
                             android:gravity="center"
                             android:text="0"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -164,8 +161,7 @@
                         <TextView
                             android:id="@+id/textViewShipping"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:clickable="true"
+                            android:layout_height="wrap_content"
                             android:focusable="true"
                             android:gravity="center"
                             android:text="배송중"
@@ -181,11 +177,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:contentPadding="12dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -193,7 +191,6 @@
                             android:id="@+id/textViewDeliveryCompletedCount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="true"
                             android:gravity="center"
                             android:text="2"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -203,8 +200,7 @@
                         <TextView
                             android:id="@+id/textViewDeliveryCompleted"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:clickable="true"
+                            android:layout_height="wrap_content"
                             android:focusable="true"
                             android:gravity="center"
                             android:text="배송 완료"
@@ -323,6 +319,9 @@
                     android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
             </LinearLayout>
         </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </ScrollView>
