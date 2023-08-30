@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -37,6 +38,8 @@ class OrderListFragment : Fragment() {
         orderViewModel =
             ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
         Log.d("orderViewMode", orderViewModel.toString())
+
+        handleBackPress()
 
         fragmentOrderListBinding.run {
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -128,6 +131,14 @@ class OrderListFragment : Fragment() {
             linearLayoutRecyclerView.visibility = View.VISIBLE
         }
     }*/
+private fun handleBackPress() {
+    val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            findNavController().popBackStack()
+        }
+    }
+    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+}
 
     inner class OrderListRecyclerViewAdapter :
         Adapter<OrderListRecyclerViewAdapter.OrderListViewHolder>() {

@@ -327,7 +327,11 @@
 
         <action
             android:id="@+id/action_item_mypage_to_orderListFragment"
-            app:destination="@id/orderListFragment" />
+            app:destination="@id/orderListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/orderListFragment"
@@ -336,7 +340,11 @@
         tools:layout="@layout/fragment_order_list" >
         <action
             android:id="@+id/action_orderListFragment_to_orderDetailFragment"
-            app:destination="@id/orderDetailFragment" />
+            app:destination="@id/orderDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/orderDetailFragment"

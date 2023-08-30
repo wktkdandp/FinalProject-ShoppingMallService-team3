@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -36,6 +37,8 @@ class OrderDetailFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         _fragmentOrderDetailBinding = FragmentOrderDetailBinding.inflate(layoutInflater)
+
+        handleBackPress()
 
         //argument로 넘어온 order 받아오기
         orderData = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -117,6 +120,14 @@ class OrderDetailFragment : Fragment() {
                 )
             }
         }
+    }
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     inner class ItemRecyclerViewAdapter : Adapter<ItemRecyclerViewAdapter.ItemViewHolder>() {
