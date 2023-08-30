@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -28,17 +30,18 @@ class HomeFragment : Fragment() {
     private lateinit var productViewModel: ProductViewModel
     private lateinit var orderViewModel: OrderViewModel
 
+    private var lastBackPressedTime: Long = 0
+
     private lateinit var _fragmentHomeBinding: FragmentHomeBinding
     private val fragmentHomeBinding get() = _fragmentHomeBinding
-
-    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _fragmentHomeBinding = FragmentHomeBinding.inflate(inflater)
-        mainActivity = activity as MainActivity
+
+        handleBackPress()
 
         // ViewModel
         productViewModel = ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
@@ -90,7 +93,7 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding.run {
             toolbarHome.run {
                 // 툴바 타이틀 폰트 설정
-                setTitleTextAppearance(mainActivity, R.style.HsbombaramTextAppearance)
+                setTitleTextAppearance(requireContext(), R.style.HsbombaramTextAppearance)
             }
 
             buttonRegProduct.setOnClickListener {
@@ -113,5 +116,21 @@ class HomeFragment : Fragment() {
 
         return fragmentHomeBinding.root
     }
+
+    private fun handleBackPress(){
+        val callback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - lastBackPressedTime < 2000) {
+                    requireActivity().finish()
+                } else {
+                    Toast.makeText(context, "뒤로가기 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                    lastBackPressedTime = System.currentTimeMillis()
+                }
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
 }
 
