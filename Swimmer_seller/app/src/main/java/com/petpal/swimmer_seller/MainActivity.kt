@@ -17,7 +17,6 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-    var loginSellerUid: String = ""
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +40,6 @@ class MainActivity : AppCompatActivity() {
         if (currentUser != null) {
             //이미 로그인돼있다면 mainFragment로 이동
             Log.d("user", currentUser.uid)
-            // 로그인 판매자 uid 저장
-            loginSellerUid = currentUser.uid
             navController.popBackStack(R.id.loginFragment, true)
             navController.navigate(R.id.mainFragment)
         }
