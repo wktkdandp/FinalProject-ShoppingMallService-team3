@@ -43,5 +43,16 @@ class PaymentRepository {
             orderRef.push().setValue(order).addOnCompleteListener(callback)
         }
 
+        fun deleteCartItems(buyerUid: String) {
+            val database = FirebaseDatabase.getInstance()
+            val itemCodeRef = database.getReference("itemsForCustomer")
+
+            itemCodeRef.orderByChild("buyerUid").equalTo(buyerUid).get().addOnCompleteListener {
+                for (i in it.result.children) {
+                    i.ref.removeValue()
+                }
+            }
+        }
+
     }
 }

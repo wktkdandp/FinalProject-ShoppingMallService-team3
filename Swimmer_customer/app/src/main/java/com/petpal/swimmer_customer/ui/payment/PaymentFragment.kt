@@ -173,6 +173,9 @@ class PaymentFragment : Fragment() {
                         it.addOnCompleteListener {
                             // complete -> 주문 완료 화면
                             // 주문 완료 화면으로 이동하기
+                            // 해당 상품 itemsforcustomer에서 삭제
+                            PaymentRepository.deleteCartItems(Firebase.auth.currentUser?.uid!!)
+
                             val action=PaymentFragmentDirections.actionPaymentFragmentToCompleteFragment()
                             findNavController().navigate(action)
                         }
