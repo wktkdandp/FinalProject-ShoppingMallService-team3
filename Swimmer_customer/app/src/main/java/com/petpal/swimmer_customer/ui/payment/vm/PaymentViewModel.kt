@@ -39,13 +39,13 @@ class PaymentViewModel: ViewModel() {
                     val price = i.child("price").value as Long
 
 
-                // 수량, 사이즈, 컬러는 data 생성된 후에 추가 테스트 진행 예정
-                // dummy data 입력 완료
-                val quantity = i.child("quantity").value as Long
-                val size = i.child("size").value as String
-                val color = i.child("color").value as String
+                    // 수량, 사이즈, 컬러는 data 생성된 후에 추가 테스트 진행 예정
+                    // dummy data 입력 완료
+                    val quantity = i.child("quantity").value as Long
+                    val size = i.child("size").value as String
+                    val color = i.child("color").value as String
 
-                val itemModel = ItemsForCustomer(productUid, sellerUid, name, mainImage, price, quantity, size, color, buyerUid)
+                    val itemModel = ItemsForCustomer(productUid, sellerUid, name, mainImage, price, quantity, size, color, buyerUid)
 
 
                     tempList1.add(itemModel)
