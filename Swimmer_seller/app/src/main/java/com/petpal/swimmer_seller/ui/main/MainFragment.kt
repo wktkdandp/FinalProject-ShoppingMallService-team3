@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.NavOptions
 import com.petpal.swimmer_seller.R
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
 import com.petpal.swimmer_seller.databinding.FragmentMainBinding
 
@@ -21,8 +23,6 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         fragmentMainBinding = FragmentMainBinding.inflate(inflater)
-
-
 
         Log.d("user", "mainFragment onCreate")
 
@@ -40,7 +40,9 @@ class MainFragment : Fragment() {
         }
 
         fragmentMainBinding.run {
-            bottomNavigation.setupWithNavController(navController)
+            bottomNavigation.run {
+                setupWithNavController(navController)
+            }
         }
         return fragmentMainBinding.root
     }
