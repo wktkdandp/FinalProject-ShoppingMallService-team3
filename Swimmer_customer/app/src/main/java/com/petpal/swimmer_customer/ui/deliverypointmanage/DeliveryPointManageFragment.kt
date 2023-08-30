@@ -238,7 +238,7 @@ class DeliveryPointManageFragment : Fragment() {
 
             holder.textViewAddress.text = currentAddress.address
             holder.textViewAddressName.text = currentAddress.name
-            holder.textViewAddressPhone.text = getString(R.string.delivery_phone_is) + currentAddress.phoneNumber
+            holder.textViewAddressPhone.text = currentAddress.phoneNumber
 
             //주문 페이지에서 진입시 배송지 삭제 버튼 제어
             val argument = arguments?.getString("FromOrder")
