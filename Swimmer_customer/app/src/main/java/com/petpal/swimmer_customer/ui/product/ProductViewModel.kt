@@ -70,7 +70,7 @@ class ProductViewModel() : ViewModel() {
                 .load(it)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .fitCenter()
+                .centerCrop()
                 .error(R.drawable.noimg)
                 .into(imageView)
         }
