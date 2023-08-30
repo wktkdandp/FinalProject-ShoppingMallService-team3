@@ -35,6 +35,7 @@ class DetailAddressFragment : Fragment() {
         handleBackPress()
         return binding.root
     }
+    //백버튼 제어
     private fun handleBackPress() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -61,7 +62,7 @@ class DetailAddressFragment : Fragment() {
 
     private fun setupUI() {
         setupToolbar()
-
+        //주소 객체 생성 -> db에 추가
         binding.ButtonSubmitAddress.setOnClickListener {
             val name = binding.textInputEditDetailAddressName.text.toString()
             val detailAddress = binding.textInputEditDetailAddress.text.toString()
@@ -100,7 +101,7 @@ class DetailAddressFragment : Fragment() {
     }
 
 
-
+    //에러 표시
     private fun showError(textInputLayout: TextInputLayout, textInputEditText: TextInputEditText, errorMessage: String) {
         textInputLayout.error = errorMessage
         Handler(Looper.getMainLooper()).postDelayed({
@@ -109,6 +110,7 @@ class DetailAddressFragment : Fragment() {
             showKeyboard(textInputEditText)
         }, 2000)
     }
+    //상세 주소 유효성 검사
     private fun validateCheck(name:String,detailAddress:String,phone:String):Boolean{
         if (!viewModel.isValidName(name)) {
             showError(binding.textInputLayoutDetailAddressName, binding.textInputEditDetailAddressName, getString(R.string.error_name_required))
@@ -131,13 +133,12 @@ class DetailAddressFragment : Fragment() {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
+    //이동 제어
     private fun navigateToDeliveryPointManageFragment() {
-//        val action=DetailAddressFragmentDirections.actionDetailAddressFragmentToDeliveryPointManageFragment()
-//        findNavController().navigate(action)
         findNavController().popBackStack()
         findNavController().popBackStack()
     }
-
+    //취소 버튼 이동 제어
     private fun cancelAction() {
         findNavController().popBackStack()
 

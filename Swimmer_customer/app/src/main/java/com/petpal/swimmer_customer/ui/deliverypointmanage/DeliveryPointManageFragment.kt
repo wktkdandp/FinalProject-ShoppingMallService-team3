@@ -58,7 +58,7 @@ class DeliveryPointManageFragment : Fragment() {
         return fragmentDeliveryPointManageBinding.root
     }
 
-
+    //주문 화면에서 넘어올 때의 분기 처리
     private fun handleReceivedData() {
 
         val argument = arguments?.getString("FromOrder")
@@ -74,6 +74,7 @@ class DeliveryPointManageFragment : Fragment() {
             }
         }
     }
+    //백버튼 제어
     private fun handleBackPress() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -109,6 +110,7 @@ class DeliveryPointManageFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
     }
+    //인터넷 검사 후 api 페이지로 이동
     private fun setupFindAddressButton() {
         setupToolbar()
         fragmentDeliveryPointManageBinding.buttonFindAddress.setOnClickListener() {
@@ -125,6 +127,7 @@ class DeliveryPointManageFragment : Fragment() {
             }
         }
     }
+    //현재 사용자의 모든 주소지 받아오기
     private fun fetchUserAddresses() {
         val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
         if (currentUserUID != null) {
@@ -164,10 +167,9 @@ class DeliveryPointManageFragment : Fragment() {
             }
         })
     }
-
+    //배송지 표시를 위한 리사이클러 뷰
     inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolderClass>(){
         var addresses = listOf<Address>()
-        var currentlyCheckedPosition= -1
         var onItemClickListener:((Address)->Unit)?=null
         fun submitAddresses(newAddresses: List<Address>) {
             addresses = newAddresses
@@ -179,12 +181,10 @@ class DeliveryPointManageFragment : Fragment() {
         }
         inner class ViewHolderClass(rowBinding: ItemDeliveryPointBinding) : RecyclerView.ViewHolder(rowBinding.root){
 
-
             val textViewAddressName: TextView
             val textViewAddress: TextView
             val textViewAddressPhone: TextView
             val buttonDeleteDeliveryPoint: Button
-
 
 
             init{
@@ -240,6 +240,7 @@ class DeliveryPointManageFragment : Fragment() {
             holder.textViewAddressName.text = currentAddress.name
             holder.textViewAddressPhone.text = getString(R.string.delivery_phone_is) + currentAddress.phoneNumber
 
+            //주문 페이지에서 진입시 배송지 삭제 버튼 제어
             val argument = arguments?.getString("FromOrder")
             if (argument?.equals("FromOrder") == true) {
                 holder.buttonDeleteDeliveryPoint.visibility = View.GONE // 숨기기

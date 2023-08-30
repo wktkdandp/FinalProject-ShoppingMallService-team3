@@ -63,6 +63,7 @@ class MypageFragment : Fragment() {
         handleBackPress()
         return fragmentMypageBinding.root
     }
+    //백버튼 제어
     private fun handleBackPress() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -79,6 +80,7 @@ class MypageFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory).get(MypageViewModel::class.java)
     }
 
+    //프로필 이미지 받아서 표시
     private fun setupProfileImage() {
         viewModel.loadProfileImage().observe(viewLifecycleOwner, Observer { uri ->
             if (uri != null) {
@@ -88,7 +90,7 @@ class MypageFragment : Fragment() {
             }
         })
     }
-
+    //닉네임 받아서 표시
     private fun setupNickname() {
         viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer {
             fragmentMypageBinding.textViewNickname.text = it?.let {
@@ -127,33 +129,33 @@ class MypageFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
-
+    //버튼 클릭 리스너 모음
     private fun setupClickListeners() {
         fragmentMypageBinding.buttonModifyInfo.setOnClickListener { navigateToCheckPasswordFragment() }
         fragmentMypageBinding.buttonDeliveryPointManage.setOnClickListener { navigateToDeliveryPointManageFragment() }
         fragmentMypageBinding.imageViewProfilePhoto.setOnClickListener { openGallery() }
         fragmentMypageBinding.buttonLogOut.setOnClickListener { handleLogOut() }
-        //cardView 클릭이벤트 추가
         fragmentMypageBinding.cardViewShipping.setOnClickListener { navigateToOrderListFragment() }
         fragmentMypageBinding.cardViewOrderComplete.setOnClickListener { navigateToOrderListFragment() }
         fragmentMypageBinding.cardViewDeliveryCompletedCount.setOnClickListener { navigateToOrderListFragment() }
     }
 
+    //이동제어
     private fun navigateToCheckPasswordFragment() {
         val action=MypageFragmentDirections.actionItemMypageToCheckPasswordFragment()
         findNavController().navigate(action)
     }
-
+    //이동제어
     private fun navigateToDeliveryPointManageFragment() {
         val action = MypageFragmentDirections.actionItemMypageToDeliveryPointManageFragment()
         findNavController().navigate(action)
     }
-
+    //이동제어
     private fun navigateToOrderListFragment() {
         val action = MypageFragmentDirections.actionItemMypageToOrderListFragment()
         findNavController().navigate(action)
     }
-
+    //로그아웃
     private fun handleLogOut() {
         viewModel.setAutoLoginEnabled(requireContext(), false)
         viewModel.signOut()
@@ -176,10 +178,7 @@ class MypageFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
+    //권한 요청, 갤러리의 이미지 선택
     private fun openGallery() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -197,6 +196,8 @@ class MypageFragment : Fragment() {
         }
     }
 
+    //권한 요청의 결과에 따라 메서드 실행 / 토스트
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -212,7 +213,8 @@ class MypageFragment : Fragment() {
             }
         }
     }
-
+    //이미지 선택 -> firebase에 업로드 -> 성공시 이미지 뷰 설정
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
@@ -220,9 +222,7 @@ class MypageFragment : Fragment() {
             viewModel.uploadImageToFirebase(selectedImageUri!!).observe(viewLifecycleOwner, Observer { success ->
                 if (success) {
                     fragmentMypageBinding.imageViewProfilePhoto.setImageURI(selectedImageUri)
-                    //Toast.makeText(context, getString(R.string.profile_success), Toast.LENGTH_SHORT).show()
                 } else {
-                    //Toast.makeText(context, getString(R.string.profile_failure), Toast.LENGTH_SHORT).show()
                 }
             })
         }

@@ -28,6 +28,9 @@
     <string name="error_email_required">이메일을 입력해주세요.</string>
     <string name="error_invalid_email_format">이메일 양식이 올바르지 않습니다.</string>
     <string name="error_password_length">비밀번호는 6자 이상이어야 합니다.</string>
+    <string name="error_newpassword_length">새 비밀번호는 6자 이상이어야 합니다.</string>
+    <string name="modify_swimexp_success">수영 경력이 수정되었습니다.</string>
+    <string name="modify_swimexp_failure">수영 경력 수정에 실패했습니다.</string>
     <string name="error_password">비밀번호를 확인해주세요.</string>
     <string name="duplicate_password">현재 비밀번호와 일치합니다. 다른 비밀번호를 입력해주세요.</string>
     <string name="error_passwords_not_match">비밀번호가 일치하지 않습니다.</string>
@@ -89,6 +92,10 @@
     <string name="permission_denied">권한이 거부되었습니다.</string>
     <string name="profile_success">프로필 사진이 등록되었습니다.</string>
     <string name="profile_failure">프로필 사진 등록에 실패하였습니다.</string>
+    <string name="modify_nickname_success">닉네임이 수정되었습니다.</string>
+    <string name="modify_nickname_failure">닉네임 수정에 실패했습니다.</string>
+    <string name="modfiy_phone_success">휴대폰 번호가 수정되었습니다.</string>
+    <string name="modfiy_phone_failure">휴대폰 번호 수정에 실패했습니다.</string>
 
     <string name="bottom_sheet_149_cm">149 cm 이하</string>
     <string name="bottom_sheet_150_152_cm">150 ~ 152 cm</string>
