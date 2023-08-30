@@ -47,6 +47,13 @@ class ProductReviewTabFragment(product: Product) : Fragment() {
 
         // 클릭한 Chip 버튼에 따라 BottomSheetDialog 표시
         fragmentProductReviewTabBinding.run {
+            // 평점 분포 변경 터치 막기 (단순 표시용)
+            seekBarVeryGood.setOnTouchListener { _, _ ->  true }
+            seekBarLike.setOnTouchListener { _, _ -> true }
+            seekBarSoso.setOnTouchListener { _, _ -> true }
+            seekBarJustOk.setOnTouchListener { _, _ -> true }
+            seekBarNotMuch.setOnTouchListener { _, _ -> true }
+
             val reviewCount = reviewList.count()
             val countVeryGood = reviewList.count { it.rating == 5.0 }
             val countLike = reviewList.count { it.rating >= 4.0 && it.rating < 5.0 }
