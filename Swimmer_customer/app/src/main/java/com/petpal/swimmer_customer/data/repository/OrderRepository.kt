@@ -1,17 +1,21 @@
 package com.petpal.swimmer_customer.data.repository
 
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import com.petpal.swimmer_customer.data.model.ItemsForCustomer
 import com.petpal.swimmer_customer.data.model.Order
+import com.petpal.swimmer_customer.ui.order.Customer
 
 class OrderRepository {
 
 
     private val ordersRef = FirebaseDatabase.getInstance().getReference("orders")
+    private val userRef = FirebaseDatabase.getInstance().getReference("users")
 
     fun getOrderByUserUid(userUid: String, onOrdersLoaded: (List<Order>) -> Unit) {
 
@@ -72,6 +76,41 @@ class OrderRepository {
             }
 
         })
+    }
+
+    fun getCustomerByUid(uid: String, onCustomerLoaded: (Customer) -> Unit) {
+        val customer = Customer("", "", "")
+//        userRef.orderByKey().equalTo(uid).ge?/
+        userRef.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                for (snapshot in it.result.children) {
+                    if (snapshot.key == uid) {
+                        customer.email = snapshot.child("email").value as String
+                        customer.name = snapshot.child("nickName").value as String
+                        customer.contact = snapshot.child("phoneNumber").value as String
+                    }
+                    onCustomerLoaded(customer)
+                }
+            } else {
+                onCustomerLoaded(customer)
+            }
+        }
+
+    }
+
+    fun getImageData(imagePath: String, onSuccess: (Uri) -> Unit, onError: (Exception) -> Unit) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val pathRef = storageRef.child(imagePath)
+
+        pathRef.downloadUrl.addOnCompleteListener {
+            if (it.isSuccessful) {
+                onSuccess(it.result)
+            } else {
+                onError(it.exception!!)
+            }
+
+        }
     }
 
 }

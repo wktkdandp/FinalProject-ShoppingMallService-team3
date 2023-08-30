@@ -24,6 +24,9 @@ class LoginViewModel(private val customerUserRepository: CustomerUserRepository)
     fun isValidPassword(password: String): Boolean {
         return password.length >= 6 && password.isNotEmpty()
     }
+    fun getCurrentUser(): LiveData<User?>? {
+        return customerUserRepository.getCurrentUser()
+    }
 
 
 }

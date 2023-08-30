@@ -1,5 +1,6 @@
 package com.petpal.swimmer_customer.ui.order
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +14,9 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
 
     private val _order = MutableLiveData<Order>()
     val order: LiveData<Order> = _order
+
+    private val _customer = MutableLiveData<Customer>()
+    val customer: LiveData<Customer> = _customer
 
     init {
         _orderList.value = mutableListOf()
@@ -39,11 +43,41 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         }
     }
 
-    fun setOrderWithIdx(orderIdx: Int){
+    fun setOrderWithIdx(orderIdx: Int) {
         _order.postValue(orderList.value!![orderIdx])
     }
 
-    fun setOrder(order: Order){
+    fun setOrder(order: Order) {
         _order.postValue(order)
     }
+
+    fun getCustomerByUid(uid: String) {
+        orderRepository.getCustomerByUid(uid) {
+            _customer.postValue(it)
+        }
+    }
+
+
+    fun fetchImageDataForRecyclerView(
+        imagePath: String,
+        onSuccess: (Uri) -> Unit,
+        onError: (Exception) -> Unit,
+    ) {
+        orderRepository.getImageData(
+            imagePath,
+            onSuccess = { imageData ->
+                onSuccess(imageData)
+            },
+            onError = { exception ->
+                onError(exception)
+            }
+        )
+
+    }
 }
+
+data class Customer(
+    var email: String,
+    var name: String,
+    var contact: String,
+)

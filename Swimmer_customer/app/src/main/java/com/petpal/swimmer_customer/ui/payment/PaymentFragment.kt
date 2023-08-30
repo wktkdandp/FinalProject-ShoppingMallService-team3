@@ -10,12 +10,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.ItemsForCustomer
 import com.petpal.swimmer_customer.data.model.Order
@@ -67,6 +70,8 @@ class PaymentFragment : Fragment() {
 
         fragmentPaymentBinding = FragmentPaymentBinding.inflate(inflater)
         mainActivity = activity as MainActivity
+
+        handleBackPress()
         paymentViewModel = ViewModelProvider(mainActivity)[PaymentViewModel::class.java]
         //기본 배송지 있으면 표시
         //setDefaultAddressToTextView()
@@ -157,7 +162,7 @@ class PaymentFragment : Fragment() {
                     val sdfUid = SimpleDateFormat("MMddhhmmss", Locale.getDefault())
                     val orderUid = sdfUid.format(Date(System.currentTimeMillis()))
 
-                    val order = Order(1, orderUid, customerUid, orderDate, spinnerSelect, chipSelect,
+                    val order = Order(1, orderUid, Firebase.auth.currentUser?.uid!!, orderDate, spinnerSelect, chipSelect,
                         totalFee.toLong(), orderItemList, paymentDeliveryPoinAddress.text.toString(), "test_coupon_item", 1000)
 
                     PaymentRepository.sendOrderToSeller(order) {
@@ -168,8 +173,8 @@ class PaymentFragment : Fragment() {
                         it.addOnCompleteListener {
                             // complete -> 주문 완료 화면
                             // 주문 완료 화면으로 이동하기
-                            Navigation.findNavController(fragmentPaymentBinding.root)
-                                .navigate(R.id.action_paymentFragment_to_completeFragment)
+                            val action=PaymentFragmentDirections.actionPaymentFragmentToCompleteFragment()
+                            findNavController().navigate(action)
                         }
 
                     }
@@ -208,7 +213,14 @@ class PaymentFragment : Fragment() {
 
         return fragmentPaymentBinding.root
     }
-
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
 
     // viewPager2에 붙여줄 recyclerAdapter
     inner class ItemRecyclerAdapter : RecyclerView.Adapter<ItemRecyclerAdapter.ItemViewHolder>() {
