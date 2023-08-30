@@ -69,10 +69,14 @@ class ProductDetailFragment : Fragment() {
                 appbarProductMain.setExpanded(true)
             }
 
-            val colorAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, productViewModel.product.value?.colorList!!)
-            val sizeAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, productViewModel.product.value?.sizeList!!)
-            textViewProductColor.setAdapter(colorAdapter)
-            textViewProductSize.setAdapter(sizeAdapter)
+            textViewProductColor.run {
+                val colorAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, productViewModel.product.value?.colorList!!)
+                setAdapter(colorAdapter)
+            }
+            textViewProductSize.run {
+                val sizeAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, productViewModel.product.value?.sizeList!!)
+                setAdapter(sizeAdapter)
+            }
         }
 
         // Observer

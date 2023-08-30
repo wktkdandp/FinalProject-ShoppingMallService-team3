@@ -367,7 +367,6 @@ class ProductAddFragment : Fragment() {
                     var bitmap: Bitmap? = null
 
                     // 이미지 카드뷰 추가
-                    // TODO Glide 라이브러리 방식으로 바꾸기
                     val previewLinearLayout = layoutInflater.inflate(R.layout.item_imageview_delete, fragmentProductAddBinding.linearDescriptionImage, false) as LinearLayout
                     val previewImageView = previewLinearLayout.findViewById<ImageView>(R.id.imageViewDelete)
                     val previewButton = previewLinearLayout.findViewById<Button>(R.id.buttonDelete)
