@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -69,6 +70,8 @@ class PaymentFragment : Fragment() {
 
         fragmentPaymentBinding = FragmentPaymentBinding.inflate(inflater)
         mainActivity = activity as MainActivity
+
+        handleBackPress()
         paymentViewModel = ViewModelProvider(mainActivity)[PaymentViewModel::class.java]
         //기본 배송지 있으면 표시
         //setDefaultAddressToTextView()
@@ -170,8 +173,8 @@ class PaymentFragment : Fragment() {
                         it.addOnCompleteListener {
                             // complete -> 주문 완료 화면
                             // 주문 완료 화면으로 이동하기
-                            Navigation.findNavController(fragmentPaymentBinding.root)
-                                .navigate(R.id.action_paymentFragment_to_completeFragment)
+                            val action=PaymentFragmentDirections.actionPaymentFragmentToCompleteFragment()
+                            findNavController().navigate(action)
                         }
 
                     }
@@ -210,7 +213,14 @@ class PaymentFragment : Fragment() {
 
         return fragmentPaymentBinding.root
     }
-
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
 
     // viewPager2에 붙여줄 recyclerAdapter
     inner class ItemRecyclerAdapter : RecyclerView.Adapter<ItemRecyclerAdapter.ItemViewHolder>() {

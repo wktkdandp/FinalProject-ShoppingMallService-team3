@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.petpal.swimmer_seller.data.model.Item
 import com.petpal.swimmer_seller.data.model.Order
 import com.petpal.swimmer_seller.data.repository.OrderRepository
 
@@ -14,6 +13,9 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
 
     private val _order = MutableLiveData<Order>()
     val order: LiveData<Order> = _order
+
+    private val _customer = MutableLiveData<Customer>()
+    val customer: LiveData<Customer> = _customer
 
     init {
         _orderList.value = mutableListOf()
@@ -30,22 +32,23 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         }
     }
 
-    fun setOrderWithIdx(orderIdx: Int){
+    fun setOrderWithIdx(orderIdx: Int) {
         _order.postValue(orderList.value!![orderIdx])
     }
 
-    fun setOrder(order: Order){
+    fun setOrder(order: Order) {
         _order.postValue(order)
+    }
+
+    fun getCustomerByUid(uid: String){
+        orderRepository.getCustomerByUid(uid) {
+            _customer.postValue(it)
+        }
     }
 }
 
-// 주문상태 코드
-enum class OrderState(val code: Long, val str: String){
-    PAYMENT(1, "결제완료"),
-    READY(2, "배송준비"),
-    PROCESS(3, "배송중"),
-    COMPLETE(4, "배송완료"),
-    CANCEL(5, "취소"),
-    EXCHANGE(6, "교환"),
-    REFUND(7, "환불")
-}
+data class Customer(
+    var email: String,
+    var name: String,
+    var contact: String,
+)

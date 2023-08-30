@@ -16,7 +16,6 @@ import com.petpal.swimmer_seller.data.model.Order
 import com.petpal.swimmer_seller.data.repository.OrderRepository
 import com.petpal.swimmer_seller.data.repository.ProductRepository
 import com.petpal.swimmer_seller.databinding.FragmentHomeBinding
-import com.petpal.swimmer_seller.ui.order.OrderState
 import com.petpal.swimmer_seller.ui.order.OrderViewModel
 import com.petpal.swimmer_seller.ui.order.OrderViewModelFactory
 import com.petpal.swimmer_seller.ui.product.ProductViewModel
@@ -66,7 +65,7 @@ class HomeFragment : Fragment() {
                     }.size.toString()
 
                     textViewProcessCount.text = it.filter {
-                        it.state == OrderState.PROCESS.code
+                        it.state == OrderState.DELIVERY.code
                     }.size.toString()
 
                     textViewCompleteCount.text = it.filter {
