@@ -26,9 +26,10 @@ class ProductDetailFragment : Fragment() {
     private var _fragmentProductDetailBinding: FragmentProductDetailBinding? = null
     private val fragmentProductDetailBinding get() = _fragmentProductDetailBinding!!
 
+    // 상품 목록에서 전달받은 상품 식별용 uid
     lateinit var productUid : String
 
-    // TabItem 생성 추가
+    // 추가할 탭 TabItem
     var tabNameArray = arrayOf("상품상세", "상품후기 (2)", "상품 Q&A")
 
     override fun onCreateView(
@@ -41,7 +42,6 @@ class ProductDetailFragment : Fragment() {
         productUid = args.productUid
 
         productViewModel = ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
-        // 상품 목록에서 전달받은 uid
         productViewModel.getProduct(productUid)
 
         return fragmentProductDetailBinding.root
@@ -53,7 +53,6 @@ class ProductDetailFragment : Fragment() {
         fragmentProductDetailBinding.run {
             // Toolbar 백버튼
             toolbarProductDetail.setNavigationOnClickListener {
-                
                 findNavController().popBackStack()
             }
 
@@ -65,10 +64,18 @@ class ProductDetailFragment : Fragment() {
             }
 
             fabProductDetail.setOnClickListener {
-                // 스크롤 최상단으로 이동
+                // 스크롤 맨 위로 이동
                 // nestedScrollViewProductDetail.smoothScrollTo(0, 0)
-                // AppBarLayout 열기
                 appbarProductMain.setExpanded(true)
+            }
+
+            textViewProductColor.run {
+                val colorAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, productViewModel.product.value?.colorList!!)
+                setAdapter(colorAdapter)
+            }
+            textViewProductSize.run {
+                val sizeAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, productViewModel.product.value?.sizeList!!)
+                setAdapter(sizeAdapter)
             }
         }
 

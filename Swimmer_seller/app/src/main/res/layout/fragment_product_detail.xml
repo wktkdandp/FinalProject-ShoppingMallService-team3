@@ -126,14 +126,29 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="bold" />
 
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/chipGroupProductHashTag"
-                            style="@style/Widget.Material3.ChipGroup"
+                        <HorizontalScrollView
+                            android:id="@+id/scrollViewHashTag"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp">
+                            android:layout_marginTop="5dp"
+                            android:scrollbars="none">
 
-                        </com.google.android.material.chip.ChipGroup>
+                            <LinearLayout
+                                android:id="@+id/layoutHashTag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <com.google.android.material.chip.ChipGroup
+                                    android:id="@+id/chipGroupProductHashTag"
+                                    style="@style/Widget.Material3.ChipGroup"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:chipSpacingVertical="0dp">
+
+                                </com.google.android.material.chip.ChipGroup>
+                            </LinearLayout>
+                        </HorizontalScrollView>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInputLayoutProductColor"
@@ -157,7 +172,8 @@
                             android:id="@+id/textInputLayoutProductSize"
                             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
 
                             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                 android:id="@+id/textViewProductSize"
