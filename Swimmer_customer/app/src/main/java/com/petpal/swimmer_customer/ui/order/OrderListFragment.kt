@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.data.model.getOrderState
 import com.petpal.swimmer_customer.databinding.FragmentOrderListBinding
@@ -36,6 +39,8 @@ class OrderListFragment : Fragment() {
             ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
         Log.d("orderViewMode", orderViewModel.toString())
 
+        handleBackPress()
+
         fragmentOrderListBinding.run {
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
@@ -44,26 +49,26 @@ class OrderListFragment : Fragment() {
                     when (tab.position) {
                         0 -> {
                             orderViewModel.getOrderByUserUid(
-                                "test_user_uid"
+                                Firebase.auth.currentUser!!.uid
 //            Firebase.auth.currentUser!!.uid
                             )
                         }
 
                         1 -> {
-                            orderViewModel.getOrderByState("test_user_uid", 1)
+                            orderViewModel.getOrderByState(Firebase.auth.currentUser!!.uid, 1)
 
                         }
 
                         2 -> {
-                            orderViewModel.getOrderByState("test_user_uid", 3)
+                            orderViewModel.getOrderByState(Firebase.auth.currentUser!!.uid, 3)
                         }
 
                         3 -> {
-                            orderViewModel.getOrderByState("test_user_uid", 4)
+                            orderViewModel.getOrderByState(Firebase.auth.currentUser!!.uid, 4)
                         }
 
                         4 -> {
-                            orderViewModel.getOrderByState("test_user_uid", 5, 6, 7)
+                            orderViewModel.getOrderByState(Firebase.auth.currentUser!!.uid, 5, 6, 7)
                         }
                     }
                 }
@@ -87,7 +92,7 @@ class OrderListFragment : Fragment() {
 
         //이 판매자가 올린 상품에 대한 주문 목록만 세팅하기
         orderViewModel.getOrderByUserUid(
-            "test_user_uid"
+            Firebase.auth.currentUser!!.uid
 //            Firebase.auth.currentUser!!.uid
         )
 
@@ -126,6 +131,14 @@ class OrderListFragment : Fragment() {
             linearLayoutRecyclerView.visibility = View.VISIBLE
         }
     }*/
+private fun handleBackPress() {
+    val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            findNavController().popBackStack()
+        }
+    }
+    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+}
 
     inner class OrderListRecyclerViewAdapter :
         Adapter<OrderListRecyclerViewAdapter.OrderListViewHolder>() {

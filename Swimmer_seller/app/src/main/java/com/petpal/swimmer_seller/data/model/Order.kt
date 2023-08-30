@@ -12,7 +12,7 @@ data class Order(
     //TODO : 나중에 Address로 변경해야함
     var address: String,
 //    var address:Address,
-    var itemList: List<Item>,
+    var itemList: List<Item> = listOf(),
     var couponUid: String,
     var usePoint: Long,
     var payMethod: Long,

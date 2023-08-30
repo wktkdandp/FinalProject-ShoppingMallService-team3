@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -69,6 +70,8 @@ class PaymentFragment : Fragment() {
 
         fragmentPaymentBinding = FragmentPaymentBinding.inflate(inflater)
         mainActivity = activity as MainActivity
+
+        handleBackPress()
         paymentViewModel = ViewModelProvider(mainActivity)[PaymentViewModel::class.java]
         //기본 배송지 있으면 표시
         //setDefaultAddressToTextView()
@@ -173,8 +176,8 @@ class PaymentFragment : Fragment() {
                             // 해당 상품 itemsforcustomer에서 삭제
                             PaymentRepository.deleteCartItems(Firebase.auth.currentUser?.uid!!)
 
-                            Navigation.findNavController(fragmentPaymentBinding.root)
-                                .navigate(R.id.action_paymentFragment_to_completeFragment)
+                            val action=PaymentFragmentDirections.actionPaymentFragmentToCompleteFragment()
+                            findNavController().navigate(action)
                         }
 
                     }
@@ -213,7 +216,14 @@ class PaymentFragment : Fragment() {
 
         return fragmentPaymentBinding.root
     }
-
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
 
     // viewPager2에 붙여줄 recyclerAdapter
     inner class ItemRecyclerAdapter : RecyclerView.Adapter<ItemRecyclerAdapter.ItemViewHolder>() {
@@ -280,9 +290,7 @@ class PaymentFragment : Fragment() {
         deliveryAddress = arguments?.getString("address")
         deliveryPhoneNumber= arguments?.getString("phoneNumber")
         if (deliveryName != null && deliveryAddress != null && deliveryPhoneNumber != null) {
-            fragmentPaymentBinding.paymentDeliveryPointName.visibility=View.VISIBLE
-            fragmentPaymentBinding.paymentDeliveryPoinAddress.visibility=View.VISIBLE
-            fragmentPaymentBinding.paymentDeliveryPointPhone.visibility=View.VISIBLE
+            fragmentPaymentBinding.paymentDeliveryPointLayout.visibility=View.VISIBLE
             fragmentPaymentBinding.paymentDeliveryButton.visibility = View.GONE
             fragmentPaymentBinding.paymentDeliveryPointName.text ="이름 : "+ deliveryName
             fragmentPaymentBinding.paymentDeliveryPoinAddress.text = deliveryAddress

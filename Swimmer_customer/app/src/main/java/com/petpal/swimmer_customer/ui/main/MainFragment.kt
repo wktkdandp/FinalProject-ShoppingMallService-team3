@@ -13,13 +13,15 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.petpal.swimmer_customer.R
 import com.petpal.swimmer_customer.databinding.FragmentMainBinding
 import com.petpal.swimmer_customer.util.AutoLoginUtil
 
 class MainFragment : Fragment() {
     lateinit var fragmentMainBinding: FragmentMainBinding
-    private lateinit var navController:NavController
+    lateinit var navController:NavController
+    private var currentTab: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,16 +33,9 @@ class MainFragment : Fragment() {
         navController = navHostFragment.navController
 
 
-        val navOptions = NavOptions.Builder()
-            .setEnterAnim(R.anim.slide_in_right)
-            .setExitAnim(R.anim.slide_out_left)
-            .setPopEnterAnim(R.anim.slide_in_left)
-            .setPopExitAnim(R.anim.slide_out_right)
-            .build()
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-               R.id.MainFragment, R.id.LoginFragment, R.id.RegisterFragment, R.id.FindInfoFragment,R.id.DetailAddressFragment,R.id.AddressDialogFragment -> {
+               R.id.MainFragment, R.id.LoginFragment, R.id.RegisterFragment, R.id.FindInfoFragment -> {
                     fragmentMainBinding.bottomNavigation.visibility = View.GONE
                 }
                 else -> {
@@ -51,37 +46,65 @@ class MainFragment : Fragment() {
 
         fragmentMainBinding.bottomNavigation.run {
             setupWithNavController(navController)
-            //화면 세팅
+            //선택된 아이템을 nextTab에 부여
             setOnItemSelectedListener {
+                val nextTab = when (it.itemId) {
+                    R.id.item_home -> 2
+                    R.id.item_category -> 0
+                    R.id.item_favorite -> 1
+                    R.id.item_history -> 3
+                    R.id.item_mypage -> 4
+                    else -> currentTab
+                }
+
+                //currentTab nextTab 이 높으면 오->왼
+                val navOptions = if (nextTab > currentTab) {
+                    NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in_right)
+                        .setExitAnim(R.anim.slide_out_left)
+                        .setPopEnterAnim(R.anim.slide_in_left)
+                        .setPopExitAnim(R.anim.slide_out_right)
+                        .build()
+                } else {
+                    //아니면 왼->오
+                    NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in_left)
+                        .setExitAnim(R.anim.slide_out_right)
+                        .setPopEnterAnim(R.anim.slide_in_right)
+                        .setPopExitAnim(R.anim.slide_out_left)
+                        .build()
+                }
+                //현재 텝에 선택한 탭의 값 저장
+                currentTab = nextTab
                 when (it.itemId) {
                     R.id.item_home -> {
                         // 홈 이동
-                        navController.navigate(R.id.item_home,null,navOptions)
+                        navController.navigate(R.id.item_home, null, navOptions)
                         true
                     }
 
                     R.id.item_category -> {
                         //카테고리 페이지
-                        navController.navigate(R.id.item_category,null,navOptions)
+                        navController.navigate(R.id.item_category, null, navOptions)
                         true
                     }
 
                     R.id.item_favorite -> {
                         //찜 페이지 이동
-                        navController.navigate(R.id.item_favorite,null,navOptions)
+                        navController.navigate(R.id.item_favorite, null, navOptions)
                         true
                     }
 
                     R.id.item_history -> {
                         //히스토리 페이지 이동
-                        navController.navigate(R.id.item_history,null,navOptions)
+                        navController.navigate(R.id.item_history, null, navOptions)
                         true
                     }
 
                     R.id.item_mypage -> {
                         // 마이페이지 이동
 
-                        navController.navigate(R.id.item_mypage,null,navOptions)
+                        navController.navigate(R.id.item_mypage, null, navOptions)
                         true
                     }
 
@@ -98,7 +121,6 @@ class MainFragment : Fragment() {
     }
     private fun autoLogin(){
         val isAutoLogin = AutoLoginUtil.getAutoLogin(requireContext())
-
         if (!isAutoLogin) {
             navController.navigate(R.id.LoginFragment)
         }else{

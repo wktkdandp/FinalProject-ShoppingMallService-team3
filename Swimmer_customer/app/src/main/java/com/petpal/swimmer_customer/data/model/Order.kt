@@ -25,7 +25,7 @@ data class Order(
     var totalPrice: Long,
 
     // productUid를 통해 받아온다면 안넘겨줘도 되는 데이터?
-    var itemList: List<ItemsForCustomer>,
+    var itemList: List<ItemsForCustomer> = listOf(),
 
     // 임의 처리 데이터
     // address에서 오류 발생

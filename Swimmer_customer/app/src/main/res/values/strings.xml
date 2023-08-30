@@ -28,13 +28,19 @@
     <string name="error_email_required">이메일을 입력해주세요.</string>
     <string name="error_invalid_email_format">이메일 양식이 올바르지 않습니다.</string>
     <string name="error_password_length">비밀번호는 6자 이상이어야 합니다.</string>
+    <string name="error_newpassword_length">새 비밀번호는 6자 이상이어야 합니다.</string>
+    <string name="modify_swimexp_success">수영 경력이 수정되었습니다.</string>
+    <string name="modify_swimexp_failure">수영 경력 수정에 실패했습니다.</string>
     <string name="error_password">비밀번호를 확인해주세요.</string>
+    <string name="duplicate_password">현재 비밀번호와 일치합니다. 다른 비밀번호를 입력해주세요.</string>
     <string name="error_passwords_not_match">비밀번호가 일치하지 않습니다.</string>
     <string name="error_consent_required">정보 동의를 체크해주세요.</string>
     <string name="findinfokey">key</string>
     <string name="findid">findId </string>
     <string name="resetpassword">resetPassword</string>
     <string name="login_success">로그인 성공</string>
+    <string name="login_role_error">사용자용 계정이 아닌 계정으로는 로그인할 수 없습니다.</string>
+    <string name="role_customer">사용자</string>
     <string name="auto_login_success">자동 로그인 성공</string>
     <string name="login_failure">로그인 실패 이메일 또는 비밀번호를 확인해주세요.</string>
     <string name="key_generic">key</string>
@@ -47,6 +53,7 @@
     <string name="title_notification">알림</string>
     <string name="message_password_reset_email_sent">비밀번호 재전송 이메일을 발송했습니다.</string>
     <string name="action_confirm">확인</string>
+    <string name="withdrawal_user_failure">회원탈퇴에 실패하였습니다. 인터넷 연결을 확인해주세요.</string>
     <string name="error_password_reset_failed">비밀번호 재설정 실패했습니다.</string>
     <string name="error_nickname_required">닉네임을 입력해주세요.</string>
     <string name="error_phone_required">전화번호를 입력해주세요.</string>
@@ -55,6 +62,10 @@
     <string name="signup_success">회원가입에 성공했습니다. 로그인해주세요.</string>
     <string name="signup_failure">회원가입에 실패했습니다.</string>
     <string name="error_email_already_exists">이미 존재하는 이메일입니다.</string>
+    <string name="password_modify_success">비밀번호가 변경되었습니다.</string>
+    <string name="withdrawal_success">회원 탈퇴 처리가 완료되었습니다.</string>
+    <string name="modifypassword_relogin">안전한 서비스 이용을 위해 다시 로그인해 주시기 바랍니다.</string>
+    <string name="password_modify_failure">비밀번호 변경에 실패하였습니다.</string>
     <string name="message_email_available">이메일을 사용할 수 있습니다.</string>
     <string name="duration_less_than_1_year">1년 이하</string>
     <string name="duration_less_than_3_years">3년 이하</string>
@@ -62,6 +73,7 @@
     <string name="duration_more_than_5_years">5년 이상</string>
     <string name="duration_no_selection">선택안함</string>
     <string name="mypage_title">마이 페이지</string>
+    <string name="modifyinfo_title">개인정보 수정</string>
     <string name="check_passswordpage_title">비밀번호 확인</string>
     <string name="alert_message_login_required">로그인이 필요한 서비스입니다.</string>
     <string name="alert_message_logout_completed">로그아웃 완료되었습니다.</string>
@@ -80,6 +92,11 @@
     <string name="permission_denied">권한이 거부되었습니다.</string>
     <string name="profile_success">프로필 사진이 등록되었습니다.</string>
     <string name="profile_failure">프로필 사진 등록에 실패하였습니다.</string>
+    <string name="modify_nickname_success">닉네임이 수정되었습니다.</string>
+    <string name="modify_nickname_failure">닉네임 수정에 실패했습니다.</string>
+    <string name="modfiy_phone_success">휴대폰 번호가 수정되었습니다.</string>
+    <string name="modfiy_phone_failure">휴대폰 번호 수정에 실패했습니다.</string>
+    <string name="copyright_and_version">&#169; 2023 멋사. 개발 팀: 3팀 | v1.0.0</string>
 
     <string name="bottom_sheet_149_cm">149 cm 이하</string>
     <string name="bottom_sheet_150_152_cm">150 ~ 152 cm</string>

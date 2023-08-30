@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -48,9 +49,18 @@ class RegisterFragment : Fragment() {
         privacy_Policy_Checkbox()
         setupUI()
         setupViewModelNav()
-
+        handleBackPress()
 
         return fragmentRegisterBinding.root
+    }
+    //백버튼 제어
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
     private fun setupViewModelNav(){
         val factory = RegisterViewModelFactory(CustomerUserRepository())
@@ -89,7 +99,7 @@ class RegisterFragment : Fragment() {
                 fragmentRegisterBinding.buttonAddUserEmailDuplicateCheck.requestFocus()
                 return@setOnClickListener
             }
-            viewModel.addUser(null,email,password,Nickname,PhoneNumber, swimExp)?.observe(viewLifecycleOwner, Observer { success ->
+            viewModel.addUser("사용자",null,email,password,Nickname,PhoneNumber, swimExp)?.observe(viewLifecycleOwner, Observer { success ->
                 if (success!!) {
                     // 회원가입 성공
                     findNavController().popBackStack()
@@ -144,6 +154,7 @@ class RegisterFragment : Fragment() {
             })
         }
     }
+    //에러 표시
     private fun showError(textInputLayout: TextInputLayout, textInputEditText: TextInputEditText, errorMessage: String) {
         textInputLayout.error = errorMessage
         Handler(Looper.getMainLooper()).postDelayed({
@@ -152,6 +163,7 @@ class RegisterFragment : Fragment() {
             showKeyboard(textInputEditText)
         }, 2000)
     }
+    //유효성 검사
     private fun validateCheck(email:String,password:String,passwordRepeat:String,nicknName:String,phoneNumber:String,isChecked:Boolean):Boolean{
         if(viewModel.isEmailEmpty(email)){
            showError(fragmentRegisterBinding.textInputLayoutAddUserEmail,fragmentRegisterBinding.textInputEditTextAddUserEmail,getString(R.string.error_email_required))
@@ -189,7 +201,7 @@ class RegisterFragment : Fragment() {
     //수영 경력
     private fun userSwimExp():String {
         return when (fragmentRegisterBinding.swimExpGroup.checkedChipId) {
-            R.id.isDefaultDeliveryPoint -> getString(R.string.duration_less_than_1_year)
+            R.id.swimExp1-> getString(R.string.duration_less_than_1_year)
             R.id.swimExp2 -> getString(R.string.duration_less_than_3_years)
             R.id.swimExp3 -> getString(R.string.duration_less_than_5_years)
             R.id.swimExp4 -> getString(R.string.duration_more_than_5_years)
@@ -204,6 +216,7 @@ class RegisterFragment : Fragment() {
             imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
     }
+    //개인정보 동의 다이얼로그
     private fun showCustomDialog() {
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.custom_consent_dialog, null)
 

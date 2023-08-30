@@ -5,31 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/HomeToolbarTheme"
-    tools:context=".CompleteFragment">
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarComplete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/md_theme_light_background"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".ui.payment.CompleteFragment">
 
     <TextView
         android:id="@+id/completeTextHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="109dp"
         android:gravity="center"
         android:text="&quot; 주문이 완료되었습니다. &quot;"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarComplete" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/completeTextCountdown"

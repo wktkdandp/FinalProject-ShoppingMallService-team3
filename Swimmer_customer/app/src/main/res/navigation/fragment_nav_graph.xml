@@ -5,7 +5,6 @@
     android:id="@+id/fragment_nav_graph"
     app:startDestination="@+id/item_home">
 
-    <!-- Fragments and actions from nav_graph.xml -->
     <fragment
         android:id="@+id/MainFragment"
         android:name="com.petpal.swimmer_customer.ui.main.MainFragment"
@@ -75,10 +74,10 @@
         <action
             android:id="@+id/action_DeliveryPointManageFragment_to_item_mypage"
             app:destination="@id/item_mypage"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_DeliveryPointManageFragment_to_AddressDialogFragment"
             app:destination="@id/AddressDialogFragment"
@@ -159,6 +158,13 @@
         android:id="@+id/ModifyInfoFragment"
         android:name="com.petpal.swimmer_customer.ui.modifyinfo.ModifyInfoFragment"
         tools:layout="@layout/fragment_modify_info">
+        <action
+            android:id="@+id/action_ModifyInfoFragment_to_MainFragment"
+            app:destination="@id/MainFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
@@ -224,10 +230,8 @@
         <action
             android:id="@+id/action_itemDetailFragment_to_item_home"
             app:destination="@id/item_home"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
         <argument
             android:name="idx"
             app:argType="integer" />
@@ -252,7 +256,11 @@
             app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_paymentFragment_to_completeFragment"
-            app:destination="@id/completeFragment" />
+            app:destination="@id/completeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_paymentFragment_to_itemDetailFragment"
             app:destination="@id/itemDetailFragment" />
@@ -264,7 +272,18 @@
         android:label="CompleteFragment" >
         <action
             android:id="@+id/action_completeFragment_to_item_home"
-            app:destination="@id/item_home" />
+            app:destination="@id/item_home"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_completeFragment_to_orderListFragment"
+            app:destination="@id/orderListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -313,7 +332,11 @@
 
         <action
             android:id="@+id/action_item_mypage_to_orderListFragment"
-            app:destination="@id/orderListFragment" />
+            app:destination="@id/orderListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/orderListFragment"
@@ -322,7 +345,11 @@
         tools:layout="@layout/fragment_order_list" >
         <action
             android:id="@+id/action_orderListFragment_to_orderDetailFragment"
-            app:destination="@id/orderDetailFragment" />
+            app:destination="@id/orderDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/orderDetailFragment"
