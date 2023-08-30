@@ -89,7 +89,7 @@
 
             <TextView
                 android:id="@+id/veryGoodTextView"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="@string/review_tab_very_good"
@@ -122,7 +122,7 @@
 
             <TextView
                 android:id="@+id/likeItTextView"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="@string/review_tab_like_it"
@@ -140,7 +140,7 @@
                 android:thumbTint="@color/colorSecondary"
                 app:layout_constraintBottom_toBottomOf="@id/likeItTextView"
                 app:layout_constraintEnd_toStartOf="@id/veryGoodCounterTextView"
-                app:layout_constraintStart_toEndOf="@id/likeItTextView"
+                app:layout_constraintStart_toStartOf="@id/veryGoodSeekBar"
                 app:layout_constraintTop_toTopOf="@id/likeItTextView" />
 
             <TextView
@@ -155,7 +155,7 @@
 
             <TextView
                 android:id="@+id/soSoTextView"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="@string/review_tab_so_so"
@@ -173,7 +173,7 @@
                 android:thumbTint="@color/colorSecondary"
                 app:layout_constraintBottom_toBottomOf="@id/soSoTextView"
                 app:layout_constraintEnd_toStartOf="@id/soSoCounterTextView"
-                app:layout_constraintStart_toEndOf="@id/soSoTextView"
+                app:layout_constraintStart_toStartOf="@id/veryGoodSeekBar"
                 app:layout_constraintTop_toTopOf="@id/soSoTextView" />
 
             <TextView
@@ -188,7 +188,7 @@
 
             <TextView
                 android:id="@+id/justOkTextView"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="@string/review_tab_just_okay"
@@ -206,7 +206,7 @@
                 android:thumbTint="@color/colorSecondary"
                 app:layout_constraintBottom_toBottomOf="@id/justOkTextView"
                 app:layout_constraintEnd_toStartOf="@id/justOkCounterTextView"
-                app:layout_constraintStart_toEndOf="@id/justOkTextView"
+               app:layout_constraintStart_toStartOf="@id/veryGoodSeekBar"
                 app:layout_constraintTop_toTopOf="@id/justOkTextView" />
 
             <TextView
@@ -221,7 +221,7 @@
 
             <TextView
                 android:id="@+id/notMuchTextView"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="@string/review_tab_not_much"
@@ -239,7 +239,7 @@
                 android:thumbTint="@color/colorSecondary"
                 app:layout_constraintBottom_toBottomOf="@id/notMuchTextView"
                 app:layout_constraintEnd_toStartOf="@id/notMuchCounterTextView"
-                app:layout_constraintStart_toEndOf="@id/notMuchTextView"
+                app:layout_constraintStart_toStartOf="@id/veryGoodSeekBar"
                 app:layout_constraintTop_toTopOf="@id/notMuchTextView" />
 
             <TextView
