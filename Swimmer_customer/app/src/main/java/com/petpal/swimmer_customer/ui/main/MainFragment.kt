@@ -34,7 +34,7 @@ class MainFragment : Fragment() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-               R.id.MainFragment, R.id.LoginFragment, R.id.RegisterFragment, R.id.FindInfoFragment,R.id.DetailAddressFragment,R.id.AddressDialogFragment -> {
+               R.id.MainFragment, R.id.LoginFragment, R.id.RegisterFragment, R.id.FindInfoFragment -> {
                     fragmentMainBinding.bottomNavigation.visibility = View.GONE
                 }
                 else -> {
