@@ -25,38 +25,45 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/textViewOrderDetailState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="배송완료" />
+                android:layout_marginTop="10dp"
+                android:text="배송완료"
+                android:textColor="#F06292"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textViewOrderDetailNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="주문번호 : " />
 
             <TextView
                 android:id="@+id/textViewOrderDetailDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="날짜" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewOrderDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="30"/>
-                <!--android:src="@tools:sample/avatars"-->/>
-
+                android:layout_marginTop="10dp"
+                android:layout_weight="30"
+                 />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -77,6 +84,13 @@
 
             </LinearLayout>
 
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="10dp"
+                android:background="?android:attr/listDivider" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,76 +100,192 @@
                     android:id="@+id/textView8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="배송지"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/textViewOrderDetailReceiverName"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="수령인 : 홍길동" />
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewOrderDetailReceiverContact"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="연락처 : 010-1111-2222" />
+                    <TextView
+                        android:id="@+id/textViewOrderDetailReceiverName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="수령인 : " />
 
-                <TextView
-                    android:id="@+id/textViewOrderAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="배송지 : xx동" />
+                    <TextView
+                        android:id="@+id/textViewOrderDetailReceiverName2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:text="홍길동" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textViewOrderDetailMessage"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="전달 메세지 : 안전하게 배송해주세요" />
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewOrderDetailReceiverContact"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="연락처 : " />
+
+                    <TextView
+                        android:id="@+id/textViewOrderDetailReceiverContact2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:text="010-1111-2222" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewOrderAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="배송지 : " />
+
+                    <TextView
+                        android:id="@+id/textViewOrderAddress2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:text="xx동" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewOrderDetailMessage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="전달 메세지 : " />
+
+                    <TextView
+                        android:id="@+id/textViewOrderDetailMessage2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:text="안전하게 배송해주세요" />
+
+                </LinearLayout>
+
             </LinearLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="15dp"
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="결제정보"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/textViewOrderDetailPrice"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="상품금액 : 10000원" />
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewOrderDetailPayment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="카드번호 : 0011-xxxx-xxxx" />
+                    <TextView
+                        android:id="@+id/textViewOrderDetailPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="상품금액 : " />
 
-                <TextView
-                    android:id="@+id/textViewOrderDetailPaid"
+                    <TextView
+                        android:id="@+id/textViewOrderDetailPrice2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:text="10000원" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="총 결제비용 : 20000원" />
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewOrderDetailPayment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="카드번호 : " />
+
+                    <TextView
+                        android:id="@+id/textViewOrderDetailPayment2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:text="0011-xxxx-xxxx" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewOrderDetailPaid"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="총 결제비용 : " />
+
+                    <TextView
+                        android:id="@+id/textViewOrderDetailPaid2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:text="20000원" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <Button
                 android:id="@+id/buttonCancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
                 android:text="주문취소" />
 
         </LinearLayout>
