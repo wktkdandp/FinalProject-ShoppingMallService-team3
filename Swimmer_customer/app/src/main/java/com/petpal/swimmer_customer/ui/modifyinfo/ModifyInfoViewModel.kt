@@ -37,4 +37,11 @@ class ModifyInfoViewModel(private val repository: CustomerUserRepository) : View
             }
         }
     }
+    fun isNicknameEmpty(nickName: String):Boolean{
+        return nickName.isEmpty()
+    }
+    fun isPhoneNumberEmpty(phoneNumber: String):Boolean{
+        return phoneNumber.isEmpty()
+    }
+
 }

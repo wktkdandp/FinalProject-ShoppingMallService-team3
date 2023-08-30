@@ -38,19 +38,22 @@ class OrderDetailFragment : Fragment() {
         //argument로 넘어온 order 받아오기
         order = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable("order", Order::class.java)!!
-        }else {
+        } else {
             arguments?.get("order") as Order
         }
+
+        orderViewModel =
+            ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
+        Log.d("orderViewModel", orderViewModel.toString())
+        orderViewModel.setOrder(order)
+        orderViewModel.getCustomerByUid(order.userUid)
 
         return fragmentOrderDetailBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        orderViewModel =
-            ViewModelProvider(this, OrderViewModelFactory())[OrderViewModel::class.java]
-        Log.d("orderViewModel", orderViewModel.toString())
-        orderViewModel.setOrder(order)
+
 
         fragmentOrderDetailBinding.run {
             reyclerViewOrderProductList.run {
@@ -71,21 +74,24 @@ class OrderDetailFragment : Fragment() {
         }
 
         orderViewModel.run {
+            customer.observe(viewLifecycleOwner) {
+                fragmentOrderDetailBinding.run {
+                    textViewOrderUserContact.text = it.contact
+                    textViewOrderReceiver.text = it.name
+                    textViewOrderReceiverContact.text = it.contact
+                    textViewOrderUserId.text =it.email
+                }
+            }
+
             order.observe(viewLifecycleOwner) {
                 fragmentOrderDetailBinding.run {
                     textViewOrderState2.text = getOrderState(it.state).str
                     textViewOrderUid.text = it.orderUid
                     textViewOrderDate.text = it.orderDate
-                    //TODO: UserID 도 필요
-            textViewOrderUserId.text = it.userUid
-                    //TODO: UserID로 userContact도 필요
-//            textViewOrderUserContact.text = it.userContact
+
                     textViewOrderTotalCount.text = "${it.itemList.size}개"
                     textViewOrderTotalPrice.text = "${calculateTotalPrice(it.itemList)}원"
-                    //TODO: 수령인도 필요 or userId로 userName으로 대체
-//            textViewOrderReceiver.text = it.receiver
-//            textViewOrderReceiverContact.text = order.receiverContact
-                    //TODO: Address 클래스로 변경 필요
+
                     textViewOrderShippingAddress1.text = it.address
                     textViewOrderShippingMessage.text = it.message
                 }
@@ -129,16 +135,17 @@ class OrderDetailFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: OrderItemViewHolder, position: Int) {
+            val item = orderViewModel.order.value!!.itemList[position]
             holder.textViewOrderProductUid.text =
-                orderViewModel.order.value!!.itemList[position].productUid
+                item.productUid
             holder.textViewOrderProductCount.text =
-                "${orderViewModel.order.value!!.itemList[position].quantity}개"
+                "${item.quantity}개"
             holder.textViewOrderProductName.text =
-                orderViewModel.order.value!!.itemList[position].name
+                item.name
             holder.textViewOrderProductOption.text =
-                "${orderViewModel.order.value!!.itemList[position].color}, ${orderViewModel.order.value!!.itemList[position].size}"
+                "${item.color}, ${item.size}"
             holder.textViewOrderProductPrice.text =
-                "${orderViewModel.order.value!!.itemList[position].price}원"
+                "${item.price}원"
 
         }
     }

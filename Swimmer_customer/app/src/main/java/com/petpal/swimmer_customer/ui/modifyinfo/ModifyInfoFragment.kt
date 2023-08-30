@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -34,8 +35,19 @@ class ModifyInfoFragment : Fragment() {
         toolbarSetup()
         observerSetup()
         clickListenerSetup()
+        handleBackPress()
 
         return binding.root
+    }
+    //백버튼 제어
+    private fun handleBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private fun viewModelSetup() {
@@ -49,6 +61,7 @@ class ModifyInfoFragment : Fragment() {
             setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
             setNavigationOnClickListener {
                 findNavController().popBackStack()
+                findNavController().popBackStack()
             }
         }
     }
@@ -57,9 +70,8 @@ class ModifyInfoFragment : Fragment() {
         viewModel.withdrawalUserResult.observe(viewLifecycleOwner, Observer { isSuccess ->
             handleWithdrawalResult(isSuccess)
         })
-
     }
-
+    //클릭 리스너 모음
     private fun clickListenerSetup() {
         binding.buttonModifyPassword.setOnClickListener { modifyPassword() }
         binding.buttonModifySwimExp.setOnClickListener { modifySwimExp() }
@@ -68,6 +80,7 @@ class ModifyInfoFragment : Fragment() {
         binding.buttonWithdrawal.setOnClickListener { withdrawalUser() }
     }
 
+    //회원탈퇴의 결과 처리
     private fun handleWithdrawalResult(isSuccess: Boolean?) {
         if (isSuccess == true) {
             AlertDialog.Builder(requireContext())
@@ -83,6 +96,7 @@ class ModifyInfoFragment : Fragment() {
         }
     }
 
+    //유효성 검사 -> 비밀번호 변경
     private fun modifyPassword() {
         val currentPassword = binding.textInputEditTextCurrentPassword.text.toString()
         val newPassword = binding.textInputEditTextNewPassword.text.toString()
@@ -92,7 +106,7 @@ class ModifyInfoFragment : Fragment() {
                 showError(binding.textInputLayoutCurrentPassword, binding.textInputEditTextCurrentPassword, R.string.error_password_length)
             }
             !viewModel.isValidPassword(newPassword) -> {
-                showError(binding.textInputLayoutNewPassword, binding.textInputEditTextNewPassword, R.string.error_password_length)
+                showError(binding.textInputLayoutNewPassword, binding.textInputEditTextNewPassword, R.string.error_newpassword_length)
             }
             currentPassword == newPassword -> {
                 showError(binding.textInputLayoutNewPassword, binding.textInputEditTextNewPassword, R.string.duplicate_password)
@@ -105,6 +119,7 @@ class ModifyInfoFragment : Fragment() {
         }
     }
 
+    //수영 경력 변경
     private fun modifySwimExp() {
         val newSwimExp = newSwimExp()
         viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer { currentUser ->
@@ -112,54 +127,71 @@ class ModifyInfoFragment : Fragment() {
                 it.swimExp = newSwimExp
                 viewModel.ModifyUserInfo(it).observe(viewLifecycleOwner, Observer { updateSuccess ->
                     if (updateSuccess == true) {
-                        showToast("수영 경력이 수정되었습니다.")
+                        showToast(getString(R.string.modify_swimexp_success))
                     } else {
-                        showToast("수영 경력 수정에 실패했습니다.")
+                        showToast(getString(R.string.modify_swimexp_failure))
                     }
                 })
             }
         })
     }
-
+    //닉네임 변경
     private fun modifyNickname() {
-        val newNickname=binding.textInputEditTextNewNickname.text.toString()
-        viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer { currentUser ->
-            currentUser?.let {
-                it.nickName = newNickname
-                viewModel.ModifyUserInfo(it).observe(viewLifecycleOwner, Observer { updateSuccess ->
-                    if (updateSuccess == true) {
-                        binding.textInputEditTextNewNickname.text?.clear()
-                        showToast("닉네임이 수정되었습니다.")
-                        hideKeyboard(requireContext(),binding.textInputEditTextNewNickname)
-                    } else {
-                        binding.textInputEditTextNewNickname.text?.clear()
-                        showToast("닉네임 수정에 실패했습니다.")
-                        hideKeyboard(requireContext(),binding.textInputEditTextNewNickname)
-                    }
-                })
-            }
-        })
+        val newNickname = binding.textInputEditTextNewNickname.text.toString()
+        if (viewModel.isNicknameEmpty(newNickname)) {
+            showError(binding.textInputLayoutNewNickname,binding.textInputEditTextNewNickname,R.string.error_nickname_required)
+        } else {
+            viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer { currentUser ->
+                currentUser?.let {
+                    it.nickName = newNickname
+                    viewModel.ModifyUserInfo(it)
+                        .observe(viewLifecycleOwner, Observer { updateSuccess ->
+                            if (updateSuccess == true) {
+                                binding.textInputEditTextNewNickname.text?.clear()
+                                showToast(getString(R.string.modify_nickname_success))
+                                hideKeyboard(requireContext(), binding.textInputEditTextNewNickname)
+                            } else {
+                                binding.textInputEditTextNewNickname.text?.clear()
+                                showToast(getString(R.string.modify_nickname_failure))
+                                hideKeyboard(requireContext(), binding.textInputEditTextNewNickname)
+                            }
+                        })
+                }
+            })
+        }
     }
-
+    //휴대폰 번호 변경
     private fun modifyPhone() {
-        val newPhoneNumber=binding.textInputEditTextNewNickPhone.text.toString()
-        viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer { currentUser->
-            currentUser?.let{
-                it.phoneNumber=newPhoneNumber
-                viewModel.ModifyUserInfo(it).observe(viewLifecycleOwner, Observer {updateSuccess ->
-                    if (updateSuccess == true) {
-                        binding.textInputEditTextNewNickPhone.text?.clear()
-                        showToast("휴대폰 번호가 수정되었습니다.")
-                        hideKeyboard(requireContext(),binding.textInputEditTextNewNickPhone)
-                    } else {
-                        showToast("휴대폰 번호 수정에 실패했습니다.")
-                        binding.textInputEditTextNewNickPhone.text?.clear()
-                        hideKeyboard(requireContext(),binding.textInputEditTextNewNickPhone)
-                    }
-                })
-            }
 
-        })
+        val newPhoneNumber = binding.textInputEditTextNewNickPhone.text.toString()
+        if (viewModel.isNicknameEmpty(newPhoneNumber)) {
+            showError(binding.textInputLayoutNewNickPhone,binding.textInputEditTextNewNickPhone,R.string.error_phone_required)
+        } else {
+            viewModel.getCurrentUser()?.observe(viewLifecycleOwner, Observer { currentUser ->
+                currentUser?.let {
+                    it.phoneNumber = newPhoneNumber
+                    viewModel.ModifyUserInfo(it)
+                        .observe(viewLifecycleOwner, Observer { updateSuccess ->
+                            if (updateSuccess == true) {
+                                binding.textInputEditTextNewNickPhone.text?.clear()
+                                showToast(getString(R.string.modfiy_phone_success))
+                                hideKeyboard(
+                                    requireContext(),
+                                    binding.textInputEditTextNewNickPhone
+                                )
+                            } else {
+                                showToast(getString(R.string.modfiy_phone_failure))
+                                binding.textInputEditTextNewNickPhone.text?.clear()
+                                hideKeyboard(
+                                    requireContext(),
+                                    binding.textInputEditTextNewNickPhone
+                                )
+                            }
+                        })
+                }
+
+            })
+        }
     }
 
     private fun withdrawalUser() {
@@ -174,6 +206,7 @@ class ModifyInfoFragment : Fragment() {
         }, 2000)
     }
 
+    //비밀번호 변경 결과 처리
     private fun handleModifyPasswordResult(success: Boolean?) {
         if (success == true) {
             AlertDialog.Builder(requireContext())
@@ -205,6 +238,7 @@ class ModifyInfoFragment : Fragment() {
             else -> getString(R.string.duration_no_selection)
         }
     }
+    //개인정보 변경 성공 또는 실패 시, 키보드 내리기
     fun hideKeyboard(context: Context, view: View) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
