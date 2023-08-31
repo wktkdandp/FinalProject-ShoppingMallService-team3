@@ -82,8 +82,10 @@ class MypageFragment : Fragment() {
 
     //프로필 이미지 받아서 표시
     private fun setupProfileImage() {
+        //.veilLayout.veil()
         viewModel.loadProfileImage().observe(viewLifecycleOwner, Observer { uri ->
             if (uri != null) {
+                //fragmentMypageBinding.veilLayout.unVeil()
                 Picasso.get().load(uri).into(fragmentMypageBinding.imageViewProfilePhoto)
             } else {
                 //showToast(getString(R.string.profile_failure))

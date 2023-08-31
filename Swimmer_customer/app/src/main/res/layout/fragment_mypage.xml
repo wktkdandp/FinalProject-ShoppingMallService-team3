@@ -42,6 +42,21 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <com.skydoves.androidveil.VeilLayout
+                    android:id="@+id/veilLayout"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:veilLayout_veiled="false"
+                    app:veilLayout_shimmerEnable="true"
+                    app:veilLayout_baseColor="@android:color/holo_green_dark"
+                    app:veilLayout_highlightColor="@android:color/holo_green_light"
+                    app:veilLayout_baseAlpha="0.6"
+                    app:veilLayout_highlightAlpha="1.0"
+                    app:veilLayout_dropOff="0.5"
+                    app:veilLayout_radius="6dp">
+
+
+
                     <ImageView
                         android:id="@+id/imageViewProfilePhoto"
                         android:layout_width="100dp"
@@ -50,10 +65,11 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         app:srcCompat="@drawable/broken_image_24px" />
+                    </com.skydoves.androidveil.VeilLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
@@ -74,6 +90,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="내 정보 수정"
+                            android:textSize="12dp"
                             android:textColor="@color/colorPrimary" />
                     </LinearLayout>
                 </LinearLayout>
